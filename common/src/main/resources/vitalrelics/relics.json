@@ -1,0 +1,97 @@
+{
+  "relics": [
+    {
+      "id": "cherry_cross",
+      "tooltip": "The pure power of cherry trees. ",
+      "texture": "cherry_cross.png",
+      "rarity": "rare",
+      "immune_to_effects": ["darkness", "wither", "blindness", "mining_fatigue"],
+      "properties": {
+        "max_health": {
+          "add": 20.0
+        },
+        "knockback_resistance": {
+          "add": 1.0
+        }
+      },
+      "ticks": {
+        "heal": {
+          "interval_ticks": 10,
+          "add": 1,
+          "ratio_add": 0.01
+        },
+        "feed": {
+          "interval_ticks": 20,
+          "add": 1
+        }
+      }
+    },
+    {
+      "id": "cursed_torturing",
+      "texture": "cursed_crimson_rune.png",
+      "rarity": "uncommon",
+      "properties": {
+        "attack_damage": {
+          "add": 9.0
+        }
+      }
+    },
+    {
+      "id": "reality_piercing",
+      "tooltip": "Endgame Relics. ",
+      "texture": "halo_celestial_crystal.png",
+      "rarity": "epic",
+      "immune_to_effects": "all_negative",
+      "special_abilities": ["retarget_arrow"],
+      "properties": {
+        "attack_damage": {
+          "add": 9.0,
+          "mul_base": 2.0,
+          "mul_total": 2.0
+        },
+        "attack_speed": {
+          "add": 4.0,
+          "mul_total": 2.0
+        },
+        "block_interaction_range": {
+          "add": 4.0
+        },
+        "entity_interaction_range": {
+          "add": 2.5
+        },
+        "max_health": {
+          "add": 10.0,
+          "mul_base": 0.5,
+          "mul_total": 1.25
+        }
+      },
+      "ticks": {
+        "heal": {
+          "interval_ticks": 5,
+          "add": 4,
+          "ratio_add": 0.02
+        }
+      },
+      "callbacks": {
+        "damage_dealt": {
+          "modifier": 2.0,
+          "minimum": 20,
+          "ratio_minimum": 0.1
+        },
+        "damage_taken": {
+          "modifier": 0.1,
+          "maximum": 4,
+          "ratio_maximum": 0.1
+        },
+        "invulnerable_time_taken": {
+          "flat": 20.0
+        },
+        "invulnerable_time_dealt": {
+          "modifier": 0.0
+        }
+      }
+    }
+  ]
+
+
+}
