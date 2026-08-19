@@ -172,7 +172,7 @@ public final class VitalEvents {
 		float feed = (float)(ticks.feed.add + player.getMaxHealth() * ticks.feed.ratio_add);
 		player.heal(heal);
 		player.getFoodData().eat(Math.round(feed), 1.f);
-		LOGGER.info("onPlayerTick heal={} feed={}", heal, feed);
+		// LOGGER.info("onPlayerTick heal={} feed={}", heal, feed);
 
 		// Properties
 

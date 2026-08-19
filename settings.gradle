@@ -3,6 +3,10 @@ pluginManagement {
         mavenLocal()
         gradlePluginPortal()
         maven { url = "https://maven.neoforged.net/releases" }
+        maven {
+            name = 'MinecraftForge'
+            url = 'https://maven.minecraftforge.net/'
+        }
     }
 }
 
@@ -20,4 +24,5 @@ dependencyResolutionManagement {
 rootProject.name = "VitalRelics"
 
 include("common")
+include("forge-1.20.1")
 include("neoforge-1.21.1")

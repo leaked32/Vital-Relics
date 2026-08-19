@@ -16,6 +16,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
@@ -46,14 +47,9 @@ public class VitalRelics
             .alwaysEdible().nutrition(1).saturationModifier(2f).build()));
 
     // Creates a creative tab with the id "vitalrelics:example_tab" for the example item, that is placed after the combat tab
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.vitalrelics"))
-            .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-            }).build());
-     */
+ */
+	public static DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = null;
+
 
 	public static RelicLoader loader = null;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
@@ -224,6 +220,16 @@ public class VitalRelics
 			));
 			// RELIC_ITEMS.add(ITEMS.registerSimpleItem(loader.relics_.get(i).id, new Item.Properties().rarity(rarity)));
 		}
+
+		EXAMPLE_TAB = CREATIVE_MODE_TABS.register("relics", () -> CreativeModeTab.builder()
+				.title(Component.translatable("itemGroup.vitalrelics"))
+				.withTabsBefore(CreativeModeTabs.COMBAT)
+				.icon(() -> RELIC_ITEMS.get(0).get().getDefaultInstance())
+				.displayItems((parameters, output) -> {
+					for (final var relic : RELIC_ITEMS)
+						output.accept(relic.get());
+				})
+				.build());
 
 		NeoForge.EVENT_BUS.register(this);
 		// modEventBus.addListener(this::addCreative);

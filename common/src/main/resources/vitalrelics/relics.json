@@ -1,10 +1,152 @@
 {
   "relics": [
     {
+      "id": "iron_heart",
+      "tooltip": "A small heart forged from stubborn iron.",
+      "texture": "iron_heart.png",
+      "rarity": "common",
+      "properties": {
+        "max_health": {
+          "add": 4.0
+        }
+      }
+    },
+    {
+      "id": "miners_charm",
+      "tooltip": "A practical charm favored by miners and builders.",
+      "texture": "miners_charm.png",
+      "rarity": "common",
+      "properties": {
+        "block_interaction_range": {
+          "add": 1.0
+        }
+      }
+    },
+    {
+      "id": "travelers_eye",
+      "tooltip": "Keeps distant things just a little closer.",
+      "texture": "travelers_eye.png",
+      "rarity": "common",
+      "properties": {
+        "entity_interaction_range": {
+          "add": 1.0
+        }
+      }
+    },
+    {
+      "id": "stone_ring",
+      "tooltip": "Heavy, plain, and surprisingly difficult to move.",
+      "texture": "stone_ring.png",
+      "rarity": "common",
+      "properties": {
+        "knockback_resistance": {
+          "add": 0.15
+        }
+      }
+    },
+    {
+      "id": "wolf_fang",
+      "tooltip": "A sharp fang carrying a trace of wild aggression.",
+      "texture": "wolf_fang.png",
+      "rarity": "uncommon",
+      "properties": {
+        "attack_damage": {
+          "add": 2.0
+        }
+      }
+    },
+    {
+      "id": "golden_apple_charm",
+      "tooltip": "A tiny golden apple that still carries a little vitality.",
+      "texture": "golden_apple.png",
+      "rarity": "uncommon",
+      "properties": {
+        "max_health": {
+          "add": 6.0
+        }
+      },
+      "ticks": {
+        "heal": {
+          "interval_ticks": 100,
+          "add": 1.0
+        }
+      }
+    },
+    {
+      "id": "guardian_scale",
+      "tooltip": "A hardened scale that steadies the body against heavy blows.",
+      "texture": "guardian_scale_amulet.png",
+      "rarity": "uncommon",
+      "properties": {
+        "knockback_resistance": {
+          "add": 0.35
+        }
+      }
+    },
+    {
+      "id": "spider_eye_pendant",
+      "tooltip": "An unpleasant charm with a strangely useful resistance.",
+      "texture": "gothic_spider_eye_pendant.png",
+      "rarity": "uncommon",
+      "immune_to_effects": ["poison"]
+    },
+    {
+      "id": "milk_pearl",
+      "tooltip": "A pale pearl that suppresses several common afflictions.",
+      "texture": "moonmilk_pearl.png",
+      "rarity": "rare",
+      "immune_to_effects": ["poison", "blindness", "mining_fatigue", "nausea", "weakness"]
+    },
+    {
+      "id": "berserker_fang",
+      "tooltip": "A fang that urges its bearer to strike harder and faster.",
+      "texture": "savage_bloodfang_pendant.png",
+      "rarity": "rare",
+      "properties": {
+        "attack_damage": {
+          "add": 3.0
+        },
+        "attack_speed": {
+          "mul_total": 1.15
+        }
+      }
+    },
+    {
+      "id": "withered_heart",
+      "tooltip": "A dead heart that somehow makes its bearer harder to kill.",
+      "texture": "withered_heart_pendant.png",
+      "rarity": "rare",
+      "properties": {
+        "max_health": {
+          "add": 8.0
+        },
+        "attack_damage": {
+          "add": 2.0
+        }
+      }
+    },
+    {
+      "id": "totemic_heart",
+      "tooltip": "A fragment of totemic vitality that refuses to fade.",
+      "texture": "totemic_heart_spirit_amulet.png",
+      "rarity": "rare",
+      "properties": {
+        "max_health": {
+          "add": 10.0
+        }
+      },
+      "ticks": {
+        "heal": {
+          "interval_ticks": 60,
+          "add": 1.0
+        }
+      }
+    },
+    {
       "id": "cherry_cross",
       "tooltip": "The pure power of cherry trees. ",
       "texture": "cherry_cross.png",
-      "rarity": "rare",
+      "rarity": "epic",
       "immune_to_effects": ["darkness", "wither", "blindness", "mining_fatigue"],
       "properties": {
         "max_health": {
@@ -16,12 +158,12 @@
       },
       "ticks": {
         "heal": {
-          "interval_ticks": 10,
+          "interval_ticks": 20,
           "add": 1,
           "ratio_add": 0.01
         },
         "feed": {
-          "interval_ticks": 20,
+          "interval_ticks": 160,
           "add": 1
         }
       }
@@ -29,10 +171,19 @@
     {
       "id": "cursed_torturing",
       "texture": "cursed_crimson_rune.png",
-      "rarity": "uncommon",
+      "rarity": "epic",
       "properties": {
         "attack_damage": {
           "add": 9.0
+        }
+      },
+      "callbacks": {
+        "damage_dealt": {
+          "minimum": 10,
+          "ratio_minimum": 0.01
+        },
+        "invulnerable_time_dealt": {
+          "modifier": 0.5
         }
       }
     },
