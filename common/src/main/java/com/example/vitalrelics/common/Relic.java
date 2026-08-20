@@ -14,6 +14,7 @@ public class Relic {
 
 	// parse either an array or "all_negative"
 	public final List<String> immune_to_effects = new ArrayList<>();
+	public final List<String> add_effects = new ArrayList<>();
 	public final List<String> special_abilities = new ArrayList<>();
 
 
@@ -159,6 +160,122 @@ public class Relic {
 			return true;
 
 		return negative && immune_to_effects.contains("all_negative");
+	}
+
+
+	/*
+	 * Tooltip
+	 */
+	public List<String> getTooltipLines() {
+		final List<String> out = new ArrayList<>();
+
+		if (tooltip != null && !tooltip.isBlank()) {
+			out.add(tooltip);
+			out.add("");
+		}
+
+		addProperty(out, "Attack Damage", properties.attack_damage);
+		addProperty(out, "Attack Speed", properties.attack_speed);
+		addProperty(out, "Block Interaction Range", properties.block_interaction_range);
+		addProperty(out, "Entity Interaction Range", properties.entity_interaction_range);
+		addProperty(out, "Knockback Resistance", properties.knockback_resistance);
+		addProperty(out, "Max Health", properties.max_health);
+
+		addTick(out, "Health", ticks.heal);
+		addTick(out, "Hunger", ticks.feed);
+
+		addCallback(out, "Damage Taken", callbacks.damage_taken);
+		addCallback(out, "Damage Dealt", callbacks.damage_dealt);
+		addCallback(out, "Invulnerability Time Taken", callbacks.invulnerable_time_taken);
+		addCallback(out, "Invulnerability Time Dealt", callbacks.invulnerable_time_dealt);
+
+		if (immune_to_effects.contains("all_negative"))
+			out.add("Immune to all negative effects");
+		else
+			for (final String x : immune_to_effects)
+				out.add("Immune to " + displayName(x));
+
+		for (final String x : add_effects)
+			out.add("Grants " + displayName(x));
+
+		for (final String x : special_abilities)
+			out.add("Ability: " + displayName(x));
+
+		while (!out.isEmpty() && out.get(out.size() - 1).isEmpty())
+			out.remove(out.size() - 1);
+
+		return out;
+	}
+
+	private static void addProperty(
+			final List<String> out, final String name, final Properties.Info x) {
+		if (x == null) return;
+		if (nz(x.add)) out.add(signed(x.add) + " " + name);
+		if (nz(x.mul_base)) out.add(signedPercent(x.mul_base) + " " + name + " from base");
+		if (x.mul_total != null && x.mul_total != 1.0)
+			out.add("x" + fmt(x.mul_total) + " total " + name);
+	}
+
+	private static void addTick(
+			final List<String> out, final String name, final Ticks.Info x) {
+		if (x == null) return;
+
+		final String prefix = "Every " + fmt(x.interval_ticks / 20.0) + "s: ";
+		if (nz(x.add)) out.add(prefix + signed(x.add) + " " + name);
+		if (nz(x.ratio_add))
+			out.add(prefix + signedPercent(x.ratio_add) + " Max " + name);
+	}
+
+	private static void addCallback(
+			final List<String> out, final String name, final Callbacks.Info x) {
+		if (x == null) return;
+
+		if (x.modifier != null)
+			out.add(signedPercentRaw((x.modifier - 1.0) * 100.0) + " " + name);
+		if (nz(x.flat)) out.add(signed(x.flat) + " " + name);
+		if (x.minimum != null) out.add("Minimum " + name + ": " + fmt(x.minimum));
+		if (x.ratio_minimum != null)
+			out.add("Minimum " + name + ": " + fmt(x.ratio_minimum * 100.0) + "% of reference");
+		if (x.maximum != null) out.add("Maximum " + name + ": " + fmt(x.maximum));
+		if (x.ratio_maximum != null)
+			out.add("Maximum " + name + ": " + fmt(x.ratio_maximum * 100.0) + "% of reference");
+	}
+
+	private static boolean nz(final Double x) {
+		return x != null && x != 0.0;
+	}
+
+	private static String signed(final double x) {
+		return (x >= 0.0 ? "+" : "") + fmt(x);
+	}
+
+	private static String signedPercent(final double x) {
+		return signedPercentRaw(x * 100.0);
+	}
+
+	private static String signedPercentRaw(final double x) {
+		return (x >= 0.0 ? "+" : "") + fmt(x) + "%";
+	}
+
+	private static String fmt(final double x) {
+		if (Math.abs(x - Math.round(x)) < 0.000001)
+			return Long.toString(Math.round(x));
+
+		return String.format("%.2f", x)
+				.replaceAll("0+$", "")
+				.replaceAll("\\.$", "");
+	}
+
+	private static String displayName(final String x) {
+		final StringBuilder out = new StringBuilder();
+
+		for (final String word : x.split("_")) {
+			if (word.isEmpty()) continue;
+			if (!out.isEmpty()) out.append(' ');
+			out.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
+		}
+
+		return out.toString();
 	}
 
 }
