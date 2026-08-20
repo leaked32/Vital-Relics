@@ -27,6 +27,41 @@ Vital Relics also supports **Curios API** and optional **Touhou Little Maid** in
 
 <img width="1920" height="1104" alt="2026-08-20_14 59 25" src="https://github.com/user-attachments/assets/c931d595-af92-4843-b82f-299709a0f4a0" />
 
+<img width="1920" height="1104" alt="2026-08-20_17 28 07" src="https://github.com/user-attachments/assets/5a2aa56e-6b22-4ba3-9126-f28d97e0796d" />
+
+## Acquisition System
+
+Vital Relics separates **relic definitions** from **how players obtain them**.
+
+Relic behavior is defined in `relics.json`, while acquisition methods are defined separately in `recipes.json`.
+
+This allows modpack creators to freely decide how each relic should enter their world without modifying the mod itself.
+
+---
+
+## Crafting Recipes
+
+Crafting recipes are configured through `recipes.json`.
+
+Example:
+
+```json
+{
+  "recipes": {
+    "iron_heart": {
+      "type": "shaped",
+      "pattern": [
+        " I ",
+        "IRI",
+        " I "
+      ],
+      "key": {
+        "I": "minecraft:iron_ingot",
+        "R": "minecraft:redstone"
+      }
+    }
+  }
+}
 
 ## Configuration
 
