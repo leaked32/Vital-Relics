@@ -55,6 +55,14 @@ public class Utils {
 		return out;
 	}
 
+	private static boolean effectiveAt(final Relic relic, final String location) {
+		if (relic.effective_slots.isEmpty()) {
+			return location.equals("in_curios_api_slots") || location.equals("in_touhou_little_maid_curios_slots");
+		}
+
+		return relic.effective_slots.contains(location);
+	}
+
 	public static void addRelic(
 			final List<Relic> out,
 			final ItemStack stack,
@@ -71,14 +79,8 @@ public class Utils {
 		if (relic == null)
 			return;
 
-		// Empty = effective everywhere.
-		if (relic.effective_slots.isEmpty()) {
-			out.add(relic);
-			return;
-		}
-
 		for (final String location : locations) {
-			if (relic.effective_slots.contains(location)) {
+			if (effectiveAt(relic, location)) {
 				out.add(relic);
 				return;
 			}
@@ -86,7 +88,7 @@ public class Utils {
 	}
 
 	public static void applyRelicEffects(
-			final Player player,
+			final LivingEntity livingEntity,
 			final List<Relic> relics) {
 
 		for (final Relic relic : relics) {
@@ -100,7 +102,7 @@ public class Utils {
 
 				final int amplifier = Math.max(0, entry.getValue() - 1);
 
-				player.addEffect(new MobEffectInstance(
+				livingEntity.addEffect(new MobEffectInstance(
 						BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect), 240, amplifier, true, false
 				));
 			}
@@ -108,12 +110,12 @@ public class Utils {
 	}
 
 	public static void removeImmuneEffects(
-			final Player player,
+			final LivingEntity livingEntity,
 			final List<Relic> relics) {
 
 		final List<ResourceLocation> remove = new ArrayList<>();
 
-		for (final MobEffectInstance instance : player.getActiveEffects()) {
+		for (final MobEffectInstance instance : livingEntity.getActiveEffects()) {
 			final var effect = instance.getEffect().value();
 
 			final ResourceLocation id =
@@ -138,7 +140,7 @@ public class Utils {
 			final var effect =
 					BuiltInRegistries.MOB_EFFECT.get(id);
 
-			player.removeEffect(
+			livingEntity.removeEffect(
 					BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect)
 			);
 		}

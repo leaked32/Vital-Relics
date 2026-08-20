@@ -9,12 +9,12 @@ import java.util.Map;
 // public static BooleanValue configHaloRealityPiercer;
 public class Relic {
 	public String id;
-	// for empty case, it's effective everywhere.
+	// for empty case, it's effective for "in_curios_api_slots", "in_touhou_little_maid_curios_slots".
 	// "in_hotbar",
 	// "in_inventory": In inventory (including hotbar),
 	// "in_curios_api_slots"
 	// "in_touhou_little_maid_curios_slots"
-	public List<String> effective_slots = new ArrayList<>();
+	public final List<String> effective_slots = new ArrayList<>();
 	public String curio_slot = "charm";
 	public String tooltip = "Placeholder tooltip";
 	public String rarity = "common";

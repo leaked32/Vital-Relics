@@ -20,11 +20,8 @@ public class RelicItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(
-			final ItemStack stack,
-			final Level level,
-			final List<Component> tooltip,
-			final TooltipFlag flag) {
+	public void appendHoverText(final ItemStack stack, final Level level,
+			final List<Component> tooltip, final TooltipFlag flag) {
 
 		for (final String line : relic.getTooltipLines())
 			tooltip.add(Component.literal(line));
@@ -33,8 +30,7 @@ public class RelicItem extends Item {
 	@Override
 	public void initializeClient(
 			final java.util.function.Consumer<
-					net.minecraftforge.client.extensions.common.IClientItemExtensions
-					> consumer) {
+					net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
 
 		consumer.accept(new RelicClientExtensions());
 	}

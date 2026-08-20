@@ -57,6 +57,14 @@ public class Utils {
 		return out;
 	}
 
+	private static boolean effectiveAt(final Relic relic, final String location) {
+		if (relic.effective_slots.isEmpty()) {
+			return location.equals("in_curios_api_slots") || location.equals("in_touhou_little_maid_curios_slots");
+		}
+
+		return relic.effective_slots.contains(location);
+	}
+
 	public static void addRelic(
 			final List<Relic> out,
 			final ItemStack stack,
@@ -73,14 +81,8 @@ public class Utils {
 		if (relic == null)
 			return;
 
-		// Empty = effective everywhere.
-		if (relic.effective_slots.isEmpty()) {
-			out.add(relic);
-			return;
-		}
-
 		for (final String location : locations) {
-			if (relic.effective_slots.contains(location)) {
+			if (effectiveAt(relic, location)) {
 				out.add(relic);
 				return;
 			}

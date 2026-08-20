@@ -23,9 +23,6 @@ public class RelicItem extends Item {
 			final List<Component> tooltip,
 			final TooltipFlag flag) {
 
-		// tooltip.add(Component.literal(relic.tooltip));
-		// tooltip.add(Component.literal(""));
-
 		for (final String line : relic.getTooltipLines())
 			tooltip.add(Component.literal(line));
 	}

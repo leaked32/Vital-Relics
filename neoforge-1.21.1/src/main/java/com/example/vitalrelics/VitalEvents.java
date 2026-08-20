@@ -12,13 +12,12 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 
@@ -90,135 +89,89 @@ public final class VitalEvents {
 
 
 	@SubscribeEvent
-	public static void onPlayerTick(final PlayerTickEvent.Post event) {
-		final Player player = event.getEntity();
-
-		// Gameplay state should be authoritative on the server
-
-		if (player.level().isClientSide())
+	public static void onEntityTick(final EntityTickEvent.Post event) {
+		if (!(event.getEntity() instanceof LivingEntity entity) || entity.level().isClientSide())
 			return;
-		var relicList = gatherRelics(player);
 
-		// Ticks
+		final var relics = gatherRelics(entity);
+		final int tick = entity.getServer().getTickCount();
 
-		final int currentTick = event.getEntity().getServer().getTickCount();
-
-		if (currentTick % 10 == 0) {
-			removeImmuneEffects(player, relicList);
-			applyRelicEffects(player, relicList);
+		if (tick % 10 == 0) {
+			removeImmuneEffects(entity, relics);
+			applyRelicEffects(entity, relics);
 		}
 
-		var ticks = RelicLoader.computeTicks(relicList, currentTick);
+		final var ticks = RelicLoader.computeTicks(relics, tick);
 
-		float heal = (float)(ticks.heal.add + player.getMaxHealth() * ticks.heal.ratio_add);
-		float feed = (float)(ticks.feed.add + player.getMaxHealth() * ticks.feed.ratio_add);
-		player.heal(heal);
-		player.getFoodData().eat(Math.round(feed), 1.f);
-		// LOGGER.info("onPlayerTick heal={} feed={}", heal, feed);
+		entity.heal((float)(ticks.heal.add + entity.getMaxHealth() * ticks.heal.ratio_add));
 
-		// Properties
-
-		var prop = RelicLoader.computeProperties(relicList);
-
-		final AttributeInstance attrDamage = player.getAttribute(Attributes.ATTACK_DAMAGE);
-		final AttributeInstance attrMaxHealth = player.getAttribute(Attributes.MAX_HEALTH);
-		final AttributeInstance attrKnockBackResistance = player.getAttribute(Attributes.KNOCKBACK_RESISTANCE);
-		final AttributeInstance attrAttackSpeed = player.getAttribute(Attributes.ATTACK_SPEED);
-		final AttributeInstance attrBlockInteractionRange = player.getAttribute(Attributes.BLOCK_INTERACTION_RANGE);
-		final AttributeInstance attrEntityInteractionRange = player.getAttribute(Attributes.ENTITY_INTERACTION_RANGE);
-
-		if (attrDamage != null) {
-			replaceModifier(attrDamage, ATTACK_DAMAGE_ADD_ID,
-					prop.attack_damage.add, AttributeModifier.Operation.ADD_VALUE);
-
-			replaceModifier(attrDamage, ATTACK_DAMAGE_MUL_ID,
-					prop.attack_damage.mul_base, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-
-			replaceModifier(attrDamage, ATTACK_DAMAGE_MUL_TOTAL_ID,
-					prop.attack_damage.mul_total - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		if (entity instanceof Player player) {
+			final float feed = (float)(ticks.feed.add + player.getMaxHealth() * ticks.feed.ratio_add);
+			player.getFoodData().eat(Math.round(feed), 1.0F);
 		}
 
-		if (attrAttackSpeed != null) {
-			replaceModifier(attrAttackSpeed, ATTACK_SPEED_ADD_ID,
-					prop.attack_speed.add, AttributeModifier.Operation.ADD_VALUE);
+		final var prop = RelicLoader.computeProperties(relics);
 
-			replaceModifier(attrAttackSpeed, ATTACK_SPEED_MUL_ID,
-					prop.attack_speed.mul_base, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+		applyProperty(entity.getAttribute(Attributes.ATTACK_DAMAGE), prop.attack_damage,
+				ATTACK_DAMAGE_ADD_ID, ATTACK_DAMAGE_MUL_ID, ATTACK_DAMAGE_MUL_TOTAL_ID);
 
-			replaceModifier(attrAttackSpeed, ATTACK_SPEED_MUL_TOTAL_ID,
-					prop.attack_speed.mul_total - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-		}
-		if (attrKnockBackResistance != null) {
-			replaceModifier(attrKnockBackResistance, KNOCKBACK_RESISTANCE_ADD_ID,
-					prop.knockback_resistance.add, AttributeModifier.Operation.ADD_VALUE);
+		applyProperty(entity.getAttribute(Attributes.ATTACK_SPEED), prop.attack_speed,
+				ATTACK_SPEED_ADD_ID, ATTACK_SPEED_MUL_ID, ATTACK_SPEED_MUL_TOTAL_ID);
 
-			replaceModifier(attrKnockBackResistance, KNOCKBACK_RESISTANCE_MUL_ID,
-					prop.knockback_resistance.mul_base, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+		applyProperty(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), prop.knockback_resistance,
+				KNOCKBACK_RESISTANCE_ADD_ID, KNOCKBACK_RESISTANCE_MUL_ID, KNOCKBACK_RESISTANCE_MUL_TOTAL_ID);
 
-			replaceModifier(attrKnockBackResistance, KNOCKBACK_RESISTANCE_MUL_TOTAL_ID,
-					prop.knockback_resistance.mul_total - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		applyProperty(entity.getAttribute(Attributes.MAX_HEALTH), prop.max_health,
+				MAX_HEALTH_ADD_ID, MAX_HEALTH_MUL_ID, MAX_HEALTH_MUL_TOTAL_ID);
 
-		}
-		if (attrMaxHealth != null) {
-			replaceModifier(attrMaxHealth, MAX_HEALTH_ADD_ID,
-					prop.max_health.add, AttributeModifier.Operation.ADD_VALUE);
+		applyProperty(entity.getAttribute(Attributes.BLOCK_INTERACTION_RANGE), prop.block_interaction_range,
+				BLOCK_INTERACTION_RANGE_ADD_ID, BLOCK_INTERACTION_RANGE_MUL_ID, BLOCK_INTERACTION_RANGE_MUL_TOTAL_ID);
 
-			replaceModifier(attrMaxHealth, MAX_HEALTH_MUL_ID,
-					prop.max_health.mul_base, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+		applyProperty(entity.getAttribute(Attributes.ENTITY_INTERACTION_RANGE), prop.entity_interaction_range,
+				ENTITY_INTERACTION_RANGE_ADD_ID, ENTITY_INTERACTION_RANGE_MUL_ID, ENTITY_INTERACTION_RANGE_MUL_TOTAL_ID);
 
-			replaceModifier(attrMaxHealth, MAX_HEALTH_MUL_TOTAL_ID,
-					prop.max_health.mul_total - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+		if (entity.getHealth() > entity.getMaxHealth())
+			entity.setHealth(entity.getMaxHealth());
+	}
 
-		}
-		if (attrBlockInteractionRange != null) {
-			replaceModifier(attrBlockInteractionRange, BLOCK_INTERACTION_RANGE_ADD_ID,
-					prop.block_interaction_range.add, AttributeModifier.Operation.ADD_VALUE);
+	private static void applyProperty(
+			final AttributeInstance attr,
+			final Relic.Properties.Info prop,
+			final ResourceLocation addId,
+			final ResourceLocation mulBaseId,
+			final ResourceLocation mulTotalId) {
 
-			replaceModifier(attrBlockInteractionRange, BLOCK_INTERACTION_RANGE_MUL_ID,
-					prop.block_interaction_range.mul_base, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+		if (attr == null || prop == null)
+			return;
 
-			replaceModifier(attrBlockInteractionRange, BLOCK_INTERACTION_RANGE_MUL_TOTAL_ID,
-					prop.block_interaction_range.mul_total - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-		}
-		if (attrEntityInteractionRange != null) {
-			replaceModifier(attrEntityInteractionRange, ENTITY_INTERACTION_RANGE_ADD_ID,
-					prop.entity_interaction_range.add, AttributeModifier.Operation.ADD_VALUE);
-
-			replaceModifier(attrEntityInteractionRange, ENTITY_INTERACTION_RANGE_MUL_ID,
-					prop.entity_interaction_range.mul_base, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-
-			replaceModifier(attrEntityInteractionRange, ENTITY_INTERACTION_RANGE_MUL_TOTAL_ID,
-					prop.entity_interaction_range.mul_total - 1, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
-		}
-		if (player.getHealth() > player.getMaxHealth())
-			player.setHealth(player.getMaxHealth());
+		replaceModifier(attr, addId, prop.add, AttributeModifier.Operation.ADD_VALUE);
+		replaceModifier(attr, mulBaseId, prop.mul_base, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
+		replaceModifier(attr, mulTotalId, prop.mul_total - 1.0, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
 	}
 
 	private static void replaceModifier(
-			final AttributeInstance attribute,
+			final AttributeInstance attr,
 			final ResourceLocation id,
 			final double amount,
-			final AttributeModifier.Operation operation) {
-		attribute.removeModifier(id);
+			final AttributeModifier.Operation op) {
 
-		if (amount != 0.0) {
-			attribute.addTransientModifier(
-					new AttributeModifier(id, amount, operation)
-			);
-		}
+		attr.removeModifier(id);
+
+		if (amount != 0.0)
+			attr.addTransientModifier(new AttributeModifier(id, amount, op));
 	}
 
 	@SubscribeEvent
 	public static void onLivingDamage(final LivingDamageEvent.Pre event) {
 		final LivingEntity victim = event.getEntity();
-		final Entity criminal = event.getSource().getEntity();
+		final Entity entity_criminal = event.getSource().getEntity();
 
 		if (victim.level().isClientSide())
 			return;
 
-		if (criminal instanceof Player player) {
+		if (entity_criminal instanceof LivingEntity criminal) {
 
-			var relicList = gatherRelics(player);
+			var relicList = gatherRelics(criminal);
 			float amount = event.getNewDamage();
 			float invulnerable_time = victim.invulnerableTime;
 
@@ -236,14 +189,14 @@ public final class VitalEvents {
 		}
 
 
-		if (victim instanceof Player player) {
-			var relicList = gatherRelics(player);
+		if (victim instanceof LivingEntity) {
+			var relicList = gatherRelics(victim);
 			float amount = event.getNewDamage();
 			float invulnerable_time = victim.invulnerableTime;
 
 			for (final var relic : relicList) {
 				if (relic.callbacks.damage_taken != null) {
-					amount = (float)relic.callbacks.damage_taken.process(amount, player.getMaxHealth());
+					amount = (float)relic.callbacks.damage_taken.process(amount, victim.getMaxHealth());
 				}
 				if (relic.callbacks.invulnerable_time_taken != null) {
 					invulnerable_time = (float)relic.callbacks.invulnerable_time_taken.process(invulnerable_time, 10.0);
@@ -258,13 +211,12 @@ public final class VitalEvents {
 
 	@SubscribeEvent
 	public static void onEffectApplicable(final MobEffectEvent.Applicable event) {
-		if (!(event.getEntity() instanceof Player player))
+		LivingEntity livingEntity = event.getEntity();
+
+		if (livingEntity.level().isClientSide())
 			return;
 
-		if (player.level().isClientSide())
-			return;
-
-		final var relics = gatherRelics(player);
+		final var relics = gatherRelics(livingEntity);
 		final var effect = event.getEffectInstance().getEffect().value();
 
 		final ResourceLocation id =
@@ -304,7 +256,7 @@ public final class VitalEvents {
 			EntityHitResult entityResult = (EntityHitResult) event.getRayTraceResult();
 
 			// Protection
-			if (entityResult.getEntity() instanceof Player victim) {
+			if (entityResult.getEntity() instanceof LivingEntity victim) {
 
 				final var relics = gatherRelics(victim);
 				if (RelicLoader.hasSuchSpecialAbility(relics, "retarget_arrow") != 0) {
