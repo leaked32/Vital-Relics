@@ -145,13 +145,11 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-
-    // Curios API: compile against it, but don't bundle Curios into our JAR.
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
-
-    // Curios itself in runClient.
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
 
+    compileOnly fg.deobf("curse.maven:touhou-little-maid-${tlm_file_id}")
+    runtimeOnly fg.deobf("curse.maven:touhou-little-maid-${tlm_file_id}")
     /*
      * Optional Touhou Little Maid compile integration.
      *
@@ -159,9 +157,6 @@ dependencies {
      * Users do not need TLM installed unless your code actually
      * declares it as a mandatory runtime dependency.
      */
-    implementation fg.deobf(
-            "curse.maven:touhou-little-maid-${tlm_file_id}"
-    )
 }
 
 

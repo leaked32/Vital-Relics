@@ -15,6 +15,7 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
@@ -141,7 +142,7 @@ public final class VitalEvents {
 
 
 	@SubscribeEvent
-	public static void onLivingHurt(final LivingHurtEvent event) {
+	public static void onLivingDamage(final LivingDamageEvent event) {
 		final LivingEntity victim = event.getEntity();
 		final Entity attacker = event.getSource().getEntity();
 

@@ -1,5 +1,7 @@
 package com.example.vitalrelics;
 
+import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
+import com.example.vitalrelics.common.AcquisitionLoader;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import com.mojang.logging.LogUtils;
@@ -12,6 +14,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -52,6 +56,17 @@ public class VitalRelics {
 
 	public static final List<RegistryObject<Item>> RELIC_ITEMS =
 			new ArrayList<>();
+	public static AcquisitionLoader acquisition;
+
+	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
+			DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
+
+	public static final RegistryObject<RecipeSerializer<DynamicRelicRecipe>>
+			DYNAMIC_RELIC_RECIPE =
+			RECIPE_SERIALIZERS.register(
+					"dynamic_relic",
+					() -> new SimpleCraftingRecipeSerializer<>(DynamicRelicRecipe::new)
+			);
 
 	public VitalRelics() {
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -61,7 +76,10 @@ public class VitalRelics {
 		 */
 		modEventBus.addListener(this::commonSetup);
 
-		loader = new RelicLoader();
+		ITEMS.register(modEventBus);
+		CREATIVE_MODE_TABS.register(modEventBus);
+		RECIPE_SERIALIZERS.register(modEventBus);
+
 		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
 		try {
 			if (Files.notExists(config)) {
@@ -78,6 +96,30 @@ public class VitalRelics {
 			LOGGER.error("Failed to create the configuration file: {}", e.toString());
 			throw new RuntimeException(e);
 		}
+		final Path recipeConfig =
+				FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
+
+		try{
+			if (Files.notExists(recipeConfig)) {
+				Files.createDirectories(recipeConfig.getParent());
+
+				try (final InputStream in =
+							 VitalRelics.class.getClassLoader()
+									 .getResourceAsStream("vitalrelics/recipes.json")) {
+
+					if (in == null)
+						throw new IllegalStateException("Bundled recipes.json not found");
+
+					Files.copy(in, recipeConfig);
+				}
+			}
+		} catch (IOException e) {
+			LOGGER.error("Failed to create the recipe file: {}", e.toString());
+			throw new RuntimeException(e);
+		}
+		acquisition.load(recipeConfig);
+		loader = new RelicLoader();
+		acquisition = new AcquisitionLoader();
 		loader.load(config);
 
 		for (final var relic : loader.relics_) {
@@ -115,11 +157,9 @@ public class VitalRelics {
 						.build()
 		);
 
-		ITEMS.register(modEventBus);
-		CREATIVE_MODE_TABS.register(modEventBus);
-
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(VitalEvents.class);
+		MinecraftForge.EVENT_BUS.register(AcquisitionEvents.class);
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {

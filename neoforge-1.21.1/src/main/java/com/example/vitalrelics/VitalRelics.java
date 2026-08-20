@@ -1,5 +1,8 @@
 package com.example.vitalrelics;
 
+import com.example.vitalrelics.acquisition.AcquisitionEvents;
+import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
+import com.example.vitalrelics.common.AcquisitionLoader;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import com.mojang.logging.LogUtils;
@@ -8,6 +11,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -40,10 +45,19 @@ public class VitalRelics
 	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
+			DeferredRegister.create(Registries.RECIPE_SERIALIZER, MODID);
+	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<DynamicRelicRecipe>>
+			DYNAMIC_RELIC_RECIPE =
+			RECIPE_SERIALIZERS.register(
+					"dynamic_relic",
+					() -> new SimpleCraftingRecipeSerializer<>(DynamicRelicRecipe::new)
+			);
 
 	public static DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = null;
 
 	public static RelicLoader loader = null;
+	public static AcquisitionLoader acquisition = null;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
 
 	public VitalRelics(IEventBus modEventBus, ModContainer modContainer)
@@ -53,8 +67,8 @@ public class VitalRelics
 		BLOCKS.register(modEventBus);
 		ITEMS.register(modEventBus);
 		CREATIVE_MODE_TABS.register(modEventBus);
+		RECIPE_SERIALIZERS.register(modEventBus);
 
-		loader = new RelicLoader();
 		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
 		try {
 			if (Files.notExists(config)) {
@@ -71,7 +85,28 @@ public class VitalRelics
 			LOGGER.error("Failed to create the configuration file: {}", e.toString());
 			throw new RuntimeException(e);
 		}
+		final Path recipeConfig =
+				FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
+		try{
+			if (Files.notExists(recipeConfig)) {
+				Files.createDirectories(recipeConfig.getParent());
+				try (final InputStream in =
+							 VitalRelics.class.getClassLoader()
+									 .getResourceAsStream("vitalrelics/recipes.json")) {
+					if (in == null) {
+						throw new IllegalStateException("Bundled recipes.json not found");
+					}
+					Files.copy(in, recipeConfig);
+				}
+			}
+		} catch (IOException e) {
+			LOGGER.error("Failed to create the recipe file: {}", e.toString());
+			throw new RuntimeException(e);
+		}
+		loader = new RelicLoader();
+		acquisition = new AcquisitionLoader();
 		loader.load(config);
+		acquisition.load(recipeConfig);
 
 		for (final var relic : loader.relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {
@@ -98,6 +133,7 @@ public class VitalRelics
 
 		// NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(VitalEvents.class);
+		NeoForge.EVENT_BUS.register(AcquisitionEvents.class);
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {

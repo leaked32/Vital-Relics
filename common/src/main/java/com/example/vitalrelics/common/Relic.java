@@ -9,6 +9,7 @@ import java.util.Map;
 // public static BooleanValue configHaloRealityPiercer;
 public class Relic {
 	public String id;
+	public String display_name = null;
 	// for empty case, it's effective for "in_curios_api_slots", "in_touhou_little_maid_curios_slots".
 	// "in_hotbar",
 	// "in_inventory": In inventory (including hotbar),
@@ -286,4 +287,20 @@ public class Relic {
 		return out.toString();
 	}
 
+	public static String itemDisplayName(final String id) {
+		final StringBuilder out = new StringBuilder();
+
+		for (final String word : id.split("_")) {
+			if (word.isEmpty())
+				continue;
+
+			if (!out.isEmpty())
+				out.append(' ');
+
+			out.append(Character.toUpperCase(word.charAt(0)))
+					.append(word.substring(1));
+		}
+
+		return out.toString();
+	}
 }

@@ -116,12 +116,10 @@
       "tooltip": "A dead heart that somehow makes its bearer harder to kill.",
       "texture": "withered_heart_pendant.png",
       "rarity": "rare",
+      "add_effects": { "wither": 2 },
       "properties": {
-        "max_health": {
-          "add": 8.0
-        },
         "attack_damage": {
-          "add": 2.0
+          "add": 9.0
         }
       }
     },
@@ -150,7 +148,7 @@
       "curio_slot": "necklace",
       "rarity": "epic",
       "immune_to_effects": ["darkness", "wither", "blindness", "mining_fatigue"],
-      "add_effects": { "night_vision": 1, "speed": 3 },
+      "add_effects": { "night_vision": 1, "speed": 2 },
       "properties": {
         "max_health": {
           "add": 20.0

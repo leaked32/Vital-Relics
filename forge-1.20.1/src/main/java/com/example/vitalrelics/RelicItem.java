@@ -11,6 +11,8 @@ import net.minecraft.world.level.Level;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import static com.example.vitalrelics.common.Relic.itemDisplayName;
+
 public class RelicItem extends Item {
 	private final Relic relic;
 
@@ -33,5 +35,13 @@ public class RelicItem extends Item {
 					net.minecraftforge.client.extensions.common.IClientItemExtensions> consumer) {
 
 		consumer.accept(new RelicClientExtensions());
+	}
+
+	@Override
+	public Component getName(final ItemStack stack) {
+		if (relic.display_name != null && !relic.display_name.isBlank())
+			return Component.literal(relic.display_name);
+
+		return Component.literal(itemDisplayName(relic.id));
 	}
 }

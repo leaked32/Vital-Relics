@@ -83,6 +83,9 @@ public class RelicLoader {
 			if (rawRelic.get("curio_slot") instanceof String value)
 				relic.curio_slot = value;
 
+			if (rawRelic.get("display_name") instanceof String value)
+				relic.display_name = value;
+
 			if (rawRelic.get("tooltip") instanceof String value)
 				relic.tooltip = value;
 
