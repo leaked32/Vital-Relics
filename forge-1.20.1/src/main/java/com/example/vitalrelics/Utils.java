@@ -90,12 +90,12 @@ public class Utils {
 	}
 
 	public static void removeImmuneEffects(
-			final Player player,
+			final LivingEntity livingEntity,
 			final List<Relic> relics) {
 
 		final List<MobEffect> remove = new ArrayList<>();
 
-		for (final MobEffectInstance instance : player.getActiveEffects()) {
+		for (final MobEffectInstance instance : livingEntity.getActiveEffects()) {
 			final MobEffect effect = instance.getEffect();
 
 			final ResourceLocation id =
@@ -117,11 +117,11 @@ public class Utils {
 		}
 
 		for (final MobEffect effect : remove)
-			player.removeEffect(effect);
+			livingEntity.removeEffect(effect);
 	}
 
 	public static void applyRelicEffects(
-			final Player player,
+			final LivingEntity livingEntity,
 			final List<Relic> relics) {
 
 		for (final Relic relic : relics) {
@@ -133,7 +133,7 @@ public class Utils {
 
 				final int amplifier = Math.max(0, entry.getValue() - 1);
 
-				player.addEffect(
+				livingEntity.addEffect(
 						new MobEffectInstance(effect, 240, amplifier, true, false
 						)
 				);
