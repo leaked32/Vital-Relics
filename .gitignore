@@ -3,6 +3,7 @@
 # ==============================
 .gradle/
 **/.gradle/
+.graldew.bat
 
 # Build outputs
 build/
