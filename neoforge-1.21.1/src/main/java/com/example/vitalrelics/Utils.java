@@ -14,35 +14,75 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.vitalrelics.VitalRelics.MODID;
 import static com.example.vitalrelics.VitalRelics.loader;
+import static com.example.vitalrelics.compat.TouhouMaidCompat.gatherMaidRelics;
 
 public class Utils {
-	public static List<Relic> gatherRelics(Player player) {
 
-		List<Relic> relicList = new ArrayList<>();
-		for (final ItemStack stack : player.getInventory().items) {
-			if (stack.isEmpty())
-				continue;
+	public static List<Relic> gatherRelics(final LivingEntity entity) {
+		final List<Relic> out = new ArrayList<>();
 
-			final ResourceLocation id =
-					BuiltInRegistries.ITEM.getKey(stack.getItem());
+		// Player inventory / hotbar.
+		if (entity instanceof Player player) {
+			for (int i = 0; i < player.getInventory().items.size(); ++i) {
+				final ItemStack stack = player.getInventory().items.get(i);
+				final boolean hotbar = i < 9;
 
-			if (!id.getNamespace().equals(MODID))
-				continue;
-
-			final Relic relic = loader.find(id.getPath());
-
-			if (relic == null || relic.properties == null)
-				continue;
-
-			relicList.add(relic);
+				addRelic(out, stack,
+						hotbar ? "in_hotbar" : "in_inventory",
+						"in_inventory");
+			}
 		}
-		return relicList;
+
+		// Curios works on LivingEntity, not only Player.
+		CuriosApi.getCuriosInventory(entity).ifPresent(inv -> {
+			for (final var slot : inv.findCurios(stack -> true))
+				addRelic(out, slot.stack(), "in_curios_api_slots");
+		});
+
+		// Optional Touhou Little Maid integration.
+		if (ModList.get().isLoaded("touhou_little_maid")) {
+			gatherMaidRelics(entity, out);
+		}
+
+		return out;
+	}
+
+	public static void addRelic(
+			final List<Relic> out,
+			final ItemStack stack,
+			final String... locations) {
+
+		if (stack.isEmpty())
+			return;
+
+		final ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
+		if (!id.getNamespace().equals(MODID))
+			return;
+
+		final Relic relic = loader.find(id.getPath());
+		if (relic == null)
+			return;
+
+		// Empty = effective everywhere.
+		if (relic.effective_slots.isEmpty()) {
+			out.add(relic);
+			return;
+		}
+
+		for (final String location : locations) {
+			if (relic.effective_slots.contains(location)) {
+				out.add(relic);
+				return;
+			}
+		}
 	}
 
 	public static void applyRelicEffects(

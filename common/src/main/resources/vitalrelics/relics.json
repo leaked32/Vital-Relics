@@ -146,6 +146,7 @@
       "id": "cherry_cross",
       "tooltip": "The pure power of cherry trees. ",
       "texture": "cherry_cross.png",
+      "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "curio_slot": "necklace",
       "rarity": "epic",
       "immune_to_effects": ["darkness", "wither", "blindness", "mining_fatigue"],
@@ -173,6 +174,7 @@
     {
       "id": "cursed_torturing",
       "texture": "cursed_crimson_rune.png",
+      "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "rarity": "epic",
       "properties": {
         "attack_damage": {
@@ -193,6 +195,7 @@
       "id": "reality_piercing",
       "tooltip": "An overpowered Relic. ",
       "texture": "halo_celestial_crystal.png",
+      "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",

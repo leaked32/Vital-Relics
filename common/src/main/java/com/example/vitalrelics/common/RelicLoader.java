@@ -11,32 +11,30 @@ import java.util.Map;
 public class RelicLoader {
 	public final List<Relic> relics_ = new ArrayList<>();
 
-	public static void add_list(List<String> to_emplace, final Object special_abilities) {
+	public static void add_list(final List<String> target, final Object rawValue) {
 
-		// final Object special_abilities = rawRelic.get("special_abilities");
-		// special_abilities
-		if (special_abilities instanceof List<?> values) {
+		if (rawValue instanceof List<?> values) {
 			for (final Object value : values) {
-				if (!(value instanceof String effect))
+				if (!(value instanceof String entry))
 					throw new IllegalArgumentException(
-							"special_abilities entries must be strings"
+							"RelicLoader::add_list List entries must be strings"
 					);
 
-				to_emplace.add(effect);
+				target.add(entry);
 			}
 		}
 	}
-	public static void add_map(Map<String, Integer> to_emplace, final Object special_abilities) {
 
-		if (special_abilities instanceof Map<?, ?> effects) {
+	public static void add_map(Map<String, Integer> target, final Object rawValue) {
+		if (rawValue instanceof Map<?, ?> effects) {
 			for (final var entry : effects.entrySet()) {
-				if (!(entry.getKey() instanceof String effect))
-					throw new IllegalArgumentException("add_effects keys must be strings");
-
-				if (!(entry.getValue() instanceof Number amplifier))
-					throw new IllegalArgumentException("add_effects values must be numbers");
-
-				to_emplace.put(effect, amplifier.intValue());
+				if (!(entry.getKey() instanceof String effect)) {
+					throw new IllegalArgumentException("RelicLoader::add_map keys must be strings");
+				}
+				if (!(entry.getValue() instanceof Number amplifier)) {
+					throw new IllegalArgumentException("RelicLoader::add_map values must be numbers");
+				}
+				target.put(effect, amplifier.intValue());
 			}
 		}
 	}
@@ -113,6 +111,7 @@ public class RelicLoader {
 				);
 			}
 
+			add_list(relic.effective_slots, rawRelic.get("effective_slots"));
 			add_map(relic.special_abilities, rawRelic.get("special_abilities"));
 			add_map(relic.add_effects, rawRelic.get("add_effects"));
 
