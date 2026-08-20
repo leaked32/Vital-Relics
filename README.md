@@ -39,7 +39,7 @@ This allows modpack creators to freely decide how each relic should enter their 
 
 ---
 
-## Crafting Recipes
+### Crafting Recipes
 
 Crafting recipes are configured through `recipes.json`.
 
@@ -62,6 +62,42 @@ Example:
     }
   }
 }
+```
+
+**JEI Compatibility**
+
+The dynamic crafting system currently works correctly in-game, but crafting recipes generated from recipes.json are not displayed in JEI yet. This is a known limitation. The recipes can still be crafted normally; JEI integration may be added in a future update.
+
+### Loot Drops
+
+Loot sources are also configured through recipes.json.
+
+Example:
+
+```json
+{
+  "loot": {
+    "guardian_scale": [
+      {
+        "table": "minecraft:entities/guardian",
+        "chance": 0.04
+      }
+    ]
+  }
+}
+```
+
+This means:
+
+When a guardian drops loot,
+Vital Relics performs a 4% chance roll,
+If successful, guardian_scale is added to the loot.
+
+Loot entries use Minecraft loot table IDs, allowing relics to come from:
+
+Mob drops
+Structure chests
+Any other vanilla or modded loot table
 
 ## Configuration
 
