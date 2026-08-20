@@ -1,5 +1,6 @@
 package com.example.vitalrelics;
 
+import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
 import com.example.vitalrelics.common.AcquisitionLoader;
 import com.example.vitalrelics.common.Relic;
@@ -117,10 +118,10 @@ public class VitalRelics {
 			LOGGER.error("Failed to create the recipe file: {}", e.toString());
 			throw new RuntimeException(e);
 		}
-		acquisition.load(recipeConfig);
 		loader = new RelicLoader();
 		acquisition = new AcquisitionLoader();
 		loader.load(config);
+		acquisition.load(recipeConfig);
 
 		for (final var relic : loader.relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {

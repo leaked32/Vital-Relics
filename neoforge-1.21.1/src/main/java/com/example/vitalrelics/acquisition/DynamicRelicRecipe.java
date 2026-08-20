@@ -33,6 +33,9 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 			final CraftingInput input,
 			final HolderLookup.Provider registries) {
 
+
+		VitalRelics.LOGGER.info("Vital Relics: assemble()");
+
 		final Match match = findMatch(input);
 		if (match == null)
 			return ItemStack.EMPTY;
@@ -174,3 +177,4 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 	private record Match(String id, Acquisition.Crafting recipe) {}
 	private record Grid(int width, int height, List<ItemStack> items) {}
 }
+

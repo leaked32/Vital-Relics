@@ -10,6 +10,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 
 public final class AcquisitionEvents {
@@ -43,4 +44,18 @@ public final class AcquisitionEvents {
 			}
 		}
 	}
+
+//	@SubscribeEvent
+//	public static void onRecipesUpdated(final RecipesUpdatedEvent event) {
+//		System.out.println("Recipes updated");
+//
+//		for (final var recipe : event.getRecipeManager().getRecipes()) {
+//			if (recipe.id().getNamespace().equals(VitalRelics.MODID)) {
+//				System.out.println(
+//						recipe.id() + " : " +
+//								recipe.value().getClass().getName()
+//				);
+//			}
+//		}
+//	}
 }
