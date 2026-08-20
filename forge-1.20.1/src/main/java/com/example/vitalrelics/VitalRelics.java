@@ -17,12 +17,17 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import org.slf4j.Logger;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +62,23 @@ public class VitalRelics {
 		modEventBus.addListener(this::commonSetup);
 
 		loader = new RelicLoader();
-		loader.load(null);
+		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
+		try {
+			if (Files.notExists(config)) {
+				Files.createDirectories(config.getParent());
+
+				try (final InputStream in = VitalRelics.class.getResourceAsStream("/vitalrelics/relics.json")) {
+					if (in == null)
+						throw new IllegalStateException("Bundled relics.json not found");
+
+					Files.copy(in, config);
+				}
+			}
+		} catch (IOException e) {
+			LOGGER.error("Failed to create the configuration file: {}", e.toString());
+			throw new RuntimeException(e);
+		}
+		loader.load(config);
 
 		for (final var relic : loader.relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {

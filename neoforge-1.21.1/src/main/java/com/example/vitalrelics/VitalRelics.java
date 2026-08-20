@@ -12,6 +12,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -21,6 +22,10 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +55,24 @@ public class VitalRelics
 		CREATIVE_MODE_TABS.register(modEventBus);
 
 		loader = new RelicLoader();
-		loader.load(null);
+		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
+		try {
+			if (Files.notExists(config)) {
+				Files.createDirectories(config.getParent());
+
+				try (final InputStream in = VitalRelics.class.getResourceAsStream("/vitalrelics/relics.json")) {
+					if (in == null)
+						throw new IllegalStateException("Bundled relics.json not found");
+
+					Files.copy(in, config);
+				}
+			}
+		} catch (IOException e) {
+			LOGGER.error("Failed to create the configuration file: {}", e.toString());
+			throw new RuntimeException(e);
+		}
+		loader.load(config);
+
 		for (final var relic : loader.relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {
 				case "uncommon" -> Rarity.UNCOMMON;
