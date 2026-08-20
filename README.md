@@ -30,13 +30,13 @@ Vital Relics supports:
 
 ## Screenshots
 
-`<img width="1920" height="1104" alt="2026-08-20_14 58 39" src="https://github.com/user-attachments/assets/a3e49454-14e9-4b9c-894c-727dfe9d1050" />`{=html}
+<img width="1920" height="1104" alt="2026-08-20_14 58 39" src="https://github.com/user-attachments/assets/a3e49454-14e9-4b9c-894c-727dfe9d1050" />
 
-`<img width="1920" height="1104" alt="2026-08-20_14 59 20" src="https://github.com/user-attachments/assets/aabf218f-aa11-4787-9083-5bf32bb71a3e" />`{=html}
+<img width="1920" height="1104" alt="2026-08-20_14 59 20" src="https://github.com/user-attachments/assets/aabf218f-aa11-4787-9083-5bf32bb71a3e" />
 
-`<img width="1920" height="1104" alt="2026-08-20_14 59 25" src="https://github.com/user-attachments/assets/c931d595-af92-4843-b82f-299709a0f4a0" />`{=html}
+<img width="1920" height="1104" alt="2026-08-20_14 59 25" src="https://github.com/user-attachments/assets/c931d595-af92-4843-b82f-299709a0f4a0" />
 
-`<img width="1920" height="1104" alt="2026-08-20_17 28 07" src="https://github.com/user-attachments/assets/5a2aa56e-6b22-4ba3-9126-f28d97e0796d" />`{=html}
+<img width="1920" height="1104" alt="2026-08-20_17 28 07" src="https://github.com/user-attachments/assets/5a2aa56e-6b22-4ba3-9126-f28d97e0796d" />
 
 ## Documentation
 
