@@ -55,6 +55,46 @@ jobs:
         run: gradle :neoforge-1.21.1:build
 
       # ------------------------------
+      # Verify common classes are bundled
+      # ------------------------------
+
+      - name: Verify Forge JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          FORGE_JAR=$(find forge-1.20.1/build/libs \
+            -maxdepth 1 -type f -name "*.jar" \
+            ! -name "*-sources.jar" \
+            ! -name "*-dev.jar" \
+            | head -n 1)
+
+          test -n "$FORGE_JAR"
+
+          echo "Forge JAR: $FORGE_JAR"
+
+          jar tf "$FORGE_JAR" \
+            | grep "com/example/vitalrelics/common/RelicLoader.class"
+
+      - name: Verify NeoForge JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          NEOFORGE_JAR=$(find neoforge-1.21.1/build/libs \
+            -maxdepth 1 -type f -name "*.jar" \
+            ! -name "*-sources.jar" \
+            ! -name "*-dev.jar" \
+            | head -n 1)
+
+          test -n "$NEOFORGE_JAR"
+
+          echo "NeoForge JAR: $NEOFORGE_JAR"
+
+          jar tf "$NEOFORGE_JAR" \
+            | grep "com/example/vitalrelics/common/RelicLoader.class"
+
+      # ------------------------------
       # Prepare release artifacts
       # ------------------------------
 
@@ -94,10 +134,12 @@ jobs:
       # ------------------------------
 
       - name: Show release JARs
-        run: ls -lh release/
+        run: |
+          echo "Release artifacts:"
+          ls -lh release/
 
       # ------------------------------
-      # Release
+      # GitHub Release
       # ------------------------------
 
       - name: Create GitHub Release

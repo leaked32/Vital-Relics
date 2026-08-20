@@ -279,7 +279,7 @@ Use:
 ```
 
 The same relic system is used for players and maids, so attributes, regeneration, effects and other
-compatible relic mechanics do not need separate relic definitions.
+compatible relic mechanics do not need to separate relic definitions.
 
 Touhou Little Maid remains an optional integration.
 
