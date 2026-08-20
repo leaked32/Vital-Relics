@@ -25,7 +25,7 @@ import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.vitalrelics.Utils.retargetArrow;
+import static com.example.vitalrelics.Utils.*;
 import static com.example.vitalrelics.VitalRelics.MODID;
 import static com.example.vitalrelics.VitalRelics.LOGGER;
 import static com.example.vitalrelics.VitalRelics.loader;
@@ -88,65 +88,6 @@ public final class VitalEvents {
 
 	private VitalEvents() {}
 
-	public static List<Relic> gatherRelics(Player player) {
-
-		List<Relic> relicList = new ArrayList<>();
-		for (final ItemStack stack : player.getInventory().items) {
-			if (stack.isEmpty())
-				continue;
-
-			final ResourceLocation id =
-					BuiltInRegistries.ITEM.getKey(stack.getItem());
-
-			if (!id.getNamespace().equals(MODID))
-				continue;
-
-			final Relic relic = loader.find(id.getPath());
-
-			if (relic == null || relic.properties == null)
-				continue;
-
-			relicList.add(relic);
-		}
-		return relicList;
-	}
-
-	private static void removeImmuneEffects(
-			final Player player,
-			final List<Relic> relics) {
-
-		final List<ResourceLocation> remove = new ArrayList<>();
-
-		for (final MobEffectInstance instance : player.getActiveEffects()) {
-			final var effect = instance.getEffect().value();
-
-			final ResourceLocation id =
-					BuiltInRegistries.MOB_EFFECT.getKey(effect);
-
-			if (id == null)
-				continue;
-
-			final boolean negative =
-					effect.getCategory() == MobEffectCategory.HARMFUL;
-
-			if (RelicLoader.isImmuneToEffect(
-					relics,
-					id.getPath(),
-					negative
-			)) {
-				remove.add(id);
-			}
-		}
-
-		for (final ResourceLocation id : remove) {
-			final var effect =
-					BuiltInRegistries.MOB_EFFECT.get(id);
-
-			player.removeEffect(
-					BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect)
-			);
-		}
-	}
 
 	@SubscribeEvent
 	public static void onPlayerTick(final PlayerTickEvent.Post event) {

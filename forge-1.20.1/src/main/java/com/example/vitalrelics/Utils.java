@@ -5,6 +5,7 @@ import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -22,9 +23,10 @@ import static com.example.vitalrelics.VitalRelics.MODID;
 import static com.example.vitalrelics.VitalRelics.loader;
 
 public class Utils {
-	public static List<Relic> gatherRelics(Player player) {
 
-		List<Relic> relicList = new ArrayList<>();
+	public static List<Relic> gatherRelics(final Player player) {
+		final List<Relic> relicList = new ArrayList<>();
+
 		for (final ItemStack stack : player.getInventory().items) {
 			if (stack.isEmpty())
 				continue;
@@ -42,6 +44,7 @@ public class Utils {
 
 			relicList.add(relic);
 		}
+
 		return relicList;
 	}
 
@@ -49,10 +52,10 @@ public class Utils {
 			final Player player,
 			final List<Relic> relics) {
 
-		final List<ResourceLocation> remove = new ArrayList<>();
+		final List<MobEffect> remove = new ArrayList<>();
 
 		for (final MobEffectInstance instance : player.getActiveEffects()) {
-			final var effect = instance.getEffect().value();
+			final MobEffect effect = instance.getEffect();
 
 			final ResourceLocation id =
 					BuiltInRegistries.MOB_EFFECT.getKey(effect);
@@ -68,20 +71,13 @@ public class Utils {
 					id.getPath(),
 					negative
 			)) {
-				remove.add(id);
+				remove.add(effect);
 			}
 		}
 
-		for (final ResourceLocation id : remove) {
-			final var effect =
-					BuiltInRegistries.MOB_EFFECT.get(id);
-
-			player.removeEffect(
-					BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect)
-			);
-		}
+		for (final MobEffect effect : remove)
+			player.removeEffect(effect);
 	}
-
 	public static void retargetArrow(AbstractArrow arrow, LivingEntity newOwner) {
 
 		Entity owner = arrow.getOwner();

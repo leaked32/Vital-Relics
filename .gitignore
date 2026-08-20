@@ -1,7 +1,84 @@
-build/
-run/
-.idea/
-cache/
-*cache*
-build*/
+# ==============================
+# Gradle
+# ==============================
 .gradle/
+**/.gradle/
+
+# Build outputs
+build/
+**/build/
+out/
+**/out/
+
+# Keep the Gradle wrapper
+!gradle/wrapper/gradle-wrapper.jar
+
+
+# ==============================
+# IntelliJ IDEA
+# ==============================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+
+# ==============================
+# Minecraft development runtime
+# ==============================
+run/
+**/run/
+run-data/
+**/run-data/
+
+# Minecraft generated/runtime files
+logs/
+crash-reports/
+saves/
+screenshots/
+
+
+# ==============================
+# Forge / NeoForge generated data
+# ==============================
+src/generated/
+**/src/generated/
+
+# ForgeGradle generated files
+**/.cache/
+
+
+# ==============================
+# OS / editor junk
+# ==============================
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+
+# ==============================
+# Logs / crash dumps
+# ==============================
+*.log
+*.log.gz
+hs_err_pid*
+replay_pid*
+
+
+# ==============================
+# Local secrets / publishing
+# ==============================
+.env
+.env.*
+*.key
+*.pem
+
+# Optional local Gradle properties containing secrets
+gradle-local.properties

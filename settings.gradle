@@ -24,5 +24,5 @@ dependencyResolutionManagement {
 rootProject.name = "VitalRelics"
 
 include("common")
-// include("forge-1.20.1")
+include("forge-1.20.1")
 include("neoforge-1.21.1")
