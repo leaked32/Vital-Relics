@@ -18,6 +18,13 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven {
+        name = "Illusive Soulworks"
+        url = "https://maven.theillusivec4.top/"
+    }
+    maven {
+        url = "https://api.modrinth.com/maven"
+    }
 }
 
 base {
@@ -108,6 +115,9 @@ sourceSets.main.resources {
 dependencies {
     implementation project(":common")
     additionalRuntimeClasspath project(":common")
+
+    compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
+    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     implementation "curse.maven:touhou-little-maid-${tlm_file_id}"
 

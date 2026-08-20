@@ -6,6 +6,7 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
@@ -20,9 +21,13 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(VitalRelics.MODID)
@@ -43,6 +48,8 @@ public class VitalRelics
 
 	public VitalRelics(IEventBus modEventBus, ModContainer modContainer)
 	{
+		modEventBus.addListener(this::commonSetup);
+
 		BLOCKS.register(modEventBus);
 		ITEMS.register(modEventBus);
 		CREATIVE_MODE_TABS.register(modEventBus);
@@ -75,4 +82,47 @@ public class VitalRelics
 		NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(VitalEvents.class);
 	}
+
+
+	private void commonSetup(final FMLCommonSetupEvent event) {
+		final ResourceLocation validator =
+				ResourceLocation.fromNamespaceAndPath(MODID, "relic_slot");
+
+		CuriosApi.registerCurioPredicate(validator, result -> {
+			final ItemStack stack = result.stack();
+
+			final ResourceLocation itemId =
+					BuiltInRegistries.ITEM.getKey(stack.getItem());
+
+			if (!itemId.getNamespace().equals(MODID))
+				return false;
+
+			final Relic relic = loader.find(itemId.getPath());
+
+			return relic != null && relic.curio_slot.equals(result.slotContext().identifier());
+		});
+
+		event.enqueueWork(() -> {
+			for (final var holder : RELIC_ITEMS) {
+				final Item item = holder.get();
+
+				CuriosApi.registerCurio(item, new ICurioItem() {
+					@Override
+					public boolean canEquip(
+							final SlotContext context,
+							final ItemStack stack) {
+
+						final ResourceLocation id =
+								BuiltInRegistries.ITEM.getKey(stack.getItem());
+
+						final Relic relic = loader.find(id.getPath());
+
+						return relic != null &&
+								relic.curio_slot.equals(context.identifier());
+					}
+				});
+			}
+		});
+	}
+
 }

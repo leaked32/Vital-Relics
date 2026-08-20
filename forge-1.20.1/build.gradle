@@ -42,6 +42,13 @@ repositories {
     mavenLocal()
 
     maven {
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "Illusive Soulworks"
+        url = "https://maven.theillusivec4.top/"
+    }
+    maven {
         url = "https://www.cursemaven.com"
     }
 }
@@ -57,7 +64,7 @@ minecraft {
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
 
             /*
              * ForgeGradle's Minecraft launcher does not automatically
@@ -137,6 +144,13 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+
+    // Curios API: compile against it, but don't bundle Curios into our JAR.
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
+
+    // Curios itself in runClient.
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
 
     /*
      * Optional Touhou Little Maid compile integration.

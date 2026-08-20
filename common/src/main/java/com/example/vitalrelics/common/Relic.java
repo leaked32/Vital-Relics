@@ -2,7 +2,9 @@ package com.example.vitalrelics.common;
 
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 // public static BooleanValue configHaloRealityPiercer;
 public class Relic {
@@ -14,8 +16,8 @@ public class Relic {
 
 	// parse either an array or "all_negative"
 	public final List<String> immune_to_effects = new ArrayList<>();
-	public final List<String> add_effects = new ArrayList<>();
-	public final List<String> special_abilities = new ArrayList<>();
+	public final Map<String, Integer> add_effects = new LinkedHashMap<>();
+	public final Map<String, Integer> special_abilities = new LinkedHashMap<>();
 
 
 	public Properties properties = new Properties();
@@ -195,10 +197,10 @@ public class Relic {
 			for (final String x : immune_to_effects)
 				out.add("Immune to " + displayName(x));
 
-		for (final String x : add_effects)
+		for (final String x : add_effects.keySet())
 			out.add("Grants " + displayName(x));
 
-		for (final String x : special_abilities)
+		for (final String x : special_abilities.keySet())
 			out.add("Ability: " + displayName(x));
 
 		while (!out.isEmpty() && out.get(out.size() - 1).isEmpty())

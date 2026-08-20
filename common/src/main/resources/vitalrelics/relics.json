@@ -146,8 +146,10 @@
       "id": "cherry_cross",
       "tooltip": "The pure power of cherry trees. ",
       "texture": "cherry_cross.png",
+      "curio_slot": "necklace",
       "rarity": "epic",
       "immune_to_effects": ["darkness", "wither", "blindness", "mining_fatigue"],
+      "add_effects": { "night_vision": 1, "speed": 3 },
       "properties": {
         "max_health": {
           "add": 20.0
@@ -189,11 +191,12 @@
     },
     {
       "id": "reality_piercing",
-      "tooltip": "Endgame Relics. ",
+      "tooltip": "An overpowered Relic. ",
       "texture": "halo_celestial_crystal.png",
+      "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",
-      "special_abilities": ["retarget_arrow"],
+      "special_abilities": { "retarget_arrow": 2 },
       "properties": {
         "attack_damage": {
           "add": 9.0,

@@ -92,7 +92,6 @@ public final class VitalEvents {
 			return;
 
 		final Player player = event.player;
-
 		if (player.level().isClientSide())
 			return;
 
@@ -101,8 +100,10 @@ public final class VitalEvents {
 		final int currentTick =
 				player.getServer().getTickCount();
 
-		if (currentTick % 10 == 0)
+		if (currentTick % 10 == 0) {
 			removeImmuneEffects(player, relicList);
+			applyRelicEffects(player, relicList);
+		}
 
 		final Relic.Ticks ticks =
 				RelicLoader.computeTicks(relicList, currentTick);
@@ -339,10 +340,7 @@ public final class VitalEvents {
 
 		final List<Relic> relics = gatherRelics(victim);
 
-		if (RelicLoader.hasSuchSpecialAbility(
-				relics,
-				"retarget_arrow"
-		)) {
+		if (RelicLoader.hasSuchSpecialAbility(relics, "retarget_arrow") != 0) {
 			retargetArrow(arrow, victim);
 			event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
 		}

@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,28 @@ public class Utils {
 		for (final MobEffect effect : remove)
 			player.removeEffect(effect);
 	}
+
+	public static void applyRelicEffects(
+			final Player player,
+			final List<Relic> relics) {
+
+		for (final Relic relic : relics) {
+			for (final var entry : relic.add_effects.entrySet()) {
+				final ResourceLocation id = new ResourceLocation("minecraft", entry.getKey());
+				final MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(id);
+
+				if (effect == null) continue;
+
+				final int amplifier = Math.max(0, entry.getValue() - 1);
+
+				player.addEffect(
+						new MobEffectInstance(effect, 240, amplifier, true, false
+						)
+				);
+			}
+		}
+	}
+
 	public static void retargetArrow(AbstractArrow arrow, LivingEntity newOwner) {
 
 		Entity owner = arrow.getOwner();

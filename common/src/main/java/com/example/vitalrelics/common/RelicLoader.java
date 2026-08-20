@@ -11,6 +11,36 @@ import java.util.Map;
 public class RelicLoader {
 	public final List<Relic> relics_ = new ArrayList<>();
 
+	public static void add_list(List<String> to_emplace, final Object special_abilities) {
+
+		// final Object special_abilities = rawRelic.get("special_abilities");
+		// special_abilities
+		if (special_abilities instanceof List<?> values) {
+			for (final Object value : values) {
+				if (!(value instanceof String effect))
+					throw new IllegalArgumentException(
+							"special_abilities entries must be strings"
+					);
+
+				to_emplace.add(effect);
+			}
+		}
+	}
+	public static void add_map(Map<String, Integer> to_emplace, final Object special_abilities) {
+
+		if (special_abilities instanceof Map<?, ?> effects) {
+			for (final var entry : effects.entrySet()) {
+				if (!(entry.getKey() instanceof String effect))
+					throw new IllegalArgumentException("add_effects keys must be strings");
+
+				if (!(entry.getValue() instanceof Number amplifier))
+					throw new IllegalArgumentException("add_effects values must be numbers");
+
+				to_emplace.put(effect, amplifier.intValue());
+			}
+		}
+	}
+
 	public void load(final Path external_relics_options) {
 		final String text;
 		final String internal_path = "vitalrelics/relics.json";
@@ -83,18 +113,8 @@ public class RelicLoader {
 				);
 			}
 
-			final Object special_abilities = rawRelic.get("special_abilities");
-			// special_abilities
-			if (special_abilities instanceof List<?> values) {
-				for (final Object value : values) {
-					if (!(value instanceof String effect))
-						throw new IllegalArgumentException(
-								"special_abilities entries must be strings"
-						);
-
-					relic.special_abilities.add(effect);
-				}
-			}
+			add_map(relic.special_abilities, rawRelic.get("special_abilities"));
+			add_map(relic.add_effects, rawRelic.get("add_effects"));
 
 			if (rawRelic.get("properties") instanceof Map<?, ?> properties) {
 				relic.properties.attack_damage = property(properties.get("attack_damage"));
@@ -305,11 +325,16 @@ public class RelicLoader {
 		return false;
 	}
 
-	public static boolean hasSuchSpecialAbility(final List<Relic> relics, final String requiredAbility) {
+	public static int hasSuchSpecialAbility(final List<Relic> relics, final String requiredAbility) {
+		int highest_level = 0;
+
 		for (final Relic relic : relics) {
-			if (relic.special_abilities.contains(requiredAbility))
-				return true;
+			for (final var entry : relic.special_abilities.entrySet()) {
+				if (entry.getKey().equals(requiredAbility)) {
+					highest_level = Math.max(highest_level, entry.getValue());
+				}
+			}
 		}
-		return false;
+		return highest_level;
 	}
 }

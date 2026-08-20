@@ -105,6 +105,7 @@ public final class VitalEvents {
 
 		if (currentTick % 10 == 0) {
 			removeImmuneEffects(player, relicList);
+			applyRelicEffects(player, relicList);
 		}
 
 		var ticks = RelicLoader.computeTicks(relicList, currentTick);
@@ -306,7 +307,7 @@ public final class VitalEvents {
 			if (entityResult.getEntity() instanceof Player victim) {
 
 				final var relics = gatherRelics(victim);
-				if (RelicLoader.hasSuchSpecialAbility(relics, "retarget_arrow")) {
+				if (RelicLoader.hasSuchSpecialAbility(relics, "retarget_arrow") != 0) {
 					retargetArrow(arrow, victim);
 					event.setCanceled(true);
 				}
