@@ -286,6 +286,7 @@ Touhou Little Maid remains an optional integration.
 ## Creating Your Own Relic
 
 The easiest way to create one is to copy an existing entry in `relics.json` and change it:
+Notice: Currently, the mod only supports using the bundled textures. You can inspect them under `common/src/main/resources/assets/vitalrelics/textures/item`.
 
 ```json
 {
