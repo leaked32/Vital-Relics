@@ -192,3 +192,10 @@ idea {
         downloadJavadoc = true
     }
 }
+
+tasks.named('jar', Jar).configure {
+    dependsOn project(":common").tasks.named("classes")
+    from(project(":common").sourceSets.main.output)
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

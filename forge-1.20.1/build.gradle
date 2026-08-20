@@ -201,21 +201,23 @@ tasks.named('processResources', ProcessResources).configure {
  * Final mod JAR metadata + Forge reobfuscation.
  */
 tasks.named('jar', Jar).configure {
+    dependsOn project(":common").tasks.named("classes")
+    from(project(":common").sourceSets.main.output)
+
     manifest {
         attributes([
-                "Specification-Title"       : mod_id,
-                "Specification-Vendor"      : mod_authors,
-                "Specification-Version"     : "1",
-
-                "Implementation-Title"      : project.name,
-                "Implementation-Version"    : project.jar.archiveVersion,
-                "Implementation-Vendor"     : mod_authors,
-
-                "Implementation-Timestamp"  :
+                "Specification-Title"      : mod_id,
+                "Specification-Vendor"     : mod_authors,
+                "Specification-Version"    : "1",
+                "Implementation-Title"     : project.name,
+                "Implementation-Version"   : project.jar.archiveVersion,
+                "Implementation-Vendor"    : mod_authors,
+                "Implementation-Timestamp" :
                         new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     finalizedBy 'reobfJar'
 }
 
