@@ -19,6 +19,13 @@ define your own relics without changing the mod's Java code.
 
 Vital Relics also supports **Curios API** and optional **Touhou Little Maid** integration.
 
+## Screenshots
+
+<img width="1920" height="1104" alt="2026-08-20_13 18 56" src="https://github.com/user-attachments/assets/249e367d-73e4-4b27-925b-ccf754be79f8" />
+
+<img width="1920" height="1104" alt="2026-08-20_13 19 17" src="https://github.com/user-attachments/assets/cd545213-bcd4-4d79-a429-4a76e9573d36" />
+
+
 ## Configuration
 
 After the first launch, Vital Relics creates:
