@@ -6,7 +6,6 @@ import com.example.vitalrelics.common.AcquisitionLoader;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import com.mojang.logging.LogUtils;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -29,9 +28,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 import org.slf4j.Logger;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +66,7 @@ public class VitalRelics {
 			);
 
 	public VitalRelics() {
+		@SuppressWarnings("removal")
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		/*
@@ -82,42 +79,7 @@ public class VitalRelics {
 		RECIPE_SERIALIZERS.register(modEventBus);
 
 		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
-		try {
-			if (Files.notExists(config)) {
-				Files.createDirectories(config.getParent());
-
-				try (final InputStream in = VitalRelics.class.getResourceAsStream("/vitalrelics/relics.json")) {
-					if (in == null)
-						throw new IllegalStateException("Bundled relics.json not found");
-
-					Files.copy(in, config);
-				}
-			}
-		} catch (IOException e) {
-			LOGGER.error("Failed to create the configuration file: {}", e.toString());
-			throw new RuntimeException(e);
-		}
-		final Path recipeConfig =
-				FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
-
-		try{
-			if (Files.notExists(recipeConfig)) {
-				Files.createDirectories(recipeConfig.getParent());
-
-				try (final InputStream in =
-							 VitalRelics.class.getClassLoader()
-									 .getResourceAsStream("vitalrelics/recipes.json")) {
-
-					if (in == null)
-						throw new IllegalStateException("Bundled recipes.json not found");
-
-					Files.copy(in, recipeConfig);
-				}
-			}
-		} catch (IOException e) {
-			LOGGER.error("Failed to create the recipe file: {}", e.toString());
-			throw new RuntimeException(e);
-		}
+		final Path recipeConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
 		loader = new RelicLoader();
 		acquisition = new AcquisitionLoader();
 		loader.load(config);
@@ -170,9 +132,9 @@ public class VitalRelics {
 		CuriosApi.registerCurioPredicate(validator, result -> {
 			final ItemStack stack = result.stack();
 
-			final ResourceLocation itemId =
-					BuiltInRegistries.ITEM.getKey(stack.getItem());
+			final ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(stack.getItem());
 
+			assert itemId != null;
 			if (!itemId.getNamespace().equals(MODID))
 				return false;
 
@@ -191,8 +153,8 @@ public class VitalRelics {
 							final SlotContext context,
 							final ItemStack stack) {
 
-						final ResourceLocation id =
-								BuiltInRegistries.ITEM.getKey(stack.getItem());
+						final ResourceLocation id = ForgeRegistries.ITEMS.getKey(stack.getItem());
+						assert id != null;
 
 						final Relic relic = loader.find(id.getPath());
 

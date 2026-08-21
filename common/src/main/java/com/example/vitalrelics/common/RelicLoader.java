@@ -1,12 +1,12 @@
 package com.example.vitalrelics.common;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.example.vitalrelics.common.Util.load_external_file;
 
 public class RelicLoader {
 	public final List<Relic> relics_ = new ArrayList<>();
@@ -39,28 +39,15 @@ public class RelicLoader {
 		}
 	}
 
-	public void load(final Path external_relics_options) {
-		final String text;
+	public void load(final Path external_path) {
+		if (external_path == null) {
+			throw new RuntimeException("RelicLoader#load `external_path` cannot be null");
+		}
+		// If the target file doesn't exist, copy one
 		final String internal_path = "vitalrelics/relics.json";
 
-		try {
-			if (external_relics_options != null &&
-					Files.isRegularFile(external_relics_options)) {
-				text = Files.readString(external_relics_options, StandardCharsets.UTF_8);
-			} else {
-				try (InputStream stream = RelicLoader.class.getClassLoader()
-						.getResourceAsStream(internal_path)) {
-					if (stream == null)
-						throw new FileNotFoundException(internal_path);
+		final Map<String, Object> root = load_external_file(internal_path, external_path);
 
-					text = new String(stream.readAllBytes(), StandardCharsets.UTF_8);
-				}
-			}
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to load relics.json", e);
-		}
-
-		final Map<String, Object> root = Json.parseObject(text);
 		final Object rawRelics = root.get("relics");
 
 		if (!(rawRelics instanceof List<?> entries))

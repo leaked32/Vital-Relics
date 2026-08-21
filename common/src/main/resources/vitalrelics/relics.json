@@ -1,4 +1,5 @@
 {
+  "customized": false,
   "relics": [
     {
       "id": "iron_heart",
@@ -205,7 +206,7 @@
     },
     {
       "id": "reality_piercing",
-      "tooltip": "A creativity-mode overpowered Relic. ",
+      "tooltip": "A creativity-mode overpowered Relic (cannot be obtained in survival mode). ",
       "texture": "halo_celestial_crystal.png",
       "effective_slots": ["in_inventory", "in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "curio_slot": "head",

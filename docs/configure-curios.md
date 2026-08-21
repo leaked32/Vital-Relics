@@ -15,6 +15,9 @@ A relic can define:
 -   damage rules
 -   special abilities
 
+WARNING: `customized` MUST BE SET TO `true`, if the `json` is correctly loaded,
+while it's `false`, it'll be OVERWRITTEN.
+
 ## Basic Information
 
 ### `id`

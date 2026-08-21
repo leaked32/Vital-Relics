@@ -1,4 +1,5 @@
 {
+  "customized": false,
   "recipes": {
     "iron_heart": {
       "type": "shaped",

@@ -1,39 +1,22 @@
 package com.example.vitalrelics.common;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.vitalrelics.common.Util.load_external_file;
+
 public class AcquisitionLoader {
 	public final Acquisition data = new Acquisition();
 
-	public void load(final Path external) {
-		final String text;
-		final String internalPath = "vitalrelics/recipes.json";
-
-		try {
-			if (external != null && Files.isRegularFile(external)) {
-				text = Files.readString(external, StandardCharsets.UTF_8);
-			} else {
-				try (InputStream in = AcquisitionLoader.class.getClassLoader()
-						.getResourceAsStream(internalPath)) {
-					if (in == null)
-						throw new FileNotFoundException(internalPath);
-
-					text = new String(in.readAllBytes(), StandardCharsets.UTF_8);
-				}
-			}
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to load recipes.json", e);
+	public void load(final Path external_path) {
+		if (external_path == null) {
+			throw new RuntimeException("RelicLoader#load `external_path` cannot be null");
 		}
 
-		final Map<String, Object> root = Json.parseObject(text);
+		final String internal_path = "vitalrelics/recipes.json";
+		final Map<String, Object> root = load_external_file(internal_path, external_path);
 
 		data.recipes.clear();
 		data.loot.clear();

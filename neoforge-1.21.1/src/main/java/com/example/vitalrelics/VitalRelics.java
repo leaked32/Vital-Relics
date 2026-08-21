@@ -27,9 +27,6 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +57,7 @@ public class VitalRelics
 	public static AcquisitionLoader acquisition = null;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
 
+
 	public VitalRelics(IEventBus modEventBus, ModContainer modContainer)
 	{
 		modEventBus.addListener(this::commonSetup);
@@ -70,39 +68,7 @@ public class VitalRelics
 		RECIPE_SERIALIZERS.register(modEventBus);
 
 		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
-		try {
-			if (Files.notExists(config)) {
-				Files.createDirectories(config.getParent());
-
-				try (final InputStream in = VitalRelics.class.getResourceAsStream("/vitalrelics/relics.json")) {
-					if (in == null)
-						throw new IllegalStateException("Bundled relics.json not found");
-
-					Files.copy(in, config);
-				}
-			}
-		} catch (IOException e) {
-			LOGGER.error("Failed to create the configuration file: {}", e.toString());
-			throw new RuntimeException(e);
-		}
-		final Path recipeConfig =
-				FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
-		try{
-			if (Files.notExists(recipeConfig)) {
-				Files.createDirectories(recipeConfig.getParent());
-				try (final InputStream in =
-							 VitalRelics.class.getClassLoader()
-									 .getResourceAsStream("vitalrelics/recipes.json")) {
-					if (in == null) {
-						throw new IllegalStateException("Bundled recipes.json not found");
-					}
-					Files.copy(in, recipeConfig);
-				}
-			}
-		} catch (IOException e) {
-			LOGGER.error("Failed to create the recipe file: {}", e.toString());
-			throw new RuntimeException(e);
-		}
+		final Path recipeConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
 		loader = new RelicLoader();
 		acquisition = new AcquisitionLoader();
 		loader.load(config);
