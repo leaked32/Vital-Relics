@@ -3,28 +3,40 @@ package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
+import cpw.mods.util.Lazy;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import static com.example.vitalrelics.VitalRelics.MODID;
 import static com.example.vitalrelics.VitalRelics.loader;
 import static com.example.vitalrelics.compat.TouhouMaidCompat.gatherMaidRelics;
+import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.*;
 
 public class Utils {
 
@@ -181,6 +193,73 @@ public class Utils {
 		// Allow the arrow to continue flying after bounce
 
 
+	}
+
+	/*
+	Add Effects
+	 */
+
+	public static void addEffect(LivingEntity target, MobEffect effect, int dura, int level) {
+
+		if (target.isDeadOrDying() || !target.level().isLoaded(target.blockPosition())) {
+			return;
+		}
+
+		try {
+			// ambient visible
+			MobEffectInstance effect_instance = new MobEffectInstance(effect, dura, level, true, true);
+			target.forceAddEffect(effect_instance, null);
+		} catch (ArrayIndexOutOfBoundsException e) {
+
+		} catch (Exception e) {
+
+		}
+	}
+
+	public static boolean hostileTargeted(LivingEntity self, LivingEntity other) {
+		if (isAllied(self, other)) {
+			return false;
+		}
+
+		if (other instanceof net.minecraft.world.entity.Mob mob) {
+			var rtn = mob.getTarget();
+			if (rtn == null) {
+				return false;
+			}
+			return rtn.is(self);
+		}
+
+		return false;
+	}
+
+	public static boolean isAllied(LivingEntity live0, LivingEntity live1) {
+		if (live0 == null || live1 == null || live0 == live1 || live0.getUUID() == live1.getUUID()) {
+			return false;
+		}
+
+		// 1. Use the built-in isAlliedTo (covers scoreboard teams + some vanilla behaviors)
+		if (live0.isAlliedTo(live1)) {
+			return true;
+		}
+
+		// 2. Check if target is a tamed animal owned by base
+		if (live1 instanceof TamableAnimal tamable && tamable.isTame()) {
+			LivingEntity owner = tamable.getOwner();   // This is safe and preferred
+
+			if (owner != null && owner.is(live0)) {     // owner.is(base) is better than ==
+				return true;
+			}
+		}
+
+		// Optional: Also check the other way around (if base is the pet and target is the owner)
+		if (live0 instanceof TamableAnimal tamableBase && tamableBase.isTame()) {
+			LivingEntity owner = tamableBase.getOwner();
+			if (owner != null && owner.is(live1)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

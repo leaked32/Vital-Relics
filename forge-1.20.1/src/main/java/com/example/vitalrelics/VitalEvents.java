@@ -2,8 +2,12 @@ package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.common.scheduled.Scheduler;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
@@ -16,17 +20,16 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 
 import static com.example.vitalrelics.Utils.*;
 import static com.example.vitalrelics.VitalRelics.MODID;
@@ -62,23 +65,47 @@ public final class VitalEvents {
 
 	private VitalEvents() {}
 
+	@SubscribeEvent
+	public static void onServerTick(final TickEvent.ServerTickEvent event) {
+		if (event.phase != TickEvent.Phase.END)
+			return;
+
+		final MinecraftServer server = event.getServer();
+		final int currentTickCount = server.getTickCount();
+
+		final Function<UUID, Boolean> isEntityValid = uuid -> {
+			for (final ServerLevel level : server.getAllLevels()) {
+				final Entity entity = level.getEntity(uuid);
+
+				if (entity instanceof LivingEntity livingEntity &&
+						!livingEntity.isRemoved() &&
+						!livingEntity.isDeadOrDying()) {
+					return true;
+				}
+			}
+
+			return false;
+		};
+
+		Scheduler.INSTANCE().serverTick(currentTickCount, isEntityValid);
+	}
 
 	@SubscribeEvent
 	public static void onLivingTick(final LivingEvent.LivingTickEvent event) {
-		final LivingEntity entity = event.getEntity();
+		final LivingEntity livingEntity = event.getEntity();
 
-		if (entity.level().isClientSide()) {
+		if (livingEntity.level().isClientSide()) {
 			return;
 		}
 
-		final List<Relic> relics = gatherRelics(entity);
-		final int tick = entity.getServer().getTickCount();
+		final List<Relic> relics = gatherRelics(livingEntity);
+		final int tick = livingEntity.getServer().getTickCount();
 
 		if (tick % 10 == 0) {
-			removeImmuneEffects(entity, relics);
-			applyRelicEffects(entity, relics);
+			removeImmuneEffects(livingEntity, relics);
+			applyRelicEffects(livingEntity, relics);
 
-			if (entity instanceof ServerPlayer player) {
+			if (livingEntity instanceof ServerPlayer player) {
 				int flight_level = RelicLoader.hasSuchSpecialAbility(
 						relics, "flight"
 				);
@@ -98,11 +125,22 @@ public final class VitalEvents {
 			}
 		}
 
+		if (tick % 20 == 0) {
+			int reality_severance_level = RelicLoader.hasSuchSpecialAbility(
+					relics, "reality_severance"
+			);
+			if (reality_severance_level > 0) {
+				final float ratioDamage = ((float)reality_severance_level) / 100.0f;
+				final float rangeDamage = ratioDamage * (float)livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
+				MyDamageInfo.directRangedAttack(livingEntity, rangeDamage, reality_severance_level, 1);
+			}
+		}
+
 		final Relic.Ticks ticks = RelicLoader.computeTicks(relics, tick);
 
-		entity.heal((float)(ticks.heal.add + entity.getMaxHealth() * ticks.heal.ratio_add));
+		livingEntity.heal((float)(ticks.heal.add + livingEntity.getMaxHealth() * ticks.heal.ratio_add));
 
-		if (entity instanceof Player player) {
+		if (livingEntity instanceof Player player) {
 			final float feed =
 					(float)(ticks.feed.add + player.getMaxHealth() * ticks.feed.ratio_add);
 
@@ -111,27 +149,27 @@ public final class VitalEvents {
 
 		final Relic.Properties prop = RelicLoader.computeProperties(relics);
 
-		applyProperty(entity.getAttribute(Attributes.ATTACK_DAMAGE), prop.attack_damage,
+		applyProperty(livingEntity.getAttribute(Attributes.ATTACK_DAMAGE), prop.attack_damage,
 				ATTACK_DAMAGE_ADD_ID, ATTACK_DAMAGE_MUL_ID, ATTACK_DAMAGE_MUL_TOTAL_ID);
 
-		applyProperty(entity.getAttribute(Attributes.ATTACK_SPEED), prop.attack_speed,
+		applyProperty(livingEntity.getAttribute(Attributes.ATTACK_SPEED), prop.attack_speed,
 				ATTACK_SPEED_ADD_ID, ATTACK_SPEED_MUL_ID, ATTACK_SPEED_MUL_TOTAL_ID);
 
-		applyProperty(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), prop.knockback_resistance,
+		applyProperty(livingEntity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), prop.knockback_resistance,
 				KNOCKBACK_RESISTANCE_ADD_ID, KNOCKBACK_RESISTANCE_MUL_ID,
 				KNOCKBACK_RESISTANCE_MUL_TOTAL_ID);
 
-		applyProperty(entity.getAttribute(Attributes.MAX_HEALTH), prop.max_health,
+		applyProperty(livingEntity.getAttribute(Attributes.MAX_HEALTH), prop.max_health,
 				MAX_HEALTH_ADD_ID, MAX_HEALTH_MUL_ID, MAX_HEALTH_MUL_TOTAL_ID);
 
-		applyProperty(entity.getAttribute(ForgeMod.BLOCK_REACH.get()), prop.block_interaction_range,
+		applyProperty(livingEntity.getAttribute(ForgeMod.BLOCK_REACH.get()), prop.block_interaction_range,
 				BLOCK_REACH_ADD_ID, BLOCK_REACH_MUL_ID, BLOCK_REACH_MUL_TOTAL_ID);
 
-		applyProperty(entity.getAttribute(ForgeMod.ENTITY_REACH.get()), prop.entity_interaction_range,
+		applyProperty(livingEntity.getAttribute(ForgeMod.ENTITY_REACH.get()), prop.entity_interaction_range,
 				ENTITY_REACH_ADD_ID, ENTITY_REACH_MUL_ID, ENTITY_REACH_MUL_TOTAL_ID);
 
-		if (entity.getHealth() > entity.getMaxHealth())
-			entity.setHealth(entity.getMaxHealth());
+		if (livingEntity.getHealth() > livingEntity.getMaxHealth())
+			livingEntity.setHealth(livingEntity.getMaxHealth());
 	}
 
 	private static void applyProperty(
@@ -168,8 +206,14 @@ public final class VitalEvents {
 		final LivingEntity victim = event.getEntity();
 		final Entity attacker = event.getSource().getEntity();
 
-		if (victim.level().isClientSide())
+		if (victim.level().isClientSide()) {
 			return;
+		}
+
+		MinecraftServer victim_server = victim.getServer();
+		if (victim_server == null) {
+			return;
+		}
 
 		float amount = event.getAmount();
 
@@ -189,7 +233,7 @@ public final class VitalEvents {
 			victim.invulnerableTime = Math.round(invulnerableTime);
 		}
 
-		float invulnerableTime = victim.invulnerableTime;
+		float invulnerable_time = victim.invulnerableTime;
 
 		for (final Relic relic : gatherRelics(victim)) {
 			if (relic.callbacks.damage_taken != null)
@@ -197,14 +241,23 @@ public final class VitalEvents {
 						amount, victim.getMaxHealth());
 
 			if (relic.callbacks.invulnerable_time_taken != null)
-				invulnerableTime = (float)relic.callbacks.invulnerable_time_taken.process(
-						invulnerableTime, 10.0);
+				invulnerable_time = (float)relic.callbacks.invulnerable_time_taken.process(
+						invulnerable_time, 10.0);
 		}
 
-		victim.invulnerableTime = Math.round(invulnerableTime);
+		if (victim.invulnerableTime != invulnerable_time) {
+			// Modified by protection
+			UUID victimUUID = victim.getUUID();
+			if (Scheduler.INSTANCE().PROTECTED_PLAYER_LIST.getOrDefault(victimUUID, 0) == 0) {
+				Scheduler.INSTANCE().PROTECTED_PLAYER_LIST.put(victimUUID, victim_server.getTickCount(), Math.round(invulnerable_time));
+			} else {
+				amount = 0.f;
+			}
+		}
+
+		victim.invulnerableTime = Math.round(invulnerable_time);
 		event.setAmount(amount);
 	}
-
 
 	@SubscribeEvent
 	public static void onEffectApplicable(final MobEffectEvent.Applicable event) {

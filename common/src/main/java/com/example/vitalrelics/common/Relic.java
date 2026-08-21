@@ -10,11 +10,13 @@ import java.util.Map;
 public class Relic {
 	public String id;
 	public String display_name = null;
-	// for empty case, it's effective for "in_curios_api_slots", "in_touhou_little_maid_curios_slots".
-	// "in_hotbar",
-	// "in_inventory": In inventory (including hotbar),
-	// "in_curios_api_slots"
-	// "in_touhou_little_maid_curios_slots"
+	/*
+	for empty case, it's effective for "in_curios_api_slots", "in_touhou_little_maid_curios_slots".
+	"in_hotbar",
+	"in_inventory": In inventory (including hotbar),
+	"in_curios_api_slots"
+	"in_touhou_little_maid_curios_slots"
+	 */
 	public final List<String> effective_slots = new ArrayList<>();
 	public String curio_slot = "charm";
 	public String tooltip = "Placeholder tooltip";
@@ -24,6 +26,14 @@ public class Relic {
 	// parse either an array or "all_negative"
 	public final List<String> immune_to_effects = new ArrayList<>();
 	public final Map<String, Integer> add_effects = new LinkedHashMap<>();
+
+	/*
+	"retarget_arrow": anti-skeleton
+	"flight": grants flight ability
+	"reality_severance": all hostile living entities in range [level] cannot be invulnerable,
+			receive constant damage [attribution damage * (level / 100)]
+	 		and receive constant negative effects with level [level / 4].
+	 */
 	public final Map<String, Integer> special_abilities = new LinkedHashMap<>();
 
 
@@ -157,6 +167,9 @@ public class Relic {
 		}
 		public Info damage_taken = null;
 		public Info damage_dealt = null;
+
+		// When this is activated, damages still taken (those ignore invulnerable time)
+		// in invulnerable time will become ineffective.
 		public Info invulnerable_time_taken = null;
 		public Info invulnerable_time_dealt = null;
 	}
@@ -204,11 +217,11 @@ public class Relic {
 			for (final String x : immune_to_effects)
 				out.add("Immune to " + displayName(x));
 
-		for (final String x : add_effects.keySet())
-			out.add("Grants " + displayName(x));
+		for (final var x : add_effects.entrySet())
+			out.add("Grants " + displayName(x.getKey()) + " " + x.getValue().toString());
 
-		for (final String x : special_abilities.keySet())
-			out.add("Ability: " + displayName(x));
+		for (final var x : special_abilities.entrySet())
+			out.add("Ability: " + displayName(x.getKey()) + " " + x.getValue().toString());
 
 		while (!out.isEmpty() && out.get(out.size() - 1).isEmpty())
 			out.remove(out.size() - 1);

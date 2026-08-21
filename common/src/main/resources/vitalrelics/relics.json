@@ -187,6 +187,7 @@
       "texture": "cursed_crimson_rune.png",
       "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "rarity": "epic",
+      "special_abilities": { "reality_severance": 6 },
       "properties": {
         "attack_damage": {
           "add": 9.0
@@ -210,7 +211,7 @@
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",
-      "special_abilities": { "retarget_arrow": 2, "reality_severance": 1, "lingering_wound": 30 },
+      "special_abilities": { "retarget_arrow": 2, "reality_severance": 32, "lingering_wound": 30 },
       "properties": {
         "attack_damage": {
           "add": 9.0,
