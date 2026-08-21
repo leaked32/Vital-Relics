@@ -153,7 +153,7 @@ public class Utils {
 		}
 	}
 
-	public static void retargetArrow(AbstractArrow arrow, LivingEntity newOwner) {
+	public static void retargetArrow(AbstractArrow arrow, LivingEntity newOwner, final int damage_mul) {
 
 		Entity owner = arrow.getOwner();
 
@@ -188,7 +188,7 @@ public class Utils {
 
 		arrow.setOwner(newOwner);
 		arrow.setBaseDamage(Math.max(arrow.getBaseDamage(),
-				newOwner.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0F));
+				newOwner.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage_mul));
 
 		// Allow the arrow to continue flying after bounce
 

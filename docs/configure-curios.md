@@ -174,7 +174,7 @@ The value represents the effect level.
 Defines special relic abilities.
 
 ```text
-"retarget_arrow": anti-skeleton
+"retarget_arrow": anti-skeleton, new arrow will have at least [attribution damage * level] as damage.
 "flight": grants flight ability
 "reality_severance": all hostile living entities in range [level] cannot be invulnerable,
 		receive constant damage [attribution damage * (level / 100)]

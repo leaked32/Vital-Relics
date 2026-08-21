@@ -195,7 +195,7 @@
       },
       "callbacks": {
         "damage_dealt": {
-          "minimum": 10,
+          "minimum": 2,
           "ratio_minimum": 0.01
         },
         "invulnerable_time_dealt": {

@@ -343,8 +343,9 @@ public final class VitalEvents {
 			if (entityResult.getEntity() instanceof LivingEntity victim) {
 
 				final var relics = gatherRelics(victim);
-				if (RelicLoader.hasSuchSpecialAbility(relics, "retarget_arrow") != 0) {
-					retargetArrow(arrow, victim);
+				final int sp_level = RelicLoader.hasSuchSpecialAbility(relics, "retarget_arrow");
+				if (sp_level > 0) {
+					retargetArrow(arrow, victim, sp_level);
 					event.setCanceled(true);
 				}
 			}

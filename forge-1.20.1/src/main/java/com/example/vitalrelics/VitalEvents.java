@@ -288,11 +288,11 @@ public final class VitalEvents {
 				!(hit.getEntity() instanceof LivingEntity victim))
 			return;
 
-		final int level =
+		final int sp_level =
 				RelicLoader.hasSuchSpecialAbility(gatherRelics(victim), "retarget_arrow");
 
-		if (level != 0) {
-			retargetArrow(arrow, victim);
+		if (sp_level > 0) {
+			retargetArrow(arrow, victim, sp_level);
 			event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
 		}
 	}
