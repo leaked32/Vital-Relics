@@ -13,7 +13,6 @@
       },
       "count": 1
     },
-
     "miners_charm": {
       "type": "shaped",
       "pattern": [
@@ -28,7 +27,6 @@
       },
       "count": 1
     },
-
     "travelers_eye": {
       "type": "shaped",
       "pattern": [
@@ -43,7 +41,6 @@
       },
       "count": 1
     },
-
     "stone_ring": {
       "type": "shaped",
       "pattern": [
@@ -56,7 +53,6 @@
       },
       "count": 1
     },
-
     "golden_apple_charm": {
       "type": "shaped",
       "pattern": [
@@ -70,7 +66,6 @@
       },
       "count": 1
     },
-
     "milk_pearl": {
       "type": "shapeless",
       "ingredients": [
@@ -79,70 +74,214 @@
         "minecraft:ghast_tear"
       ],
       "count": 1
+    },
+    "cherry_cross": {
+      "type": "shaped",
+      "pattern": [
+        "NSN",
+        "ECE",
+        " N "
+      ],
+      "key": {
+        "N": "minecraft:netherite_ingot",
+        "S": "minecraft:nether_star",
+        "E": "minecraft:enchanted_golden_apple",
+        "C": "minecraft:cherry_log"
+      },
+      "count": 1
     }
   },
-
   "loot": {
+    "iron_heart": [
+      {
+        "table": "minecraft:entities/iron_golem",
+        "chance": 0.03
+      },
+      {
+        "table": "minecraft:chests/village/village_armorer",
+        "chance": 0.08
+      },
+      {
+        "table": "minecraft:chests/simple_dungeon",
+        "chance": 0.06
+      }
+    ],
+    "miners_charm": [
+      {
+        "table": "minecraft:entities/zombie",
+        "chance": 0.01
+      },
+      {
+        "table": "minecraft:chests/abandoned_mineshaft",
+        "chance": 0.08
+      },
+      {
+        "table": "minecraft:chests/village/village_toolsmith",
+        "chance": 0.08
+      }
+    ],
+    "travelers_eye": [
+      {
+        "table": "minecraft:entities/enderman",
+        "chance": 0.01
+      },
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.06
+      },
+      {
+        "table": "minecraft:chests/stronghold_library",
+        "chance": 0.05
+      }
+    ],
+    "stone_ring": [
+      {
+        "table": "minecraft:entities/zombie",
+        "chance": 0.01
+      },
+      {
+        "table": "minecraft:chests/simple_dungeon",
+        "chance": 0.08
+      },
+      {
+        "table": "minecraft:chests/ruined_portal",
+        "chance": 0.08
+      }
+    ],
     "wolf_fang": [
       {
         "table": "minecraft:entities/wolf",
         "chance": 0.08
+      },
+      {
+        "table": "minecraft:chests/taiga_village",
+        "chance": 0.04
       }
     ],
-
+    "golden_apple_charm": [
+      {
+        "table": "minecraft:chests/buried_treasure",
+        "chance": 0.08
+      },
+      {
+        "table": "minecraft:chests/desert_pyramid",
+        "chance": 0.06
+      },
+      {
+        "table": "minecraft:chests/jungle_temple",
+        "chance": 0.06
+      }
+    ],
     "guardian_scale": [
-      {
-        "table": "minecraft:entities/guardian",
-        "chance": 0.04
-      },
-      {
-        "table": "minecraft:entities/elder_guardian",
-        "chance": 0.35
-      },
       {
         "table": "minecraft:chests/underwater_ruin_big",
         "chance": 0.08
+      },
+      {
+        "table": "minecraft:chests/shipwreck_treasure",
+        "chance": 0.05
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.02
       }
     ],
-
     "spider_eye_pendant": [
-      {
-        "table": "minecraft:entities/spider",
-        "chance": 0.025
-      },
-      {
-        "table": "minecraft:entities/cave_spider",
-        "chance": 0.06
-      },
       {
         "table": "minecraft:chests/abandoned_mineshaft",
         "chance": 0.05
+      },
+      {
+        "table": "minecraft:chests/simple_dungeon",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.03
       }
     ],
-
     "berserker_fang": [
-      {
-        "table": "minecraft:entities/ravager",
-        "chance": 0.18
-      },
       {
         "table": "minecraft:chests/pillager_outpost",
         "chance": 0.06
+      },
+      {
+        "table": "minecraft:chests/bastion_treasure",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.02
       }
     ],
-
     "withered_heart": [
-      {
-        "table": "minecraft:entities/wither_skeleton",
-        "chance": 0.0125
-      },
       {
         "table": "minecraft:chests/nether_bridge",
         "chance": 0.1
       },
       {
+        "table": "minecraft:chests/bastion_treasure",
+        "chance": 0.03
+      },
+      {
         "table": "minecraft:chests/ancient_city",
-        "chance": 0.1
+        "chance": 0.03
+      }
+    ],
+    "milk_pearl": [
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.03
+      }
+    ],
+    "totemic_heart": [
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.03
+      },
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.03
+      },
+      {
+        "table": "minecraft:chests/bastion_treasure",
+        "chance": 0.03
+      }
+    ],
+    "celestial_wings": [
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.02
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.02
+      },
+      {
+        "table": "minecraft:chests/stronghold_library",
+        "chance": 0.02
+      }
+    ],
+    "cursed_crimson_rune": [
+      {
+        "table": "minecraft:chests/bastion_treasure",
+        "chance": 0.025
+      },
+      {
+        "table": "minecraft:chests/nether_bridge",
+        "chance": 0.025
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.015
       }
     ]
   }
