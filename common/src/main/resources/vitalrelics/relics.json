@@ -183,7 +183,7 @@
       }
     },
     {
-      "id": "cursed_torturing",
+      "id": "cursed_crimson_rune",
       "texture": "cursed_crimson_rune.png",
       "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "rarity": "epic",
