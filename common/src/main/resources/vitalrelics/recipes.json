@@ -89,6 +89,117 @@
         "C": "minecraft:cherry_log"
       },
       "count": 1
+    },
+    "wolf_fang": {
+      "type": "shaped",
+      "pattern": [
+        " B ",
+        "BFB",
+        " S "
+      ],
+      "key": {
+        "B": "minecraft:bone",
+        "F": "minecraft:fermented_spider_eye",
+        "S": "minecraft:string"
+      },
+      "count": 1
+    },
+    "guardian_scale": {
+      "type": "shaped",
+      "pattern": [
+        " P ",
+        "PSP",
+        " I "
+      ],
+      "key": {
+        "P": "minecraft:prismarine_shard",
+        "S": "minecraft:turtle_scute",
+        "I": "minecraft:iron_ingot"
+      },
+      "count": 1
+    },
+    "spider_eye_pendant": {
+      "type": "shaped",
+      "pattern": [
+        " S ",
+        "SES",
+        " I "
+      ],
+      "key": {
+        "S": "minecraft:string",
+        "E": "minecraft:spider_eye",
+        "I": "minecraft:iron_nugget"
+      },
+      "count": 1
+    },
+    "berserker_fang": {
+      "type": "shaped",
+      "pattern": [
+        " B ",
+        "BFB",
+        " R "
+      ],
+      "key": {
+        "B": "minecraft:blaze_powder",
+        "F": "minecraft:ghast_tear",
+        "R": "minecraft:rabbit_foot"
+      },
+      "count": 1
+    },
+    "withered_heart": {
+      "type": "shaped",
+      "pattern": [
+        " W ",
+        "WHW",
+        " S "
+      ],
+      "key": {
+        "W": "minecraft:wither_rose",
+        "H": "minecraft:heart_of_the_sea",
+        "S": "minecraft:wither_skeleton_skull"
+      },
+      "count": 1
+    },
+    "totemic_heart": {
+      "type": "shaped",
+      "pattern": [
+        " E ",
+        "ETE",
+        " N "
+      ],
+      "key": {
+        "E": "minecraft:emerald_block",
+        "T": "minecraft:totem_of_undying",
+        "N": "minecraft:nether_star"
+      },
+      "count": 1
+    },
+    "celestial_wings": {
+      "type": "shaped",
+      "pattern": [
+        "P P",
+        "PEP",
+        "P P"
+      ],
+      "key": {
+        "P": "minecraft:phantom_membrane",
+        "E": "minecraft:elytra"
+      },
+      "count": 1
+    },
+    "cursed_crimson_rune": {
+      "type": "shaped",
+      "pattern": [
+        " C ",
+        "CSC",
+        " N "
+      ],
+      "key": {
+        "C": "minecraft:crimson_fungus",
+        "S": "minecraft:netherite_sword",
+        "N": "minecraft:nether_star"
+      },
+      "count": 1
     }
   },
   "loot": {
@@ -268,6 +379,20 @@
       {
         "table": "minecraft:chests/stronghold_library",
         "chance": 0.02
+      }
+    ],
+    "cherry_cross": [
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.01
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.01
+      },
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.01
       }
     ],
     "cursed_crimson_rune": [

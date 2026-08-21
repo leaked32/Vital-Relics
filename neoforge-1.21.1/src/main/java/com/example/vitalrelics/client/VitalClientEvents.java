@@ -4,7 +4,6 @@ import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Relic;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
@@ -15,7 +14,6 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 
 @EventBusSubscriber(
 		modid = VitalRelics.MODID,
-		bus = EventBusSubscriber.Bus.MOD,
 		value = Dist.CLIENT
 )
 public final class VitalClientEvents {

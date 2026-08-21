@@ -25,6 +25,9 @@ repositories {
     maven {
         url = "https://api.modrinth.com/maven"
     }
+    maven {
+        url = "https://maven.blamejared.com"
+    }
 }
 
 base {
@@ -122,6 +125,9 @@ dependencies {
     compileOnly "curse.maven:touhou-little-maid-${tlm_file_id}"
     runtimeOnly "curse.maven:touhou-little-maid-${tlm_file_id}"
 
+    compileOnly "mezz.jei:jei-1.21.1-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-1.21.1-neoforge-api:${jei_version}"
+    runtimeOnly "mezz.jei:jei-1.21.1-neoforge:${jei_version}"
     // Example mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"

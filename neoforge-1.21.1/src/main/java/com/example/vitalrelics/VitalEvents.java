@@ -104,7 +104,7 @@ public final class VitalEvents {
 
 			if (entity instanceof ServerPlayer player) {
 				int flight_level = RelicLoader.hasSuchSpecialAbility(
-						relics, "celestial_ascent"
+						relics, "flight"
 				);
 				if (flight_level > 0) {
 					if (!player.getAbilities().mayfly) {
