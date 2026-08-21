@@ -138,7 +138,11 @@
       },
       {
         "table": "minecraft:chests/nether_bridge",
-        "chance": 0.04
+        "chance": 0.1
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.1
       }
     ]
   }

@@ -3,6 +3,7 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
@@ -65,8 +67,9 @@ public final class VitalEvents {
 	public static void onLivingTick(final LivingEvent.LivingTickEvent event) {
 		final LivingEntity entity = event.getEntity();
 
-		if (entity.level().isClientSide())
+		if (entity.level().isClientSide()) {
 			return;
+		}
 
 		final List<Relic> relics = gatherRelics(entity);
 		final int tick = entity.getServer().getTickCount();
@@ -74,6 +77,25 @@ public final class VitalEvents {
 		if (tick % 10 == 0) {
 			removeImmuneEffects(entity, relics);
 			applyRelicEffects(entity, relics);
+
+			if (entity instanceof ServerPlayer player) {
+				int flight_level = RelicLoader.hasSuchSpecialAbility(
+						relics, "flight"
+				);
+				if (flight_level > 0) {
+					if (!player.getAbilities().mayfly) {
+						player.getAbilities().mayfly = true;
+						player.onUpdateAbilities();
+					}
+				} else {
+					GameType gameType = player.gameMode.getGameModeForPlayer();
+					if (gameType != GameType.CREATIVE) {
+						player.getAbilities().mayfly = false;
+						player.getAbilities().flying = false;
+						player.onUpdateAbilities();
+					}
+				}
+			}
 		}
 
 		final Relic.Ticks ticks = RelicLoader.computeTicks(relics, tick);

@@ -2,6 +2,7 @@
   "relics": [
     {
       "id": "iron_heart",
+      "display_name": "Metal Heart",
       "tooltip": "A small heart forged from stubborn iron.",
       "texture": "iron_heart.png",
       "rarity": "common",
@@ -141,6 +142,12 @@
       }
     },
     {
+      "id": "celestial_wings",
+      "texture": "celestial_wings.png",
+      "rarity": "epic",
+      "special_abilities": { "flight": 1 }
+    },
+    {
       "id": "cherry_cross",
       "tooltip": "The pure power of cherry trees. ",
       "texture": "cherry_cross.png",
@@ -167,6 +174,12 @@
           "interval_ticks": 160,
           "add": 1
         }
+      },
+      "callbacks": {
+        "damage_taken": {
+          "modifier": 0.9,
+          "ratio_maximum": 0.45
+        }
       }
     },
     {
@@ -191,13 +204,13 @@
     },
     {
       "id": "reality_piercing",
-      "tooltip": "An overpowered Relic. ",
+      "tooltip": "An creativity-mode overpowered Relic. ",
       "texture": "halo_celestial_crystal.png",
       "effective_slots": ["in_inventory", "in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",
-      "special_abilities": { "retarget_arrow": 2 },
+      "special_abilities": { "retarget_arrow": 2, "reality_severance": 1, "lingering_wound": 30 },
       "properties": {
         "attack_damage": {
           "add": 9.0,

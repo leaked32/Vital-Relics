@@ -2,6 +2,8 @@
 
 A highly configurable relic mod for Minecraft.
 
+Vital Relics is actively maintained and developed.
+
 Vital Relics adds equippable relics ranging from small utility charms to
 extremely powerful end-game artifacts.
 

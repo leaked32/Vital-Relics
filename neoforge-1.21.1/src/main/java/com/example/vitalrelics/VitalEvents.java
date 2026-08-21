@@ -4,6 +4,7 @@ import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -99,6 +101,26 @@ public final class VitalEvents {
 		if (tick % 10 == 0) {
 			removeImmuneEffects(entity, relics);
 			applyRelicEffects(entity, relics);
+
+			if (entity instanceof ServerPlayer player) {
+				int flight_level = RelicLoader.hasSuchSpecialAbility(
+						relics, "celestial_ascent"
+				);
+				if (flight_level > 0) {
+					if (!player.getAbilities().mayfly) {
+						player.getAbilities().mayfly = true;
+						player.onUpdateAbilities();
+					}
+				} else {
+					GameType gameType = player.gameMode.getGameModeForPlayer();
+					if (gameType != GameType.CREATIVE) {
+						player.getAbilities().mayfly = false;
+						player.getAbilities().flying = false;
+						player.onUpdateAbilities();
+					}
+				}
+			}
+
 		}
 
 		final var ticks = RelicLoader.computeTicks(relics, tick);
