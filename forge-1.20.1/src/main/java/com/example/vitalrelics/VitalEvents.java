@@ -130,9 +130,9 @@ public final class VitalEvents {
 					relics, "reality_severance"
 			);
 			if (reality_severance_level > 0) {
-				final float ratioDamage = ((float)reality_severance_level) / 100.0f;
+				final float ratioDamage = reality_severance_level / 100.0f;
 				final float rangeDamage = ratioDamage * (float)livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-				MyDamageInfo.directRangedAttack(livingEntity, rangeDamage, reality_severance_level, 1);
+				MyDamageInfo.directRangedAttack(livingEntity, rangeDamage, reality_severance_level, 1, Math.round(reality_severance_level / 4.0f));
 			}
 		}
 

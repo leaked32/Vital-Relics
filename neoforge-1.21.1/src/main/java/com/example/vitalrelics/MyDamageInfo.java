@@ -42,7 +42,7 @@ public class MyDamageInfo
 		for (int i = 0; i < count; i += 1) {
 			damages.add(
 					new MyDamageInfo(
-							attacker, null, amount, MyDamageType.normal,
+							attacker, null, amount, MyDamageType.real_damage,
 							0.02f, range,  MyRangeFilter.hostileTargeted, 20, neg_leve
 					)
 			);
@@ -62,7 +62,7 @@ public class MyDamageInfo
 		for (int i = 0; i < count; ++i) {
 			damages.add(
 					new MyDamageInfo(
-							attacker, victim, amount, MyDamageType.normal,
+							attacker, victim, amount, MyDamageType.real_damage,
 							0.02f, 0.f, MyRangeFilter.none, 20, 5
 					)
 			);
