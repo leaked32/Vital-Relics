@@ -2,6 +2,10 @@
 
 Vital Relics supports adding relic items to Minecraft loot tables.
 
+
+WARNING: `customized` MUST BE SET TO `true`, if the `json` is correctly loaded,
+while it's `false`, it'll be OVERWRITTEN.
+
 ## Loot Rules
 
 A loot rule defines where a relic can be obtained through loot

@@ -3,7 +3,6 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.common.scheduled.Scheduler;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

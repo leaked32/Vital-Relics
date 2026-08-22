@@ -15,8 +15,18 @@ A relic can define:
 -   damage rules
 -   special abilities
 
-WARNING: `customized` MUST BE SET TO `true`, if the `json` is correctly loaded,
-while it's `false`, it'll be OVERWRITTEN.
+**WARNING**: `customized` MUST BE SET TO `true`, if the `json` is correctly loaded,
+while it's `false`, it'll be **OVERWRITTEN**.
+
+The configuration file is located under `config/vitalrelics`.
+For example:
+- Isolated case: `minecraft/.minecraft/versions/Closing Song 1.6.5/config/vitalrelics/relics.json`
+- Default case: `minecraft/.minecraft/config/vitalrelics/relics.json`
+
+The configuration files should be automatically generated after you launch the game with
+this mod installed. So, you don't need to copy them on your own.
+
+
 
 ## Basic Information
 
@@ -41,7 +51,7 @@ Optional custom display name.
 
 ``` json
 {
-  "display_name": "Iron Heart"
+  "display_name": "Super Iron Heart"
 }
 ```
 

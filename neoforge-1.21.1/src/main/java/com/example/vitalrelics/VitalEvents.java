@@ -8,8 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -28,15 +26,11 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
 import static com.example.vitalrelics.Utils.*;
 import static com.example.vitalrelics.VitalRelics.MODID;
-import static com.example.vitalrelics.VitalRelics.LOGGER;
-import static com.example.vitalrelics.VitalRelics.loader;
 
 public final class VitalEvents {
 	private static final ResourceLocation ATTACK_DAMAGE_ADD_ID =
@@ -125,8 +119,13 @@ public final class VitalEvents {
 		if (!(event.getEntity() instanceof LivingEntity livingEntity) || livingEntity.level().isClientSide())
 			return;
 
+		final MinecraftServer server = livingEntity.getServer();
+		if (server == null) {
+			return;
+		}
+
 		final var relics = gatherRelics(livingEntity);
-		final int tick = livingEntity.getServer().getTickCount();
+		final int tick = server.getTickCount();
 
 		if (tick % 10 == 0) {
 			removeImmuneEffects(livingEntity, relics);
