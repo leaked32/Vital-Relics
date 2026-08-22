@@ -21,7 +21,8 @@
       "rarity": "common",
       "add_effects": {
         "night_vision": 1
-      }
+      },
+      "immune_to_effects": ["darkness", "blindness"]
     },
     {
       "id": "regeneration_ring",
@@ -82,12 +83,25 @@
       "id": "vitality_ring",
       "display_name": "Ring of Vitality",
       "tooltip": "A ring filled with enduring life force.",
-      "texture": "ring_gray.png",
+      "texture": "ring_red_saturated.png",
       "curio_slot": "ring",
       "rarity": "common",
       "properties": {
         "max_health": {
           "add": 4.0
+        }
+      }
+    },
+
+    {
+      "id": "stone_ring",
+      "tooltip": "Heavy, plain, and surprisingly difficult to move.",
+      "texture": "ring_gray.png",
+      "curio_slot": "ring",
+      "rarity": "common",
+      "properties": {
+        "knockback_resistance": {
+          "add": 1
         }
       }
     },
@@ -123,17 +137,6 @@
       "properties": {
         "entity_interaction_range": {
           "add": 1.0
-        }
-      }
-    },
-    {
-      "id": "stone_ring",
-      "tooltip": "Heavy, plain, and surprisingly difficult to move.",
-      "texture": "stone_ring.png",
-      "rarity": "common",
-      "properties": {
-        "knockback_resistance": {
-          "add": 0.15
         }
       }
     },
@@ -212,7 +215,7 @@
       "add_effects": { "wither": 2 },
       "properties": {
         "attack_damage": {
-          "add": 9.0
+          "add": 6.0
         }
       }
     },
@@ -251,16 +254,12 @@
       "properties": {
         "max_health": {
           "add": 20.0
-        },
-        "knockback_resistance": {
-          "add": 1.0
         }
       },
       "ticks": {
         "heal": {
           "interval_ticks": 20,
-          "add": 1,
-          "ratio_add": 0.01
+          "add": 1
         },
         "feed": {
           "interval_ticks": 160,
@@ -286,10 +285,6 @@
         }
       },
       "callbacks": {
-        "damage_dealt": {
-          "minimum": 2,
-          "ratio_minimum": 0.01
-        },
         "invulnerable_time_dealt": {
           "modifier": 0.5
         }
