@@ -2,6 +2,97 @@
   "customized": false,
   "relics": [
     {
+      "id": "swiftness_ring",
+      "display_name": "Ring of Swiftness",
+      "tooltip": "A ring that lightens every step.",
+      "texture": "ring_aqua.png",
+      "curio_slot": "ring",
+      "rarity": "common",
+      "add_effects": {
+        "speed": 1
+      }
+    },
+    {
+      "id": "night_sight_ring",
+      "display_name": "Ring of Night Sight",
+      "tooltip": "Darkness can no longer hide the path ahead.",
+      "texture": "ring_purple.png",
+      "curio_slot": "ring",
+      "rarity": "common",
+      "add_effects": {
+        "night_vision": 1
+      }
+    },
+    {
+      "id": "regeneration_ring",
+      "display_name": "Ring of Regeneration",
+      "tooltip": "A warm pulse of vitality runs through the wearer.",
+      "texture": "ring_pink.png",
+      "curio_slot": "ring",
+      "rarity": "common",
+      "add_effects": {
+        "regeneration": 1
+      }
+    },
+    {
+      "id": "power_ring",
+      "display_name": "Ring of Power",
+      "tooltip": "A compact source of devastating strength.",
+      "texture": "ring_red.png",
+      "curio_slot": "ring",
+      "rarity": "common",
+      "add_effects": {
+        "strength": 1
+      }
+    },
+    {
+      "id": "luck_ring",
+      "display_name": "Ring of Luck",
+      "tooltip": "Fortune seems to favor its wearer.",
+      "texture": "ring_green.png",
+      "curio_slot": "ring",
+      "rarity": "common",
+      "add_effects": {
+        "luck": 3
+      }
+    },
+    {
+      "id": "fire_resistance_ring",
+      "display_name": "Ring of Fire Resistance",
+      "tooltip": "Flames can no longer harm the wearer.",
+      "texture": "ring_blue.png",
+      "curio_slot": "ring",
+      "rarity": "common",
+      "add_effects": {
+        "fire_resistance": 1
+      }
+    },
+    {
+      "id": "jumping_ring",
+      "display_name": "Ring of Jumping",
+      "tooltip": "A ring that gives the wearer a lighter step.",
+      "texture": "ring_yellow.png",
+      "curio_slot": "ring",
+      "rarity": "common",
+      "add_effects": {
+        "jump_boost": 2
+      }
+    },
+    {
+      "id": "vitality_ring",
+      "display_name": "Ring of Vitality",
+      "tooltip": "A ring filled with enduring life force.",
+      "texture": "ring_gray.png",
+      "curio_slot": "ring",
+      "rarity": "common",
+      "properties": {
+        "max_health": {
+          "add": 4.0
+        }
+      }
+    },
+
+    {
       "id": "iron_heart",
       "display_name": "Metal Heart",
       "tooltip": "A small heart forged from stubborn iron.",

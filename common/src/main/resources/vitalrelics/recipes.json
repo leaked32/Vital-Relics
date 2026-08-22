@@ -1,6 +1,114 @@
 {
   "customized": false,
   "recipes": {
+    "swiftness_ring": {
+      "type": "shaped",
+      "pattern": [
+        " G ",
+        "GFG",
+        " G "
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "F": "minecraft:rabbit_foot"
+      },
+      "count": 1
+    },
+    "night_sight_ring": {
+      "type": "shaped",
+      "pattern": [
+        " G ",
+        "GEG",
+        " G "
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "E": "minecraft:spider_eye"
+      },
+      "count": 1
+    },
+    "regeneration_ring": {
+      "type": "shaped",
+      "pattern": [
+        " G ",
+        "GQG",
+        " G "
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "Q": "minecraft:ghast_tear"
+      },
+      "count": 1
+    },
+    "power_ring": {
+      "type": "shaped",
+      "pattern": [
+        " G ",
+        "GNG",
+        " G "
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "N": "minecraft:blaze_powder"
+      },
+      "count": 1
+    },
+    "luck_ring": {
+      "type": "shaped",
+      "pattern": [
+        " G ",
+        "GEM",
+        " G "
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "E": "minecraft:emerald",
+        "M": "minecraft:rabbit_foot"
+      },
+      "count": 1
+    },
+    "fire_resistance_ring": {
+      "type": "shaped",
+      "pattern": [
+        " G ",
+        "GCS",
+        " G "
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "C": "minecraft:fire_charge",
+        "S": "minecraft:snowball"
+      },
+      "count": 1
+    },
+    "jumping_ring": {
+      "type": "shaped",
+      "pattern": [
+        " G ",
+        "GFG",
+        " G "
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "F": "minecraft:rabbit_foot"
+      },
+      "count": 1
+    },
+    "vitality_ring": {
+      "type": "shaped",
+      "pattern": [
+        " G ",
+        "GAG",
+        " G "
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "A": "minecraft:glistering_melon_slice"
+      },
+      "count": 1
+    },
+
+
     "iron_heart": {
       "type": "shaped",
       "pattern": [
@@ -151,12 +259,12 @@
       "type": "shaped",
       "pattern": [
         " W ",
-        "WHW",
+        "WNW",
         " S "
       ],
       "key": {
         "W": "minecraft:wither_rose",
-        "H": "minecraft:heart_of_the_sea",
+        "N": "minecraft:nether_star",
         "S": "minecraft:wither_skeleton_skull"
       },
       "count": 1
@@ -204,6 +312,91 @@
     }
   },
   "loot": {
+    "swiftness_ring": [
+      {
+        "table": "minecraft:chests/village/village_temple",
+        "chance": 0.06
+      },
+      {
+        "table": "minecraft:chests/jungle_temple",
+        "chance": 0.04
+      }
+    ],
+    "night_sight_ring": [
+      {
+        "table": "minecraft:chests/stronghold_library",
+        "chance": 0.06
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.03
+      }
+    ],
+    "regeneration_ring": [
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/bastion_treasure",
+        "chance": 0.03
+      }
+    ],
+    "power_ring": [
+      {
+        "table": "minecraft:chests/bastion_treasure",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.03
+      }
+    ],
+    "luck_ring": [
+      {
+        "table": "minecraft:chests/village/village_temple",
+        "chance": 0.05
+      },
+      {
+        "table": "minecraft:chests/buried_treasure",
+        "chance": 0.04
+      }
+    ],
+    "extinguishing_ring": [
+      {
+        "table": "minecraft:chests/nether_bridge",
+        "chance": 0.05
+      },
+      {
+        "table": "minecraft:chests/bastion_treasure",
+        "chance": 0.04
+      }
+    ],
+    "jumping_ring": [
+      {
+        "table": "minecraft:chests/village/village_temple",
+        "chance": 0.06
+      },
+      {
+        "table": "minecraft:chests/jungle_temple",
+        "chance": 0.04
+      }
+    ],
+    "vitality_ring": [
+      {
+        "table": "minecraft:chests/buried_treasure",
+        "chance": 0.05
+      },
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.02
+      }
+    ],
+
     "iron_heart": [
       {
         "table": "minecraft:entities/iron_golem",
