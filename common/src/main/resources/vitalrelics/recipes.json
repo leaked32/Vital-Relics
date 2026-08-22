@@ -108,6 +108,31 @@
       "count": 1
     },
 
+    "stone_ring": {
+      "type": "shaped",
+      "pattern": [
+        " S ",
+        "S S",
+        " S "
+      ],
+      "key": {
+        "S": "minecraft:stone"
+      },
+      "count": 1
+    },
+    "metal_mending_ring": {
+      "type": "shaped",
+      "pattern": [
+        " I ",
+        "IAI",
+        " I "
+      ],
+      "key": {
+        "I": "minecraft:iron_ingot",
+        "A": "minecraft:anvil"
+      },
+      "count": 1
+    },
 
     "iron_heart": {
       "type": "shaped",
@@ -147,18 +172,6 @@
         "S": "minecraft:string",
         "E": "minecraft:ender_pearl",
         "G": "minecraft:glass_pane"
-      },
-      "count": 1
-    },
-    "stone_ring": {
-      "type": "shaped",
-      "pattern": [
-        " S ",
-        "S S",
-        " S "
-      ],
-      "key": {
-        "S": "minecraft:stone"
       },
       "count": 1
     },
@@ -397,6 +410,36 @@
       }
     ],
 
+
+    "stone_ring": [
+      {
+        "table": "minecraft:entities/zombie",
+        "chance": 0.01
+      },
+      {
+        "table": "minecraft:chests/simple_dungeon",
+        "chance": 0.08
+      },
+      {
+        "table": "minecraft:chests/ruined_portal",
+        "chance": 0.08
+      }
+    ],
+    "metal_mending_ring": [
+      {
+        "table": "minecraft:chests/abandoned_mineshaft",
+        "chance": 0.05
+      },
+      {
+        "table": "minecraft:chests/village/village_toolsmith",
+        "chance": 0.06
+      },
+      {
+        "table": "minecraft:chests/simple_dungeon",
+        "chance": 0.04
+      }
+    ],
+
     "iron_heart": [
       {
         "table": "minecraft:entities/iron_golem",
@@ -437,20 +480,6 @@
       {
         "table": "minecraft:chests/stronghold_library",
         "chance": 0.05
-      }
-    ],
-    "stone_ring": [
-      {
-        "table": "minecraft:entities/zombie",
-        "chance": 0.01
-      },
-      {
-        "table": "minecraft:chests/simple_dungeon",
-        "chance": 0.08
-      },
-      {
-        "table": "minecraft:chests/ruined_portal",
-        "chance": 0.08
       }
     ],
     "wolf_fang": [

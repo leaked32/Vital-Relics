@@ -192,6 +192,7 @@ Defines special relic abilities.
 "reality_severance": all hostile living entities in range [level] cannot be invulnerable,
 		receive constant damage [attribution damage * (level / 100)]
  		and receive constant negative effects with level [level / 4].
+"metal_mending": Repairs damaged equipment by [level] once every 4 seconds.
 ```
 
 ``` json

@@ -126,13 +126,23 @@ public final class VitalEvents {
 		}
 
 		if (tick % 20 == 0) {
-			int reality_severance_level = RelicLoader.hasSuchSpecialAbility(
+			final int reality_severance_level = RelicLoader.hasSuchSpecialAbility(
 					relics, "reality_severance"
 			);
 			if (reality_severance_level > 0) {
 				final float ratioDamage = reality_severance_level / 100.0f;
-				final float rangeDamage = ratioDamage * (float)livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
+				final float rangeDamage = ratioDamage * (float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
 				MyDamageInfo.directRangedAttack(livingEntity, rangeDamage, reality_severance_level, 1, Math.round(reality_severance_level / 4.0f));
+			}
+		}
+
+		if (tick % 80 == 0) {
+			final int metalMendingLevel = RelicLoader.hasSuchSpecialAbility(
+					relics, "metal_mending"
+			);
+
+			if (metalMendingLevel > 0) {
+				Utils.metalMending(livingEntity, metalMendingLevel);
 			}
 		}
 

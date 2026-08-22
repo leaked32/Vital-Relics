@@ -180,8 +180,47 @@ public class Utils {
 
 
 	/*
-	Counter Strick
+	Special Abilities
 	 */
+
+	public static void metalMending(final LivingEntity entity, final int level) {
+
+		if (level <= 0)
+			return;
+
+		int remaining = level;
+
+		for (final ItemStack stack : entity.getAllSlots()) {
+			if (remaining <= 0)
+				break;
+
+			if (!stack.isDamageableItem() || !stack.isDamaged())
+				continue;
+
+			final int repairAmount = Math.min(remaining, stack.getDamageValue());
+			stack.setDamageValue(stack.getDamageValue() - repairAmount);
+			remaining -= repairAmount;
+		}
+
+		if (entity instanceof Player player) {
+			for (final ItemStack stack : player.getInventory().items) {
+				if (remaining <= 0)
+					break;
+
+				if (!stack.isDamageableItem() || !stack.isDamaged())
+					continue;
+
+				final int repairAmount =
+						Math.min(remaining, stack.getDamageValue());
+
+				stack.setDamageValue(
+						stack.getDamageValue() - repairAmount
+				);
+
+				remaining -= repairAmount;
+			}
+		}
+	}
 
 	public static void retargetArrow(AbstractArrow arrow, LivingEntity newOwner, final int damage_mul) {
 

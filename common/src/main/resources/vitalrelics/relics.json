@@ -98,12 +98,21 @@
       "tooltip": "Heavy, plain, and surprisingly difficult to move.",
       "texture": "ring_gray.png",
       "curio_slot": "ring",
-      "rarity": "common",
+      "rarity": "uncommon",
       "properties": {
         "knockback_resistance": {
           "add": 1
         }
       }
+    },
+    {
+      "id": "metal_mending_ring",
+      "display_name": "Ring of Metal Mending",
+      "tooltip": "Slowly repairs the equipment worn by its bearer.",
+      "texture": "ring_aqua_saturated.png",
+      "curio_slot": "ring",
+      "rarity": "rare",
+      "special_abilities": { "metal_mending": 2 }
     },
 
     {
