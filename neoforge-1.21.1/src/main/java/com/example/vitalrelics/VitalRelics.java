@@ -61,6 +61,7 @@ public class VitalRelics
 	public VitalRelics(IEventBus modEventBus, ModContainer modContainer)
 	{
 		modEventBus.addListener(this::commonSetup);
+		modEventBus.addListener(SpellNetwork::register);
 
 		BLOCKS.register(modEventBus);
 		ITEMS.register(modEventBus);

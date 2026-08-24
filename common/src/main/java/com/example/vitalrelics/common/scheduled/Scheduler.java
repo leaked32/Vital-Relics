@@ -69,7 +69,7 @@ public class Scheduler {
 	public final MyMap<MyList<DelayTask>> DELAYED_TASK_LIST = new MyMap<>();
 	public final MyMap<Float> HEAL_PREVENTION_LIST = new MyMap<>();
 	public final MyMap<Integer> PROTECTED_PLAYER_LIST = new MyMap<>();
-	// public final MyMap<Integer> SPELL_COOLDOWN_LIST = new MyMap<>();
+	public final MyMap<Map<String, Integer>> SPELL_COOLDOWN_LIST = new MyMap<>(0);
 
 	private static final int DELAYED_TASK_LIST_MAX = 12;
 
@@ -112,6 +112,28 @@ public class Scheduler {
 			HEAL_PREVENTION_LIST.cleanUp(currentTickCount, isEntityValid);
 			PROTECTED_PLAYER_LIST.cleanUp(currentTickCount, isEntityValid);
 		}
+	}
+
+	public boolean isSpellCoolingDown(
+			final UUID uuid,
+			final String spellId,
+			final int currentTickCount) {
+
+		final Map<String, Integer> cooldowns = SPELL_COOLDOWN_LIST.get(uuid);
+		return cooldowns != null &&
+				cooldowns.getOrDefault(spellId, 0) > currentTickCount;
+	}
+
+	public void setSpellCooldown(
+			final UUID uuid,
+			final String spellId,
+			final int currentTickCount,
+			final int durationTicks) {
+
+		final Map<String, Integer> cooldowns =
+				new HashMap<>(SPELL_COOLDOWN_LIST.getOrDefault(uuid, Map.of()));
+		cooldowns.put(spellId, currentTickCount + durationTicks);
+		SPELL_COOLDOWN_LIST.put(uuid, currentTickCount, cooldowns);
 	}
 
 	public void addDelayedTask(UUID uuid, DelayTask task, int current_tick_count) {
