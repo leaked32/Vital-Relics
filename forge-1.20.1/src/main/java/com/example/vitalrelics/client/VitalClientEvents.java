@@ -2,6 +2,7 @@ package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Relic;
+import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.network.SpellSystem;
 import com.example.vitalrelics.network.Network;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -66,6 +67,10 @@ public final class VitalClientEvents {
 			Minecraft.getInstance().options.keyDrop.consumeClick();
 			Network.sendToServer(SpellSystem.CAST_SPELL);
 		}
+
+		RelicTranslations.INSTANCE.setSelectedLocale(
+				Minecraft.getInstance().getLanguageManager().getSelected()
+		);
 	}
 
 	public static void mouseScroll(final InputEvent.MouseScrollingEvent event) {
