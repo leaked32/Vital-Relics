@@ -3,5 +3,6 @@
   "block.vitalrelics.example_block": "Example Block",
   "item.vitalrelics.example_item": "Example Item",
   "key.vitalrelics.switch_spell": "Switch Spell",
-  "key.vitalrelics.cast_spell": "Cast Spell"
+  "key.vitalrelics.cast_spell": "Cast Spell",
+  "key.categories.vitalrelics": "Vital Relics"
 }
