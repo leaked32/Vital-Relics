@@ -31,11 +31,11 @@ public final class RelicSpells {
 		if (priority instanceof Number value)
 			return value.doubleValue();
 
-		return number(spell, "intensity", 0.0) *
-				number(spell, "recovery", 1.0);
+		return numberParameter(spell, "intensity", 0.0) *
+				numberParameter(spell, "recovery", 1.0);
 	}
 
-	private static double number(
+	public static double numberParameter(
 			final Relic.Spells.Info spell,
 			final String key,
 			final double fallback) {
@@ -45,6 +45,15 @@ public final class RelicSpells {
 		return value instanceof Number number
 				? number.doubleValue()
 				: fallback;
+	}
+
+	public static int cooldownTicks(final Relic.Spells.Info spell) {
+		final double recovery = numberParameter(spell, "recovery", 0.0);
+
+		if (recovery <= 0.0)
+			return Integer.MAX_VALUE;
+
+		return Math.max(1, Math.round(20.0F / (float) recovery));
 	}
 
 	public static Map<String, Relic.Spells.Info> gatherSpells(
