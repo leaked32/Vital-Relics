@@ -1,11 +1,14 @@
 package com.example.vitalrelics.network;
 
+import com.example.vitalrelics.MyDamageInfo;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicSpells;
 import com.example.vitalrelics.common.scheduled.Scheduler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ClipContext;
@@ -13,13 +16,14 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.vitalrelics.Utils.gatherRelics;
+import static com.example.vitalrelics.Utils.*;
 
 public final class SpellSystem {
 	@FunctionalInterface
@@ -133,31 +137,13 @@ public final class SpellSystem {
 		}
 	}
 
-	private static void teleport(
-			final LivingEntity entity,
-			final ServerLevel level,
-			final Vec3 destination) {
-
-		if (entity instanceof ServerPlayer player) {
-			player.teleportTo(
-					level,
-					destination.x, destination.y, destination.z,
-					player.getYRot(), player.getXRot()
-			);
-		} else {
-			entity.teleportTo(
-					destination.x, destination.y, destination.z
-			);
-		}
-	}
-
 	static {
 		register("teleport", (caster, spell) -> {
 			final double distance = Math.min(
 					256.0,
 					Math.max(
 							0.0,
-							RelicSpells.numberParameter(spell, "intensity", 0.0)
+							RelicSpells.numberParameter(spell, "range", 0.0)
 					)
 			);
 
@@ -219,6 +205,48 @@ public final class SpellSystem {
 				return false;
 
 			teleport(caster, level, destination);
+			return true;
+		});
+
+		register("curse", (caster, spell) -> {
+			final float intensity = (float) RelicSpells.numberParameter(
+					spell, "intensity", 0.0
+			);
+
+			final double range = Math.min(
+					256.0,
+					Math.max(
+							0.0,
+							RelicSpells.numberParameter(spell, "range", 0.0)
+					)
+			);
+
+			if (intensity <= 0.0F || range <= 0.0)
+				return false;
+
+			if (!(caster.level() instanceof ServerLevel level))
+				return false;
+
+			final LivingEntity target = pointedLivingEntity(caster, level, range);
+
+			if (target == null || isAllied(caster, target))
+				return false;
+
+			final float damage = intensity / 100.0F *
+					(float) caster.getAttributeValue(Attributes.ATTACK_DAMAGE);
+
+			if (damage <= 0.0F)
+				return false;
+
+			MyDamageInfo.directAttack(caster, target, damage, 1);
+
+
+			level.playSound(
+					null,
+					caster.getX(), caster.getY(), caster.getZ(),
+					SoundEvents.ILLUSIONER_CAST_SPELL, SoundSource.PLAYERS,
+					0.8F, 1.15F
+			);
 			return true;
 		});
 	}

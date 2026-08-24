@@ -6,6 +6,10 @@ import com.example.vitalrelics.common.RelicLoader;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -16,6 +20,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -307,6 +315,84 @@ public class Utils {
 		}
 
 		return false;
+	}
+
+	public static void teleport(
+			final LivingEntity entity,
+			final ServerLevel level,
+			final Vec3 destination) {
+
+		if (entity instanceof ServerPlayer player) {
+			player.teleportTo(
+					level,
+					destination.x, destination.y, destination.z,
+					player.getYRot(), player.getXRot()
+			);
+		} else {
+			entity.teleportTo(
+					destination.x, destination.y, destination.z
+			);
+		}
+
+
+		level.playSound(
+				null,
+				entity.getX(), entity.getY(), entity.getZ(),
+				SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS,
+				0.8F, 1.15F
+		);
+	}
+
+	public static LivingEntity pointedLivingEntity(
+			final LivingEntity caster,
+			final ServerLevel level,
+			final double range) {
+
+		final Vec3 origin = caster.getEyePosition();
+		final Vec3 direction = caster.getLookAngle().normalize();
+
+		final BlockHitResult blockHit = level.clip(new ClipContext(
+				origin,
+				origin.add(direction.scale(range)),
+				ClipContext.Block.COLLIDER,
+				ClipContext.Fluid.NONE,
+				caster
+		));
+
+		final double visibleRange = blockHit.getType() == HitResult.Type.BLOCK
+				? origin.distanceTo(blockHit.getLocation())
+				: range;
+
+		final Vec3 end = origin.add(direction.scale(visibleRange));
+		final AABB searchBox = caster.getBoundingBox()
+				.expandTowards(direction.scale(visibleRange))
+				.inflate(1.0);
+
+		LivingEntity selected = null;
+		double selectedDistance = Double.MAX_VALUE;
+
+		for (final LivingEntity candidate : level.getEntitiesOfClass(
+				LivingEntity.class,
+				searchBox,
+				entity -> entity != caster && entity.isAlive()
+		)) {
+			final Vec3 hit = candidate.getBoundingBox()
+					.inflate(candidate.getPickRadius())
+					.clip(origin, end)
+					.orElse(null);
+
+			if (hit == null)
+				continue;
+
+			final double distance = origin.distanceToSqr(hit);
+
+			if (distance < selectedDistance) {
+				selected = candidate;
+				selectedDistance = distance;
+			}
+		}
+
+		return selected;
 	}
 
 }
