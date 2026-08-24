@@ -145,6 +145,7 @@ public final class SpellSystem {
 						),
 						true
 				);
+			}
 			return;
 		}
 
