@@ -1,79 +1,46 @@
 package com.example.vitalrelics.common;
 
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-// public static BooleanValue configHaloRealityPiercer;
 public class Relic {
 	public String id;
 	public String display_name = null;
-	/*
-	for empty case, it's effective for "in_curios_api_slots", "in_touhou_little_maid_curios_slots".
-	"in_hotbar",
-	"in_inventory": In inventory (including hotbar),
-	"in_curios_api_slots"
-	"in_touhou_little_maid_curios_slots"
-	 */
 	public final List<String> effective_slots = new ArrayList<>();
 	public String curio_slot = "charm";
 	public String tooltip = "Placeholder tooltip";
 	public String rarity = "common";
 	public String texture = "brown_ring.png";
 
-	// parse either an array of effects or "all_negative"
 	public final List<String> immune_to_effects = new ArrayList<>();
-	// parse a map of effects with their levels (start with 1)
 	public final Map<String, Integer> granted_effects = new LinkedHashMap<>();
-
-	/*
-	"retarget_arrow": anti-skeleton
-	"flight": grants flight ability
-	"reality_severance": all hostile living entities in range [level] cannot be invulnerable,
-			receive constant damage [attribution damage * (level / 100)] per 1 second,
-	 		and receive constant negative effects with level [level / 4].
-	"metal_mending": Repairs damaged equipment by [level] once every 4 seconds.
-	 */
 	public final Map<String, Integer> passive_abilities = new LinkedHashMap<>();
 
 	/*
-	"teleport": ranger [level], cooldown
+	 * Each map is intentionally open-ended. Adding a new configuration entry
+	 * no longer requires adding a field to this class or a parser branch.
 	 */
-	public final Spells available_spells = new Spells();
-
-
-	public Properties properties = new Properties();
-	public Ticks ticks = new Ticks();
-	public Callbacks callbacks = new Callbacks();
+	public final Map<String, Properties.Info> properties = new LinkedHashMap<>();
+	public final Map<String, Ticks.Info> ticks = new LinkedHashMap<>();
+	public final Map<String, Callbacks.Info> callbacks = new LinkedHashMap<>();
+	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
 
 	public static class Properties {
 		public static class Info {
-
 			public Double add = null;
 			public Double mul_base = null;
 			public Double mul_total = null;
 
-
 			public static Info basic() {
-
-				Info prop = new Info();
-				prop.add = 0.0;
-				prop.mul_base = 0.0;
-				prop.mul_total = 1.0;
-
-				return prop;
+				final Info result = new Info();
+				result.add = 0.0;
+				result.mul_base = 0.0;
+				result.mul_total = 1.0;
+				return result;
 			}
 		}
-
-		public Info attack_damage = null;
-		public Info attack_speed = null;
-		public Info block_interaction_range = null;
-		public Info entity_interaction_range = null;
-		public Info knockback_resistance = null;
-		public Info max_health = null;
-
 	}
 
 	public static class Ticks {
@@ -83,22 +50,16 @@ public class Relic {
 			public Double ratio_add = null;
 
 			public static Info basic() {
-				Info prop = new Info();
-				prop.interval_ticks = 1; // Run on every ticks
-				prop.add = 0.0;
-				prop.ratio_add = 0.0;
-
-				return prop;
+				final Info result = new Info();
+				result.interval_ticks = 1;
+				result.add = 0.0;
+				result.ratio_add = 0.0;
+				return result;
 			}
 		}
-
-
-		public Info heal = null;
-		public Info feed = null;
 	}
 
 	public static class Callbacks {
-
 		public static class Info {
 			public Double modifier = null;
 			public Double flat = null;
@@ -106,7 +67,6 @@ public class Relic {
 			public Double ratio_minimum = null;
 			public Double maximum = null;
 			public Double ratio_maximum = null;
-
 
 			public double process(final double amount, final double reference) {
 				double result = amount;
@@ -116,10 +76,7 @@ public class Relic {
 				if (flat != null)
 					result += flat;
 
-				final double lower = lowerBound(reference);
-				final double upper = upperBound(reference);
-
-				return sigmoidClamp(result, lower, upper);
+				return sigmoidClamp(result, lowerBound(reference), upperBound(reference));
 			}
 
 			private double lowerBound(final double reference) {
@@ -127,7 +84,6 @@ public class Relic {
 
 				if (minimum != null)
 					lower = Math.max(lower, minimum);
-
 				if (ratio_minimum != null)
 					lower = Math.max(lower, reference * ratio_minimum);
 
@@ -139,7 +95,6 @@ public class Relic {
 
 				if (maximum != null)
 					upper = Math.min(upper, maximum);
-
 				if (ratio_maximum != null)
 					upper = Math.min(upper, reference * ratio_maximum);
 
@@ -154,11 +109,9 @@ public class Relic {
 				if (Double.isInfinite(minimum) && Double.isInfinite(maximum))
 					return value;
 
-				// Only an upper bound.
 				if (Double.isInfinite(minimum))
 					return maximum - Math.log1p(Math.exp(maximum - value));
 
-				// Only a lower bound.
 				if (Double.isInfinite(maximum))
 					return minimum + Math.log1p(Math.exp(value - minimum));
 
@@ -172,47 +125,22 @@ public class Relic {
 						(1.0 + Math.exp(-4.0 * (value - center) / range));
 			}
 		}
-		public Info damage_taken = null;
-		public Info damage_dealt = null;
-
-		// When this is activated, damages still taken (those ignore invulnerable time)
-		// in invulnerable time will become ineffective.
-		public Info invulnerable_time_taken = null;
-		public Info invulnerable_time_dealt = null;
 	}
 
 	public static class Spells {
 		public static class Info {
-			public double intensity = 0.0; // it can be null, but it shouldn't usually.
-			public double recovery = 0.0;
-
-			public static Info basic() {
-				Info prop = new Info();
-				prop.intensity = 0.0;
-				prop.recovery = 0.0;
-
-				return prop;
-			}
+			public final Map<String, Object> parameters = new LinkedHashMap<>();
 		}
-
-		public Info teleport = null;
-		// public Info feed = null;
 	}
 
 	public boolean isImmuneToEffect(
 			final String effectId,
 			final boolean negative) {
 
-		if (immune_to_effects.contains(effectId))
-			return true;
-
-		return negative && immune_to_effects.contains("all_negative");
+		return immune_to_effects.contains(effectId) ||
+				(negative && immune_to_effects.contains("all_negative"));
 	}
 
-
-	/*
-	 * Tooltip
-	 */
 	public List<String> getTooltipLines() {
 		final List<String> out = new ArrayList<>();
 
@@ -221,32 +149,29 @@ public class Relic {
 			out.add("");
 		}
 
-		addProperty(out, "Attack Damage", properties.attack_damage);
-		addProperty(out, "Attack Speed", properties.attack_speed);
-		addProperty(out, "Block Interaction Range", properties.block_interaction_range);
-		addProperty(out, "Entity Interaction Range", properties.entity_interaction_range);
-		addProperty(out, "Knockback Resistance", properties.knockback_resistance);
-		addProperty(out, "Max Health", properties.max_health);
+		for (final var entry : properties.entrySet())
+			addProperty(out, displayName(entry.getKey()), entry.getValue());
 
-		addTick(out, "Health", ticks.heal);
-		addTick(out, "Hunger", ticks.feed);
+		for (final var entry : ticks.entrySet())
+			addTick(out, displayName(entry.getKey()), entry.getValue());
 
-		addCallback(out, "Damage Taken", callbacks.damage_taken);
-		addCallback(out, "Damage Dealt", callbacks.damage_dealt);
-		addCallback(out, "Invulnerability Time Taken", callbacks.invulnerable_time_taken);
-		addCallback(out, "Invulnerability Time Dealt", callbacks.invulnerable_time_dealt);
+		for (final var entry : callbacks.entrySet())
+			addCallback(out, displayName(entry.getKey()), entry.getValue());
 
 		if (immune_to_effects.contains("all_negative"))
 			out.add("Immune to all negative effects");
 		else
-			for (final String x : immune_to_effects)
-				out.add("Immune to " + displayName(x));
+			for (final String effect : immune_to_effects)
+				out.add("Immune to " + displayName(effect));
 
-		for (final var x : granted_effects.entrySet())
-			out.add("Grants " + displayName(x.getKey()) + " " + x.getValue().toString());
+		for (final var effect : granted_effects.entrySet())
+			out.add("Grants " + displayName(effect.getKey()) + " " + effect.getValue());
 
-		for (final var x : passive_abilities.entrySet())
-			out.add("Ability: " + displayName(x.getKey()) + " " + x.getValue().toString());
+		for (final var ability : passive_abilities.entrySet())
+			out.add("Ability: " + displayName(ability.getKey()) + " " + ability.getValue());
+
+		for (final String spellId : available_spells.keySet())
+			out.add("Spell: " + displayName(spellId));
 
 		while (!out.isEmpty() && out.get(out.size() - 1).isEmpty())
 			out.remove(out.size() - 1);
@@ -255,77 +180,78 @@ public class Relic {
 	}
 
 	private static void addProperty(
-			final List<String> out, final String name, final Properties.Info x) {
-		if (x == null) return;
-		if (nz(x.add)) out.add(signed(x.add) + " " + name);
-		if (nz(x.mul_base)) out.add(signedPercent(x.mul_base) + " " + name + " from base");
-		if (x.mul_total != null && x.mul_total != 1.0)
-			out.add("x" + fmt(x.mul_total) + " total " + name);
+			final List<String> out,
+			final String name,
+			final Properties.Info value) {
+
+		if (nz(value.add))
+			out.add(signed(value.add) + " " + name);
+		if (nz(value.mul_base))
+			out.add(signedPercent(value.mul_base) + " " + name + " from base");
+		if (value.mul_total != null && value.mul_total != 1.0)
+			out.add("x" + fmt(value.mul_total) + " total " + name);
 	}
 
 	private static void addTick(
-			final List<String> out, final String name, final Ticks.Info x) {
-		if (x == null) return;
+			final List<String> out,
+			final String name,
+			final Ticks.Info value) {
 
-		final String prefix = "Every " + fmt(x.interval_ticks / 20.0) + "s: ";
-		if (nz(x.add)) out.add(prefix + signed(x.add) + " " + name);
-		if (nz(x.ratio_add))
-			out.add(prefix + signedPercent(x.ratio_add) + " Max " + name);
+		final String prefix = "Every " + fmt(value.interval_ticks / 20.0) + "s: ";
+
+		if (nz(value.add))
+			out.add(prefix + signed(value.add) + " " + name);
+		if (nz(value.ratio_add))
+			out.add(prefix + signedPercent(value.ratio_add) + " Max " + name);
 	}
 
 	private static void addCallback(
-			final List<String> out, final String name, final Callbacks.Info x) {
-		if (x == null) return;
+			final List<String> out,
+			final String name,
+			final Callbacks.Info value) {
 
-		if (x.modifier != null)
-			out.add(signedPercentRaw((x.modifier - 1.0) * 100.0) + " " + name);
-		if (nz(x.flat)) out.add(signed(x.flat) + " " + name);
-		if (x.minimum != null) out.add("Minimum " + name + ": " + fmt(x.minimum));
-		if (x.ratio_minimum != null)
-			out.add("Minimum " + name + ": " + fmt(x.ratio_minimum * 100.0) + "% of reference");
-		if (x.maximum != null) out.add("Maximum " + name + ": " + fmt(x.maximum));
-		if (x.ratio_maximum != null)
-			out.add("Maximum " + name + ": " + fmt(x.ratio_maximum * 100.0) + "% of reference");
+		if (value.modifier != null)
+			out.add(signedPercentRaw((value.modifier - 1.0) * 100.0) + " " + name);
+		if (nz(value.flat))
+			out.add(signed(value.flat) + " " + name);
+		if (value.minimum != null)
+			out.add("Minimum " + name + ": " + fmt(value.minimum));
+		if (value.ratio_minimum != null)
+			out.add("Minimum " + name + ": " +
+					fmt(value.ratio_minimum * 100.0) + "% of reference");
+		if (value.maximum != null)
+			out.add("Maximum " + name + ": " + fmt(value.maximum));
+		if (value.ratio_maximum != null)
+			out.add("Maximum " + name + ": " +
+					fmt(value.ratio_maximum * 100.0) + "% of reference");
 	}
 
-	private static boolean nz(final Double x) {
-		return x != null && x != 0.0;
+	private static boolean nz(final Double value) {
+		return value != null && value != 0.0;
 	}
 
-	private static String signed(final double x) {
-		return (x >= 0.0 ? "+" : "") + fmt(x);
+	private static String signed(final double value) {
+		return (value >= 0.0 ? "+" : "") + fmt(value);
 	}
 
-	private static String signedPercent(final double x) {
-		return signedPercentRaw(x * 100.0);
+	private static String signedPercent(final double value) {
+		return signedPercentRaw(value * 100.0);
 	}
 
-	private static String signedPercentRaw(final double x) {
-		return (x >= 0.0 ? "+" : "") + fmt(x) + "%";
+	private static String signedPercentRaw(final double value) {
+		return (value >= 0.0 ? "+" : "") + fmt(value) + "%";
 	}
 
-	private static String fmt(final double x) {
-		if (Math.abs(x - Math.round(x)) < 0.000001)
-			return Long.toString(Math.round(x));
+	private static String fmt(final double value) {
+		if (Math.abs(value - Math.round(value)) < 0.000001)
+			return Long.toString(Math.round(value));
 
-		return String.format("%.2f", x)
+		return String.format("%.2f", value)
 				.replaceAll("0+$", "")
 				.replaceAll("\\.$", "");
 	}
 
-	private static String displayName(final String x) {
-		final StringBuilder out = new StringBuilder();
-
-		for (final String word : x.split("_")) {
-			if (word.isEmpty()) continue;
-			if (!out.isEmpty()) out.append(' ');
-			out.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
-		}
-
-		return out.toString();
-	}
-
-	public static String itemDisplayName(final String id) {
+	private static String displayName(final String id) {
 		final StringBuilder out = new StringBuilder();
 
 		for (final String word : id.split("_")) {
@@ -340,5 +266,9 @@ public class Relic {
 		}
 
 		return out.toString();
+	}
+
+	public static String itemDisplayName(final String id) {
+		return displayName(id);
 	}
 }
