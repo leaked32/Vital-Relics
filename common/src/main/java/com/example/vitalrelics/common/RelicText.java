@@ -350,4 +350,23 @@ public final class RelicText {
 				.replaceAll("\\.$", "");
 	}
 
+	public static String render(final Text text) {
+		final Object[] arguments = text.arguments().stream()
+				.map(RelicText::render)
+				.toArray();
+
+		final String pattern = text.translationKey() == null
+				? text.fallback()
+				: RelicTranslations.INSTANCE.translate(
+				text.translationKey(),
+				text.fallback()
+		);
+
+		try {
+			return String.format(Locale.ROOT, pattern, arguments);
+		} catch (RuntimeException exception) {
+			return text.fallback();
+		}
+	}
+
 }

@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import com.example.vitalrelics.common.RelicText;
 
 import java.util.List;
 
@@ -25,14 +26,16 @@ public class RelicItem extends Item {
 			final List<Component> tooltip,
 			final TooltipFlag flag) {
 
-		for (final String line : relic.getTooltipLines())
-			tooltip.add(Component.literal(line));
+		for (final RelicText.Text line : RelicText.tooltipLines(relic))
+			tooltip.add(component(line));
 	}
+
 	@Override
 	public Component getName(final ItemStack stack) {
-		if (relic.display_name != null && !relic.display_name.isBlank())
-			return Component.literal(relic.display_name);
+		return component(RelicText.itemName(relic));
+	}
 
-		return Component.literal(itemDisplayName(relic.id));
+	private static Component component(final RelicText.Text text) {
+		return Component.literal(RelicText.render(text));
 	}
 }

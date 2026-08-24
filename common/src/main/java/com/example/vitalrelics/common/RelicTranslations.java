@@ -1,0 +1,116 @@
+package com.example.vitalrelics.common;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Stream;
+
+public final class RelicTranslations {
+	public static final RelicTranslations INSTANCE =
+			new RelicTranslations();
+
+	private static final List<String> DEFAULT_LOCALES = List.of(
+			"en_us",
+			"zh_cn",
+			"zh_tw",
+			"ja_jp"
+	);
+
+	private volatile Map<String, Map<String, String>> tables =
+			Map.of();
+
+	private volatile String selectedLocale = "en_us";
+
+	private RelicTranslations() {}
+
+	public void load(final Path directory) {
+		for (final String locale : DEFAULT_LOCALES) {
+			Util.copy_to_external(
+					"vitalrelics/lang/" + locale + ".json",
+					directory.resolve(locale + ".json")
+			);
+		}
+
+		final Map<String, Map<String, String>> loaded =
+				new LinkedHashMap<>();
+
+		try (Stream<Path> files = Files.list(directory)) {
+			files.filter(path -> path.getFileName().toString()
+							.endsWith(".json"))
+					.forEach(path -> loaded.put(
+							localeFrom(path),
+							readTable(path)
+					));
+		} catch (IOException exception) {
+			throw new RuntimeException(
+					"Failed to load Vital Relics translations",
+					exception
+			);
+		}
+
+		tables = Map.copyOf(loaded);
+	}
+
+	public void setSelectedLocale(final String locale) {
+		selectedLocale = normalize(locale);
+	}
+
+	public String translate(
+			final String key,
+			final String fallback) {
+
+		if (key == null)
+			return fallback;
+
+		final Map<String, String> selected =
+				tables.get(selectedLocale);
+
+		if (selected != null && selected.containsKey(key))
+			return selected.get(key);
+
+		final Map<String, String> english = tables.get("en_us");
+
+		if (english != null && english.containsKey(key))
+			return english.get(key);
+
+		return fallback;
+	}
+
+	private static Map<String, String> readTable(final Path path) {
+		final Map<String, Object> root =
+				Json.parseObject(Util.read_external_file(path));
+
+		final Map<String, String> result = new LinkedHashMap<>();
+
+		for (final var entry : root.entrySet()) {
+			if (!(entry.getValue() instanceof String value)) {
+				throw new IllegalArgumentException(
+						"Translation '" + entry.getKey() +
+								"' in " + path.getFileName() +
+								" must be a string"
+				);
+			}
+
+			result.put(entry.getKey(), value);
+		}
+
+		return Map.copyOf(result);
+	}
+
+	private static String localeFrom(final Path path) {
+		final String fileName = path.getFileName().toString();
+
+		return normalize(fileName.substring(
+				0,
+				fileName.length() - ".json".length()
+		));
+	}
+
+	private static String normalize(final String locale) {
+		return locale.toLowerCase(Locale.ROOT).replace('-', '_');
+	}
+}

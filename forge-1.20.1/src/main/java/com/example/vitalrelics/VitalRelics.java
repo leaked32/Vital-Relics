@@ -6,6 +6,7 @@ import com.example.vitalrelics.client.VitalClientEvents;
 import com.example.vitalrelics.common.AcquisitionLoader;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.network.Network;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
@@ -92,6 +93,10 @@ public class VitalRelics {
 		acquisition = new AcquisitionLoader();
 		loader.load(config);
 		acquisition.load(recipeConfig);
+
+		RelicTranslations.INSTANCE.load(
+				FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang")
+		);
 
 		for (final var relic : loader.relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {
