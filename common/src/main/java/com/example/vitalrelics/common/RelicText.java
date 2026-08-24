@@ -5,7 +5,14 @@ import java.util.List;
 import java.util.Locale;
 
 public final class RelicText {
+	public enum Source {
+		LITERAL,
+		EXTERNAL,
+		VANILLA
+	}
+
 	public record Text(
+			Source source,
 			String translationKey,
 			String fallback,
 			List<Text> arguments) {
@@ -13,7 +20,6 @@ public final class RelicText {
 		public Text {
 			arguments = List.copyOf(arguments);
 		}
-
 		public boolean isBlank() {
 			return fallback == null || fallback.isBlank();
 		}
@@ -22,7 +28,7 @@ public final class RelicText {
 	private RelicText() {}
 
 	public static Text literal(final String value) {
-		return new Text(null, value, List.of());
+		return new Text(Source.LITERAL, null, value, List.of());
 	}
 
 	public static Text key(
@@ -31,10 +37,15 @@ public final class RelicText {
 			final Text... arguments) {
 
 		return new Text(
-				translationKey,
-				fallback,
-				List.of(arguments)
+				Source.EXTERNAL, translationKey, fallback, List.of(arguments)
 		);
+	}
+
+	private static Text vanillaKey(
+			final String translationKey,
+			final String fallback) {
+
+		return new Text(Source.VANILLA, translationKey, fallback, List.of());
 	}
 
 	public static Text itemName(final Relic relic) {

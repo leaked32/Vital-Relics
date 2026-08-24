@@ -3,7 +3,9 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.client.RelicClientExtensions;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicText;
+import com.example.vitalrelics.common.RelicTranslations;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -48,6 +50,44 @@ public class RelicItem extends Item {
 	}
 
 	private static Component component(final RelicText.Text text) {
-		return Component.literal(RelicText.render(text));
+		return switch (text.source()) {
+			case LITERAL -> Component.literal(text.fallback());
+
+			case VANILLA -> Component.translatableWithFallback(
+					text.translationKey(), text.fallback()
+			);
+
+			case EXTERNAL -> externalComponent(text);
+		};
+	}
+
+	private static Component externalComponent(final RelicText.Text text) {
+		final String pattern = RelicTranslations.INSTANCE.translate(
+				text.translationKey(), text.fallback()
+		);
+
+		final MutableComponent result = Component.literal("");
+		int start = 0;
+		int argumentIndex = 0;
+
+		while (true) {
+			final int marker = pattern.indexOf("%s", start);
+
+			if (marker < 0) {
+				result.append(Component.literal(pattern.substring(start)));
+				return result;
+			}
+
+			result.append(Component.literal(pattern.substring(start, marker)));
+
+			if (argumentIndex < text.arguments().size()) {
+				result.append(component(text.arguments().get(argumentIndex)));
+			} else {
+				result.append(Component.literal("%s"));
+			}
+
+			argumentIndex++;
+			start = marker + 2;
+		}
 	}
 }
