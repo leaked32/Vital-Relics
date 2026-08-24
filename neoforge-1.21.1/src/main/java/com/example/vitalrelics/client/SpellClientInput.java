@@ -30,7 +30,7 @@ public final class SpellClientInput {
 		if (!Screen.hasShiftDown())
 			return;
 
-		final double delta = event.getScrollDelta();
+		final double delta = event.getScrollDeltaY();
 
 		if (delta == 0.0 || selectNext(delta > 0.0 ? -1 : 1) == null)
 			return;
