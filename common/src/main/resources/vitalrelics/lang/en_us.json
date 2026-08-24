@@ -1,4 +1,6 @@
 {
+  "customized": false,
+
   "itemGroup.vitalrelics": "Vital Relics",
   "key.categories.vitalrelics": "Vital Relics",
   "key.vitalrelics.cast_spell": "Cast Spell",

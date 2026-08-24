@@ -28,22 +28,33 @@ public final class RelicTranslations {
 	private RelicTranslations() {}
 
 	public void load(final Path directory) {
+		final Map<String, Map<String, String>> loaded = new LinkedHashMap<>();
+
 		for (final String locale : DEFAULT_LOCALES) {
-			Util.copy_to_external(
+			final Path external = directory.resolve(locale + ".json");
+
+			final Map<String, Object> root = Util.load_external_file(
 					"vitalrelics/lang/" + locale + ".json",
-					directory.resolve(locale + ".json")
+					external
 			);
+
+			loaded.put(locale, readTable(root, external));
 		}
 
-		final Map<String, Map<String, String>> loaded =
-				new LinkedHashMap<>();
-
+		/*
+		 * Load additional user-created locales. These have no bundled file
+		 * against which they can be reset.
+		 */
 		try (Stream<Path> files = Files.list(directory)) {
-			files.filter(path -> path.getFileName().toString()
-							.endsWith(".json"))
+			files.filter(Files::isRegularFile)
+					.filter(path -> path.getFileName().toString().endsWith(".json"))
+					.filter(path -> !loaded.containsKey(localeFrom(path)))
 					.forEach(path -> loaded.put(
 							localeFrom(path),
-							readTable(path)
+							readTable(
+									Json.parseObject(Util.read_external_file(path)),
+									path
+							)
 					));
 		} catch (IOException exception) {
 			throw new RuntimeException(
@@ -80,13 +91,16 @@ public final class RelicTranslations {
 		return fallback;
 	}
 
-	private static Map<String, String> readTable(final Path path) {
-		final Map<String, Object> root =
-				Json.parseObject(Util.read_external_file(path));
+	private static Map<String, String> readTable(
+			final Map<String, Object> root,
+			final Path path) {
 
 		final Map<String, String> result = new LinkedHashMap<>();
 
 		for (final var entry : root.entrySet()) {
+			if (entry.getKey().equals("customized"))
+				continue;
+
 			if (!(entry.getValue() instanceof String value)) {
 				throw new IllegalArgumentException(
 						"Translation '" + entry.getKey() +

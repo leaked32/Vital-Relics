@@ -1,4 +1,6 @@
 {
+  "customized": false,
+
   "itemGroup.vitalrelics": "生命遗物",
   "key.categories.vitalrelics": "生命遗物",
   "key.vitalrelics.cast_spell": "施放法术",

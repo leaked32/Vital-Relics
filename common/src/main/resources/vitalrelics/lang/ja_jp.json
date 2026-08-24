@@ -1,4 +1,6 @@
 {
+  "customized": false,
+
   "itemGroup.vitalrelics": "生命の遺物",
   "key.categories.vitalrelics": "生命の遺物",
   "key.vitalrelics.cast_spell": "呪文を発動",
