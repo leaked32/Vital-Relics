@@ -27,6 +27,21 @@ public class Relic {
 	public final Map<String, Properties.Info> properties = new LinkedHashMap<>();
 	public final Map<String, Ticks.Info> ticks = new LinkedHashMap<>();
 	public final Map<String, Callbacks.Info> callbacks = new LinkedHashMap<>();
+
+
+	/*
+	**Teleport**
+		BLOCK hit
+			-> try center for thin blocks
+			-> otherwise try above
+			-> if blocked, try before the hit face
+
+		MISS / sky
+			-> teleport as far along look direction as possible
+
+	**Curse**
+		Calls `directAttack` with the pointed living Entity.
+	*/
 	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
 
 	public static class Properties {
