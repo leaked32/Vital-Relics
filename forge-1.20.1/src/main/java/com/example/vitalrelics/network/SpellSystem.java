@@ -6,18 +6,23 @@ import com.example.vitalrelics.common.RelicSpells;
 import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.common.scheduled.Scheduler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -163,18 +168,24 @@ public final class SpellSystem {
 	}
 
 	static {
+
+		/*
+		BLOCK hit
+			-> try center for thin blocks
+			-> otherwise try above
+			-> if blocked, try before the hit face
+
+		MISS / sky
+			-> teleport as far along look direction as possible
+		*/
 		register("teleport", (caster, spell) -> {
 			final double distance = Math.min(
-					256.0,
-					Math.max(
-							0.0,
-							RelicSpells.numberParameter(spell, "range", 0.0)
-					)
+					Math.max(RelicSpells.numberParameter(spell, "range", 0.0), 0.0),
+					256.0
 			);
 
 			if (distance <= 0.0)
 				return false;
-
 
 			if (!(caster.level() instanceof ServerLevel level))
 				return false;
@@ -182,54 +193,165 @@ public final class SpellSystem {
 			final Vec3 origin = caster.position();
 			final Vec3 rayOrigin = caster.getEyePosition();
 			final Vec3 direction = caster.getLookAngle().normalize();
+			final Vec3 rayEnd = rayOrigin.add(direction.scale(distance));
 
-			final BlockHitResult blockHit = level.clip(new ClipContext(
-					rayOrigin,
-					rayOrigin.add(direction.scale(distance)),
-					ClipContext.Block.COLLIDER,
-					ClipContext.Fluid.NONE,
-					caster
-			));
+			/*
+			 * Raycast while treating snow as transparent.
+			 */
+			Vec3 clipStart = rayOrigin;
+			BlockHitResult hit;
 
-			if (blockHit.getType() == HitResult.Type.BLOCK) {
-				final BlockPos support = blockHit.getBlockPos();
+			while (true) {
+				hit = level.clip(new ClipContext(
+						clipStart,
+						rayEnd,
+						ClipContext.Block.COLLIDER,
+						ClipContext.Fluid.NONE,
+						caster
+				));
+
+				if (hit.getType() != HitResult.Type.BLOCK)
+					break;
+
+				if (!level.getBlockState(hit.getBlockPos()).is(Blocks.SNOW))
+					break;
+
+				/*
+				 * Move slightly beyond the snow collision and continue the ray.
+				 */
+				clipStart = hit.getLocation().add(direction.scale(0.01));
+
+				if (clipStart.distanceToSqr(rayOrigin) >=
+						rayEnd.distanceToSqr(rayOrigin)) {
+
+					hit = BlockHitResult.miss(
+							rayEnd,
+							Direction.getNearest(
+									direction.x,
+									direction.y,
+									direction.z
+							),
+							BlockPos.containing(rayEnd)
+					);
+
+					break;
+				}
+			}
+
+			/*
+			 * Sky / no block:
+			 * teleport as far along the look direction as possible.
+			 */
+			if (hit.getType() == HitResult.Type.MISS) {
+				for (double travelled = distance;
+				     travelled >= 0.5;
+				     travelled -= 0.25) {
+
+					final Vec3 candidate =
+							origin.add(direction.scale(travelled));
+
+					final AABB targetBox =
+							caster.getBoundingBox()
+									.move(candidate.subtract(origin));
+
+					if (!level.noCollision(caster, targetBox))
+						continue;
+
+					teleport(caster, level, candidate);
+					return true;
+				}
+
+				return false;
+			}
+
+			final BlockPos target = hit.getBlockPos();
+			final BlockState state = level.getBlockState(target);
+
+			/*
+			 * Thin blocks:
+			 * teleport into the center of their block cell.
+			 */
+			final boolean centerTarget =
+					state.getBlock() instanceof DoorBlock ||
+							state.getBlock() instanceof TrapDoorBlock ||
+							state.getBlock() instanceof IronBarsBlock ||
+							state.getBlock() instanceof StainedGlassPaneBlock;
+
+			if (centerTarget) {
 				final Vec3 candidate = new Vec3(
-						support.getX() + 0.5,
-						support.getY() + 1.0,
-						support.getZ() + 0.5
+						target.getX() + 0.5,
+						target.getY(),
+						target.getZ() + 0.5
+				);
+
+				teleport(caster, level, candidate);
+				return true;
+			}
+
+			/*
+			 * Normal block:
+			 * try standing on its actual collision surface.
+			 */
+			final VoxelShape shape =
+					state.getCollisionShape(level, target);
+
+			if (!shape.isEmpty()) {
+				final double topY =
+						target.getY() + shape.max(Direction.Axis.Y);
+
+				final Vec3 above = new Vec3(
+						target.getX() + 0.5,
+						topY + 1.0e-4,
+						target.getZ() + 0.5
 				);
 
 				final AABB targetBox =
-						caster.getBoundingBox().move(candidate.subtract(origin));
+						caster.getBoundingBox()
+								.move(above.subtract(origin));
 
 				if (level.noCollision(caster, targetBox)) {
-					teleport(caster, level, candidate);
+					teleport(caster, level, above);
 					return true;
 				}
 			}
 
-			Vec3 destination = origin;
+			/*
+			 * No room above:
+			 * teleport BEFORE the target block.
+			 *
+			 * hit.getDirection() points toward the side from which the ray
+			 * entered the target block, so this is the caster-facing side.
+			 */
+			final Direction beforeDirection =
+					hit.getDirection();
 
-			for (double travelled = 0.5;
-			     travelled <= distance;
-			     travelled += 0.5) {
+			final BlockPos before =
+					target.relative(beforeDirection);
 
-				final Vec3 candidate =
-						origin.add(direction.scale(travelled));
+			Vec3 candidate = new Vec3(
+					before.getX() + 0.5,
+					before.getY(),
+					before.getZ() + 0.5
+			);
 
-				final AABB targetBox =
-						caster.getBoundingBox().move(candidate.subtract(origin));
+			/*
+			 * Move a tiny amount farther away from the target block to avoid
+			 * floating-point boundary overlap with its collision shape.
+			 */
+			candidate = candidate.add(
+					beforeDirection.getStepX() * 1.0e-4,
+					beforeDirection.getStepY() * 1.0e-4,
+					beforeDirection.getStepZ() * 1.0e-4
+			);
 
-				if (!level.noCollision(caster, targetBox))
-					break;
+			final AABB targetBox =
+					caster.getBoundingBox()
+							.move(candidate.subtract(origin));
 
-				destination = candidate;
-			}
-
-			if (destination.equals(origin))
+			if (!level.noCollision(caster, targetBox))
 				return false;
 
-			teleport(caster, level, destination);
+			teleport(caster, level, candidate);
 			return true;
 		});
 

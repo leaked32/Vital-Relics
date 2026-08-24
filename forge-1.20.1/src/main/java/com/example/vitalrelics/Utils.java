@@ -3,6 +3,8 @@ package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -20,6 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -374,6 +377,81 @@ public class Utils {
 		}
 
 		return selected;
+	}
+
+
+
+	private static BlockHitResult clipTeleportRay(
+			ServerLevel level,
+			Entity caster,
+			Vec3 start,
+			Vec3 end
+	) {
+		final Vec3 direction = end.subtract(start).normalize();
+		Vec3 current = start;
+
+		for (int i = 0; i < 64; ++i) {
+			final BlockHitResult hit = level.clip(
+					new ClipContext(
+							current, end,
+							ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE,
+							caster
+					)
+			);
+
+			if (hit.getType() != HitResult.Type.BLOCK)
+				return hit;
+
+			final BlockPos pos = hit.getBlockPos();
+
+			/*
+			 * Snow layers have collision shapes, so COLLIDER normally stops here.
+			 * For teleport targeting, they should be transparent.
+			 */
+			if (!level.getBlockState(pos).is(Blocks.SNOW))
+				return hit;
+
+			/*
+			 * Advance past this entire voxel instead of merely adding an epsilon.
+			 * Otherwise a multi-layer snow block can immediately be hit again.
+			 */
+			final Vec3 p = hit.getLocation();
+
+			double advance = Double.POSITIVE_INFINITY;
+
+			if (direction.x > 0.0)
+				advance = Math.min(advance, (pos.getX() + 1.0 - p.x) / direction.x);
+			else if (direction.x < 0.0)
+				advance = Math.min(advance, (pos.getX() - p.x) / direction.x);
+
+			if (direction.y > 0.0)
+				advance = Math.min(advance, (pos.getY() + 1.0 - p.y) / direction.y);
+			else if (direction.y < 0.0)
+				advance = Math.min(advance, (pos.getY() - p.y) / direction.y);
+
+			if (direction.z > 0.0)
+				advance = Math.min(advance, (pos.getZ() + 1.0 - p.z) / direction.z);
+			else if (direction.z < 0.0)
+				advance = Math.min(advance, (pos.getZ() - p.z) / direction.z);
+
+			if (!Double.isFinite(advance))
+				break;
+
+			current = p.add(direction.scale(advance + 1.0e-4));
+
+			if (current.distanceToSqr(start) >= end.distanceToSqr(start))
+				break;
+		}
+
+		return BlockHitResult.miss(
+				end,
+				Direction.getNearest(
+						direction.x,
+						direction.y,
+						direction.z
+				),
+				BlockPos.containing(end)
+		);
 	}
 
 }
