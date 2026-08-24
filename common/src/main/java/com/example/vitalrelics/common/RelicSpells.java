@@ -1,51 +1,78 @@
 package com.example.vitalrelics.common;
 
 import com.example.vitalrelics.common.scheduled.MyMap;
-import com.example.vitalrelics.common.scheduled.Scheduler;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class RelicSpells {
+public final class RelicSpells {
+	private RelicSpells() {}
 
+	public static final MyMap<Map<String, Relic.Spells.Info>>
+			LIVING_ENTITY_SPELLS = new MyMap<>(0);
 
-	public static MyMap<Relic.Spells> LIVING_ENTITY_SPELLS = new MyMap<>(0);
+	/*
+	 * The default score keeps the old teleport behaviour: intensity times
+	 * recovery. Other spell types may supply a numeric "priority" parameter
+	 * without requiring a new Java field.
+	 */
+	public static boolean isTheSpellBetter(
+			final Relic.Spells.Info base,
+			final Relic.Spells.Info candidate) {
 
-
-	public static boolean isTheSpellBetter(final Relic.Spells.Info base, final Relic.Spells.Info cmp) {
-		if (cmp.intensity * cmp.recovery > base.intensity * cmp.recovery) {
-			return true;
-		}
-		return false;
+		return score(candidate) > score(base);
 	}
 
-	public static Relic.Spells gatherSpells(final List<Relic> relics) {
-		Relic.Spells basic = new Relic.Spells();
-		basic.teleport = Relic.Spells.Info.basic();
+	private static double score(final Relic.Spells.Info spell) {
+		final Object priority = spell.parameters.get("priority");
+
+		if (priority instanceof Number value)
+			return value.doubleValue();
+
+		return number(spell, "intensity", 0.0) *
+				number(spell, "recovery", 1.0);
+	}
+
+	private static double number(
+			final Relic.Spells.Info spell,
+			final String key,
+			final double fallback) {
+
+		final Object value = spell.parameters.get(key);
+
+		return value instanceof Number number
+				? number.doubleValue()
+				: fallback;
+	}
+
+	public static Map<String, Relic.Spells.Info> gatherSpells(
+			final List<Relic> relics) {
+
+		final Map<String, Relic.Spells.Info> result =
+				new LinkedHashMap<>();
 
 		for (final Relic relic : relics) {
-			if (isTheSpellBetter(basic.teleport, relic.available_spells.teleport)) {
-				basic.teleport = relic.available_spells.teleport;
+			for (final var entry : relic.available_spells.entrySet()) {
+				final Relic.Spells.Info current = result.get(entry.getKey());
+
+				if (current == null || isTheSpellBetter(current, entry.getValue()))
+					result.put(entry.getKey(), entry.getValue());
 			}
 		}
 
-		return basic;
+		return result;
 	}
 
 	public static class CurrentState {
-		public Relic.Spells spells;
+		public Map<String, Relic.Spells.Info> spells = Map.of();
 	}
 
-	public static void UpdateForLivingEntity(final UUID uuid, final List<Relic> relics) {
-		final var new_spells = gatherSpells(relics);
-		final var old_spells = LIVING_ENTITY_SPELLS.get(uuid);
+	public static void updateForLivingEntity(
+			final UUID uuid,
+			final List<Relic> relics) {
 
-
-		LIVING_ENTITY_SPELLS.put(uuid, 0, new_spells);
+		LIVING_ENTITY_SPELLS.put(uuid, 0, gatherSpells(relics));
 	}
-
-
-
 }
