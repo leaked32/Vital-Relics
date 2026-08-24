@@ -2,6 +2,10 @@ package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Relic;
+import com.example.vitalrelics.network.NetworkPayload;
+import com.example.vitalrelics.network.SpellSystem;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -9,8 +13,13 @@ import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.settings.KeyConflictContext;
+import net.neoforged.neoforge.network.PacketDistributor;
+import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(
 		modid = VitalRelics.MODID,
@@ -24,6 +33,47 @@ public final class VitalClientEvents {
 			ModelResourceLocation.standalone(FLAT_ID);
 
 	private VitalClientEvents() {}
+
+	/*
+	KEY REGISTRATION
+	 */
+
+	public static final KeyMapping ACTIVE_SKILL_KEY =
+			new KeyMapping(
+					"key.vitalrelics.cast_spell", KeyConflictContext.IN_GAME,
+					InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Q, "key.categories.vitalrelics"
+			);
+
+	public static final KeyMapping SWITCH_SKILL_KEY =
+			new KeyMapping(
+					"key.vitalrelics.switch_spell", KeyConflictContext.IN_GAME,
+					InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_SHIFT, "key.categories.vitalrelics"
+			);
+
+	@SubscribeEvent
+	public static void registerKeys(
+			final RegisterKeyMappingsEvent event) {
+
+		event.register(ACTIVE_SKILL_KEY);
+		event.register(SWITCH_SKILL_KEY);
+	}
+
+	@SubscribeEvent
+	public static void clientTick(
+			final ClientTickEvent.Post event) {
+
+		while (ACTIVE_SKILL_KEY.consumeClick()) {
+			PacketDistributor.sendToServer(new NetworkPayload(SpellSystem.CAST_SPELL));
+		}
+
+		while (SWITCH_SKILL_KEY.consumeClick()) {
+			PacketDistributor.sendToServer(new NetworkPayload(SpellSystem.SWITCH_SPELL));
+		}
+	}
+
+	/*
+	Client Rendering
+	 */
 
 	@SubscribeEvent
 	public static void registerClientExtensions(

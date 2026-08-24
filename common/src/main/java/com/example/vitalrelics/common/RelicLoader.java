@@ -1,6 +1,5 @@
 package com.example.vitalrelics.common;
 
-import java.io.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +101,9 @@ public class RelicLoader {
 			}
 
 			add_list(relic.effective_slots, rawRelic.get("effective_slots"));
-			add_map(relic.special_abilities, rawRelic.get("special_abilities"));
-			add_map(relic.add_effects, rawRelic.get("add_effects"));
+			add_map(relic.passive_abilities, rawRelic.get("passive_abilities"));
+			// add_map(relic.available_spells, rawRelic.get("available_spells"));
+			add_map(relic.granted_effects, rawRelic.get("granted_effects"));
 
 			if (rawRelic.get("properties") instanceof Map<?, ?> properties) {
 				relic.properties.attack_damage = property(properties.get("attack_damage"));
@@ -124,6 +124,10 @@ public class RelicLoader {
 				relic.callbacks.damage_dealt = callback(callbacks.get("damage_dealt"));
 				relic.callbacks.invulnerable_time_taken = callback(callbacks.get("invulnerable_time_taken"));
 				relic.callbacks.invulnerable_time_dealt = callback(callbacks.get("invulnerable_time_dealt"));
+			}
+
+			if (rawRelic.get("available_spells") instanceof Map<?, ?> available_spells) {
+				relic.available_spells.teleport = spell(available_spells.get("teleport"));
 			}
 
 			relics_.add(relic);
@@ -205,6 +209,24 @@ public class RelicLoader {
 
 		if (map.containsKey("ratio_maximum"))
 			info.ratio_maximum = number(map.get("ratio_maximum"));
+
+		return info;
+	}
+	private static Relic.Spells.Info spell(final Object value) {
+		if (value == null)
+			return null;
+
+		if (!(value instanceof Map<?, ?> map)) {
+			throw new IllegalArgumentException("Property must be a JSON object");
+		}
+
+		final Relic.Spells.Info info = new Relic.Spells.Info();
+
+		if (map.containsKey("intensity"))
+			info.intensity = number(map.get("intensity"));
+
+		if (map.containsKey("recovery"))
+			info.recovery = number(map.get("recovery"));
 
 		return info;
 	}
@@ -314,16 +336,26 @@ public class RelicLoader {
 		return false;
 	}
 
-	public static int hasSuchSpecialAbility(final List<Relic> relics, final String requiredAbility) {
+	public static int highestLevelInMap(final Map<String, Integer> map, final String key) {
+		int highest_level = 0;
+
+		for (final var entry : map.entrySet()) {
+			if (entry.getKey().equals(key)) {
+				highest_level = Math.max(highest_level, entry.getValue());
+			}
+		}
+
+		return highest_level;
+	}
+
+	public static int levelOfSuchPassiveAbility(final List<Relic> relics, final String requiredAbility) {
 		int highest_level = 0;
 
 		for (final Relic relic : relics) {
-			for (final var entry : relic.special_abilities.entrySet()) {
-				if (entry.getKey().equals(requiredAbility)) {
-					highest_level = Math.max(highest_level, entry.getValue());
-				}
-			}
+			highest_level = highestLevelInMap(relic.passive_abilities, requiredAbility);
 		}
 		return highest_level;
 	}
+
+
 }

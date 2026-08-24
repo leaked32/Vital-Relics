@@ -23,19 +23,25 @@ public class Relic {
 	public String rarity = "common";
 	public String texture = "brown_ring.png";
 
-	// parse either an array or "all_negative"
+	// parse either an array of effects or "all_negative"
 	public final List<String> immune_to_effects = new ArrayList<>();
-	public final Map<String, Integer> add_effects = new LinkedHashMap<>();
+	// parse a map of effects with their levels (start with 1)
+	public final Map<String, Integer> granted_effects = new LinkedHashMap<>();
 
 	/*
 	"retarget_arrow": anti-skeleton
 	"flight": grants flight ability
 	"reality_severance": all hostile living entities in range [level] cannot be invulnerable,
-			receive constant damage [attribution damage * (level / 100)]
+			receive constant damage [attribution damage * (level / 100)] per 1 second,
 	 		and receive constant negative effects with level [level / 4].
 	"metal_mending": Repairs damaged equipment by [level] once every 4 seconds.
 	 */
-	public final Map<String, Integer> special_abilities = new LinkedHashMap<>();
+	public final Map<String, Integer> passive_abilities = new LinkedHashMap<>();
+
+	/*
+	"teleport": ranger [level], cooldown
+	 */
+	public final Spells available_spells = new Spells();
 
 
 	public Properties properties = new Properties();
@@ -175,6 +181,24 @@ public class Relic {
 		public Info invulnerable_time_dealt = null;
 	}
 
+	public static class Spells {
+		public static class Info {
+			public double intensity = 0.0; // it can be null, but it shouldn't usually.
+			public double recovery = 0.0;
+
+			public static Info basic() {
+				Info prop = new Info();
+				prop.intensity = 0.0;
+				prop.recovery = 0.0;
+
+				return prop;
+			}
+		}
+
+		public Info teleport = null;
+		// public Info feed = null;
+	}
+
 	public boolean isImmuneToEffect(
 			final String effectId,
 			final boolean negative) {
@@ -218,10 +242,10 @@ public class Relic {
 			for (final String x : immune_to_effects)
 				out.add("Immune to " + displayName(x));
 
-		for (final var x : add_effects.entrySet())
+		for (final var x : granted_effects.entrySet())
 			out.add("Grants " + displayName(x.getKey()) + " " + x.getValue().toString());
 
-		for (final var x : special_abilities.entrySet())
+		for (final var x : passive_abilities.entrySet())
 			out.add("Ability: " + displayName(x.getKey()) + " " + x.getValue().toString());
 
 		while (!out.isEmpty() && out.get(out.size() - 1).isEmpty())

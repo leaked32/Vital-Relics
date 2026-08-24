@@ -132,7 +132,7 @@ public final class VitalEvents {
 			applyRelicEffects(livingEntity, relics);
 
 			if (livingEntity instanceof ServerPlayer player) {
-				int flight_level = RelicLoader.hasSuchSpecialAbility(
+				int flight_level = RelicLoader.levelOfSuchPassiveAbility(
 						relics, "flight"
 				);
 				if (flight_level > 0) {
@@ -154,7 +154,7 @@ public final class VitalEvents {
 
 
 		if (tick % 20 == 0) {
-			final int reality_severance_level = RelicLoader.hasSuchSpecialAbility(
+			final int reality_severance_level = RelicLoader.levelOfSuchPassiveAbility(
 					relics, "reality_severance"
 			);
 			if (reality_severance_level > 0) {
@@ -165,7 +165,7 @@ public final class VitalEvents {
 		}
 
 		if (tick % 80 == 0) {
-			final int metalMendingLevel = RelicLoader.hasSuchSpecialAbility(
+			final int metalMendingLevel = RelicLoader.levelOfSuchPassiveAbility(
 					relics, "metal_mending"
 			);
 
@@ -352,7 +352,7 @@ public final class VitalEvents {
 			if (entityResult.getEntity() instanceof LivingEntity victim) {
 
 				final var relics = gatherRelics(victim);
-				final int sp_level = RelicLoader.hasSuchSpecialAbility(relics, "retarget_arrow");
+				final int sp_level = RelicLoader.levelOfSuchPassiveAbility(relics, "retarget_arrow");
 				if (sp_level > 0) {
 					retargetArrow(arrow, victim, sp_level);
 					event.setCanceled(true);

@@ -1,4 +1,4 @@
-package com.example.vitalrelics.client;
+package com.example.vitalrelics.client.compat;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Acquisition;

@@ -7,7 +7,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
@@ -106,7 +105,7 @@ public final class VitalEvents {
 			applyRelicEffects(livingEntity, relics);
 
 			if (livingEntity instanceof ServerPlayer player) {
-				int flight_level = RelicLoader.hasSuchSpecialAbility(
+				int flight_level = RelicLoader.levelOfSuchPassiveAbility(
 						relics, "flight"
 				);
 				if (flight_level > 0) {
@@ -126,7 +125,7 @@ public final class VitalEvents {
 		}
 
 		if (tick % 20 == 0) {
-			final int reality_severance_level = RelicLoader.hasSuchSpecialAbility(
+			final int reality_severance_level = RelicLoader.levelOfSuchPassiveAbility(
 					relics, "reality_severance"
 			);
 			if (reality_severance_level > 0) {
@@ -137,7 +136,7 @@ public final class VitalEvents {
 		}
 
 		if (tick % 80 == 0) {
-			final int metalMendingLevel = RelicLoader.hasSuchSpecialAbility(
+			final int metalMendingLevel = RelicLoader.levelOfSuchPassiveAbility(
 					relics, "metal_mending"
 			);
 
@@ -299,7 +298,7 @@ public final class VitalEvents {
 			return;
 
 		final int sp_level =
-				RelicLoader.hasSuchSpecialAbility(gatherRelics(victim), "retarget_arrow");
+				RelicLoader.levelOfSuchPassiveAbility(gatherRelics(victim), "retarget_arrow");
 
 		if (sp_level > 0) {
 			retargetArrow(arrow, victim, sp_level);

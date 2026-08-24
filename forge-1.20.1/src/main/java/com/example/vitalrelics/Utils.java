@@ -3,40 +3,29 @@ package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
-import cpw.mods.util.Lazy;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import static com.example.vitalrelics.VitalRelics.MODID;
 import static com.example.vitalrelics.VitalRelics.loader;
 import static com.example.vitalrelics.compat.TouhouMaidCompat.gatherMaidRelics;
-import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.*;
 
 public class Utils {
 
@@ -137,7 +126,7 @@ public class Utils {
 			final List<Relic> relics) {
 
 		for (final Relic relic : relics) {
-			for (final var entry : relic.add_effects.entrySet()) {
+			for (final var entry : relic.granted_effects.entrySet()) {
 				final ResourceLocation id = new ResourceLocation("minecraft", entry.getKey());
 				final MobEffect effect = ForgeRegistries.MOB_EFFECTS.getValue(id);
 

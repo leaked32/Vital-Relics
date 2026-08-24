@@ -8,7 +8,7 @@
       "texture": "ring_aqua.png",
       "curio_slot": "ring",
       "rarity": "common",
-      "add_effects": {
+      "granted_effects": {
         "speed": 1
       }
     },
@@ -19,7 +19,7 @@
       "texture": "ring_purple.png",
       "curio_slot": "ring",
       "rarity": "common",
-      "add_effects": {
+      "granted_effects": {
         "night_vision": 1
       },
       "immune_to_effects": ["darkness", "blindness"]
@@ -31,7 +31,7 @@
       "texture": "ring_pink.png",
       "curio_slot": "ring",
       "rarity": "common",
-      "add_effects": {
+      "granted_effects": {
         "regeneration": 1
       }
     },
@@ -42,7 +42,7 @@
       "texture": "ring_red.png",
       "curio_slot": "ring",
       "rarity": "common",
-      "add_effects": {
+      "granted_effects": {
         "strength": 1
       }
     },
@@ -53,7 +53,7 @@
       "texture": "ring_green.png",
       "curio_slot": "ring",
       "rarity": "common",
-      "add_effects": {
+      "granted_effects": {
         "luck": 3
       }
     },
@@ -64,7 +64,7 @@
       "texture": "ring_blue.png",
       "curio_slot": "ring",
       "rarity": "common",
-      "add_effects": {
+      "granted_effects": {
         "fire_resistance": 1
       }
     },
@@ -75,7 +75,7 @@
       "texture": "ring_yellow.png",
       "curio_slot": "ring",
       "rarity": "common",
-      "add_effects": {
+      "granted_effects": {
         "jump_boost": 2
       }
     },
@@ -112,7 +112,7 @@
       "texture": "ring_aqua_saturated.png",
       "curio_slot": "ring",
       "rarity": "rare",
-      "special_abilities": { "metal_mending": 2 }
+      "passive_abilities": { "metal_mending": 2 }
     },
 
     {
@@ -221,7 +221,7 @@
       "tooltip": "A dead heart that somehow makes its bearer harder to kill.",
       "texture": "withered_heart_pendant.png",
       "rarity": "rare",
-      "add_effects": { "wither": 2 },
+      "granted_effects": { "wither": 2 },
       "properties": {
         "attack_damage": {
           "add": 6.0
@@ -249,7 +249,13 @@
       "id": "celestial_wings",
       "texture": "celestial_wings.png",
       "rarity": "epic",
-      "special_abilities": { "flight": 1 }
+      "passive_abilities": { "flight": 1 },
+      "available_spells": {
+        "teleport": {
+          "intensity": 50,
+          "recovery": 2
+        }
+      }
     },
     {
       "id": "cherry_cross",
@@ -259,7 +265,7 @@
       "curio_slot": "necklace",
       "rarity": "epic",
       "immune_to_effects": ["darkness", "wither", "blindness", "mining_fatigue"],
-      "add_effects": { "night_vision": 1, "speed": 2 },
+      "granted_effects": { "night_vision": 1, "speed": 2 },
       "properties": {
         "max_health": {
           "add": 20.0
@@ -287,13 +293,17 @@
       "texture": "cursed_crimson_rune.png",
       "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "rarity": "epic",
-      "special_abilities": { "reality_severance": 6 },
+      "passive_abilities": { "reality_severance": 6 },
+      "granted_effects": { "strength": 2 },
       "properties": {
         "attack_damage": {
           "add": 4.0
         }
       },
       "callbacks": {
+        "damage_dealt": {
+          "modifier": 1.15
+        },
         "invulnerable_time_dealt": {
           "modifier": 0.5
         }
@@ -308,7 +318,7 @@
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",
-      "special_abilities": { "retarget_arrow": 2, "reality_severance": 32, "lingering_wound": 30 },
+      "passive_abilities": { "retarget_arrow": 2, "reality_severance": 32, "lingering_wound": 30 },
       "properties": {
         "attack_damage": {
           "add": 9.0,

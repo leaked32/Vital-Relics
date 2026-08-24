@@ -1,5 +1,7 @@
 {
   "itemGroup.vitalrelics": "Example Mod Tab",
   "block.vitalrelics.example_block": "Example Block",
-  "item.vitalrelics.example_item": "Example Item"
+  "item.vitalrelics.example_item": "Example Item",
+  "key.vitalrelics.switch_spell": "Switch Spell",
+  "key.vitalrelics.cast_spell": "Cast Spell"
 }
