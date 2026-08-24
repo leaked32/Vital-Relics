@@ -3,6 +3,7 @@ package com.example.vitalrelics.network;
 import com.example.vitalrelics.MyDamageInfo;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicSpells;
+import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.common.scheduled.Scheduler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
