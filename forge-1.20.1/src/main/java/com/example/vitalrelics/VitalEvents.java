@@ -11,6 +11,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -27,6 +28,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -61,6 +63,44 @@ public final class VitalEvents {
 	private static final UUID ENTITY_REACH_ADD_ID = modifierId("entity_interaction_range_add");
 	private static final UUID ENTITY_REACH_MUL_ID = modifierId("entity_interaction_range_mul_base");
 	private static final UUID ENTITY_REACH_MUL_TOTAL_ID = modifierId("entity_interaction_range_mul_total");
+
+	private record PropertyTarget(
+			Attribute attribute,
+			UUID addId,
+			UUID mulBaseId,
+			UUID mulTotalId) {}
+
+	@FunctionalInterface
+	private interface TickAction {
+		void apply(LivingEntity entity, Relic.Ticks.Info value);
+	}
+
+	private static final Map<String, PropertyTarget> PROPERTY_TARGETS = Map.of(
+			"attack_damage", new PropertyTarget(Attributes.ATTACK_DAMAGE,
+					ATTACK_DAMAGE_ADD_ID, ATTACK_DAMAGE_MUL_ID, ATTACK_DAMAGE_MUL_TOTAL_ID),
+			"attack_speed", new PropertyTarget(Attributes.ATTACK_SPEED,
+					ATTACK_SPEED_ADD_ID, ATTACK_SPEED_MUL_ID, ATTACK_SPEED_MUL_TOTAL_ID),
+			"knockback_resistance", new PropertyTarget(Attributes.KNOCKBACK_RESISTANCE,
+					KNOCKBACK_RESISTANCE_ADD_ID, KNOCKBACK_RESISTANCE_MUL_ID, KNOCKBACK_RESISTANCE_MUL_TOTAL_ID),
+			"max_health", new PropertyTarget(Attributes.MAX_HEALTH,
+					MAX_HEALTH_ADD_ID, MAX_HEALTH_MUL_ID, MAX_HEALTH_MUL_TOTAL_ID),
+			"block_interaction_range", new PropertyTarget(ForgeMod.BLOCK_REACH.get(),
+					BLOCK_REACH_ADD_ID, BLOCK_REACH_MUL_ID, BLOCK_REACH_MUL_TOTAL_ID),
+			"entity_interaction_range", new PropertyTarget(ForgeMod.ENTITY_REACH.get(),
+					ENTITY_REACH_ADD_ID, ENTITY_REACH_MUL_ID, ENTITY_REACH_MUL_TOTAL_ID)
+	);
+
+	private static final Map<String, TickAction> TICK_ACTIONS = Map.of(
+			"heal", (entity, value) -> entity.heal((float) (
+					value.add + entity.getMaxHealth() * value.ratio_add)),
+			"feed", (entity, value) -> {
+				if (entity instanceof Player player) {
+					final float feed = (float) (
+							value.add + player.getMaxHealth() * value.ratio_add);
+					player.getFoodData().eat(Math.round(feed), 1.0F);
+				}
+			}
+	);
 
 	private VitalEvents() {}
 
@@ -145,37 +185,25 @@ public final class VitalEvents {
 			}
 		}
 
-		final Relic.Ticks ticks = RelicLoader.computeTicks(relics, tick);
+		final Map<String, Relic.Ticks.Info> ticks =
+				RelicLoader.computeTicks(relics, tick);
 
-		livingEntity.heal((float)(ticks.heal.add + livingEntity.getMaxHealth() * ticks.heal.ratio_add));
-
-		if (livingEntity instanceof Player player) {
-			final float feed =
-					(float)(ticks.feed.add + player.getMaxHealth() * ticks.feed.ratio_add);
-
-			player.getFoodData().eat(Math.round(feed), 1.0F);
+		for (final var entry : ticks.entrySet()) {
+			final TickAction action = TICK_ACTIONS.get(entry.getKey());
+			if (action != null)
+				action.apply(livingEntity, entry.getValue());
 		}
 
-		final Relic.Properties prop = RelicLoader.computeProperties(relics);
+		final Map<String, Relic.Properties.Info> properties =
+				RelicLoader.computeProperties(relics);
 
-		applyProperty(livingEntity.getAttribute(Attributes.ATTACK_DAMAGE), prop.attack_damage,
-				ATTACK_DAMAGE_ADD_ID, ATTACK_DAMAGE_MUL_ID, ATTACK_DAMAGE_MUL_TOTAL_ID);
-
-		applyProperty(livingEntity.getAttribute(Attributes.ATTACK_SPEED), prop.attack_speed,
-				ATTACK_SPEED_ADD_ID, ATTACK_SPEED_MUL_ID, ATTACK_SPEED_MUL_TOTAL_ID);
-
-		applyProperty(livingEntity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), prop.knockback_resistance,
-				KNOCKBACK_RESISTANCE_ADD_ID, KNOCKBACK_RESISTANCE_MUL_ID,
-				KNOCKBACK_RESISTANCE_MUL_TOTAL_ID);
-
-		applyProperty(livingEntity.getAttribute(Attributes.MAX_HEALTH), prop.max_health,
-				MAX_HEALTH_ADD_ID, MAX_HEALTH_MUL_ID, MAX_HEALTH_MUL_TOTAL_ID);
-
-		applyProperty(livingEntity.getAttribute(ForgeMod.BLOCK_REACH.get()), prop.block_interaction_range,
-				BLOCK_REACH_ADD_ID, BLOCK_REACH_MUL_ID, BLOCK_REACH_MUL_TOTAL_ID);
-
-		applyProperty(livingEntity.getAttribute(ForgeMod.ENTITY_REACH.get()), prop.entity_interaction_range,
-				ENTITY_REACH_ADD_ID, ENTITY_REACH_MUL_ID, ENTITY_REACH_MUL_TOTAL_ID);
+		for (final var entry : properties.entrySet()) {
+			final PropertyTarget target = PROPERTY_TARGETS.get(entry.getKey());
+			if (target != null) {
+				applyProperty(livingEntity.getAttribute(target.attribute()), entry.getValue(),
+						target.addId(), target.mulBaseId(), target.mulTotalId());
+			}
+		}
 
 		if (livingEntity.getHealth() > livingEntity.getMaxHealth())
 			livingEntity.setHealth(livingEntity.getMaxHealth());
@@ -227,32 +255,20 @@ public final class VitalEvents {
 		float amount = event.getAmount();
 
 		if (attacker instanceof LivingEntity livingAttacker) {
-			float invulnerableTime = victim.invulnerableTime;
+			final List<Relic> attackerRelics = gatherRelics(livingAttacker);
+			amount = (float) RelicLoader.applyCallback(
+					attackerRelics, "damage_dealt", amount, victim.getMaxHealth());
 
-			for (final Relic relic : gatherRelics(livingAttacker)) {
-				if (relic.callbacks.damage_dealt != null)
-					amount = (float)relic.callbacks.damage_dealt.process(
-							amount, victim.getMaxHealth());
-
-				if (relic.callbacks.invulnerable_time_dealt != null)
-					invulnerableTime = (float)relic.callbacks.invulnerable_time_dealt.process(
-							invulnerableTime, 10.0);
-			}
-
-			victim.invulnerableTime = Math.round(invulnerableTime);
+			final double invulnerableTime = RelicLoader.applyCallback(
+					attackerRelics, "invulnerable_time_dealt", victim.invulnerableTime, 10.0);
+			victim.invulnerableTime = Math.round((float) invulnerableTime);
 		}
 
-		float invulnerable_time = victim.invulnerableTime;
-
-		for (final Relic relic : gatherRelics(victim)) {
-			if (relic.callbacks.damage_taken != null)
-				amount = (float)relic.callbacks.damage_taken.process(
-						amount, victim.getMaxHealth());
-
-			if (relic.callbacks.invulnerable_time_taken != null)
-				invulnerable_time = (float)relic.callbacks.invulnerable_time_taken.process(
-						invulnerable_time, 10.0);
-		}
+		final List<Relic> victimRelics = gatherRelics(victim);
+		amount = (float) RelicLoader.applyCallback(
+				victimRelics, "damage_taken", amount, victim.getMaxHealth());
+		final float invulnerable_time = (float) RelicLoader.applyCallback(
+				victimRelics, "invulnerable_time_taken", victim.invulnerableTime, 10.0);
 
 		if (victim.invulnerableTime != invulnerable_time) {
 			// Modified by protection
