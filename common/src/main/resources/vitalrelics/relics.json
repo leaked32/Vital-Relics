@@ -297,7 +297,7 @@
       "granted_effects": { "strength": 2 },
       "available_spells": {
         "curse": {
-          "intensity": 20,
+          "intensity": 100,
           "range": 128,
           "recovery": 2
         }
