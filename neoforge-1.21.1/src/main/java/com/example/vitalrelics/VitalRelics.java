@@ -2,6 +2,7 @@ package com.example.vitalrelics;
 
 import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
+import com.example.vitalrelics.client.VitalClientEvents;
 import com.example.vitalrelics.common.AcquisitionLoader;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
@@ -14,8 +15,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
@@ -58,9 +59,16 @@ public class VitalRelics
 	public static AcquisitionLoader acquisition = null;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
 
+	public VitalRelics(
+			final IEventBus modEventBus,
+			final Dist dist) {
 
-	public VitalRelics(IEventBus modEventBus, ModContainer modContainer)
-	{
+		if (dist == Dist.CLIENT) {
+			VitalClientEvents.registerListeners(modEventBus);
+		}
+
+		// existing constructor body...
+
 		modEventBus.addListener(this::commonSetup);
 		modEventBus.addListener(Network::registerPayloadHandlers);
 

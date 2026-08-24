@@ -318,16 +318,12 @@ public class MyDamageInfo
 		MinecraftServer server = target.level().getServer();
 		if (server == null) return;
 		// LOGGER.info("Reality Piercer add_prevent_heal logging target: {}", target.toString());
-		float least_damage;
-
-		if (!Scheduler.INSTANCE().HEAL_PREVENTION_LIST.containsKey(uuid)) {
-			Scheduler.INSTANCE().HEAL_PREVENTION_LIST.put(uuid, server.getTickCount(), amount);
-			least_damage = amount;
-		} else {
-			final float selected = Scheduler.INSTANCE().HEAL_PREVENTION_LIST.get(uuid) + amount;
-			Scheduler.INSTANCE().HEAL_PREVENTION_LIST.put(uuid, server.getTickCount(), selected);
-			least_damage = selected;
-		}
+		final float least_damage =
+				Scheduler.INSTANCE().addHealingPrevention(
+						uuid,
+						server.getTickCount(),
+						amount
+				);
 
 		float allowed_max_health = target.getMaxHealth() - least_damage;
 

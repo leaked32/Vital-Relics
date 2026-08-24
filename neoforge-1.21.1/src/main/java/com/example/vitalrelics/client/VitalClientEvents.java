@@ -2,39 +2,27 @@ package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicSpells;
 import com.example.vitalrelics.network.NetworkPayload;
 import com.example.vitalrelics.network.SpellSystem;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.example.vitalrelics.Utils.gatherRelics;
-
-@EventBusSubscriber(
-		modid = VitalRelics.MODID,
-		value = Dist.CLIENT
-)
 public final class VitalClientEvents {
 	private static final ResourceLocation FLAT_ID =
 			ResourceLocation.fromNamespaceAndPath(VitalRelics.MODID, "item/flat");
@@ -43,6 +31,16 @@ public final class VitalClientEvents {
 			ModelResourceLocation.standalone(FLAT_ID);
 
 	private VitalClientEvents() {}
+
+	public static void registerListeners(final IEventBus modEventBus) {
+		modEventBus.addListener(VitalClientEvents::registerKeyMappings);
+		modEventBus.addListener(VitalClientEvents::registerClientExtensions);
+		modEventBus.addListener(VitalClientEvents::registerAdditionalModels);
+		modEventBus.addListener(VitalClientEvents::modifyBakingResult);
+
+		NeoForge.EVENT_BUS.addListener(VitalClientEvents::clientTick);
+		NeoForge.EVENT_BUS.addListener(VitalClientEvents::mouseScroll);
+	}
 
 	/*
 	KEY REGISTRATION
@@ -61,7 +59,6 @@ public final class VitalClientEvents {
 					GLFW.GLFW_KEY_LEFT_SHIFT,"key.categories.vitalrelics"
 			);
 
-	@SubscribeEvent
 	public static void clientTick(
 			final ClientTickEvent.Post event) {
 
@@ -75,13 +72,14 @@ public final class VitalClientEvents {
 		}
 	}
 
-	@SubscribeEvent
-	public static void register(final RegisterKeyMappingsEvent event) {
+
+	public static void registerKeyMappings(
+			final RegisterKeyMappingsEvent event) {
+
 		event.register(ACTIVE_SKILL_KEY);
 		event.register(SWITCH_SKILL_KEY);
 	}
 
-	@SubscribeEvent
 	public static void mouseScroll(final InputEvent.MouseScrollingEvent event) {
 		if (!SWITCH_SKILL_KEY.isDown())
 			return;
@@ -104,7 +102,6 @@ public final class VitalClientEvents {
 	Client Rendering
 	 */
 
-	@SubscribeEvent
 	public static void registerClientExtensions(
 			final RegisterClientExtensionsEvent event) {
 
@@ -115,7 +112,6 @@ public final class VitalClientEvents {
 		event.registerItem(new RelicClientExtensions(), items);
 	}
 
-	@SubscribeEvent
 	public static void registerAdditionalModels(
 			final ModelEvent.RegisterAdditional event) {
 
@@ -123,7 +119,6 @@ public final class VitalClientEvents {
 		event.register(FLAT_MODEL);
 	}
 
-	@SubscribeEvent
 	public static void modifyBakingResult(
 			final ModelEvent.ModifyBakingResult event) {
 

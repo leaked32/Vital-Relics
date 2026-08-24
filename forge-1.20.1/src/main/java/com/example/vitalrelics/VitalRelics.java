@@ -2,9 +2,11 @@ package com.example.vitalrelics;
 
 import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
+import com.example.vitalrelics.client.VitalClientEvents;
 import com.example.vitalrelics.common.AcquisitionLoader;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.network.Network;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -16,8 +18,10 @@ import net.minecraft.world.item.Rarity;
 
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -69,6 +73,10 @@ public class VitalRelics {
 		@SuppressWarnings("removal")
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+		DistExecutor.unsafeRunWhenOn(
+				Dist.CLIENT,
+				() -> () -> VitalClientEvents.register(modEventBus)
+		);
 		/*
 		 * Load the version-independent relic definitions before registration.
 		 */
@@ -126,6 +134,8 @@ public class VitalRelics {
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
+		Network.register();
+
 		final ResourceLocation validator =
 				ResourceLocation.fromNamespaceAndPath(MODID, "relic_slot");
 

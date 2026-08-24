@@ -277,17 +277,18 @@ public final class VitalEvents {
 		final float invulnerable_time = (float) RelicLoader.applyCallback(
 				victimRelics, "invulnerable_time_taken", victim.invulnerableTime, 10.0);
 
+		// Only activate it when changes happen.
 		if (victim.invulnerableTime != invulnerable_time) {
-			// Modified by protection
-			UUID victimUUID = victim.getUUID();
-			if (Scheduler.INSTANCE().PROTECTED_PLAYER_LIST.getOrDefault(victimUUID, 0) == 0) {
-				Scheduler.INSTANCE().PROTECTED_PLAYER_LIST.put(victimUUID, victim_server.getTickCount(), Math.round(invulnerable_time));
-			} else {
-				amount = 0.f;
+			if (!Scheduler.INSTANCE().acquireProtection(
+					victim.getUUID(),
+					victim_server.getTickCount(),
+					Math.round(invulnerable_time)
+			)) {
+				amount = 0.0F;
 			}
+			victim.invulnerableTime = Math.round(invulnerable_time);
 		}
 
-		victim.invulnerableTime = Math.round(invulnerable_time);
 		event.setAmount(amount);
 	}
 
