@@ -3,6 +3,7 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import com.example.vitalrelics.common.scheduled.Scheduler;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -91,10 +92,10 @@ public final class VitalEvents {
 			ResourceLocation.fromNamespaceAndPath(MODID, "entity_interaction_range_mul_total");
 
 	private record PropertyTarget(
-			Attribute attribute,
+			Holder<Attribute> attribute,
 			ResourceLocation addId,
 			ResourceLocation mulBaseId,
-			ResourceLocation mulTotalId) {}
+			ResourceLocation mulTotalId) {} {}
 
 	@FunctionalInterface
 	private interface TickAction {

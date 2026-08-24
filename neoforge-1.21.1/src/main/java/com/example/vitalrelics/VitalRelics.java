@@ -5,6 +5,7 @@ import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
 import com.example.vitalrelics.common.AcquisitionLoader;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.network.Network;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -61,7 +62,7 @@ public class VitalRelics
 	public VitalRelics(IEventBus modEventBus, ModContainer modContainer)
 	{
 		modEventBus.addListener(this::commonSetup);
-		modEventBus.addListener(SpellNetwork::register);
+		modEventBus.addListener(Network::registerPayloadHandlers);
 
 		BLOCKS.register(modEventBus);
 		ITEMS.register(modEventBus);

@@ -2,10 +2,13 @@ package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Relic;
+import com.example.vitalrelics.common.RelicSpells;
 import com.example.vitalrelics.network.NetworkPayload;
-import com.example.vitalrelics.network.SpellSystem;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -14,12 +17,18 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.vitalrelics.Utils.gatherRelics;
 
 @EventBusSubscriber(
 		modid = VitalRelics.MODID,
@@ -46,29 +55,93 @@ public final class VitalClientEvents {
 
 	public static final KeyMapping SWITCH_SKILL_KEY =
 			new KeyMapping(
-					"key.vitalrelics.switch_spell", KeyConflictContext.IN_GAME,
-					InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_SHIFT, "key.categories.vitalrelics"
+					"key.vitalrelics.switch_spell",
+					KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM,
+					GLFW.GLFW_KEY_LEFT_SHIFT,"key.categories.vitalrelics"
 			);
 
-	@SubscribeEvent
-	public static void registerKeys(
-			final RegisterKeyMappingsEvent event) {
-
-		event.register(ACTIVE_SKILL_KEY);
-		event.register(SWITCH_SKILL_KEY);
-	}
+	private static String selectedSpellId;
 
 	@SubscribeEvent
 	public static void clientTick(
 			final ClientTickEvent.Post event) {
 
 		while (ACTIVE_SKILL_KEY.consumeClick()) {
-			PacketDistributor.sendToServer(new NetworkPayload(SpellSystem.CAST_SPELL));
+			final Minecraft minecraft = Minecraft.getInstance();
+			final String spellId = selectedSpell(minecraft);
+
+			if (spellId == null)
+				continue;
+
+			minecraft.options.keyDrop.consumeClick();
+			PacketDistributor.sendToServer(new NetworkPayload(spellId));
+		}
+	}
+
+	@SubscribeEvent
+	public static void register(final RegisterKeyMappingsEvent event) {
+		event.register(ACTIVE_SKILL_KEY);
+		event.register(SWITCH_SKILL_KEY);
+	}
+
+	@SubscribeEvent
+	public static void mouseScroll(final InputEvent.MouseScrollingEvent event) {
+		if (!SWITCH_SKILL_KEY.isDown())
+			return;
+
+		final double delta = event.getScrollDeltaY();
+
+		if (delta == 0.0 || selectNext(delta > 0.0 ? -1 : 1) == null)
+			return;
+
+		event.setCanceled(true);
+	}
+
+	private static String selectNext(final int direction) {
+		final Minecraft minecraft = Minecraft.getInstance();
+		final List<String> spellIds = spellIds(minecraft);
+
+		if (spellIds.isEmpty()) {
+			selectedSpellId = null;
+			return null;
 		}
 
-		while (SWITCH_SKILL_KEY.consumeClick()) {
-			PacketDistributor.sendToServer(new NetworkPayload(SpellSystem.SWITCH_SPELL));
+		final int current = Math.max(0, spellIds.indexOf(selectedSpellId));
+		selectedSpellId = spellIds.get(Math.floorMod(
+				current + direction, spellIds.size()
+		));
+
+		minecraft.player.displayClientMessage(
+				Component.literal("Selected spell: " +
+						Relic.itemDisplayName(selectedSpellId)),
+				true
+		);
+		return selectedSpellId;
+	}
+
+	private static String selectedSpell(final Minecraft minecraft) {
+		final List<String> spellIds = spellIds(minecraft);
+
+		if (spellIds.isEmpty()) {
+			selectedSpellId = null;
+			return null;
 		}
+
+		if (!spellIds.contains(selectedSpellId))
+			selectedSpellId = spellIds.get(0);
+
+		return selectedSpellId;
+	}
+
+	private static List<String> spellIds(final Minecraft minecraft) {
+		if (minecraft.player == null || minecraft.screen != null)
+			return List.of();
+
+		return new ArrayList<>(
+				RelicSpells.gatherSpells(
+						gatherRelics(minecraft.player)
+				).keySet()
+		);
 	}
 
 	/*
