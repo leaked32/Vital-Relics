@@ -57,9 +57,6 @@ public final class SpellSystem {
 
 		final int tick = level.getServer().getTickCount();
 
-		final Relic.Spells.Info spell =
-				RelicSpells.gatherSpells(gatherRelics(caster)).get(abilityId);
-
 		final Map<String, Relic.Spells.Info> spells =
 				RelicSpells.gatherSpells(gatherRelics(caster));
 
@@ -89,50 +86,52 @@ public final class SpellSystem {
 			return;
 		}
 
-		if (abilityId.equals(CAST_SPELL))
+		if (abilityId.equals(CAST_SPELL)) {
 			abilityId = Scheduler.INSTANCE().selectedSpell(
 					caster.getUUID(),
 					spellIds,
 					tick
 			);
 
-		if (abilityId == null)
-			return;
+			if (abilityId == null) {
+				return;
+			}
 
-		if (spell == null)
-			return;
+			final Relic.Spells.Info spell = spells.get(abilityId);
 
-		if (spell == null) {
-			return;
-		}
-		final int remainingTicks =
-				Scheduler.INSTANCE().getSpellCooldownRemaining(
-						caster.getUUID(), abilityId, tick
-				);
+			if (spell == null) {
+				return;
+			}
 
-		if (remainingTicks > 0) {
-			if (caster instanceof ServerPlayer player) {
-				player.displayClientMessage(
-						Component.literal(
-								Relic.itemDisplayName(abilityId) +
-										" cooldown: " +
-										String.format("%.1fs", remainingTicks / 20.0)
-						),
-						true
+			final int remainingTicks =
+					Scheduler.INSTANCE().getSpellCooldownRemaining(
+							caster.getUUID(), abilityId, tick
+					);
+
+			if (remainingTicks > 0) {
+				if (caster instanceof ServerPlayer player) {
+					player.displayClientMessage(
+							Component.literal(
+									Relic.itemDisplayName(abilityId) +
+											" cooldown: " +
+											String.format("%.1fs", remainingTicks / 20.0)
+							),
+							true
+					);
+				}
+				return;
+			}
+
+			final Handler handler = HANDLERS.get(abilityId);
+
+			if (handler != null && handler.activate(caster, spell)) {
+				Scheduler.INSTANCE().setSpellCooldown(
+						caster.getUUID(),
+						abilityId,
+						tick,
+						RelicSpells.cooldownTicks(spell)
 				);
 			}
-			return;
-		}
-
-		final Handler handler = HANDLERS.get(abilityId);
-
-		if (handler != null && handler.activate(caster, spell)) {
-			Scheduler.INSTANCE().setSpellCooldown(
-					caster.getUUID(),
-					abilityId,
-					tick,
-					RelicSpells.cooldownTicks(spell)
-			);
 		}
 	}
 
