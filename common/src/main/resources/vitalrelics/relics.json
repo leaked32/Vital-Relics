@@ -277,7 +277,7 @@
           "add": 1
         },
         "feed": {
-          "interval_ticks": 160,
+          "interval_ticks": 240,
           "add": 1
         }
       },
@@ -300,11 +300,6 @@
           "intensity": 20,
           "range": 128,
           "recovery": 2
-        }
-      },
-      "properties": {
-        "attack_damage": {
-          "add": 4.0
         }
       },
       "callbacks": {

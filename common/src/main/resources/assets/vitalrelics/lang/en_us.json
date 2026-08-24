@@ -1,8 +1,50 @@
 {
-  "itemGroup.vitalrelics": "Example Mod Tab",
-  "block.vitalrelics.example_block": "Example Block",
-  "item.vitalrelics.example_item": "Example Item",
-  "key.vitalrelics.switch_spell": "Switch Spell",
+  "itemGroup.vitalrelics": "Vital Relics",
+
+  "key.categories.vitalrelics": "Vital Relics",
   "key.vitalrelics.cast_spell": "Cast Spell",
-  "key.categories.vitalrelics": "Vital Relics"
+  "key.vitalrelics.switch_spell": "Switch Spell",
+
+  "message.vitalrelics.selected_spell": "Selected spell: %s",
+  "message.vitalrelics.spell_cooldown": "%s cooldown: %s",
+  "message.vitalrelics.curse_requires_target": "Curse requires a target.",
+
+  "tooltip.vitalrelics.property.add": "%s %s",
+  "tooltip.vitalrelics.property.mul_base": "%s %s from base",
+  "tooltip.vitalrelics.property.mul_total": "x%s total %s",
+  "tooltip.vitalrelics.tick.add": "Every %s: %s %s",
+  "tooltip.vitalrelics.tick.ratio_add": "Every %s: %s Max %s",
+  "tooltip.vitalrelics.callback.minimum": "Minimum %s: %s",
+  "tooltip.vitalrelics.callback.minimum_ratio": "Minimum %s: %s of reference",
+  "tooltip.vitalrelics.callback.maximum": "Maximum %s: %s",
+  "tooltip.vitalrelics.callback.maximum_ratio": "Maximum %s: %s of reference",
+  "tooltip.vitalrelics.immune_effect": "Immune to %s",
+  "tooltip.vitalrelics.immune_all_negative": "Immune to all negative effects",
+  "tooltip.vitalrelics.grants_effect": "Grants %s %s",
+  "tooltip.vitalrelics.ability": "Ability: %s %s",
+  "tooltip.vitalrelics.spell": "Spell: %s",
+
+  "relic.vitalrelics.property.attack_damage": "Attack Damage",
+  "relic.vitalrelics.property.attack_speed": "Attack Speed",
+  "relic.vitalrelics.property.knockback_resistance": "Knockback Resistance",
+  "relic.vitalrelics.property.max_health": "Max Health",
+  "relic.vitalrelics.property.block_interaction_range": "Block Reach",
+  "relic.vitalrelics.property.entity_interaction_range": "Entity Reach",
+
+  "relic.vitalrelics.tick.heal": "Health",
+  "relic.vitalrelics.tick.feed": "Hunger",
+
+  "relic.vitalrelics.callback.damage_dealt": "Damage Dealt",
+  "relic.vitalrelics.callback.damage_taken": "Damage Taken",
+  "relic.vitalrelics.callback.invulnerable_time_dealt": "Invulnerability Time Dealt",
+  "relic.vitalrelics.callback.invulnerable_time_taken": "Invulnerability Time Taken",
+
+  "relic.vitalrelics.ability.flight": "Flight",
+  "relic.vitalrelics.ability.metal_mending": "Metal Mending",
+  "relic.vitalrelics.ability.reality_severance": "Reality Severance",
+  "relic.vitalrelics.ability.retarget_arrow": "Retarget Arrow",
+  "relic.vitalrelics.ability.lingering_wound": "Lingering Wound",
+
+  "relic.vitalrelics.spell.teleport": "Teleport",
+  "relic.vitalrelics.spell.curse": "Curse"
 }

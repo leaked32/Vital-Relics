@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.vitalrelics.common.RelicText.displayName;
+
 public class Relic {
 	public String id;
 	public String display_name = null;
@@ -141,91 +143,6 @@ public class Relic {
 				(negative && immune_to_effects.contains("all_negative"));
 	}
 
-	public List<String> getTooltipLines() {
-		final List<String> out = new ArrayList<>();
-
-		if (tooltip != null && !tooltip.isBlank()) {
-			out.add(tooltip);
-			out.add("");
-		}
-
-		for (final var entry : properties.entrySet())
-			addProperty(out, displayName(entry.getKey()), entry.getValue());
-
-		for (final var entry : ticks.entrySet())
-			addTick(out, displayName(entry.getKey()), entry.getValue());
-
-		for (final var entry : callbacks.entrySet())
-			addCallback(out, displayName(entry.getKey()), entry.getValue());
-
-		if (immune_to_effects.contains("all_negative"))
-			out.add("Immune to all negative effects");
-		else
-			for (final String effect : immune_to_effects)
-				out.add("Immune to " + displayName(effect));
-
-		for (final var effect : granted_effects.entrySet())
-			out.add("Grants " + displayName(effect.getKey()) + " " + effect.getValue());
-
-		for (final var ability : passive_abilities.entrySet())
-			out.add("Ability: " + displayName(ability.getKey()) + " " + ability.getValue());
-
-		for (final String spellId : available_spells.keySet())
-			out.add("Spell: " + displayName(spellId));
-
-		while (!out.isEmpty() && out.get(out.size() - 1).isEmpty())
-			out.remove(out.size() - 1);
-
-		return out;
-	}
-
-	private static void addProperty(
-			final List<String> out,
-			final String name,
-			final Properties.Info value) {
-
-		if (nz(value.add))
-			out.add(signed(value.add) + " " + name);
-		if (nz(value.mul_base))
-			out.add(signedPercent(value.mul_base) + " " + name + " from base");
-		if (value.mul_total != null && value.mul_total != 1.0)
-			out.add("x" + fmt(value.mul_total) + " total " + name);
-	}
-
-	private static void addTick(
-			final List<String> out,
-			final String name,
-			final Ticks.Info value) {
-
-		final String prefix = "Every " + fmt(value.interval_ticks / 20.0) + "s: ";
-
-		if (nz(value.add))
-			out.add(prefix + signed(value.add) + " " + name);
-		if (nz(value.ratio_add))
-			out.add(prefix + signedPercent(value.ratio_add) + " Max " + name);
-	}
-
-	private static void addCallback(
-			final List<String> out,
-			final String name,
-			final Callbacks.Info value) {
-
-		if (value.modifier != null)
-			out.add(signedPercentRaw((value.modifier - 1.0) * 100.0) + " " + name);
-		if (nz(value.flat))
-			out.add(signed(value.flat) + " " + name);
-		if (value.minimum != null)
-			out.add("Minimum " + name + ": " + fmt(value.minimum));
-		if (value.ratio_minimum != null)
-			out.add("Minimum " + name + ": " +
-					fmt(value.ratio_minimum * 100.0) + "% of reference");
-		if (value.maximum != null)
-			out.add("Maximum " + name + ": " + fmt(value.maximum));
-		if (value.ratio_maximum != null)
-			out.add("Maximum " + name + ": " +
-					fmt(value.ratio_maximum * 100.0) + "% of reference");
-	}
-
 	private static boolean nz(final Double value) {
 		return value != null && value != 0.0;
 	}
@@ -249,23 +166,6 @@ public class Relic {
 		return String.format("%.2f", value)
 				.replaceAll("0+$", "")
 				.replaceAll("\\.$", "");
-	}
-
-	private static String displayName(final String id) {
-		final StringBuilder out = new StringBuilder();
-
-		for (final String word : id.split("_")) {
-			if (word.isEmpty())
-				continue;
-
-			if (!out.isEmpty())
-				out.append(' ');
-
-			out.append(Character.toUpperCase(word.charAt(0)))
-					.append(word.substring(1));
-		}
-
-		return out.toString();
 	}
 
 	public static String itemDisplayName(final String id) {

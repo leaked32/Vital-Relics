@@ -78,9 +78,9 @@ public final class SpellSystem {
 
 			if (caster instanceof ServerPlayer player && selected != null) {
 				player.displayClientMessage(
-						Component.literal(
-								"Selected spell: " +
-										Relic.itemDisplayName(selected)
+						Component.translatable(
+								"message.vitalrelics.selected_spell",
+								Relic.itemDisplayName(selected)
 						),
 						true
 				);
@@ -111,13 +111,14 @@ public final class SpellSystem {
 		if (remainingTicks > 0) {
 			if (caster instanceof ServerPlayer player) {
 				player.displayClientMessage(
-						Component.literal(
-								Relic.itemDisplayName(abilityId) +
-										" cooldown: " +
-										String.format(
-												"%.1fs",
-												remainingTicks / 20.0
-										)
+						Component.translatable(
+								"message.vitalrelics.spell_cooldown",
+								Relic.itemDisplayName(abilityId),
+								String.format(
+										Locale.ROOT,
+										"%.1fs",
+										remainingTicks / 20.0
+								)
 						),
 						true
 				);
@@ -229,7 +230,19 @@ public final class SpellSystem {
 
 			final LivingEntity target = pointedLivingEntity(caster, level, range);
 
-			if (target == null || isAllied(caster, target))
+			if (target == null) {
+				if (caster instanceof ServerPlayer player) {
+					player.displayClientMessage(
+							Component.translatable(
+									"message.vitalrelics.curse_requires_target"
+							),
+							true
+					);
+				}
+				return false;
+			}
+
+			if (isAllied(caster, target))
 				return false;
 
 			final float damage = intensity / 100.0F *
