@@ -73,10 +73,10 @@ public class Scheduler {
 
 	// TODO, make all of them private.
 	private final MyMap<MyList<DelayTask>> DELAYED_TASK_LIST = new MyMap<>();
-	public final MyMap<Float> HEAL_PREVENTION_LIST = new MyMap<>();
-	public final MyMap<Integer> PROTECTED_PLAYER_LIST = new MyMap<>();
+	private final MyMap<Float> HEAL_PREVENTION_LIST = new MyMap<>();
+	private final MyMap<Integer> PROTECTED_PLAYER_LIST = new MyMap<>();
 
-	public final MyMap<SpellState> SPELL_STATE_LIST = new MyMap<>(0);
+	private final MyMap<SpellState> SPELL_STATE_LIST = new MyMap<>(0);
 
 	private static final int DELAYED_TASK_LIST_MAX = 12;
 
@@ -241,6 +241,37 @@ public class Scheduler {
 		} finally {
 			DELAYED_TASK_LIST.get_lock().unlock();
 		}
+	}
+
+	/*
+	Healing Prevention
+	 */
+	public float addHealingPrevention(
+			final UUID uuid,
+			final int currentTick,
+			final float amount) {
+
+		final float total =
+				HEAL_PREVENTION_LIST.getOrDefault(uuid, 0.0F) + amount;
+
+		HEAL_PREVENTION_LIST.put(uuid, currentTick, total);
+		return total;
+	}
+
+	/*
+	Protection
+	 */
+
+	public boolean acquireProtection(
+			final UUID uuid,
+			final int currentTick,
+			final int invulnerableTicks) {
+
+		if (PROTECTED_PLAYER_LIST.getOrDefault(uuid, 0) != 0)
+			return false;
+
+		PROTECTED_PLAYER_LIST.put(uuid, currentTick, invulnerableTicks);
+		return true;
 	}
 
 	private static final Scheduler INSTANCE = new Scheduler();

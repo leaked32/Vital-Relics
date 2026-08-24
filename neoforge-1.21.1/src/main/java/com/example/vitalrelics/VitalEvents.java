@@ -287,7 +287,9 @@ public final class VitalEvents {
 			return;
 		}
 
-		// Attack
+		/*
+		Attack
+		 */
 		if (entity_criminal instanceof LivingEntity criminal) {
 			final var attackerRelics = gatherRelics(criminal);
 			final float amount = (float) RelicLoader.applyCallback(
@@ -307,7 +309,9 @@ public final class VitalEvents {
 			event.setNewDamage(amount);
 		}
 
-		// Protection
+		/*
+		Protection
+		 */
 		final var victimRelics = gatherRelics(victim);
 		float amount = (float) RelicLoader.applyCallback(
 				victimRelics,
@@ -315,6 +319,7 @@ public final class VitalEvents {
 				event.getNewDamage(),
 				victim.getMaxHealth()
 		);
+
 		final float invulnerable_time = (float) RelicLoader.applyCallback(
 				victimRelics,
 				"invulnerable_time_taken",
@@ -322,20 +327,18 @@ public final class VitalEvents {
 				10.0
 		);
 
+		// Only activate it when changes happen.
 		if (victim.invulnerableTime != invulnerable_time) {
-			final UUID victimUUID = victim.getUUID();
-			if (Scheduler.INSTANCE().PROTECTED_PLAYER_LIST.getOrDefault(victimUUID, 0) == 0) {
-				Scheduler.INSTANCE().PROTECTED_PLAYER_LIST.put(
-						victimUUID,
-						victim_server.getTickCount(),
-						Math.round(invulnerable_time)
-				);
-			} else {
+			if (!Scheduler.INSTANCE().acquireProtection(
+					victim.getUUID(),
+					victim_server.getTickCount(),
+					Math.round(invulnerable_time)
+			)) {
 				amount = 0.0F;
 			}
+			victim.invulnerableTime = Math.round(invulnerable_time);
 		}
 
-		victim.invulnerableTime = Math.round(invulnerable_time);
 		event.setNewDamage(amount);
 
 		// inspect DamageSource / attacker / victim relics here
