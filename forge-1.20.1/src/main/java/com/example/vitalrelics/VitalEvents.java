@@ -197,16 +197,23 @@ public final class VitalEvents {
 		final Map<String, Relic.Properties.Info> properties =
 				RelicLoader.computeProperties(relics);
 
-		for (final var entry : properties.entrySet()) {
-			final PropertyTarget target = PROPERTY_TARGETS.get(entry.getKey());
-			if (target != null) {
-				applyProperty(livingEntity.getAttribute(target.attribute()), entry.getValue(),
-						target.addId(), target.mulBaseId(), target.mulTotalId());
-			}
-		}
+		for (final var entry : PROPERTY_TARGETS.entrySet()) {
+			final PropertyTarget target = entry.getValue();
 
-		if (livingEntity.getHealth() > livingEntity.getMaxHealth())
-			livingEntity.setHealth(livingEntity.getMaxHealth());
+			final Relic.Properties.Info property =
+					properties.getOrDefault(
+							entry.getKey(),
+							Relic.Properties.Info.basic()
+					);
+
+			applyProperty(
+					livingEntity.getAttribute(target.attribute()),
+					property,
+					target.addId(),
+					target.mulBaseId(),
+					target.mulTotalId()
+			);
+		}
 	}
 
 	private static void applyProperty(

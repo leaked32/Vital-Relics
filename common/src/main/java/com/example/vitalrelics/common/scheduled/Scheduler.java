@@ -65,11 +65,18 @@ public class Scheduler {
 	}
 
 
+	public static final class SpellState {
+		private String selectedSpellId = null;
+		private final Map<String, Integer> cooldownEndTicks =
+				new HashMap<>();
+	}
 
-	public final MyMap<MyList<DelayTask>> DELAYED_TASK_LIST = new MyMap<>();
+	// TODO, make all of them private.
+	private final MyMap<MyList<DelayTask>> DELAYED_TASK_LIST = new MyMap<>();
 	public final MyMap<Float> HEAL_PREVENTION_LIST = new MyMap<>();
 	public final MyMap<Integer> PROTECTED_PLAYER_LIST = new MyMap<>();
-	public final MyMap<Map<String, Integer>> SPELL_COOLDOWN_LIST = new MyMap<>(0);
+
+	public final MyMap<SpellState> SPELL_STATE_LIST = new MyMap<>(0);
 
 	private static final int DELAYED_TASK_LIST_MAX = 12;
 
@@ -114,14 +121,85 @@ public class Scheduler {
 		}
 	}
 
-	public boolean isSpellCoolingDown(
+	/*
+	Spells
+	 */
+
+	private SpellState spellState(
+			final UUID uuid,
+			final int currentTickCount) {
+
+		SpellState state = SPELL_STATE_LIST.get(uuid);
+
+		if (state == null) {
+			state = new SpellState();
+			SPELL_STATE_LIST.put(uuid, currentTickCount, state);
+		}
+
+		return state;
+	}
+
+	public String selectSpell(
+			final UUID uuid,
+			final List<String> spellIds,
+			final int direction,
+			final int currentTickCount) {
+
+		final SpellState state = spellState(uuid, currentTickCount);
+
+		if (spellIds.isEmpty()) {
+			state.selectedSpellId = null;
+			return null;
+		}
+
+		final int current = Math.max(
+				0,
+				spellIds.indexOf(state.selectedSpellId)
+		);
+
+		state.selectedSpellId = spellIds.get(Math.floorMod(
+				current + direction,
+				spellIds.size()
+		));
+
+		SPELL_STATE_LIST.put(uuid, currentTickCount, state);
+		return state.selectedSpellId;
+	}
+
+	public String selectedSpell(
+			final UUID uuid,
+			final List<String> spellIds,
+			final int currentTickCount) {
+
+		final SpellState state = spellState(uuid, currentTickCount);
+
+		if (spellIds.isEmpty()) {
+			state.selectedSpellId = null;
+			return null;
+		}
+
+		if (!spellIds.contains(state.selectedSpellId))
+			state.selectedSpellId = spellIds.get(0);
+
+		SPELL_STATE_LIST.put(uuid, currentTickCount, state);
+		return state.selectedSpellId;
+	}
+
+	public int getSpellCooldownRemaining(
 			final UUID uuid,
 			final String spellId,
 			final int currentTickCount) {
 
-		final Map<String, Integer> cooldowns = SPELL_COOLDOWN_LIST.get(uuid);
-		return cooldowns != null &&
-				cooldowns.getOrDefault(spellId, 0) > currentTickCount;
+		final SpellState state = SPELL_STATE_LIST.get(uuid);
+
+		if (state == null)
+			return 0;
+
+		return Math.max(
+				0,
+				state.cooldownEndTicks.getOrDefault(spellId, 0) -
+						currentTickCount
+		);
 	}
 
 	public void setSpellCooldown(
@@ -130,11 +208,19 @@ public class Scheduler {
 			final int currentTickCount,
 			final int durationTicks) {
 
-		final Map<String, Integer> cooldowns =
-				new HashMap<>(SPELL_COOLDOWN_LIST.getOrDefault(uuid, Map.of()));
-		cooldowns.put(spellId, currentTickCount + durationTicks);
-		SPELL_COOLDOWN_LIST.put(uuid, currentTickCount, cooldowns);
+		final SpellState state = spellState(uuid, currentTickCount);
+
+		state.cooldownEndTicks.put(
+				spellId,
+				currentTickCount + durationTicks
+		);
+
+		SPELL_STATE_LIST.put(uuid, currentTickCount, state);
 	}
+
+	/*
+	Delayed Task
+	 */
 
 	public void addDelayedTask(UUID uuid, DelayTask task, int current_tick_count) {
 		final int DELAYED_TASK_LIST_MAX = 12;

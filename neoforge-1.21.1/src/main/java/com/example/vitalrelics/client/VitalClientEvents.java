@@ -4,6 +4,7 @@ import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicSpells;
 import com.example.vitalrelics.network.NetworkPayload;
+import com.example.vitalrelics.network.SpellSystem;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -60,21 +61,17 @@ public final class VitalClientEvents {
 					GLFW.GLFW_KEY_LEFT_SHIFT,"key.categories.vitalrelics"
 			);
 
-	private static String selectedSpellId;
-
 	@SubscribeEvent
 	public static void clientTick(
 			final ClientTickEvent.Post event) {
 
 		while (ACTIVE_SKILL_KEY.consumeClick()) {
 			final Minecraft minecraft = Minecraft.getInstance();
-			final String spellId = selectedSpell(minecraft);
-
-			if (spellId == null)
-				continue;
-
 			minecraft.options.keyDrop.consumeClick();
-			PacketDistributor.sendToServer(new NetworkPayload(spellId));
+
+			PacketDistributor.sendToServer(
+					new NetworkPayload(SpellSystem.CAST_SPELL)
+			);
 		}
 	}
 
@@ -91,57 +88,16 @@ public final class VitalClientEvents {
 
 		final double delta = event.getScrollDeltaY();
 
-		if (delta == 0.0 || selectNext(delta > 0.0 ? -1 : 1) == null)
+		if (delta == 0.0)
 			return;
 
-		event.setCanceled(true);
-	}
-
-	private static String selectNext(final int direction) {
-		final Minecraft minecraft = Minecraft.getInstance();
-		final List<String> spellIds = spellIds(minecraft);
-
-		if (spellIds.isEmpty()) {
-			selectedSpellId = null;
-			return null;
-		}
-
-		final int current = Math.max(0, spellIds.indexOf(selectedSpellId));
-		selectedSpellId = spellIds.get(Math.floorMod(
-				current + direction, spellIds.size()
+		PacketDistributor.sendToServer(new NetworkPayload(
+				delta > 0.0
+						? SpellSystem.SWITCH_SPELL_PREVIOUS
+						: SpellSystem.SWITCH_SPELL_NEXT
 		));
 
-		minecraft.player.displayClientMessage(
-				Component.literal("Selected spell: " +
-						Relic.itemDisplayName(selectedSpellId)),
-				true
-		);
-		return selectedSpellId;
-	}
-
-	private static String selectedSpell(final Minecraft minecraft) {
-		final List<String> spellIds = spellIds(minecraft);
-
-		if (spellIds.isEmpty()) {
-			selectedSpellId = null;
-			return null;
-		}
-
-		if (!spellIds.contains(selectedSpellId))
-			selectedSpellId = spellIds.get(0);
-
-		return selectedSpellId;
-	}
-
-	private static List<String> spellIds(final Minecraft minecraft) {
-		if (minecraft.player == null || minecraft.screen != null)
-			return List.of();
-
-		return new ArrayList<>(
-				RelicSpells.gatherSpells(
-						gatherRelics(minecraft.player)
-				).keySet()
-		);
+		event.setCanceled(true);
 	}
 
 	/*
