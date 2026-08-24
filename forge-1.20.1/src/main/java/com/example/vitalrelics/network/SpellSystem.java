@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
 
 import static com.example.vitalrelics.Utils.*;
 
@@ -41,6 +42,26 @@ public final class SpellSystem {
 					"Spell already registered: " + abilityId
 			);
 		}
+	}
+
+	private static Component message(
+			final String key,
+			final String fallback,
+			final Object... arguments) {
+
+		final String pattern =
+				RelicTranslations.INSTANCE.translate(key, fallback);
+
+		return Component.literal(
+				String.format(Locale.ROOT, pattern, arguments)
+		);
+	}
+
+	private static String spellName(final String id) {
+		return RelicTranslations.INSTANCE.translate(
+				"relic.vitalrelics.spell." + id,
+				Relic.itemDisplayName(id)
+		);
 	}
 
 	public static final String CAST_SPELL = "cast_spell";
@@ -78,9 +99,10 @@ public final class SpellSystem {
 
 			if (caster instanceof ServerPlayer player && selected != null) {
 				player.displayClientMessage(
-						Component.translatable(
+						message(
 								"message.vitalrelics.selected_spell",
-								Relic.itemDisplayName(selected)
+								"Selected spell: %s",
+								spellName(selected)
 						),
 						true
 				);
@@ -111,9 +133,10 @@ public final class SpellSystem {
 		if (remainingTicks > 0) {
 			if (caster instanceof ServerPlayer player) {
 				player.displayClientMessage(
-						Component.translatable(
+						message(
 								"message.vitalrelics.spell_cooldown",
-								Relic.itemDisplayName(abilityId),
+								"%s cooldown: %s",
+								spellName(abilityId),
 								String.format(
 										Locale.ROOT,
 										"%.1fs",
@@ -122,7 +145,6 @@ public final class SpellSystem {
 						),
 						true
 				);
-			}
 			return;
 		}
 
@@ -233,8 +255,9 @@ public final class SpellSystem {
 			if (target == null) {
 				if (caster instanceof ServerPlayer player) {
 					player.displayClientMessage(
-							Component.translatable(
-									"message.vitalrelics.curse_requires_target"
+							message(
+									"message.vitalrelics.curse_requires_target",
+									"Curse requires a target."
 							),
 							true
 					);

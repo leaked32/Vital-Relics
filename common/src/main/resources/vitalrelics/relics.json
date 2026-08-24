@@ -331,21 +331,15 @@
           "add": 4.0,
           "mul_total": 2.0
         },
-        "block_interaction_range": {
-          "add": 4.0
-        },
         "entity_interaction_range": {
           "add": 2.5
-        },
-        "max_health": {
-          "add": 10.0
         }
       },
       "ticks": {
         "heal": {
           "interval_ticks": 5,
           "add": 4,
-          "ratio_add": 0.02
+          "ratio_add": 0.2
         }
       },
       "callbacks": {

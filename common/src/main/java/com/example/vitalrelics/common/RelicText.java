@@ -322,7 +322,7 @@ public final class RelicText {
 	}
 
 	private static Text vanillaEffectName(final String id) {
-		return key(
+		return vanillaKey(
 				"effect.minecraft." + id,
 				displayName(id)
 		);

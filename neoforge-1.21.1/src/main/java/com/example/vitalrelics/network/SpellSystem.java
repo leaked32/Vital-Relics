@@ -3,6 +3,7 @@ package com.example.vitalrelics.network;
 import com.example.vitalrelics.MyDamageInfo;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicSpells;
+import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.common.scheduled.Scheduler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -18,10 +19,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.example.vitalrelics.Utils.*;
 
@@ -42,6 +40,27 @@ public final class SpellSystem {
 			);
 		}
 	}
+
+	private static Component message(
+			final String key,
+			final String fallback,
+			final Object... arguments) {
+
+		final String pattern =
+				RelicTranslations.INSTANCE.translate(key, fallback);
+
+		return Component.literal(
+				String.format(Locale.ROOT, pattern, arguments)
+		);
+	}
+
+	private static String spellName(final String id) {
+		return RelicTranslations.INSTANCE.translate(
+				"relic.vitalrelics.spell." + id,
+				Relic.itemDisplayName(id)
+		);
+	}
+
 
 	public static final String CAST_SPELL = "cast_spell";
 	public static final String SWITCH_SPELL_NEXT = "switch_spell_next";
@@ -80,9 +99,10 @@ public final class SpellSystem {
 
 			if (caster instanceof ServerPlayer player && selected != null) {
 				player.displayClientMessage(
-						Component.literal(
-								"Selected spell: " +
-										Relic.itemDisplayName(selected)
+						message(
+								"message.vitalrelics.selected_spell",
+								"Selected spell: %s",
+								spellName(selected)
 						),
 						true
 				);
@@ -115,10 +135,15 @@ public final class SpellSystem {
 			if (remainingTicks > 0) {
 				if (caster instanceof ServerPlayer player) {
 					player.displayClientMessage(
-							Component.literal(
-									Relic.itemDisplayName(abilityId) +
-											" cooldown: " +
-											String.format("%.1fs", remainingTicks / 20.0)
+							message(
+									"message.vitalrelics.spell_cooldown",
+									"%s cooldown: %s",
+									spellName(abilityId),
+									String.format(
+											Locale.ROOT,
+											"%.1fs",
+											remainingTicks / 20.0
+									)
 							),
 							true
 					);
@@ -226,7 +251,20 @@ public final class SpellSystem {
 
 			final LivingEntity target = pointedLivingEntity(caster, level, range);
 
-			if (target == null || isAllied(caster, target))
+			if (target == null) {
+				if (caster instanceof ServerPlayer player) {
+					player.displayClientMessage(
+							message(
+									"message.vitalrelics.curse_requires_target",
+									"Curse requires a target."
+							),
+							true
+					);
+				}
+				return false;
+			}
+
+			if (isAllied(caster, target))
 				return false;
 
 			final float damage = intensity / 100.0F *
