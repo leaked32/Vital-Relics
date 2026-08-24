@@ -266,6 +266,12 @@
       "rarity": "epic",
       "immune_to_effects": ["darkness", "wither", "blindness", "mining_fatigue"],
       "granted_effects": { "night_vision": 1, "speed": 2 },
+      "available_spells": {
+        "teleport": {
+          "intensity": 10,
+          "recovery": 1
+        }
+      },
       "properties": {
         "max_health": {
           "add": 20.0
@@ -295,6 +301,12 @@
       "rarity": "epic",
       "passive_abilities": { "reality_severance": 6 },
       "granted_effects": { "strength": 2 },
+      "available_spells": {
+        "curse": {
+          "intensity": 20,
+          "recovery": 2
+        }
+      },
       "properties": {
         "attack_damage": {
           "add": 4.0
