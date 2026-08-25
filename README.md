@@ -1,5 +1,7 @@
 # Vital Relics
 
+[English](README.md) | [日本語](docs/ja_jp/README.md) | [简体中文](docs/zh_cn/README.md) | [繁體中文](docs/zh_tw/README.md)
+
 A highly configurable relic mod for Minecraft.
 
 Vital Relics is actively maintained and developed.
@@ -44,7 +46,7 @@ Vital Relics supports:
 
 For detailed configuration and usage information, see:
 
-[Documentation](docs/en_us/index.md)
+[Documentation](docs/index.md)
 
 The documentation covers:
 
