@@ -44,7 +44,7 @@ Vital Relics supports:
 
 For detailed configuration and usage information, see:
 
-[Documentation](docs/index.md)
+[Documentation](docs/en_us/index.md)
 
 The documentation covers:
 

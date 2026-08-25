@@ -1,17 +1,8 @@
-# Vital Relics
+# Vital Relics Documentation
 
-A Minecraft mod adding configurable relic items with unique abilities.
+Choose a language:
 
-## Documentation
-
-- [Configure Curios](configure-curios.md)
-- [Configure Recipes](configure-recipes.md)
-- [Configure Loot](configure-loot.md)
-- [Configure Spells](configure-spells.md)
-- [Configure Translations](configure-translations.md)
-
-## Supported Versions
-
-- Minecraft 1.20.1 — Forge
-- Minecraft 1.21.1 — NeoForge
-
+- [English (US)](en_us/index.md)
+- [日本語](ja_jp/index.md)
+- [简体中文](zh_cn/index.md)
+- [繁體中文](zh_tw/index.md)
