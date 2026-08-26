@@ -105,7 +105,9 @@
   "relic.vitalrelics.spell.arc_burst": "奥术爆发",
   "relic.vitalrelics.spell.repulse": "斥力冲击",
   "relic.vitalrelics.spell.absorption": "伤害吸收",
-  "relic.vitalrelics.spell.sky_launch": "升空",
+  "relic.vitalrelics.spell.sky_launch": "升天",
+  "relic.vitalrelics.spell.teleport": "传送",
+  "relic.vitalrelics.spell.curse": "诅咒",
 
   "item.vitalrelics.healing_bracelet": "治疗手环",
   "item.vitalrelics.cleansing_bracelet": "净化手环",
