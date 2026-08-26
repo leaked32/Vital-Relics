@@ -248,7 +248,7 @@
       "id": "totemic_heart",
       "tooltip": "A fragment of totemic vitality that refuses to fade.",
       "texture": "totemic_heart_spirit_amulet.png",
-      "rarity": "epic",
+      "rarity": "rare",
       "properties": {
         "max_health": {
           "add": 10.0

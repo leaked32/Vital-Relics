@@ -135,12 +135,12 @@
     "metal_mending_ring": {
       "type": "shaped",
       "pattern": [
-        " I ",
-        "IAI",
-        " I "
+        " D ",
+        "DAD",
+        " D "
       ],
       "key": {
-        "I": "minecraft:iron_ingot",
+        "D": "minecraft:diamond",
         "A": "minecraft:anvil"
       },
       "count": 1
@@ -311,12 +311,13 @@
     "celestial_wings": {
       "type": "shaped",
       "pattern": [
-        "P P",
+        "N N",
         "PEP",
         "P P"
       ],
       "key": {
         "P": "minecraft:phantom_membrane",
+        "N": "minecraft:netherite_ingot",
         "E": "minecraft:elytra"
       },
       "count": 1
@@ -325,12 +326,12 @@
       "type": "shaped",
       "pattern": [
         " F ",
-        "BAB",
+        "NAN",
         " S "
       ],
       "key": {
         "F": "minecraft:feather",
-        "B": "minecraft:blaze_powder",
+        "N": "minecraft:netherite_ingot",
         "A": "minecraft:arrow",
         "S": "minecraft:string"
       },
@@ -628,62 +629,6 @@
       {
         "table": "minecraft:chests/bastion_treasure",
         "chance": 0.03
-      }
-    ],
-    "celestial_wings": [
-      {
-        "table": "minecraft:chests/end_city_treasure",
-        "chance": 0.02
-      },
-      {
-        "table": "minecraft:chests/ancient_city",
-        "chance": 0.02
-      },
-      {
-        "table": "minecraft:chests/stronghold_library",
-        "chance": 0.02
-      }
-    ],
-    "cherry_cross": [
-      {
-        "table": "minecraft:chests/end_city_treasure",
-        "chance": 0.01
-      },
-      {
-        "table": "minecraft:chests/ancient_city",
-        "chance": 0.01
-      },
-      {
-        "table": "minecraft:chests/woodland_mansion",
-        "chance": 0.01
-      }
-    ],
-    "archers_emblem": [
-      {
-        "table": "minecraft:chests/pillager_outpost",
-        "chance": 0.03
-      },
-      {
-        "table": "minecraft:chests/ancient_city",
-        "chance": 0.02
-      },
-      {
-        "table": "minecraft:chests/end_city_treasure",
-        "chance": 0.025
-      }
-    ],
-    "cursed_crimson_rune": [
-      {
-        "table": "minecraft:chests/bastion_treasure",
-        "chance": 0.025
-      },
-      {
-        "table": "minecraft:chests/nether_bridge",
-        "chance": 0.025
-      },
-      {
-        "table": "minecraft:chests/ancient_city",
-        "chance": 0.015
       }
     ]
   }
