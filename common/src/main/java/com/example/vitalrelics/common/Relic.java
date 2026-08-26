@@ -71,6 +71,12 @@ public class Relic {
 	 * - `cleanse`: Removes all negative effects from the caster
 	 * - `dash`: Launches the caster forward by `strength`, with optional `vertical` velocity
 	 */
+	public static final String SPELL_TELEPORT = "teleport";
+	public static final String SPELL_CURSE = "curse";
+	public static final String SPELL_HEAL = "heal";
+	public static final String SPELL_CLEANSE = "cleanse";
+	public static final String SPELL_DASH = "dash";
+
 	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
 
 	public static class Properties {

@@ -165,7 +165,7 @@ public final class SpellSystem {
 		MISS / sky
 			-> teleport as far along look direction as possible
 		*/
-		register("teleport", (caster, spell) -> {
+		register(Relic.SPELL_TELEPORT, (caster, spell) -> {
 			final double distance = Math.min(
 					Math.max(RelicSpells.numberParameter(spell, "range", 0.0), 0.0),
 					256.0
@@ -342,7 +342,7 @@ public final class SpellSystem {
 			return true;
 		});
 
-		register("curse", (caster, spell) -> {
+		register(Relic.SPELL_CURSE, (caster, spell) -> {
 			final float intensity = (float) RelicSpells.numberParameter(
 					spell, "intensity", 0.0
 			);
