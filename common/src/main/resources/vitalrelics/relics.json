@@ -223,7 +223,7 @@
       "available_spells": {
         "repulse": {
           "range": 8,
-          "strength": 3,
+          "strength": 1.5,
           "vertical": 0.25,
           "recovery": 0.5
         }
@@ -256,6 +256,35 @@
           "range": 8,
           "strength": 1.6,
           "recovery": 0.25
+        }
+      }
+    },
+    {
+      "id": "shadow_exchange_bracelet",
+      "display_name": "Bracelet of Shadow Exchange",
+      "tooltip": "Trades places with an enemy through a flicker of shadow.",
+      "texture": "bracelet_pink_saturated.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "available_spells": {
+        "shadow_exchange": {
+          "range": 16,
+          "recovery": 0.2
+        }
+      }
+    },
+    {
+      "id": "phantom_step_bracelet",
+      "display_name": "Bracelet of Phantom Step",
+      "tooltip": "Passes through the battlefield like a phantom, cutting enemies along the way.",
+      "texture": "bracelet_green_saturated.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "available_spells": {
+        "phantom_step": {
+          "range": 8,
+          "intensity": 120,
+          "recovery": 0.5
         }
       }
     },

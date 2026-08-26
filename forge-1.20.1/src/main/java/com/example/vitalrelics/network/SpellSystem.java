@@ -707,5 +707,170 @@ public final class SpellSystem {
 
 			return true;
 		});
+		register(Relic.SPELL_SHADOW_EXCHANGE, (caster, spell) -> {
+			final double range = Math.min(
+					64.0,
+					Math.max(
+							0.0,
+							RelicSpells.numberParameter(spell, "range", 0.0)
+					)
+			);
+
+			if (range <= 0.0)
+				return false;
+
+			if (!(caster.level() instanceof ServerLevel level))
+				return false;
+
+			final LivingEntity target =
+					pointedLivingEntity(caster, level, range);
+
+			if (target == null || isAllied(caster, target))
+				return false;
+
+			final Vec3 casterPosition = caster.position();
+			final Vec3 targetPosition = target.position();
+
+			teleport(caster, level, targetPosition);
+			teleport(target, level, casterPosition);
+
+			level.playSound(
+					null,
+					casterPosition.x, casterPosition.y, casterPosition.z,
+					SoundEvents.ENDERMAN_TELEPORT,
+					SoundSource.PLAYERS,
+					0.8F, 0.8F
+			);
+
+			level.playSound(
+					null,
+					targetPosition.x, targetPosition.y, targetPosition.z,
+					SoundEvents.ENDERMAN_TELEPORT,
+					SoundSource.PLAYERS,
+					0.8F, 1.2F
+			);
+
+			return true;
+		});
+		register(Relic.SPELL_PHANTOM_STEP, (caster, spell) -> {
+			final double range = Math.min(
+					32.0,
+					Math.max(
+							0.0,
+							RelicSpells.numberParameter(spell, "range", 0.0)
+					)
+			);
+
+			final float intensity = (float) Math.max(
+					0.0,
+					RelicSpells.numberParameter(spell, "intensity", 0.0)
+			);
+
+			if (range <= 0.0 || intensity <= 0.0F)
+				return false;
+
+			if (!(caster.level() instanceof ServerLevel level))
+				return false;
+
+			final Vec3 look = caster.getLookAngle();
+			final Vec3 horizontal = new Vec3(look.x, 0.0, look.z);
+
+			if (horizontal.lengthSqr() <= 1.0e-8)
+				return false;
+
+			final Vec3 direction = horizontal.normalize();
+			final Vec3 origin = caster.position();
+
+			/*
+			 * Stop the step at the first solid block.
+			 */
+			final Vec3 rayOrigin = caster.getEyePosition();
+			final Vec3 rayEnd = rayOrigin.add(direction.scale(range));
+
+			final BlockHitResult hit = level.clip(new ClipContext(
+					rayOrigin,
+					rayEnd,
+					ClipContext.Block.COLLIDER,
+					ClipContext.Fluid.NONE,
+					caster
+			));
+
+			double travel = range;
+
+			if (hit.getType() == HitResult.Type.BLOCK) {
+				travel = Math.max(
+						0.0,
+						rayOrigin.distanceTo(hit.getLocation()) -
+								caster.getBbWidth() * 0.5 -
+								0.05
+				);
+			}
+
+			if (travel <= 0.0)
+				return false;
+
+			/*
+			 * Find the farthest collision-free destination before the obstacle.
+			 */
+			Vec3 destination = null;
+
+			for (double distance = travel; distance >= 0.25; distance -= 0.25) {
+				final Vec3 candidate =
+						origin.add(direction.scale(distance));
+
+				final AABB targetBox =
+						caster.getBoundingBox()
+								.move(candidate.subtract(origin));
+
+				if (level.noCollision(caster, targetBox)) {
+					destination = candidate;
+					break;
+				}
+			}
+
+			if (destination == null)
+				return false;
+
+			final float damage =
+					(float) caster.getAttributeValue(Attributes.ATTACK_DAMAGE) *
+							intensity / 100.0F;
+
+			/*
+			 * Damage only hostile entities whose hitboxes intersect the actual
+			 * movement line.
+			 */
+			final AABB sweptArea =
+					caster.getBoundingBox()
+							.expandTowards(destination.subtract(origin))
+							.inflate(1.0);
+
+			for (final LivingEntity target :
+					level.getEntitiesOfClass(LivingEntity.class, sweptArea)) {
+
+				if (target == caster || !hostileTargeted(caster, target))
+					continue;
+
+				final AABB hitbox = target.getBoundingBox().inflate(
+						caster.getBbWidth() * 0.5
+				);
+
+				if (hitbox.clip(origin, destination).isEmpty())
+					continue;
+
+				MyDamageInfo.directAttack(caster, target, damage, 1);
+			}
+
+			teleport(caster, level, destination);
+
+			level.playSound(
+					null,
+					origin.x, origin.y, origin.z,
+					SoundEvents.ENDERMAN_TELEPORT,
+					SoundSource.PLAYERS,
+					0.6F, 1.5F
+			);
+
+			return true;
+		});
 	}
 }

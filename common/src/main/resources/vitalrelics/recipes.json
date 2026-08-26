@@ -269,6 +269,34 @@
       },
       "count": 1
     },
+    "shadow_exchange_bracelet": {
+      "type": "shaped",
+      "pattern": [
+        " E ",
+        "PGP",
+        " E "
+      ],
+      "key": {
+        "E": "minecraft:ender_pearl",
+        "P": "minecraft:amethyst_shard",
+        "G": "minecraft:gold_ingot"
+      },
+      "count": 1
+    },
+    "phantom_step_bracelet": {
+      "type": "shaped",
+      "pattern": [
+        " F ",
+        "EGE",
+        " F "
+      ],
+      "key": {
+        "F": "minecraft:phantom_membrane",
+        "E": "minecraft:ender_pearl",
+        "G": "minecraft:gold_ingot"
+      },
+      "count": 1
+    },
 
     "iron_heart": {
       "type": "shaped",
@@ -693,6 +721,26 @@
       {
         "table": "minecraft:chests/stronghold_corridor",
         "chance": 0.035
+      }
+    ],
+    "shadow_exchange_bracelet": [
+      {
+        "table": "minecraft:chests/stronghold_corridor",
+        "chance": 0.03
+      },
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.025
+      }
+    ],
+    "phantom_step_bracelet": [
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.035
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.025
       }
     ],
 

@@ -127,5 +127,14 @@
   "tooltip.vitalrelics.warcaster_bracelet": "对附近的敌对生物连续释放力量冲击。",
   "tooltip.vitalrelics.repulsion_bracelet": "释放猛烈的冲击，将附近的敌人击退。",
   "tooltip.vitalrelics.warding_bracelet": "以临时的生命护盾保护佩戴者。",
-  "tooltip.vitalrelics.skycaller_bracelet": "释放突如其来的重力异变，将附近的敌人抛向空中。"
+  "tooltip.vitalrelics.skycaller_bracelet": "释放突如其来的重力异变，将附近的敌人抛向空中。",
+
+  "relic.vitalrelics.spell.shadow_exchange": "暗影交换",
+  "relic.vitalrelics.spell.phantom_step": "幻影步",
+
+  "item.vitalrelics.shadow_exchange_bracelet": "暗影交换手环",
+  "item.vitalrelics.phantom_step_bracelet": "幻影步手环",
+
+  "tooltip.vitalrelics.shadow_exchange_bracelet": "借由一瞬暗影，与敌人交换所在位置。",
+  "tooltip.vitalrelics.phantom_step_bracelet": "如幻影般穿越战场，并斩击沿途的敌人。"
 }

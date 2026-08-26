@@ -128,5 +128,14 @@
   "tooltip.vitalrelics.warcaster_bracelet": "Releases repeated bursts of force against nearby hostile creatures.",
   "tooltip.vitalrelics.repulsion_bracelet": "Releases a violent pulse that throws nearby enemies away.",
   "tooltip.vitalrelics.warding_bracelet": "Wraps its wearer in a temporary layer of protective vitality.",
-  "tooltip.vitalrelics.skycaller_bracelet": "Commands nearby enemies upward with a sudden gravitational surge."
+  "tooltip.vitalrelics.skycaller_bracelet": "Commands nearby enemies upward with a sudden gravitational surge.",
+
+  "relic.vitalrelics.spell.shadow_exchange": "Shadow Exchange",
+  "relic.vitalrelics.spell.phantom_step": "Phantom Step",
+
+  "item.vitalrelics.shadow_exchange_bracelet": "Bracelet of Shadow Exchange",
+  "item.vitalrelics.phantom_step_bracelet": "Bracelet of Phantom Step",
+
+  "tooltip.vitalrelics.shadow_exchange_bracelet": "Trades places with an enemy through a flicker of shadow.",
+  "tooltip.vitalrelics.phantom_step_bracelet": "Passes through the battlefield like a phantom, cutting enemies along the way."
 }

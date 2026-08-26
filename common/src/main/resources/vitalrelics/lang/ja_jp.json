@@ -127,5 +127,14 @@
   "tooltip.vitalrelics.warcaster_bracelet": "周囲の敵対的な生物に連続した力の奔流を放つ。",
   "tooltip.vitalrelics.repulsion_bracelet": "激しい衝撃波を放ち、周囲の敵を吹き飛ばす。",
   "tooltip.vitalrelics.warding_bracelet": "装備者を一時的な生命の障壁で包む。",
-  "tooltip.vitalrelics.skycaller_bracelet": "重力の奔流によって周囲の敵を空高く打ち上げる。"
+  "tooltip.vitalrelics.skycaller_bracelet": "重力の奔流によって周囲の敵を空高く打ち上げる。",
+
+  "relic.vitalrelics.spell.shadow_exchange": "影交換",
+  "relic.vitalrelics.spell.phantom_step": "幻影歩法",
+
+  "item.vitalrelics.shadow_exchange_bracelet": "影交換の腕輪",
+  "item.vitalrelics.phantom_step_bracelet": "幻影歩法の腕輪",
+
+  "tooltip.vitalrelics.shadow_exchange_bracelet": "影の揺らめきを通じて敵と瞬時に位置を入れ替える。",
+  "tooltip.vitalrelics.phantom_step_bracelet": "幻影のように戦場を駆け抜け、通過した敵を切り裂く。"
 }

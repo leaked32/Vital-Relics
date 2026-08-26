@@ -81,6 +81,9 @@ public class Relic {
 	 *   using `strength`, with optional `vertical` lift
 	 * - `absorption`: Grants Absorption for `duration_ticks` with the configured `amplifier`
 	 * - `sky_launch`: Launches hostile living entities within `range` upward by `strength`
+	 * - `shadow_exchange`: Swaps positions with the pointed hostile living entity within `range`
+	 * - `phantom_step`: Instantly moves forward up to `range` blocks and damages hostile
+	 *   living entities crossed for `intensity`% attack damage
 	 */
 	public static final String SPELL_TELEPORT = "teleport";
 	public static final String SPELL_CURSE = "curse";
@@ -91,6 +94,8 @@ public class Relic {
 	public static final String SPELL_REPULSE = "repulse";
 	public static final String SPELL_ABSORPTION = "absorption";
 	public static final String SPELL_SKY_LAUNCH = "sky_launch";
+	public static final String SPELL_SHADOW_EXCHANGE = "shadow_exchange";
+	public static final String SPELL_PHANTOM_STEP = "phantom_step";
 
 	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
 
