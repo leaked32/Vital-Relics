@@ -366,10 +366,10 @@
       "tooltip": "A dead heart that somehow makes its bearer harder to kill.",
       "texture": "withered_heart_pendant.png",
       "rarity": "rare",
-      "granted_effects": { "wither": 2 },
+      "granted_effects": { "wither": 1 },
       "properties": {
         "attack_damage": {
-          "add": 6.0
+          "add": 3.0
         }
       }
     },
