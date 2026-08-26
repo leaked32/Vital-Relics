@@ -11,6 +11,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerLevel;
@@ -550,6 +552,159 @@ public final class SpellSystem {
 					SoundSource.PLAYERS,
 					0.8F, 0.9F
 			);
+			return true;
+		});
+
+		register(Relic.SPELL_REPULSE, (caster, spell) -> {
+			final double range = Math.min(
+					64.0,
+					Math.max(
+							0.0,
+							RelicSpells.numberParameter(spell, "range", 0.0)
+					)
+			);
+
+			final double strength = Math.max(
+					0.0,
+					RelicSpells.numberParameter(spell, "strength", 0.0)
+			);
+
+			final double vertical = Math.max(
+					0.0,
+					RelicSpells.numberParameter(spell, "vertical", 0.0)
+			);
+
+			if (range <= 0.0 || strength <= 0.0)
+				return false;
+
+			boolean affected = false;
+
+			for (final LivingEntity target :
+					MyDamageInfo.getLivingEntitiesInRange(caster, range)) {
+
+				if (!hostileTargeted(caster, target))
+					continue;
+
+				final Vec3 away = new Vec3(
+						target.getX() - caster.getX(),
+						0.0,
+						target.getZ() - caster.getZ()
+				);
+
+				if (away.lengthSqr() <= 1.0e-8)
+					continue;
+
+				final Vec3 direction = away.normalize();
+
+				target.push(
+						direction.x * strength,
+						vertical,
+						direction.z * strength
+				);
+
+				target.hurtMarked = true;
+				affected = true;
+			}
+
+			if (!affected)
+				return false;
+
+			caster.level().playSound(
+					null,
+					caster.getX(), caster.getY(), caster.getZ(),
+					SoundEvents.GENERIC_EXPLODE,
+					SoundSource.PLAYERS,
+					0.5F, 1.4F
+			);
+
+			return true;
+		});
+		register(Relic.SPELL_ABSORPTION, (caster, spell) -> {
+			final int durationTicks = (int) Math.min(
+					20 * 60 * 10,
+					Math.max(
+							1,
+							Math.round(
+									RelicSpells.numberParameter(
+											spell,
+											"duration_ticks",
+											200.0
+									)
+							)
+					)
+			);
+
+			final int amplifier = (int) Math.min(
+					255,
+					Math.max(
+							0,
+							Math.round(
+									RelicSpells.numberParameter(
+											spell,
+											"amplifier",
+											0.0
+									)
+							)
+					)
+			);
+
+			caster.addEffect(new MobEffectInstance(
+					MobEffects.ABSORPTION,
+					durationTicks,
+					amplifier
+			));
+
+			caster.level().playSound(
+					null,
+					caster.getX(), caster.getY(), caster.getZ(),
+					SoundEvents.BEACON_ACTIVATE,
+					SoundSource.PLAYERS,
+					0.6F, 1.25F
+			);
+
+			return true;
+		});
+		register(Relic.SPELL_SKY_LAUNCH, (caster, spell) -> {
+			final double range = Math.min(
+					64.0,
+					Math.max(
+							0.0,
+							RelicSpells.numberParameter(spell, "range", 0.0)
+					)
+			);
+
+			final double strength = Math.max(
+					0.0,
+					RelicSpells.numberParameter(spell, "strength", 0.0)
+			);
+
+			if (range <= 0.0 || strength <= 0.0)
+				return false;
+
+			boolean affected = false;
+
+			for (final LivingEntity target :
+					MyDamageInfo.getLivingEntitiesInRange(caster, range)) {
+
+				if (!hostileTargeted(caster, target))
+					continue;
+
+				target.push(0.0, strength, 0.0);
+				target.hurtMarked = true;
+				affected = true;
+			}
+
+			if (!affected)
+				return false;
+
+			caster.level().playSound(
+					null,
+					caster.getX(), caster.getY(), caster.getZ(),
+					SoundEvents.ENDER_DRAGON_FLAP,
+					SoundSource.PLAYERS,
+					0.65F, 0.75F
+			);
+
 			return true;
 		});
 	}

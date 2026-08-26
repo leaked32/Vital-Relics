@@ -227,6 +227,48 @@
       },
       "count": 1
     },
+    "repulsion_bracelet": {
+      "type": "shaped",
+      "pattern": [
+        " P ",
+        "PGP",
+        " F "
+      ],
+      "key": {
+        "P": "minecraft:prismarine_shard",
+        "G": "minecraft:gold_ingot",
+        "F": "minecraft:feather"
+      },
+      "count": 1
+    },
+    "warding_bracelet": {
+      "type": "shaped",
+      "pattern": [
+        " G ",
+        "GTG",
+        " A "
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "T": "minecraft:ghast_tear",
+        "A": "minecraft:golden_apple"
+      },
+      "count": 1
+    },
+    "skycaller_bracelet": {
+      "type": "shaped",
+      "pattern": [
+        " F ",
+        "EGE",
+        " F "
+      ],
+      "key": {
+        "F": "minecraft:feather",
+        "E": "minecraft:ender_pearl",
+        "G": "minecraft:gold_ingot"
+      },
+      "count": 1
+    },
 
     "iron_heart": {
       "type": "shaped",
@@ -621,6 +663,36 @@
       {
         "table": "minecraft:chests/bastion_treasure",
         "chance": 0.025
+      }
+    ],
+    "repulsion_bracelet": [
+      {
+        "table": "minecraft:chests/shipwreck_treasure",
+        "chance": 0.05
+      },
+      {
+        "table": "minecraft:chests/jungle_temple",
+        "chance": 0.04
+      }
+    ],
+    "warding_bracelet": [
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.025
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.02
+      }
+    ],
+    "skycaller_bracelet": [
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.03
+      },
+      {
+        "table": "minecraft:chests/stronghold_corridor",
+        "chance": 0.035
       }
     ],
 

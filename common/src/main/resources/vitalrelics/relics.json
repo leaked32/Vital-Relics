@@ -209,7 +209,53 @@
           "range": 12,
           "count": 3,
           "weaken": 0,
+          "recovery": 0.2
+        }
+      }
+    },
+    {
+      "id": "repulsion_bracelet",
+      "display_name": "Bracelet of Repulsion",
+      "tooltip": "Releases a violent pulse that throws nearby enemies away.",
+      "texture": "bracelet_blue.png",
+      "curio_slot": "bracelet",
+      "rarity": "uncommon",
+      "available_spells": {
+        "repulse": {
+          "range": 8,
+          "strength": 3,
+          "vertical": 0.25,
           "recovery": 0.5
+        }
+      }
+    },
+    {
+      "id": "warding_bracelet",
+      "display_name": "Bracelet of Warding",
+      "tooltip": "Wraps its wearer in a temporary layer of protective vitality.",
+      "texture": "bracelet_aqua_saturated.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "available_spells": {
+        "absorption": {
+          "duration_ticks": 200,
+          "amplifier": 1,
+          "recovery": 0.1
+        }
+      }
+    },
+    {
+      "id": "skycaller_bracelet",
+      "display_name": "Skycaller Bracelet",
+      "tooltip": "Commands nearby enemies upward with a sudden gravitational surge.",
+      "texture": "bracelet_gray.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "available_spells": {
+        "sky_launch": {
+          "range": 8,
+          "strength": 1.6,
+          "recovery": 0.25
         }
       }
     },
