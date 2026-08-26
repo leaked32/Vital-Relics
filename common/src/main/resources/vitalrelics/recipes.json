@@ -106,6 +106,18 @@
         "A": "minecraft:glistering_melon_slice"
       },
       "count": 1
+    },"bulwark_ring": {
+      "type": "shaped",
+      "pattern": [
+        " I ",
+        "IOI",
+        " I "
+      ],
+      "key": {
+        "I": "minecraft:iron_ingot",
+        "O": "minecraft:obsidian"
+      },
+      "count": 1
     },
 
     "stone_ring": {
@@ -309,6 +321,21 @@
       },
       "count": 1
     },
+    "archers_emblem": {
+      "type": "shaped",
+      "pattern": [
+        " F ",
+        "BAB",
+        " S "
+      ],
+      "key": {
+        "F": "minecraft:feather",
+        "B": "minecraft:blaze_powder",
+        "A": "minecraft:arrow",
+        "S": "minecraft:string"
+      },
+      "count": 1
+    },
     "cursed_crimson_rune": {
       "type": "shaped",
       "pattern": [
@@ -375,7 +402,7 @@
         "chance": 0.04
       }
     ],
-    "extinguishing_ring": [
+    "fire_resistance_ring": [
       {
         "table": "minecraft:chests/nether_bridge",
         "chance": 0.05
@@ -409,7 +436,20 @@
         "chance": 0.02
       }
     ],
-
+    "bulwark_ring": [
+      {
+        "table": "minecraft:chests/bastion_treasure",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.03
+      },
+      {
+        "table": "minecraft:chests/village/village_armorer",
+        "chance": 0.05
+      }
+    ],
 
     "stone_ring": [
       {
@@ -616,6 +656,20 @@
       {
         "table": "minecraft:chests/woodland_mansion",
         "chance": 0.01
+      }
+    ],
+    "archers_emblem": [
+      {
+        "table": "minecraft:chests/pillager_outpost",
+        "chance": 0.03
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.02
+      },
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.025
       }
     ],
     "cursed_crimson_rune": [
