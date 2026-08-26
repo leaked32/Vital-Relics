@@ -109,20 +109,21 @@ public final class RelicText {
 			));
 		}
 
-		for (final var ability : relic.passive_abilities.entrySet()) {
-			final Text abilityName = name("ability", ability.getKey());
-			final Text level = number(ability.getValue());
+		for (final var passive_skill : relic.passive_skills.entrySet()) {
+			final Text abilityName = name("passive_skill", passive_skill.getKey());
+			final Text level = number(passive_skill.getValue());
 
 			out.add(key(
-					"tooltip.vitalrelics.ability",
+					"tooltip.vitalrelics.passive_skill",
 					"Ability: " + abilityName.fallback() + " " + level.fallback(),
 					abilityName,
 					level
 			));
 		}
 
-		for (final String spellId : relic.available_spells.keySet()) {
-			final Text spellName = name("spell", spellId);
+		for (final var spell : relic.available_spells.entrySet()) {
+			final Text spellName = name("spell", spell.getKey());
+			// final Text level = number(spell.getValue().parameters.get("intensity"));
 
 			out.add(key(
 					"tooltip.vitalrelics.spell",

@@ -50,18 +50,6 @@ public final class SpellSystem {
 		}
 	}
 
-	private static Component message(
-			final String key,
-			final String fallback,
-			final Object... arguments) {
-
-		final String pattern =
-				RelicTranslations.INSTANCE.translate(key, fallback);
-
-		return Component.literal(
-				String.format(Locale.ROOT, pattern, arguments)
-		);
-	}
 
 	private static String spellName(final String id) {
 		return RelicTranslations.INSTANCE.translate(

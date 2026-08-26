@@ -21,8 +21,10 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -47,6 +49,14 @@ public final class VitalEvents {
 	private static final UUID ATTACK_SPEED_ADD_ID = modifierId("attack_speed_add");
 	private static final UUID ATTACK_SPEED_MUL_ID = modifierId("attack_speed_mul_base");
 	private static final UUID ATTACK_SPEED_MUL_TOTAL_ID = modifierId("attack_speed_mul_total");
+
+	private static final UUID ARMOR_ADD_ID = modifierId("armor_add");
+	private static final UUID ARMOR_MUL_ID = modifierId("armor_mul_base");
+	private static final UUID ARMOR_MUL_TOTAL_ID = modifierId("armor_mul_total");
+
+	private static final UUID ARMOR_TOUGHNESS_ADD_ID = modifierId("armor_toughness_add");
+	private static final UUID ARMOR_TOUGHNESS_MUL_ID = modifierId("armor_toughness_mul_base");
+	private static final UUID ARMOR_TOUGHNESS_MUL_TOTAL_ID = modifierId("armor_toughness_mul_total");
 
 	private static final UUID KNOCKBACK_RESISTANCE_ADD_ID = modifierId("knockback_resistance_add");
 	private static final UUID KNOCKBACK_RESISTANCE_MUL_ID = modifierId("knockback_resistance_mul_base");
@@ -80,6 +90,10 @@ public final class VitalEvents {
 					ATTACK_DAMAGE_ADD_ID, ATTACK_DAMAGE_MUL_ID, ATTACK_DAMAGE_MUL_TOTAL_ID),
 			"attack_speed", new PropertyTarget(Attributes.ATTACK_SPEED,
 					ATTACK_SPEED_ADD_ID, ATTACK_SPEED_MUL_ID, ATTACK_SPEED_MUL_TOTAL_ID),
+			"armor", new PropertyTarget(Attributes.ARMOR,
+					ARMOR_ADD_ID, ARMOR_MUL_ID, ARMOR_MUL_TOTAL_ID),
+			"armor_toughness", new PropertyTarget(Attributes.ARMOR_TOUGHNESS,
+					ARMOR_TOUGHNESS_ADD_ID, ARMOR_TOUGHNESS_MUL_ID, ARMOR_TOUGHNESS_MUL_TOTAL_ID),
 			"knockback_resistance", new PropertyTarget(Attributes.KNOCKBACK_RESISTANCE,
 					KNOCKBACK_RESISTANCE_ADD_ID, KNOCKBACK_RESISTANCE_MUL_ID, KNOCKBACK_RESISTANCE_MUL_TOTAL_ID),
 			"max_health", new PropertyTarget(Attributes.MAX_HEALTH,
@@ -145,8 +159,8 @@ public final class VitalEvents {
 			applyRelicEffects(livingEntity, relics);
 
 			if (livingEntity instanceof ServerPlayer player) {
-				int flight_level = RelicLoader.levelOfSuchPassiveAbility(
-						relics, "flight"
+				int flight_level = RelicLoader.levelOfSuchPassiveSkill(
+						relics, Relic.PASSIVE_SKILL_FLIGHT
 				);
 				if (flight_level > 0) {
 					if (!player.getAbilities().mayfly) {
@@ -165,8 +179,8 @@ public final class VitalEvents {
 		}
 
 		if (tick % 20 == 0) {
-			final int reality_severance_level = RelicLoader.levelOfSuchPassiveAbility(
-					relics, "reality_severance"
+			final int reality_severance_level = RelicLoader.levelOfSuchPassiveSkill(
+					relics,  Relic.PASSIVE_SKILL_REALITY_SEVERANCE
 			);
 			if (reality_severance_level > 0) {
 				final float ratioDamage = reality_severance_level / 100.0f;
@@ -176,8 +190,8 @@ public final class VitalEvents {
 		}
 
 		if (tick % 80 == 0) {
-			final int metalMendingLevel = RelicLoader.levelOfSuchPassiveAbility(
-					relics, "metal_mending"
+			final int metalMendingLevel = RelicLoader.levelOfSuchPassiveSkill(
+					relics, Relic.PASSIVE_SKILL_METAL_MENDING
 			);
 
 			if (metalMendingLevel > 0) {
@@ -322,11 +336,67 @@ public final class VitalEvents {
 			return;
 
 		final int sp_level =
-				RelicLoader.levelOfSuchPassiveAbility(gatherRelics(victim), "retarget_arrow");
+				RelicLoader.levelOfSuchPassiveSkill(gatherRelics(victim), Relic.PASSIVE_SKILL_RETARGET_ARROW);
 
 		if (sp_level > 0) {
 			retargetArrow(arrow, victim, sp_level);
 			event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
 		}
+	}
+
+
+	@SubscribeEvent
+	public static void onArrowLoose(final ArrowLooseEvent event) {
+		final Player player = event.getEntity();
+
+		if (player.level().isClientSide()) {
+			return;
+		}
+
+		final int level = RelicLoader.levelOfSuchPassiveSkill(
+				gatherRelics(player),
+				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
+		);
+
+		if (level <= 0) {
+			return;
+		}
+
+		final float ratios = level / 100.0f;
+
+		event.setCharge(Math.round(event.getCharge() * ratios));
+	}
+
+
+	@SubscribeEvent
+	public static void onArrowShot(final EntityJoinLevelEvent event) {
+		if (!(event.getEntity() instanceof AbstractArrow arrow) ||
+				event.getLevel().isClientSide()) {
+			return;
+		}
+
+		if (!(arrow.getOwner() instanceof LivingEntity owner)) {
+			return;
+		}
+
+		final int level = RelicLoader.levelOfSuchPassiveSkill(
+				gatherRelics(owner),
+				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
+		);
+
+		if (level <= 0) {
+			return;
+		}
+
+		final float ratios = level / 100.0f;
+
+		arrow.setDeltaMovement(
+				arrow.getDeltaMovement().scale(ratios)
+		);
+
+		final float leastDamage = ratios * (float)owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		arrow.setBaseDamage(
+				Math.max(arrow.getBaseDamage() * ratios, leastDamage)
+		);
 	}
 }

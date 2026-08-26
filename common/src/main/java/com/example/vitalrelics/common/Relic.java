@@ -18,7 +18,23 @@ public class Relic {
 
 	public final List<String> immune_to_effects = new ArrayList<>();
 	public final Map<String, Integer> granted_effects = new LinkedHashMap<>();
-	public final Map<String, Integer> passive_abilities = new LinkedHashMap<>();
+
+	/*
+	 * Passive skills:
+	 * - `retarget_arrow`: Reflected arrow minimum damage = ATTACK_DAMAGE × level
+	 * - `reality_severance`: level% attack-damage contribution, level-block radius,
+	 *   roughly level/4 debuff strength
+	 * - `metal_mending`: Repairs up to level durability every 4 seconds
+	 * - `flight`: Boolean only; any level > 0 grants flight
+	 * - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level / 100
+	 */
+	public static final String PASSIVE_SKILL_RETARGET_ARROW = "retarget_arrow";
+	public static final String PASSIVE_SKILL_REALITY_SEVERANCE = "reality_severance";
+	public static final String PASSIVE_SKILL_METAL_MENDING = "metal_mending";
+	public static final String PASSIVE_SKILL_FLIGHT = "flight";
+	public static final String PASSIVE_SKILL_EMPOWERED_ARROW = "empowered_arrows";
+
+	public final Map<String, Integer> passive_skills = new LinkedHashMap<>();
 
 	/*
 	 * Each map is intentionally open-ended. Adding a new configuration entry

@@ -7,7 +7,6 @@ import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.common.scheduled.Scheduler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -43,19 +42,6 @@ public final class SpellSystem {
 					"Spell already registered: " + abilityId
 			);
 		}
-	}
-
-	private static Component message(
-			final String key,
-			final String fallback,
-			final Object... arguments) {
-
-		final String pattern =
-				RelicTranslations.INSTANCE.translate(key, fallback);
-
-		return Component.literal(
-				String.format(Locale.ROOT, pattern, arguments)
-		);
 	}
 
 	private static String spellName(final String id) {

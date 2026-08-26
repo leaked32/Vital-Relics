@@ -21,8 +21,10 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
@@ -36,6 +38,10 @@ import static com.example.vitalrelics.Utils.*;
 import static com.example.vitalrelics.VitalRelics.MODID;
 
 public final class VitalEvents {
+	/*
+	Properties
+	 */
+
 	private static final ResourceLocation ATTACK_DAMAGE_ADD_ID =
 			ResourceLocation.fromNamespaceAndPath(MODID, "attack_damage_add");
 
@@ -54,6 +60,23 @@ public final class VitalEvents {
 	private static final ResourceLocation ATTACK_SPEED_MUL_TOTAL_ID =
 			ResourceLocation.fromNamespaceAndPath(MODID, "attack_speed_mul_total");
 
+	private static final ResourceLocation ARMOR_ADD_ID =
+			ResourceLocation.fromNamespaceAndPath(MODID, "armor_add");
+
+	private static final ResourceLocation ARMOR_MUL_ID =
+			ResourceLocation.fromNamespaceAndPath(MODID, "armor_mul_base");
+
+	private static final ResourceLocation ARMOR_MUL_TOTAL_ID =
+			ResourceLocation.fromNamespaceAndPath(MODID, "armor_mul_total");
+
+	private static final ResourceLocation ARMOR_TOUGHNESS_ADD_ID =
+			ResourceLocation.fromNamespaceAndPath(MODID, "armor_toughness_add");
+
+	private static final ResourceLocation ARMOR_TOUGHNESS_MUL_ID =
+			ResourceLocation.fromNamespaceAndPath(MODID, "armor_toughness_mul_base");
+
+	private static final ResourceLocation ARMOR_TOUGHNESS_MUL_TOTAL_ID =
+			ResourceLocation.fromNamespaceAndPath(MODID, "armor_toughness_mul_total");
 
 	private static final ResourceLocation KNOCKBACK_RESISTANCE_ADD_ID =
 			ResourceLocation.fromNamespaceAndPath(MODID, "knockback_resistance_add");
@@ -107,6 +130,10 @@ public final class VitalEvents {
 					ATTACK_DAMAGE_ADD_ID, ATTACK_DAMAGE_MUL_ID, ATTACK_DAMAGE_MUL_TOTAL_ID),
 			"attack_speed", new PropertyTarget(Attributes.ATTACK_SPEED,
 					ATTACK_SPEED_ADD_ID, ATTACK_SPEED_MUL_ID, ATTACK_SPEED_MUL_TOTAL_ID),
+			"armor", new PropertyTarget(Attributes.ARMOR,
+					ARMOR_ADD_ID, ARMOR_MUL_ID, ARMOR_MUL_TOTAL_ID),
+			"armor_toughness", new PropertyTarget(Attributes.ARMOR_TOUGHNESS,
+					ARMOR_TOUGHNESS_ADD_ID, ARMOR_TOUGHNESS_MUL_ID, ARMOR_TOUGHNESS_MUL_TOTAL_ID),
 			"knockback_resistance", new PropertyTarget(Attributes.KNOCKBACK_RESISTANCE,
 					KNOCKBACK_RESISTANCE_ADD_ID, KNOCKBACK_RESISTANCE_MUL_ID, KNOCKBACK_RESISTANCE_MUL_TOTAL_ID),
 			"max_health", new PropertyTarget(Attributes.MAX_HEALTH,
@@ -157,8 +184,9 @@ public final class VitalEvents {
 
 	@SubscribeEvent
 	public static void onEntityTick(final EntityTickEvent.Post event) {
-		if (!(event.getEntity() instanceof LivingEntity livingEntity) || livingEntity.level().isClientSide())
+		if (!(event.getEntity() instanceof LivingEntity livingEntity) || livingEntity.level().isClientSide()) {
 			return;
+		}
 
 		final MinecraftServer server = livingEntity.getServer();
 		if (server == null) {
@@ -166,15 +194,56 @@ public final class VitalEvents {
 		}
 
 		final var relics = gatherRelics(livingEntity);
-		final int tick = server.getTickCount();
+		final int currentTickCount = server.getTickCount();
 
-		if (tick % 10 == 0) {
+		// Calls on each tick
+		{
+			final Map<String, Relic.Ticks.Info> ticks =
+					RelicLoader.computeTicks(relics, currentTickCount);
+
+			for (final var entry : ticks.entrySet()) {
+				final TickAction action = TICK_ACTIONS.get(entry.getKey());
+				if (action != null)
+					action.apply(livingEntity, entry.getValue());
+			}
+		}
+
+		// Scheduled to update on each half seconds
+		if (currentTickCount % 10 == 0) {
 			removeImmuneEffects(livingEntity, relics);
 			applyRelicEffects(livingEntity, relics);
+		}
+
+		// Scheduled to update on each second
+		if (currentTickCount % 20 == 0) {
+			// Properties
+
+			final Map<String, Relic.Properties.Info> properties =
+					RelicLoader.computeProperties(relics);
+
+			for (final var entry : PROPERTY_TARGETS.entrySet()) {
+				final PropertyTarget target = entry.getValue();
+
+				final Relic.Properties.Info property =
+						properties.getOrDefault(
+								entry.getKey(),
+								Relic.Properties.Info.basic()
+						);
+
+				applyProperty(
+						livingEntity.getAttribute(target.attribute()),
+						property,
+						target.addId(),
+						target.mulBaseId(),
+						target.mulTotalId()
+				);
+			}
+
+			// Passive Skill: Flight
 
 			if (livingEntity instanceof ServerPlayer player) {
-				int flight_level = RelicLoader.levelOfSuchPassiveAbility(
-						relics, "flight"
+				int flight_level = RelicLoader.levelOfSuchPassiveSkill(
+						relics, Relic.PASSIVE_SKILL_FLIGHT
 				);
 				if (flight_level > 0) {
 					if (!player.getAbilities().mayfly) {
@@ -191,59 +260,33 @@ public final class VitalEvents {
 				}
 			}
 
-		}
+			// Passive Skill: reality_severance
 
-
-		if (tick % 20 == 0) {
-			final int reality_severance_level = RelicLoader.levelOfSuchPassiveAbility(
-					relics, "reality_severance"
+			final int reality_severance_level = RelicLoader.levelOfSuchPassiveSkill(
+					relics, Relic.PASSIVE_SKILL_REALITY_SEVERANCE
 			);
 			if (reality_severance_level > 0) {
 				final float ratioDamage = reality_severance_level / 100.0f;
 				final float rangeDamage = ratioDamage * (float)livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
 				MyDamageInfo.directRangedAttack(livingEntity, rangeDamage, reality_severance_level, 1, Math.round(reality_severance_level / 4.0f));
 			}
+
 		}
 
-		if (tick % 80 == 0) {
-			final int metalMendingLevel = RelicLoader.levelOfSuchPassiveAbility(
-					relics, "metal_mending"
+		// Scheduled to update on each 4 seconds
+		if (currentTickCount % 80 == 0) {
+			// Passive Skill: metal_mending
+
+			final int metalMendingLevel = RelicLoader.levelOfSuchPassiveSkill(
+					relics, Relic.PASSIVE_SKILL_METAL_MENDING
 			);
 
 			if (metalMendingLevel > 0) {
 				Utils.metalMending(livingEntity, metalMendingLevel);
 			}
+
 		}
 
-		final Map<String, Relic.Ticks.Info> ticks =
-				RelicLoader.computeTicks(relics, tick);
-
-		for (final var entry : ticks.entrySet()) {
-			final TickAction action = TICK_ACTIONS.get(entry.getKey());
-			if (action != null)
-				action.apply(livingEntity, entry.getValue());
-		}
-
-		final Map<String, Relic.Properties.Info> properties =
-				RelicLoader.computeProperties(relics);
-
-		for (final var entry : PROPERTY_TARGETS.entrySet()) {
-			final PropertyTarget target = entry.getValue();
-
-			final Relic.Properties.Info property =
-					properties.getOrDefault(
-							entry.getKey(),
-							Relic.Properties.Info.basic()
-					);
-
-			applyProperty(
-					livingEntity.getAttribute(target.attribute()),
-					property,
-					target.addId(),
-					target.mulBaseId(),
-					target.mulTotalId()
-			);
-		}
 	}
 
 	private static void applyProperty(
@@ -396,12 +439,67 @@ public final class VitalEvents {
 			if (entityResult.getEntity() instanceof LivingEntity victim) {
 
 				final var relics = gatherRelics(victim);
-				final int sp_level = RelicLoader.levelOfSuchPassiveAbility(relics, "retarget_arrow");
+				final int sp_level = RelicLoader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_RETARGET_ARROW);
 				if (sp_level > 0) {
 					retargetArrow(arrow, victim, sp_level);
 					event.setCanceled(true);
 				}
 			}
 		}
+	}
+
+	@SubscribeEvent
+	public static void onArrowLoose(final ArrowLooseEvent event) {
+		final Player player = event.getEntity();
+
+		if (player.level().isClientSide()) {
+			return;
+		}
+
+		final int level = RelicLoader.levelOfSuchPassiveSkill(
+				gatherRelics(player),
+				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
+		);
+
+		if (level <= 0) {
+			return;
+		}
+
+		final float ratios = level / 100.0f;
+
+		event.setCharge(Math.round(event.getCharge() * ratios));
+	}
+
+
+	@SubscribeEvent
+	public static void onArrowShot(final EntityJoinLevelEvent event) {
+		if (!(event.getEntity() instanceof AbstractArrow arrow) ||
+				event.getLevel().isClientSide()) {
+			return;
+		}
+
+		if (!(arrow.getOwner() instanceof LivingEntity owner)) {
+			return;
+		}
+
+		final int level = RelicLoader.levelOfSuchPassiveSkill(
+				gatherRelics(owner),
+				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
+		);
+
+		if (level <= 0) {
+			return;
+		}
+
+		final float ratios = level / 100.0f;
+
+		arrow.setDeltaMovement(
+				arrow.getDeltaMovement().scale(ratios)
+		);
+
+		final float leastDamage = ratios * (float)owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		arrow.setBaseDamage(
+				Math.max(arrow.getBaseDamage() * ratios, leastDamage)
+		);
 	}
 }

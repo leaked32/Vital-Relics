@@ -3,9 +3,11 @@ package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.common.RelicTranslations;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,6 +35,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.example.vitalrelics.VitalRelics.MODID;
 import static com.example.vitalrelics.VitalRelics.loader;
@@ -255,6 +258,7 @@ public class Utils {
 		}
 	}
 
+
 	public static boolean hostileTargeted(LivingEntity self, LivingEntity other) {
 		if (isAllied(self, other)) {
 			return false;
@@ -262,10 +266,23 @@ public class Utils {
 
 		if (other instanceof net.minecraft.world.entity.Mob mob) {
 			var rtn = mob.getTarget();
-			if (rtn == null) {
-				return false;
+
+			if (rtn != null) {
+				if (rtn.is(self)) {
+					return true;
+				}
 			}
-			return rtn.is(self);
+
+			// If it's a tamable animal, check its owner as well.
+			if (other instanceof TamableAnimal tamable && tamable.isTame()) {
+				LivingEntity owner = tamable.getOwner();   // This is safe and preferred
+				if (owner != null) {
+					boolean detected = hostileTargeted(self, owner);
+					if (detected) {
+						return true;
+					}
+				}
+			}
 		}
 
 		return false;
@@ -451,6 +468,20 @@ public class Utils {
 						direction.z
 				),
 				BlockPos.containing(end)
+		);
+	}
+
+
+	public static Component message(
+			final String key,
+			final String fallback,
+			final Object... arguments) {
+
+		final String pattern =
+				RelicTranslations.INSTANCE.translate(key, fallback);
+
+		return Component.literal(
+				String.format(Locale.ROOT, pattern, arguments)
 		);
 	}
 

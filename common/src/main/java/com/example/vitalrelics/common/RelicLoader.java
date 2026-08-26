@@ -99,7 +99,7 @@ public class RelicLoader {
 		}
 
 		add_list(relic.effective_slots, rawRelic.get("effective_slots"));
-		add_map(relic.passive_abilities, rawRelic.get("passive_abilities"));
+		add_map(relic.passive_skills, rawRelic.get("passive_abilities"));
 		add_map(relic.granted_effects, rawRelic.get("granted_effects"));
 
 		addStructuredMap(
@@ -379,9 +379,9 @@ public class RelicLoader {
 		return values.getOrDefault(id, 0);
 	}
 
-	public static int levelOfSuchPassiveAbility(
+	public static int levelOfSuchPassiveSkill(
 			final List<Relic> relics,
-			final String requiredAbility) {
+			final String requiredPassiveSkill) {
 
 		int highestLevel = 0;
 
@@ -389,8 +389,8 @@ public class RelicLoader {
 			highestLevel = Math.max(
 					highestLevel,
 					highestLevelInMap(
-							relic.passive_abilities,
-							requiredAbility
+							relic.passive_skills,
+							requiredPassiveSkill
 					)
 			);
 		}

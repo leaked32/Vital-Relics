@@ -92,6 +92,22 @@
         }
       }
     },
+    {
+      "id": "bulwark_ring",
+      "display_name": "Ring of the Bulwark",
+      "tooltip": "Dense enchanted metal hardens the bearer against crushing blows.",
+      "texture": "ring_purple_saturated.png",
+      "curio_slot": "ring",
+      "rarity": "uncommon",
+      "properties": {
+        "armor": {
+          "add": 4.0
+        },
+        "armor_toughness": {
+          "add": 2.0
+        }
+      }
+    },
 
     {
       "id": "stone_ring",
@@ -299,7 +315,7 @@
         "curse": {
           "intensity": 100,
           "range": 128,
-          "recovery": 2
+          "recovery": 0.5
         }
       },
       "callbacks": {
@@ -309,6 +325,16 @@
         "invulnerable_time_dealt": {
           "modifier": 0.5
         }
+      }
+    },
+    {
+      "id": "archers_emblem",
+      "display_name": "Archer's Emblem",
+      "tooltip": "Empowers arrows with greater force.",
+      "texture": "icy_feathered_arrow.png",
+      "rarity": "epic",
+      "passive_abilities": {
+        "empowered_arrows": 125
       }
     },
     {

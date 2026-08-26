@@ -28,12 +28,10 @@ The configuration directory is `config/vitalrelics`. Files are generated automat
 
 `curio_slot` selects the Curios slot type. `effective_slots` controls where relic effects are active.
 
-```text
-in_hotbar
-in_inventory
-in_curios_api_slots
-in_touhou_little_maid_curios_slots
-```
+- `in_hotbar` --- relic is effective while inside the player's hotbar.
+- `in_inventory` --- relic is effective while inside the player's inventory. This includes the hotbar.
+- `in_curios_api_slots` --- relic is effective while equipped through Curios API.
+- `in_touhou_little_maid_curios_slots` --- relic is effective while equipped through Touhou Little Maid accessory slots.
 
 `in_inventory` includes the hotbar. If `effective_slots` is omitted or empty, Curios API slots and Touhou Little Maid Curios slots are used by default.
 
@@ -57,12 +55,10 @@ in_touhou_little_maid_curios_slots
 
 `passive_abilities` defines special passive relic behavior.
 
-```text
-retarget_arrow
-flight
-reality_severance
-metal_mending
-```
+- `retarget_arrow`: Reflected arrow minimum damage = ATTACK_DAMAGE × level
+- `flight`: Boolean only: any level > 0 grants flight
+- `reality_severance`: level% attack-damage contribution, level-block radius, roughly level/4 debuff strength
+- `metal_mending`: Up to level durability repaired every 4 seconds
 
 ```json
 { "passive_abilities": { "flight": 1 } }
