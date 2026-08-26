@@ -30,7 +30,7 @@
       "tooltip": "A warm pulse of vitality runs through the wearer.",
       "texture": "ring_pink.png",
       "curio_slot": "ring",
-      "rarity": "common",
+      "rarity": "rare",
       "granted_effects": {
         "regeneration": 1
       }
@@ -63,7 +63,7 @@
       "tooltip": "Flames can no longer harm the wearer.",
       "texture": "ring_blue.png",
       "curio_slot": "ring",
-      "rarity": "common",
+      "rarity": "rare",
       "granted_effects": {
         "fire_resistance": 1
       }
@@ -128,7 +128,7 @@
       "texture": "ring_aqua_saturated.png",
       "curio_slot": "ring",
       "rarity": "rare",
-      "passive_abilities": { "metal_mending": 2 }
+      "passive_skills": { "metal_mending": 2 }
     },
 
     {
@@ -265,7 +265,7 @@
       "id": "celestial_wings",
       "texture": "celestial_wings.png",
       "rarity": "epic",
-      "passive_abilities": { "flight": 1 },
+      "passive_skills": { "flight": 1 },
       "available_spells": {
         "teleport": {
           "range": 128,
@@ -309,7 +309,7 @@
       "texture": "cursed_crimson_rune.png",
       "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "rarity": "epic",
-      "passive_abilities": { "reality_severance": 6 },
+      "passive_skills": { "reality_severance": 6 },
       "granted_effects": { "strength": 2 },
       "available_spells": {
         "curse": {
@@ -333,7 +333,7 @@
       "tooltip": "Empowers arrows with greater force.",
       "texture": "icy_feathered_arrow.png",
       "rarity": "epic",
-      "passive_abilities": {
+      "passive_skills": {
         "empowered_arrows": 125
       }
     },
@@ -346,7 +346,7 @@
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",
-      "passive_abilities": { "retarget_arrow": 2, "reality_severance": 32, "lingering_wound": 30 },
+      "passive_skills": { "retarget_arrow": 2, "reality_severance": 32, "lingering_wound": 30 },
       "properties": {
         "attack_damage": {
           "add": 9.0,

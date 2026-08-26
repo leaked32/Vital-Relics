@@ -62,7 +62,7 @@ Curse attacks the LivingEntity directly targeted by the caster.
 "curse": {
   "intensity": 100,
   "range": 128,
-  "recovery": 2
+  "recovery": 0.5
 }
 ```
 

@@ -99,7 +99,7 @@ public class RelicLoader {
 		}
 
 		add_list(relic.effective_slots, rawRelic.get("effective_slots"));
-		add_map(relic.passive_skills, rawRelic.get("passive_abilities"));
+		add_map(relic.passive_skills, rawRelic.get("passive_skills"));
 		add_map(relic.granted_effects, rawRelic.get("granted_effects"));
 
 		addStructuredMap(

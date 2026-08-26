@@ -51,7 +51,7 @@ The configuration directory is `config/vitalrelics`. Files are generated automat
 { "granted_effects": { "night_vision": 1, "speed": 2 } }
 ```
 
-## Passive Abilities
+## Passive Skills
 
 `passive_abilities` defines special passive relic behavior.
 
@@ -59,6 +59,7 @@ The configuration directory is `config/vitalrelics`. Files are generated automat
 - `flight`: Boolean only: any level > 0 grants flight
 - `reality_severance`: level% attack-damage contribution, level-block radius, roughly level/4 debuff strength
 - `metal_mending`: Up to level durability repaired every 4 seconds
+- `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level / 100
 
 ```json
 { "passive_abilities": { "flight": 1 } }
