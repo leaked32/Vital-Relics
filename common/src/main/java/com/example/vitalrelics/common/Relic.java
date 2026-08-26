@@ -33,14 +33,7 @@ public class Relic {
 	 * - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level / 100
 	 * - `lifesteal`: Heals the bearer for level% of damage dealt
 	 * - `thorns`: Reflects level% of received damage; reflection is limited by a cooldown
-	 * - `repulse`: Pushes hostile living entities within `range` away from the caster
-	 *   using `strength`, with optional `vertical` lift
-	 * - `absorption`: Grants Absorption for `duration_ticks` with the configured `amplifier`
-	 * - `sky_launch`: Launches hostile living entities within `range` upward by `strength`
 	 */
-	public static final String SPELL_REPULSE = "repulse";
-	public static final String SPELL_ABSORPTION = "absorption";
-	public static final String SPELL_SKY_LAUNCH = "sky_launch";
 	public static final String PASSIVE_SKILL_RETARGET_ARROW = "retarget_arrow";
 	public static final String PASSIVE_SKILL_REALITY_SEVERANCE = "reality_severance";
 	public static final String PASSIVE_SKILL_METAL_MENDING = "metal_mending";
@@ -84,6 +77,10 @@ public class Relic {
 	 * - `arc_burst`: Repeatedly damages hostile targets within `range`;
 	 *   each hit deals `intensity`% attack damage, repeated `count` times,
 	 *   with optional `weaken` debuff strength
+	 * - `repulse`: Pushes hostile living entities within `range` away from the caster
+	 *   using `strength`, with optional `vertical` lift
+	 * - `absorption`: Grants Absorption for `duration_ticks` with the configured `amplifier`
+	 * - `sky_launch`: Launches hostile living entities within `range` upward by `strength`
 	 */
 	public static final String SPELL_TELEPORT = "teleport";
 	public static final String SPELL_CURSE = "curse";
@@ -91,6 +88,9 @@ public class Relic {
 	public static final String SPELL_CLEANSE = "cleanse";
 	public static final String SPELL_DASH = "dash";
 	public static final String SPELL_ARC_BURST = "arc_burst";
+	public static final String SPELL_REPULSE = "repulse";
+	public static final String SPELL_ABSORPTION = "absorption";
+	public static final String SPELL_SKY_LAUNCH = "sky_launch";
 
 	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
 
