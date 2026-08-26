@@ -8,6 +8,10 @@ import java.util.Map;
 import static com.example.vitalrelics.common.RelicText.displayName;
 
 public class Relic {
+	/*
+	Do not remove my comments.
+	 */
+
 	public String id;
 	public String display_name = null;
 	public final List<String> effective_slots = new ArrayList<>();
@@ -70,12 +74,16 @@ public class Relic {
 	 * - `heal`: Restores `amount` health plus `ratio` of the caster's maximum health
 	 * - `cleanse`: Removes all negative effects from the caster
 	 * - `dash`: Launches the caster forward by `strength`, with optional `vertical` velocity
+	 * - `arc_burst`: Repeatedly damages hostile targets within `range`;
+	 *   each hit deals `intensity`% attack damage, repeated `count` times,
+	 *   with optional `weaken` debuff strength
 	 */
 	public static final String SPELL_TELEPORT = "teleport";
 	public static final String SPELL_CURSE = "curse";
 	public static final String SPELL_HEAL = "heal";
 	public static final String SPELL_CLEANSE = "cleanse";
 	public static final String SPELL_DASH = "dash";
+	public static final String SPELL_ARC_BURST = "arc_burst";
 
 	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
 

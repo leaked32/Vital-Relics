@@ -394,5 +394,160 @@ public final class SpellSystem {
 
 			return true;
 		});
+		register(Relic.SPELL_HEAL, (caster, spell) -> {
+			final float amount = (float) Math.max(
+					0.0,
+					RelicSpells.numberParameter(spell, "amount", 0.0)
+			);
+
+			final float ratio = (float) Math.max(
+					0.0,
+					RelicSpells.numberParameter(spell, "ratio", 0.0)
+			);
+
+			final float healing =
+					amount + caster.getMaxHealth() * ratio;
+
+			if (healing <= 0.0F || caster.getHealth() >= caster.getMaxHealth())
+				return false;
+
+			caster.heal(healing);
+
+			caster.level().playSound(
+					null,
+					caster.getX(), caster.getY(), caster.getZ(),
+					SoundEvents.PLAYER_LEVELUP,
+					SoundSource.PLAYERS,
+					0.5F, 1.4F
+			);
+			return true;
+		});
+		register(Relic.SPELL_CLEANSE, (caster, spell) -> {
+			final List<net.minecraft.world.effect.MobEffectInstance> harmfulEffects =
+					caster.getActiveEffects().stream()
+							.filter(effect ->
+									effect.getEffect().value().getCategory() ==
+											net.minecraft.world.effect.MobEffectCategory.HARMFUL
+							)
+							.toList();
+
+			if (harmfulEffects.isEmpty())
+				return false;
+
+			for (final var effect : harmfulEffects) {
+				caster.removeEffect(effect.getEffect());
+			}
+
+			caster.level().playSound(
+					null,
+					caster.getX(), caster.getY(), caster.getZ(),
+					SoundEvents.AMETHYST_BLOCK_CHIME,
+					SoundSource.PLAYERS,
+					0.8F, 1.3F
+			);
+			return true;
+		});
+		register(Relic.SPELL_DASH, (caster, spell) -> {
+			final double strength = Math.max(
+					0.0,
+					RelicSpells.numberParameter(spell, "strength", 0.0)
+			);
+
+			final double vertical = RelicSpells.numberParameter(
+					spell,
+					"vertical",
+					0.0
+			);
+
+			if (strength <= 0.0)
+				return false;
+
+			final Vec3 look = caster.getLookAngle();
+
+			final Vec3 horizontal = new Vec3(
+					look.x,
+					0.0,
+					look.z
+			);
+
+			if (horizontal.lengthSqr() <= 1.0e-8)
+				return false;
+
+			final Vec3 direction = horizontal.normalize();
+
+			caster.setDeltaMovement(
+					direction.x * strength,
+					vertical,
+					direction.z * strength
+			);
+
+			caster.hurtMarked = true;
+
+			caster.level().playSound(
+					null,
+					caster.getX(), caster.getY(), caster.getZ(),
+					SoundEvents.ENDER_DRAGON_FLAP,
+					SoundSource.PLAYERS,
+					0.45F, 1.7F
+			);
+			return true;
+		});
+		register(Relic.SPELL_ARC_BURST, (caster, spell) -> {
+			final float intensity = (float) Math.max(
+					0.0,
+					RelicSpells.numberParameter(spell, "intensity", 0.0)
+			);
+
+			final int range = (int) Math.min(
+					256,
+					Math.max(
+							0,
+							Math.round(
+									RelicSpells.numberParameter(spell, "range", 0.0)
+							)
+					)
+			);
+
+			final int count = (int) Math.min(
+					64,
+					Math.max(
+							0,
+							Math.round(
+									RelicSpells.numberParameter(spell, "count", 1.0)
+							)
+					)
+			);
+
+			final int weaken = (int) Math.min(
+					255,
+					Math.max(
+							0,
+							Math.round(
+									RelicSpells.numberParameter(spell, "weaken", 0.0)
+							)
+					)
+			);
+
+			if (intensity <= 0.0F || range <= 0 || count <= 0)
+				return false;
+
+			final float damage =
+					(float) caster.getAttributeValue(Attributes.ATTACK_DAMAGE) *
+							intensity / 100.0F;
+
+			if (damage <= 0.0F)
+				return false;
+
+			MyDamageInfo.directRangedAttack(caster, damage, range, count, weaken);
+
+			caster.level().playSound(
+					null,
+					caster.getX(), caster.getY(), caster.getZ(),
+					SoundEvents.EVOKER_CAST_SPELL,
+					SoundSource.PLAYERS,
+					0.8F, 0.9F
+			);
+			return true;
+		});
 	}
 }

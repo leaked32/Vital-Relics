@@ -213,6 +213,20 @@
       },
       "count": 1
     },
+    "warcaster_bracelet": {
+      "type": "shaped",
+      "pattern": [
+        " B ",
+        "RGR",
+        " B "
+      ],
+      "key": {
+        "B": "minecraft:blaze_powder",
+        "R": "minecraft:redstone",
+        "G": "minecraft:gold_ingot"
+      },
+      "count": 1
+    },
 
     "iron_heart": {
       "type": "shaped",
@@ -597,6 +611,16 @@
       {
         "table": "minecraft:chests/ancient_city",
         "chance": 0.02
+      }
+    ],
+    "warcaster_bracelet": [
+      {
+        "table": "minecraft:chests/nether_bridge",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/bastion_treasure",
+        "chance": 0.025
       }
     ],
 

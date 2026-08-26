@@ -196,6 +196,23 @@
         "thorns": 25
       }
     },
+    {
+      "id": "warcaster_bracelet",
+      "display_name": "Warcaster Bracelet",
+      "tooltip": "Releases repeated bursts of force against nearby hostile creatures.",
+      "texture": "bracelet_red.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "available_spells": {
+        "arc_burst": {
+          "intensity": 105,
+          "range": 12,
+          "count": 3,
+          "weaken": 0,
+          "recovery": 0.5
+        }
+      }
+    },
 
     {
       "id": "iron_heart",
@@ -367,9 +384,6 @@
         "damage_taken": {
           "modifier": 0.9,
           "ratio_maximum": 0.45
-        },
-        "invulnerable_time_taken": {
-          "flat": 20.0
         }
       }
     },
