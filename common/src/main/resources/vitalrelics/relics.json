@@ -265,7 +265,7 @@
       "id": "celestial_wings",
       "texture": "celestial_wings.png",
       "rarity": "epic",
-      "passive_skills": { "flight": 1 },
+      "passive_skills": { "flight": 2 },
       "available_spells": {
         "teleport": {
           "range": 128,
@@ -301,6 +301,9 @@
         "damage_taken": {
           "modifier": 0.9,
           "ratio_maximum": 0.45
+        },
+        "invulnerable_time_taken": {
+          "flat": 20.0
         }
       }
     },
@@ -350,12 +353,10 @@
       "properties": {
         "attack_damage": {
           "add": 9.0,
-          "mul_base": 2.0,
           "mul_total": 2.0
         },
         "attack_speed": {
-          "add": 4.0,
-          "mul_total": 2.0
+          "add": 4.0
         },
         "entity_interaction_range": {
           "add": 2.5

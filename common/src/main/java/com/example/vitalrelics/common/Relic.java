@@ -25,7 +25,7 @@ public class Relic {
 	 * - `reality_severance`: level% attack-damage contribution, level-block radius,
 	 *   roughly level/4 debuff strength
 	 * - `metal_mending`: Repairs up to level durability every 4 seconds
-	 * - `flight`: Boolean only; any level > 0 grants flight
+	 * - `flight`: Any level > 0 grants flight; flight speed = vanilla flight speed × level
 	 * - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level / 100
 	 */
 	public static final String PASSIVE_SKILL_RETARGET_ARROW = "retarget_arrow";
@@ -42,6 +42,13 @@ public class Relic {
 	 */
 	public final Map<String, Properties.Info> properties = new LinkedHashMap<>();
 	public final Map<String, Ticks.Info> ticks = new LinkedHashMap<>();
+
+	/*
+	 * - `damage_dealt`
+	 * - `damage_taken`
+	 * - `invulnerable_time_taken`
+	 * - `invulnerable_time_dealt`
+	 */
 	public final Map<String, Callbacks.Info> callbacks = new LinkedHashMap<>();
 
 

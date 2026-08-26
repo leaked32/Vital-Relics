@@ -248,6 +248,7 @@ public final class VitalEvents {
 				if (flight_level > 0) {
 					if (!player.getAbilities().mayfly) {
 						player.getAbilities().mayfly = true;
+						player.getAbilities().setFlyingSpeed(0.05F * flight_level);
 						player.onUpdateAbilities();
 					}
 				} else {
@@ -255,6 +256,7 @@ public final class VitalEvents {
 					if (gameType != GameType.CREATIVE) {
 						player.getAbilities().mayfly = false;
 						player.getAbilities().flying = false;
+						player.getAbilities().setFlyingSpeed(0.05F);
 						player.onUpdateAbilities();
 					}
 				}
