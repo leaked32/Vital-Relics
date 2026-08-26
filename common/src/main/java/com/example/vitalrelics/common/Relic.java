@@ -27,12 +27,16 @@ public class Relic {
 	 * - `metal_mending`: Repairs up to level durability every 4 seconds
 	 * - `flight`: Any level > 0 grants flight; flight speed = vanilla flight speed × level
 	 * - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level / 100
+	 * - `lifesteal`: Heals the bearer for level% of damage dealt
+	 * - `thorns`: Reflects level% of received damage; reflection is limited by a cooldown
 	 */
 	public static final String PASSIVE_SKILL_RETARGET_ARROW = "retarget_arrow";
 	public static final String PASSIVE_SKILL_REALITY_SEVERANCE = "reality_severance";
 	public static final String PASSIVE_SKILL_METAL_MENDING = "metal_mending";
 	public static final String PASSIVE_SKILL_FLIGHT = "flight";
 	public static final String PASSIVE_SKILL_EMPOWERED_ARROW = "empowered_arrows";
+	public static final String PASSIVE_SKILL_LIFESTEAL = "lifesteal";
+	public static final String PASSIVE_SKILL_THORNS = "thorns";
 
 	public final Map<String, Integer> passive_skills = new LinkedHashMap<>();
 
@@ -53,18 +57,20 @@ public class Relic {
 
 
 	/*
-	**Teleport**
-		BLOCK hit
-			-> try center for thin blocks
-			-> otherwise try above
-			-> if blocked, try before the hit face
-
-		MISS / sky
-			-> teleport as far along look direction as possible
-
-	**Curse**
-		Calls `directAttack` with the pointed living Entity.
-	*/
+	 * - `teleport`:
+	 *   BLOCK hit
+	 *     -> try center for thin blocks
+	 *     -> otherwise try above
+	 *     -> if blocked, try before the hit face
+	 *
+	 *   MISS / sky
+	 *     -> teleport as far along look direction as possible
+	 *
+	 * - `curse`: Calls `directAttack` with the pointed living entity
+	 * - `heal`: Restores `amount` health plus `ratio` of the caster's maximum health
+	 * - `cleanse`: Removes all negative effects from the caster
+	 * - `dash`: Launches the caster forward by `strength`, with optional `vertical` velocity
+	 */
 	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
 
 	public static class Properties {

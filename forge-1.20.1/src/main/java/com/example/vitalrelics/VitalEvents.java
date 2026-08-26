@@ -264,7 +264,7 @@ public final class VitalEvents {
 	@SubscribeEvent
 	public static void onLivingDamage(final LivingDamageEvent event) {
 		final LivingEntity victim = event.getEntity();
-		final Entity attacker = event.getSource().getEntity();
+		final Entity entity_criminal = event.getSource().getEntity();
 
 		if (victim.level().isClientSide()) {
 			return;
@@ -277,15 +277,34 @@ public final class VitalEvents {
 
 		float amount = event.getAmount();
 
-		if (attacker instanceof LivingEntity livingAttacker) {
-			final List<Relic> attackerRelics = gatherRelics(livingAttacker);
+		/*
+		Attack
+		 */
+		if (entity_criminal instanceof LivingEntity criminal) {
+			final List<Relic> attackerRelics = gatherRelics(criminal);
 			amount = (float) RelicLoader.applyCallback(
 					attackerRelics, "damage_dealt", amount, victim.getMaxHealth());
 
 			final double invulnerableTime = RelicLoader.applyCallback(
 					attackerRelics, "invulnerable_time_dealt", victim.invulnerableTime, 10.0);
 			victim.invulnerableTime = Math.round((float) invulnerableTime);
+
+
+			// Lifesteal
+			final int lifestealLevel = RelicLoader.levelOfSuchPassiveSkill(
+					attackerRelics,
+					Relic.PASSIVE_SKILL_LIFESTEAL
+			);
+
+			if (lifestealLevel > 0 && amount > 0.0F) {
+				criminal.heal(amount * lifestealLevel / 100.0F);
+			}
 		}
+
+
+		/*
+		Protection
+		 */
 
 		final List<Relic> victimRelics = gatherRelics(victim);
 		amount = (float) RelicLoader.applyCallback(
@@ -303,6 +322,28 @@ public final class VitalEvents {
 				amount = 0.0F;
 			}
 			victim.invulnerableTime = Math.round(invulnerable_time);
+		}
+
+		// Thorns
+
+		if (entity_criminal instanceof LivingEntity criminal && amount > 0.0F) {
+			final int thornsLevel = RelicLoader.levelOfSuchPassiveSkill(
+					victimRelics,
+					Relic.PASSIVE_SKILL_THORNS
+			);
+
+			if (thornsLevel > 0 &&
+					Scheduler.INSTANCE().acquireThorns(
+							victim.getUUID(),
+							victim_server.getTickCount(),
+							10
+					)) {
+
+				criminal.hurt(
+						victim.damageSources().thorns(victim),
+						amount * thornsLevel / 100.0F
+				);
+			}
 		}
 
 		event.setAmount(amount);

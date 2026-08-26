@@ -132,6 +132,72 @@
     },
 
     {
+      "id": "healing_bracelet",
+      "display_name": "Bracelet of Healing",
+      "tooltip": "Stores a small reserve of restorative magic.",
+      "texture": "bracelet_pink.png",
+      "curio_slot": "bracelet",
+      "rarity": "uncommon",
+      "available_spells": {
+        "heal": {
+          "amount": 6,
+          "ratio": 0.1,
+          "recovery": 0.2
+        }
+      }
+    },
+    {
+      "id": "cleansing_bracelet",
+      "display_name": "Bracelet of Cleansing",
+      "tooltip": "Purges harmful effects from its wearer.",
+      "texture": "bracelet_aqua.png",
+      "curio_slot": "bracelet",
+      "rarity": "uncommon",
+      "available_spells": {
+        "cleanse": {
+          "recovery": 0.1
+        }
+      }
+    },
+    {
+      "id": "windstep_bracelet",
+      "display_name": "Bracelet of Windstep",
+      "tooltip": "Releases a sudden burst of forward momentum.",
+      "texture": "bracelet_yellow.png",
+      "curio_slot": "bracelet",
+      "rarity": "uncommon",
+      "available_spells": {
+        "dash": {
+          "strength": 1.8,
+          "vertical": 0.15,
+          "recovery": 1.0
+        }
+      }
+    },
+    {
+      "id": "blooddrinker_bracelet",
+      "display_name": "Blooddrinker Bracelet",
+      "tooltip": "Returns a portion of inflicted harm as vitality.",
+      "texture": "bracelet_red_saturated.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "passive_skills": {
+        "lifesteal": 10
+      }
+    },
+    {
+      "id": "thorned_bracelet",
+      "display_name": "Thorned Bracelet",
+      "tooltip": "Periodically retaliates against attackers.",
+      "texture": "bracelet_purple.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "passive_skills": {
+        "thorns": 25
+      }
+    },
+
+    {
       "id": "iron_heart",
       "display_name": "Metal Heart",
       "tooltip": "A small heart forged from stubborn iron.",

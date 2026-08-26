@@ -352,6 +352,16 @@ public final class VitalEvents {
 
 			victim.invulnerableTime = Math.round((float) invulnerableTime);
 			event.setNewDamage(amount);
+
+			// Lifesteal
+			final int lifestealLevel = RelicLoader.levelOfSuchPassiveSkill(
+					attackerRelics,
+					Relic.PASSIVE_SKILL_LIFESTEAL
+			);
+
+			if (lifestealLevel > 0 && amount > 0.0F) {
+				criminal.heal(amount * lifestealLevel / 100.0F);
+			}
 		}
 
 		/*
@@ -382,6 +392,31 @@ public final class VitalEvents {
 				amount = 0.0F;
 			}
 			victim.invulnerableTime = Math.round(invulnerable_time);
+		}
+
+		// Thorns
+
+		if (entity_criminal instanceof LivingEntity criminal && amount > 0.0F) {
+			final int thornsLevel = RelicLoader.levelOfSuchPassiveSkill(
+					victimRelics,
+					Relic.PASSIVE_SKILL_THORNS
+			);
+
+			if (thornsLevel > 0 &&
+					Scheduler.INSTANCE().acquireThorns(
+							victim.getUUID(),
+							victim_server.getTickCount(),
+							10
+					)) {
+
+				final float reflected =
+						amount * thornsLevel / 100.0F;
+
+				criminal.hurt(
+						victim.damageSources().thorns(victim),
+						reflected
+				);
+			}
 		}
 
 		event.setNewDamage(amount);

@@ -77,6 +77,7 @@ public class Scheduler {
 	private final MyMap<Integer> PROTECTED_PLAYER_LIST = new MyMap<>();
 
 	private final MyMap<SpellState> SPELL_STATE_LIST = new MyMap<>(0);
+	private final MyMap<Integer> THORNS_COOLDOWN_LIST = new MyMap<>();
 
 	private static final int DELAYED_TASK_LIST_MAX = 12;
 
@@ -118,6 +119,7 @@ public class Scheduler {
 			DELAYED_TASK_LIST.cleanUp(currentTickCount, isEntityValid);
 			HEAL_PREVENTION_LIST.cleanUp(currentTickCount, isEntityValid);
 			PROTECTED_PLAYER_LIST.cleanUp(currentTickCount, isEntityValid);
+			THORNS_COOLDOWN_LIST.cleanUp(currentTickCount, isEntityValid);
 		}
 	}
 
@@ -273,6 +275,34 @@ public class Scheduler {
 		PROTECTED_PLAYER_LIST.put(uuid, currentTick, invulnerableTicks);
 		return true;
 	}
+
+	/*
+	Thorns Cooldown
+	 */
+
+	public boolean acquireThorns(
+			final UUID uuid,
+			final int currentTick,
+			final int cooldownTicks) {
+
+		final int cooldownEnd =
+				THORNS_COOLDOWN_LIST.getOrDefault(uuid, 0);
+
+		if (currentTick < cooldownEnd)
+			return false;
+
+		THORNS_COOLDOWN_LIST.put(
+				uuid,
+				currentTick,
+				currentTick + cooldownTicks
+		);
+
+		return true;
+	}
+
+	/*
+	Static Methods
+	 */
 
 	private static final Scheduler INSTANCE = new Scheduler();
 
