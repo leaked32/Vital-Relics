@@ -30,9 +30,9 @@ public class Relic {
 	 *   roughly level/4 debuff strength
 	 * - `metal_mending`: Repairs up to level durability every 4 seconds
 	 * - `flight`: Any level > 0 grants flight; flight speed = vanilla flight speed × level
-	 * - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level / 100
-	 * - `lifesteal`: Heals the bearer for level% of damage dealt
-	 * - `thorns`: Reflects level% of received damage; reflection is limited by a cooldown
+	 * - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level
+	 * - `lifesteal`: Heals the bearer for damage dealt × level
+	 * - `thorns`: Reflects received damage × level; reflection is limited by a cooldown
 	 */
 	public static final String PASSIVE_SKILL_RETARGET_ARROW = "retarget_arrow";
 	public static final String PASSIVE_SKILL_REALITY_SEVERANCE = "reality_severance";

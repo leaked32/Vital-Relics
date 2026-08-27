@@ -44,7 +44,7 @@ public class MyDamageInfo
 			damages.add(
 					new MyDamageInfo(
 							attacker, null, amount, MyDamageType.normal,
-							0.02f, range,  MyRangeFilter.hostileTargeted, 20, neg_leve
+							null, range,  MyRangeFilter.hostileTargeted, 20, neg_leve
 					)
 			);
 		}
@@ -64,7 +64,7 @@ public class MyDamageInfo
 			damages.add(
 					new MyDamageInfo(
 							attacker, victim, amount, MyDamageType.normal,
-							0.02f, 0.f, MyRangeFilter.none, 20, 5
+							null, 0.f, MyRangeFilter.none, 20, 5
 					)
 			);
 		}

@@ -404,6 +404,7 @@ public final class VitalEvents {
 		if (sp_level > 0.0) {
 			retargetArrow(arrow, victim, sp_level);
 			// existing event cancellation unchanged
+			event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
 		}
 	}
 

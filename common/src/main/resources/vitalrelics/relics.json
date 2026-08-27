@@ -429,8 +429,8 @@
       "passive_skills": { "flight": 0.6 },
       "available_spells": {
         "teleport": {
-          "range": 64,
-          "recovery": 0.5
+          "range": 50,
+          "recovery": 0.25
         }
       }
     },
@@ -474,7 +474,7 @@
       "granted_effects": { "strength": 2 },
       "available_spells": {
         "curse": {
-          "intensity": 100,
+          "intensity": 1.0,
           "range": 64,
           "recovery": 0.5
         }
