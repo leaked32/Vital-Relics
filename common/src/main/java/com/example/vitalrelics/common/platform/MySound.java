@@ -1,5 +1,13 @@
 package com.example.vitalrelics.common.platform;
 
 public enum MySound {
-	TELEPORT
+	TELEPORT,
+	ILLUSIONER_CAST,
+	PLAYER_LEVELUP,
+	AMETHYST_CHIME,
+	DRAGON_FLAP,
+	EVOKER_CAST,
+	GENERIC_EXPLODE,
+	BEACON_ACTIVATE,
+	ENCHANTMENT_TABLE_USE
 }

@@ -172,21 +172,6 @@ public class Utils {
 		}
 	}
 
-	public static void addEffect(
-			final LivingEntity target, final Holder<MobEffect> effect,
-			final int duration, final int amplifier) {
-
-		if (target.isDeadOrDying() ||
-				!target.level().isLoaded(target.blockPosition())) {
-			return;
-		}
-
-		final MobEffectInstance instance =
-				new MobEffectInstance(effect, duration, amplifier, true, true);
-
-		target.forceAddEffect(instance, null);
-	}
-
 
 	/*
 	Special Abilities

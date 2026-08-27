@@ -20,6 +20,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -242,9 +243,10 @@ public final class NeoLivingEntity implements MyLivingEntity {
 			case MOVEMENT_SLOWDOWN -> MobEffects.MOVEMENT_SLOWDOWN;
 			case WITHER -> MobEffects.WITHER;
 			case DARKNESS -> MobEffects.DARKNESS;
+			case ABSORPTION -> MobEffects.ABSORPTION;
 		};
 
-		Utils.addEffect(entity, nativeEffect, duration, amplifier);
+		_addEffect(entity, nativeEffect, duration, amplifier);
 	}
 
 	@Override
@@ -269,4 +271,56 @@ public final class NeoLivingEntity implements MyLivingEntity {
 	public void logInfo(final String message) {
 		LOGGER.info(message);
 	}
+
+	@Override
+	public void heal(final float amount) {
+		entity.heal(amount);
+	}
+
+
+	@Override
+	public double y() {
+		return entity.getY();
+	}
+
+
+	@Override
+	public double horizontalLookX() {
+		return entity.getLookAngle().x;
+	}
+
+	@Override
+	public double horizontalLookZ() {
+		return entity.getLookAngle().z;
+	}
+
+	@Override
+	public void setVelocity(
+			final double x,
+			final double y,
+			final double z) {
+
+		entity.setDeltaMovement(x, y, z);
+	}
+
+
+	/*
+	Private functions
+	 */
+
+	public static void _addEffect(
+			final LivingEntity target, final Holder<MobEffect> effect,
+			final int duration, final int amplifier) {
+
+		if (target.isDeadOrDying() ||
+				!target.level().isLoaded(target.blockPosition())) {
+			return;
+		}
+
+		final MobEffectInstance instance =
+				new MobEffectInstance(effect, duration, amplifier, true, true);
+
+		target.forceAddEffect(instance, null);
+	}
+
 }

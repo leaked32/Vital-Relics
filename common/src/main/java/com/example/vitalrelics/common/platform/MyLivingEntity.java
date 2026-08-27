@@ -18,9 +18,19 @@ public interface MyLivingEntity {
 
 	float attackDamage();
 
+	void heal(float amount);
+
 	double x();
 
+	double y();
+
 	double z();
+
+	double horizontalLookX();
+
+	double horizontalLookZ();
+
+	void setVelocity(double x, double y, double z);
 
 	void push(double x, double y, double z);
 
