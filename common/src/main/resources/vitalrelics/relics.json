@@ -115,6 +115,9 @@
         "armor_toughness": {
           "add": 2.0
         }
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.5
       }
     },
 
@@ -128,6 +131,10 @@
         "knockback_resistance": {
           "add": 1
         }
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.25,
+        "minecraft:creeper": 0.25
       }
     },
     {
@@ -372,6 +379,9 @@
           "interval_ticks": 100,
           "add": 1.0
         }
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.25
       }
     },
     {
@@ -506,6 +516,9 @@
         "invulnerable_time_dealt": {
           "modifier": 0.9
         }
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.25
       }
     },
     {
@@ -516,6 +529,9 @@
       "rarity": "epic",
       "passive_skills": {
         "empowered_arrows": 1.25
+      },
+      "enemy_spawn": {
+        "minecraft:skeleton": 0.5
       }
     },
     {

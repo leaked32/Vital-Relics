@@ -262,34 +262,50 @@ public class Utils {
 	}
 
 
-	public static boolean hostileTargeted(LivingEntity self, LivingEntity other) {
-		if (isAllied(self, other)) {
+	public static boolean hostileTargeted(
+			final LivingEntity self,
+			final LivingEntity other) {
+
+		if (isAllied(self, other))
 			return false;
+
+		/*
+		 * self is actively targeting other.
+		 *
+		 * This is important for relic-bearing hostile mobs:
+		 * a zombie targeting a player must regard that player as hostile.
+		 */
+		if (self instanceof net.minecraft.world.entity.Mob mob) {
+			final LivingEntity target = mob.getTarget();
+
+			if (target != null && target.is(other))
+				return true;
 		}
 
+		/*
+		 * other is actively targeting self.
+		 *
+		 * This preserves the original behavior for players and other
+		 * non-Mob relic bearers.
+		 */
 		if (other instanceof net.minecraft.world.entity.Mob mob) {
-			var rtn = mob.getTarget();
+			final LivingEntity target = mob.getTarget();
 
-			if (rtn != null) {
-				if (rtn.is(self)) {
-					return true;
-				}
-			}
+			if (target != null && target.is(self))
+				return true;
 
 			// If it's a tamable animal, check its owner as well.
 			if (other instanceof TamableAnimal tamable && tamable.isTame()) {
-				LivingEntity owner = tamable.getOwner();   // This is safe and preferred
-				if (owner != null) {
-					boolean detected = hostileTargeted(self, owner);
-					if (detected) {
-						return true;
-					}
-				}
+				final LivingEntity owner = tamable.getOwner();
+
+				if (owner != null && hostileTargeted(self, owner))
+					return true;
 			}
 		}
 
 		return false;
 	}
+
 
 	public static boolean isAllied(LivingEntity live0, LivingEntity live1) {
 		if (live0 == null || live1 == null || live0 == live1 || live0.getUUID() == live1.getUUID()) {
