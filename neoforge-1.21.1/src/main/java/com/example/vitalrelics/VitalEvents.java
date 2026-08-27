@@ -1,6 +1,8 @@
 package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.platform.MyLivingEntity;
+import com.example.vitalrelics.common.platform.MyUtils;
 import com.example.vitalrelics.network.SpellSystem;
 import com.example.vitalrelics.platform.NeoLivingEntity;
 import net.minecraft.core.Holder;
@@ -211,9 +213,14 @@ public final class VitalEvents {
 		}
 
 		// Scheduled to update on each half seconds
+		// Scheduled to update on each half seconds
 		if (currentTickCount % 10 == 0) {
-			removeImmuneEffects(livingEntity, relics);
-			applyRelicEffects(livingEntity, relics);
+			final MyLivingEntity entity =
+					new NeoLivingEntity(livingEntity);
+
+			MyUtils.removeImmuneEffects(entity, relics, MyLivingEntity.MyEffectCategory.ALL);
+
+			MyUtils.applyRelicEffects(entity, relics);
 		}
 
 		// Scheduled to update on each second

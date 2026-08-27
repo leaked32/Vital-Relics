@@ -119,50 +119,6 @@ public class Utils {
 	}
 
 	/*
-	Effects
-	 */
-
-	public static void removeImmuneEffects(
-			final LivingEntity livingEntity,
-			final List<Relic> relics) {
-
-		final List<ResourceLocation> remove = new ArrayList<>();
-
-		for (final MobEffectInstance instance : livingEntity.getActiveEffects()) {
-			final var effect = instance.getEffect().value();
-
-			final ResourceLocation id =
-					BuiltInRegistries.MOB_EFFECT.getKey(effect);
-
-			if (id == null)
-				continue;
-
-			final boolean negative =
-					effect.getCategory() == MobEffectCategory.HARMFUL;
-
-			if (RelicLoader.isImmuneToEffect(
-					relics,
-					id.getPath(),
-					negative
-			)) {
-				remove.add(id);
-			}
-		}
-
-		for (final ResourceLocation id : remove) {
-			final var effect =
-					BuiltInRegistries.MOB_EFFECT.get(id);
-
-			if (effect != null) {
-				livingEntity.removeEffect(
-						BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect)
-				);
-			}
-		}
-	}
-
-
-	/*
 	Special Abilities
 	 */
 

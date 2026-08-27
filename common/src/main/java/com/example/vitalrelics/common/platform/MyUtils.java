@@ -50,4 +50,23 @@ public class MyUtils {
 		return removed;
 	}
 
+	public static void applyRelicEffects(
+			final MyLivingEntity entity,
+			final List<Relic> relics) {
+
+		for (final Relic relic : relics) {
+			for (final var entry : relic.granted_effects.entrySet()) {
+				final int amplifier =
+						Math.max(0, entry.getValue() - 1);
+
+				entity.addEffect(
+						entry.getKey(),
+						240,
+						amplifier,
+						true,
+						false
+				);
+			}
+		}
+	}
 }

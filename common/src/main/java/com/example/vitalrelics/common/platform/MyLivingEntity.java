@@ -74,4 +74,6 @@ public interface MyLivingEntity {
 	List<MyEffectInstance> activeEffects();
 
 	void removeEffect(String id);
+
+	void addEffect(String id, int duration, int amplifier, boolean ambient, boolean visible);
 }

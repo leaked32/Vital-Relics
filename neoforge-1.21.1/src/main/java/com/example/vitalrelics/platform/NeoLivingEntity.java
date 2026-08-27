@@ -352,6 +352,33 @@ public final class NeoLivingEntity implements MyLivingEntity {
 		);
 	}
 
+	@Override
+	public void addEffect(
+			final String id,
+			final int duration,
+			final int amplifier,
+			final boolean ambient,
+			final boolean visible) {
+
+		final ResourceLocation resource =
+				ResourceLocation.fromNamespaceAndPath("minecraft", id);
+
+		final var effect =
+				BuiltInRegistries.MOB_EFFECT.get(resource);
+
+		if (effect == null)
+			return;
+
+		entity.addEffect(
+				new MobEffectInstance(
+						BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
+						duration,
+						amplifier,
+						ambient,
+						visible
+				)
+		);
+	}
 
 	/*
 	Private functions
