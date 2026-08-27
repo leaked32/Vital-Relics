@@ -1,5 +1,8 @@
 {
-  "customized": false,
+  "_meta": {
+    "version": "0.6.2",
+    "customized": false
+  },
 
   "itemGroup.vitalrelics": "Vital Relics",
   "key.categories.vitalrelics": "Vital Relics",

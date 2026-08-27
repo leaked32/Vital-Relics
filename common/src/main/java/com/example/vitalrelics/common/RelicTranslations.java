@@ -1,5 +1,7 @@
 package com.example.vitalrelics.common;
 
+import com.example.vitalrelics.common.utils.ConfigurationException;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -92,8 +94,14 @@ public final class RelicTranslations {
 		final Map<String, String> result = new LinkedHashMap<>();
 
 		for (final var entry : root.entrySet()) {
-			if (entry.getKey().equals("customized"))
+			if (entry.getKey().equals("_meta")) {
 				continue;
+			}
+
+			if (entry.getKey().equals("customized")) {
+				// TODO, throw an exception since it should be in `_meta` now.
+				throw new RuntimeException("customized should be in `_meta` now.");
+			}
 
 			if (!(entry.getValue() instanceof String value)) {
 				throw new IllegalArgumentException(

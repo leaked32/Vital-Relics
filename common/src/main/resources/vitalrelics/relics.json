@@ -1,5 +1,8 @@
 {
-  "customized": false,
+  "_meta": {
+    "version": "0.6.5",
+    "customized": false
+  },
   "relics": [
     {
       "id": "swiftness_ring",
@@ -426,8 +429,8 @@
       "passive_skills": { "flight": 2 },
       "available_spells": {
         "teleport": {
-          "range": 128,
-          "recovery": 1
+          "range": 64,
+          "recovery": 0.5
         }
       }
     },

@@ -13,19 +13,23 @@ public final class ConfigurationException extends RuntimeException {
 
 	public static ConfigurationException configuration_error(
 			final Path path,
-			final Throwable cause) {
+			final Throwable exception) {
 
-		if (cause instanceof ConfigurationException configuration)
-			return configuration;
+		if (exception instanceof ConfigurationException configuration_exception)
+			return configuration_exception;
 
-		final String reason = cause.getMessage() != null
-				? cause.getMessage()
-				: cause.getClass().getSimpleName();
+		final String reason = exception.getMessage() != null
+				? exception.getMessage()
+				: exception.getClass().getSimpleName();
 
 		return new ConfigurationException(
-				"Failed to load Vital Relics configuration '" +
-						path.toAbsolutePath() + "': " + reason,
-				cause
+				"Failed to load Vital Relics configuration file:\n" +
+						"  " + path.toAbsolutePath() + "\n" +
+						"Reason: " + reason + "\n" +
+						"If you do not know how to fix this configuration, " +
+						"remove the file and restart the game. " +
+						"`Vital Relics` will automatically regenerate it.",
+				exception
 		);
 	}
 }

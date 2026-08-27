@@ -68,7 +68,24 @@ public class Util {
 
 			Map<String, Object> root = parse_configuration(external_path);
 
-			if (!Boolean.TRUE.equals(root.get("customized"))) {
+			/*
+			 * Legacy configuration files are converted immediately.
+			 * After migration, _meta is the only supported metadata format.
+			 */
+			if (!root.containsKey("_meta")) {
+				migrate_legacy_metadata(root, expected_version);
+				save_configuration(external_path, root);
+
+				System.out.println(
+						"[Vital Relics] Added version metadata to " +
+								external_path.toAbsolutePath()
+				);
+			}
+
+			/*
+			Overwrite the non-customized files.
+			 */
+			if (!customized(root)) {
 				/*
 				 * Non-customized files belong to Vital Relics.
 				 * Always refresh them from the bundled configuration.
@@ -79,18 +96,21 @@ public class Util {
 				copy_to_external(internal_path, external_path);
 
 				root = parse_configuration(external_path);
-				set_version(root, expected_version);
+				set_metadata(root, expected_version, false);
 				save_configuration(external_path, root);
 
 				return root;
 			}
 
 			/*
+			 * Make them compatible. WARNING, this should be removed after all...
+			 * I don't think I actually need it, because it could make very old configuration files loaded.
+			 * Which could potentially trigger the exceptions.
 			 * Pre-versioning customized files are assumed to use the current
 			 * format. Preserve their contents and only add metadata.
 			 */
 			if (!root.containsKey("_meta")) {
-				set_version(root, expected_version);
+				set_metadata(root, expected_version, true);
 				save_configuration(external_path, root);
 
 				System.out.println(
@@ -103,7 +123,7 @@ public class Util {
 				System.out.println("`load_external_file` preserved the old file. ");
 			}
 
-			validate_version(root, expected_version);
+			validate_metadata(root, expected_version);
 			return root;
 		} catch (RuntimeException | IOException exception) {
 			throw ConfigurationException.configuration_error(external_path, exception);
@@ -125,26 +145,47 @@ public class Util {
 		);
 	}
 
-	private static void set_version(
+	private static boolean customized(final Map<String, Object> root) {
+		final Object raw_meta = root.get("_meta");
+
+		if (!(raw_meta instanceof Map<?, ?> meta))
+			throw new IllegalArgumentException("'_meta' must be a JSON object");
+
+		return Boolean.TRUE.equals(meta.get("customized"));
+	}
+
+	private static void migrate_legacy_metadata(
 			final Map<String, Object> root,
 			final String version) {
 
+		if (root.containsKey("_meta"))
+			return;
+
+		final boolean customized = Boolean.TRUE.equals(root.get("customized"));
+
+		set_metadata(root, version, customized);
+	}
+
+	private static void set_metadata(
+			final Map<String, Object> root,
+			final String version,
+			final boolean customized) {
+
 		final Map<String, Object> meta = new java.util.LinkedHashMap<>();
 		meta.put("version", version);
+		meta.put("customized", customized);
 
-		/*
-		 * Rebuild so _meta stays near the beginning instead of being appended
-		 * after the entire configuration.
-		 */
 		final Map<String, Object> upgraded = new java.util.LinkedHashMap<>();
 		upgraded.put("_meta", meta);
+
+		root.remove("customized");
 		upgraded.putAll(root);
 
 		root.clear();
 		root.putAll(upgraded);
 	}
 
-	private static void validate_version(
+	private static void validate_metadata(
 			final Map<String, Object> root,
 			final String expected_version) {
 
@@ -154,15 +195,20 @@ public class Util {
 			throw new IllegalArgumentException("'_meta' must be a JSON object");
 
 		final Object raw_version = meta.get("version");
-
 		if (!(raw_version instanceof String version))
 			throw new IllegalArgumentException("'_meta.version' must be a string");
+
+		final Object raw_customized = meta.get("customized");
+		if (!(raw_customized instanceof Boolean))
+			throw new IllegalArgumentException("'_meta.customized' must be a boolean");
 
 		if (!expected_version.equals(version)) {
 			throw new IllegalArgumentException(
 					"Configuration version '" + version +
 							"' is incompatible with required version '" +
-							expected_version + "'"
+							expected_version + "'. " +
+							"Update the configuration manually, or remove the file " +
+							"to let `Vital Relics` regenerate a compatible version."
 			);
 		}
 	}

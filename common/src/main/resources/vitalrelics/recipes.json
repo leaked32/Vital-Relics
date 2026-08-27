@@ -1,5 +1,9 @@
 {
-  "customized": false,
+  "_meta": {
+    "version": "0.6.2",
+    "customized": false
+  },
+
   "recipes": {
     "swiftness_ring": {
       "type": "shaped",
