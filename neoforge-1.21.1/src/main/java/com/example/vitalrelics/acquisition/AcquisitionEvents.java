@@ -2,6 +2,7 @@ package com.example.vitalrelics.acquisition;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Acquisition;
+import com.example.vitalrelics.common.Manifest;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -22,7 +23,7 @@ public final class AcquisitionEvents {
 
 		for (final var entry : VitalRelics.acquisition.data.loot.entrySet()) {
 			final ResourceLocation id =
-					ResourceLocation.fromNamespaceAndPath(VitalRelics.MODID, entry.getKey());
+					ResourceLocation.fromNamespaceAndPath(Manifest.MODID, entry.getKey());
 
 			if (!BuiltInRegistries.ITEM.containsKey(id))
 				continue;

@@ -1,6 +1,7 @@
 package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.VitalRelics;
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.Relic;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -34,7 +35,7 @@ public final class RelicRenderer extends BlockEntityWithoutLevelRenderer {
 		final ResourceLocation itemId =
 				BuiltInRegistries.ITEM.getKey(stack.getItem());
 
-		if (!itemId.getNamespace().equals(VitalRelics.MODID))
+		if (!itemId.getNamespace().equals(Manifest.MODID))
 			return;
 
 		final Relic relic = VitalRelics.loader.find(itemId.getPath());
@@ -44,7 +45,7 @@ public final class RelicRenderer extends BlockEntityWithoutLevelRenderer {
 
 		final ResourceLocation texture =
 				new ResourceLocation(
-						VitalRelics.MODID,
+						Manifest.MODID,
 						"textures/item/" + relic.texture
 				);
 

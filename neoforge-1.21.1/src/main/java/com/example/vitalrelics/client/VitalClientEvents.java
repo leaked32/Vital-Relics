@@ -1,6 +1,7 @@
 package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.VitalRelics;
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.network.NetworkPayload;
@@ -26,7 +27,7 @@ import org.lwjgl.glfw.GLFW;
 
 public final class VitalClientEvents {
 	private static final ResourceLocation FLAT_ID =
-			ResourceLocation.fromNamespaceAndPath(VitalRelics.MODID, "item/flat");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "item/flat");
 
 	private static final ModelResourceLocation FLAT_MODEL =
 			ModelResourceLocation.standalone(FLAT_ID);
@@ -137,7 +138,7 @@ public final class VitalClientEvents {
 		for (final Relic relic : VitalRelics.loader.relics_) {
 			final ResourceLocation id =
 					ResourceLocation.fromNamespaceAndPath(
-							VitalRelics.MODID,
+							Manifest.MODID,
 							relic.id
 					);
 

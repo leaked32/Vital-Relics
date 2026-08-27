@@ -1,6 +1,7 @@
 package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.VitalRelics;
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.network.SpellSystem;
@@ -23,7 +24,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 public final class VitalClientEvents {
 	private static final ResourceLocation FLAT_MODEL =
-			new ResourceLocation(VitalRelics.MODID, "item/flat");
+			new ResourceLocation(Manifest.MODID, "item/flat");
 
 	private VitalClientEvents() {}
 
@@ -115,7 +116,7 @@ public final class VitalClientEvents {
 		for (final Relic relic : VitalRelics.loader.relics_) {
 			final ModelResourceLocation itemModel =
 					new ModelResourceLocation(
-							VitalRelics.MODID,
+							Manifest.MODID,
 							relic.id,
 							"inventory"
 					);

@@ -2,6 +2,7 @@ package com.example.vitalrelics.acquisition;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Acquisition;
+import com.example.vitalrelics.common.Manifest;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -41,7 +42,7 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 			return ItemStack.EMPTY;
 
 		final ResourceLocation id =
-				ResourceLocation.fromNamespaceAndPath(VitalRelics.MODID, match.id);
+				ResourceLocation.fromNamespaceAndPath(Manifest.MODID, match.id);
 
 		if (!BuiltInRegistries.ITEM.containsKey(id))
 			return ItemStack.EMPTY;

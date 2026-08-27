@@ -1,6 +1,7 @@
 package com.example.vitalrelics;
 
 
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import com.example.vitalrelics.common.RelicTranslations;
@@ -37,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.example.vitalrelics.VitalRelics.MODID;
 import static com.example.vitalrelics.VitalRelics.loader;
 import static com.example.vitalrelics.compat.TouhouMaidCompat.gatherMaidRelics;
 
@@ -89,7 +89,7 @@ public class Utils {
 			return;
 
 		final ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
-		if (!id.getNamespace().equals(MODID))
+		if (!id.getNamespace().equals(Manifest.MODID))
 			return;
 
 		final Relic relic = loader.find(id.getPath());
