@@ -59,7 +59,7 @@ public interface MyLivingEntity {
 	int serverTick();
 
 	void logInfo(String message);
-
+	double width();
 
 	enum MyEffectCategory {
 		POSITIVE,

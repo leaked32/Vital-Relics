@@ -302,6 +302,11 @@ public final class NeoLivingEntity implements MyLivingEntity {
 	}
 
 	@Override
+	public double width() {
+		return entity.getBbWidth();
+	}
+
+	@Override
 	public List<MyEffectInstance> activeEffects() {
 		return entity.getActiveEffects()
 				.stream()

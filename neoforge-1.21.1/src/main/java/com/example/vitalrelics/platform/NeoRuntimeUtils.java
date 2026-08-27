@@ -1,19 +1,16 @@
 package com.example.vitalrelics.platform;
 
-import com.example.vitalrelics.common.MyDamageInfo;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyRuntimeUtils;
+import com.example.vitalrelics.common.platform.MyVec3;
 import com.example.vitalrelics.network.SelectedSpellPayload;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -55,7 +52,11 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 
 	private static ServerPlayer player(final MyLivingEntity entity) {
 		final LivingEntity nativeEntity = nativeEntity(entity);
-		return nativeEntity instanceof ServerPlayer player ? player : null;
+
+		if (!(nativeEntity instanceof ServerPlayer player))
+			return null;
+
+		return player;
 	}
 
 	private static String spellName(final String id) {
@@ -65,111 +66,100 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		);
 	}
 
-	@Override
-	public List<Relic> gatherRelics(final MyLivingEntity caster) {
-		return com.example.vitalrelics.Utils.gatherRelics(nativeEntity(caster));
+	private static MyVec3 wrap(final Vec3 value) {
+		return new MyVec3(value.x, value.y, value.z);
 	}
 
+
+
 	@Override
-	public void syncSpellHud(
-			final MyLivingEntity caster,
-			final String spellId,
-			final int cooldownTicks) {
-
-		final ServerPlayer player = player(caster);
-		if (player == null)
-			return;
-
-		PacketDistributor.sendToPlayer(
-				player,
-				new SelectedSpellPayload(spellId, cooldownTicks)
+	public List<Relic> gatherRelics(final MyLivingEntity entity) {
+		return com.example.vitalrelics.Utils.gatherRelics(
+				nativeEntity(entity)
 		);
 	}
 
 	@Override
-	public void clearSpellHud(final MyLivingEntity caster) {
-		final ServerPlayer player = player(caster);
-		if (player == null)
-			return;
+	public MyLivingEntity pointedLivingEntity(
+			final MyLivingEntity source,
+			final double range) {
 
-		PacketDistributor.sendToPlayer(
-				player,
-				new SelectedSpellPayload("", 0)
-		);
-	}
+		final LivingEntity entity = nativeEntity(source);
 
-	@Override
-	public void showSelectedSpell(
-			final MyLivingEntity caster,
-			final String spellId) {
-
-		final ServerPlayer player = player(caster);
-		if (player == null)
-			return;
-
-		player.displayClientMessage(
-				message(
-						"message.vitalrelics.selected_spell",
-						"Selected spell: %s",
-						spellName(spellId)
-				),
-				true
-		);
-	}
-
-	@Override
-	public void showSpellCooldown(
-			final MyLivingEntity caster,
-			final String spellId,
-			final int remainingTicks) {
-
-		final ServerPlayer player = player(caster);
-		if (player == null)
-			return;
-
-		player.displayClientMessage(
-				message(
-						"message.vitalrelics.spell_cooldown",
-						"%s cooldown: %s",
-						spellName(spellId),
-						String.format(
-								Locale.ROOT,
-								"%.1fs",
-								remainingTicks / 20.0
-						)
-				),
-				true
-		);
-	}
-
-	@Override
-	public void showCurseRequiresTarget(final MyLivingEntity caster) {
-		final ServerPlayer player = player(caster);
-		if (player == null)
-			return;
-
-		player.displayClientMessage(
-				message(
-						"message.vitalrelics.curse_requires_target",
-						"Curse requires a target."
-				),
-				true
-		);
-	}
-
-	@Override
-	public boolean teleportAlongLook(
-			final MyLivingEntity caster,
-			final double distance) {
-
-		final LivingEntity entity = nativeEntity(caster);
 		if (!(entity.level() instanceof ServerLevel level))
-			return false;
+			return null;
+
+		final Vec3 origin = entity.getEyePosition();
+		final Vec3 direction = entity.getLookAngle().normalize();
+
+		final BlockHitResult blockHit = level.clip(new ClipContext(
+				origin,
+				origin.add(direction.scale(range)),
+				ClipContext.Block.COLLIDER,
+				ClipContext.Fluid.NONE,
+				entity
+		));
+
+		final double visibleRange =
+				blockHit.getType() == HitResult.Type.BLOCK
+						? origin.distanceTo(blockHit.getLocation())
+						: range;
+
+		final Vec3 end =
+				origin.add(direction.scale(visibleRange));
+
+		final AABB searchBox =
+				entity.getBoundingBox()
+						.expandTowards(direction.scale(visibleRange))
+						.inflate(1.0);
+
+		LivingEntity selected = null;
+		double selectedDistance = Double.MAX_VALUE;
+
+		for (final LivingEntity candidate :
+				level.getEntitiesOfClass(
+						LivingEntity.class,
+						searchBox,
+						target -> target != entity && target.isAlive()
+				)) {
+
+			final Vec3 hit =
+					candidate.getBoundingBox()
+							.inflate(candidate.getPickRadius())
+							.clip(origin, end)
+							.orElse(null);
+
+			if (hit == null)
+				continue;
+
+			final double distance =
+					origin.distanceToSqr(hit);
+
+			if (distance < selectedDistance) {
+				selected = candidate;
+				selectedDistance = distance;
+			}
+		}
+
+		return selected == null
+				? null
+				: new NeoLivingEntity(selected);
+	}
+
+	@Override
+	public MyVec3 safeDestinationAlongLook(
+			final MyLivingEntity abstractEntity,
+			final double range) {
+
+		final LivingEntity entity = nativeEntity(abstractEntity);
+
+		if (!(entity.level() instanceof ServerLevel level))
+			return null;
 
 		final Vec3 origin = entity.position();
 		final Vec3 rayOrigin = entity.getEyePosition();
 		final Vec3 direction = entity.getLookAngle().normalize();
-		final Vec3 rayEnd = rayOrigin.add(direction.scale(distance));
+		final Vec3 rayEnd = rayOrigin.add(direction.scale(range));
 
 		/*
 		 * Raycast while treating snow as transparent.
@@ -197,247 +187,138 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 			 */
 			clipStart = hit.getLocation().add(direction.scale(0.01));
 
-			if (clipStart.distanceToSqr(rayOrigin) >= rayEnd.distanceToSqr(rayOrigin)) {
+			if (clipStart.distanceToSqr(rayOrigin) >=
+					rayEnd.distanceToSqr(rayOrigin)) {
+
 				hit = BlockHitResult.miss(
 						rayEnd,
-						Direction.getNearest(direction.x, direction.y, direction.z),
+						Direction.getNearest(
+								direction.x,
+								direction.y,
+								direction.z
+						),
 						BlockPos.containing(rayEnd)
 				);
+
 				break;
 			}
 		}
 
 		/*
 		 * Sky / no block:
-		 * teleport as far along the look direction as possible.
+		 * use the farthest collision-free destination.
 		 */
 		if (hit.getType() == HitResult.Type.MISS) {
-			for (double travelled = distance; travelled >= 0.5; travelled -= 0.25) {
-				final Vec3 candidate = origin.add(direction.scale(travelled));
+			for (double travelled = range;
+			     travelled >= 0.5;
+			     travelled -= 0.25) {
+
+				final Vec3 candidate =
+						origin.add(direction.scale(travelled));
+
 				final AABB targetBox =
-						entity.getBoundingBox().move(candidate.subtract(origin));
+						entity.getBoundingBox()
+								.move(candidate.subtract(origin));
 
-				if (!level.noCollision(entity, targetBox))
-					continue;
-
-				caster.teleport(candidate.x, candidate.y, candidate.z);
-				return true;
+				if (level.noCollision(entity, targetBox))
+					return wrap(candidate);
 			}
-			return false;
+
+			return null;
 		}
 
 		final BlockPos target = hit.getBlockPos();
 		final BlockState state = level.getBlockState(target);
 
-		/*
-		 * Thin blocks:
-		 * teleport into the center of their block cell.
-		 */
 		final boolean centerTarget =
 				state.getBlock() instanceof DoorBlock ||
-				state.getBlock() instanceof TrapDoorBlock ||
-				state.getBlock() instanceof IronBarsBlock ||
-				state.getBlock() instanceof StainedGlassPaneBlock;
+						state.getBlock() instanceof TrapDoorBlock ||
+						state.getBlock() instanceof IronBarsBlock ||
+						state.getBlock() instanceof StainedGlassPaneBlock;
 
 		if (centerTarget) {
-			caster.teleport(
+			return new MyVec3(
 					target.getX() + 0.5,
 					target.getY(),
 					target.getZ() + 0.5
 			);
-			return true;
 		}
 
-		/*
-		 * Normal block:
-		 * try standing on its actual collision surface.
-		 */
-		final VoxelShape shape = state.getCollisionShape(level, target);
+		final VoxelShape shape =
+				state.getCollisionShape(level, target);
 
 		if (!shape.isEmpty()) {
-			final double topY = target.getY() + shape.max(Direction.Axis.Y);
+			final double topY =
+					target.getY() + shape.max(Direction.Axis.Y);
+
 			final Vec3 above = new Vec3(
 					target.getX() + 0.5,
 					topY + 1.0e-4,
 					target.getZ() + 0.5
 			);
-			final AABB targetBox =
-					entity.getBoundingBox().move(above.subtract(origin));
 
-			if (level.noCollision(entity, targetBox)) {
-				caster.teleport(above.x, above.y, above.z);
-				return true;
-			}
+			final AABB targetBox =
+					entity.getBoundingBox()
+							.move(above.subtract(origin));
+
+			if (level.noCollision(entity, targetBox))
+				return wrap(above);
 		}
 
-		/*
-		 * No room above:
-		 * teleport BEFORE the target block.
-		 *
-		 * hit.getDirection() points toward the side from which the ray
-		 * entered the target block, so this is the caster-facing side.
-		 */
-		final Direction beforeDirection = hit.getDirection();
-		final BlockPos before = target.relative(beforeDirection);
+		final Direction beforeDirection =
+				hit.getDirection();
 
-		Vec3 candidate = new Vec3(
-				before.getX() + 0.5,
-				before.getY(),
-				before.getZ() + 0.5
-		);
+		final BlockPos before =
+				target.relative(beforeDirection);
 
-		/*
-		 * Move a tiny amount farther away from the target block to avoid
-		 * floating-point boundary overlap with its collision shape.
-		 */
-		candidate = candidate.add(
-				beforeDirection.getStepX() * 1.0e-4,
-				beforeDirection.getStepY() * 1.0e-4,
-				beforeDirection.getStepZ() * 1.0e-4
+		final Vec3 candidate = new Vec3(
+				before.getX() + 0.5 +
+						beforeDirection.getStepX() * 1.0e-4,
+				before.getY() +
+						beforeDirection.getStepY() * 1.0e-4,
+				before.getZ() + 0.5 +
+						beforeDirection.getStepZ() * 1.0e-4
 		);
 
 		final AABB targetBox =
-				entity.getBoundingBox().move(candidate.subtract(origin));
+				entity.getBoundingBox()
+						.move(candidate.subtract(origin));
 
-		if (!level.noCollision(entity, targetBox))
-			return false;
-
-		caster.teleport(candidate.x, candidate.y, candidate.z);
-		return true;
+		return level.noCollision(entity, targetBox)
+				? wrap(candidate)
+				: null;
 	}
 
 	@Override
-	public MyLivingEntity pointedLivingEntity(
-			final MyLivingEntity caster,
+	public MyVec3 safeHorizontalDestination(
+			final MyLivingEntity abstractEntity,
 			final double range) {
 
-		final LivingEntity nativeCaster = nativeEntity(caster);
-		if (!(nativeCaster.level() instanceof ServerLevel level))
+		final LivingEntity entity = nativeEntity(abstractEntity);
+
+		if (!(entity.level() instanceof ServerLevel level))
 			return null;
 
-		final Vec3 origin = nativeCaster.getEyePosition();
-		final Vec3 direction = nativeCaster.getLookAngle().normalize();
-
-		final BlockHitResult blockHit = level.clip(new ClipContext(
-				origin,
-				origin.add(direction.scale(range)),
-				ClipContext.Block.COLLIDER,
-				ClipContext.Fluid.NONE,
-				nativeCaster
-		));
-
-		final double visibleRange =
-				blockHit.getType() == HitResult.Type.BLOCK
-						? origin.distanceTo(blockHit.getLocation())
-						: range;
-
-		final Vec3 end = origin.add(direction.scale(visibleRange));
-		final AABB searchBox =
-				nativeCaster.getBoundingBox()
-						.expandTowards(direction.scale(visibleRange))
-						.inflate(1.0);
-
-		LivingEntity selected = null;
-		double selectedDistance = Double.MAX_VALUE;
-
-		for (final LivingEntity candidate :
-				level.getEntitiesOfClass(
-						LivingEntity.class,
-						searchBox,
-						entity -> entity != nativeCaster && entity.isAlive()
-				)) {
-
-			final Vec3 hit = candidate.getBoundingBox()
-					.inflate(candidate.getPickRadius())
-					.clip(origin, end)
-					.orElse(null);
-
-			if (hit == null)
-				continue;
-
-			final double distance = origin.distanceToSqr(hit);
-
-			if (distance < selectedDistance) {
-				selected = candidate;
-				selectedDistance = distance;
-			}
-		}
-
-		return selected == null ? null : new NeoLivingEntity(selected);
-	}
-
-
-	@Override
-	public boolean shadowExchange(
-			final MyLivingEntity caster,
-			final double range) {
-
-		final LivingEntity nativeCaster = nativeEntity(caster);
-		if (!(nativeCaster.level() instanceof ServerLevel level))
-			return false;
-
-		final MyLivingEntity target = pointedLivingEntity(caster, range);
-
-		if (target == null || caster.isAllied(target))
-			return false;
-
-		final LivingEntity nativeTarget = nativeEntity(target);
-		final Vec3 casterPosition = nativeCaster.position();
-		final Vec3 targetPosition = nativeTarget.position();
-
-		caster.teleport(targetPosition.x, targetPosition.y, targetPosition.z);
-		target.teleport(casterPosition.x, casterPosition.y, casterPosition.z);
-
-		level.playSound(
-				null,
-				casterPosition.x, casterPosition.y, casterPosition.z,
-				SoundEvents.ENDERMAN_TELEPORT,
-				SoundSource.PLAYERS,
-				0.8F, 0.8F
-		);
-
-		level.playSound(
-				null,
-				targetPosition.x, targetPosition.y, targetPosition.z,
-				SoundEvents.ENDERMAN_TELEPORT,
-				SoundSource.PLAYERS,
-				0.8F, 1.2F
-		);
-
-		return true;
-	}
-
-	@Override
-	public boolean phantomStep(
-			final MyLivingEntity caster,
-			final double range,
-			final float intensity) {
-
-		final LivingEntity nativeCaster = nativeEntity(caster);
-		if (!(nativeCaster.level() instanceof ServerLevel level))
-			return false;
-
-		final Vec3 look = nativeCaster.getLookAngle();
-		final Vec3 horizontal = new Vec3(look.x, 0.0, look.z);
+		final Vec3 look = entity.getLookAngle();
+		final Vec3 horizontal =
+				new Vec3(look.x, 0.0, look.z);
 
 		if (horizontal.lengthSqr() <= 1.0e-8)
-			return false;
+			return null;
 
 		final Vec3 direction = horizontal.normalize();
-		final Vec3 origin = nativeCaster.position();
+		final Vec3 origin = entity.position();
 
-		/*
-		 * Stop the step at the first solid block.
-		 */
-		final Vec3 rayOrigin = nativeCaster.getEyePosition();
-		final Vec3 rayEnd = rayOrigin.add(direction.scale(range));
+		final Vec3 rayOrigin = entity.getEyePosition();
+		final Vec3 rayEnd =
+				rayOrigin.add(direction.scale(range));
 
 		final BlockHitResult hit = level.clip(new ClipContext(
 				rayOrigin,
 				rayEnd,
 				ClipContext.Block.COLLIDER,
 				ClipContext.Fluid.NONE,
-				nativeCaster
+				entity
 		));
 
 		double travel = range;
@@ -446,100 +327,94 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 			travel = Math.max(
 					0.0,
 					rayOrigin.distanceTo(hit.getLocation()) -
-							nativeCaster.getBbWidth() * 0.5 -
+							entity.getBbWidth() * 0.5 -
 							0.05
 			);
 		}
 
 		if (travel <= 0.0)
-			return false;
+			return null;
 
-		/*
-		 * Find the farthest collision-free destination before the obstacle.
-		 */
-		Vec3 destination = null;
+		for (double distance = travel;
+		     distance >= 0.25;
+		     distance -= 0.25) {
 
-		for (double distance = travel; distance >= 0.25; distance -= 0.25) {
-			final Vec3 candidate = origin.add(direction.scale(distance));
+			final Vec3 candidate =
+					origin.add(direction.scale(distance));
+
 			final AABB targetBox =
-					nativeCaster.getBoundingBox().move(candidate.subtract(origin));
+					entity.getBoundingBox()
+							.move(candidate.subtract(origin));
 
-			if (level.noCollision(nativeCaster, targetBox)) {
-				destination = candidate;
-				break;
-			}
+			if (level.noCollision(entity, targetBox))
+				return wrap(candidate);
 		}
 
-		if (destination == null)
-			return false;
-
-		final float damage = caster.attackDamage() * intensity;
-
-		/*
-		 * Damage only hostile entities whose hitboxes intersect the actual
-		 * movement line.
-		 */
-		final AABB sweptArea =
-				nativeCaster.getBoundingBox()
-						.expandTowards(destination.subtract(origin))
-						.inflate(1.0);
-
-		for (final LivingEntity target :
-				level.getEntitiesOfClass(LivingEntity.class, sweptArea)) {
-
-			if (target == nativeCaster)
-				continue;
-
-			final MyLivingEntity myTarget = new NeoLivingEntity(target);
-
-			if (!caster.hostileTargeted(myTarget))
-				continue;
-
-			final AABB hitbox =
-					target.getBoundingBox().inflate(nativeCaster.getBbWidth() * 0.5);
-
-			if (hitbox.clip(origin, destination).isEmpty())
-				continue;
-
-			MyDamageInfo.directAttack(caster, myTarget, damage, 1);
-		}
-
-		caster.teleport(destination.x, destination.y, destination.z);
-
-		level.playSound(
-				null,
-				origin.x, origin.y, origin.z,
-				SoundEvents.ENDERMAN_TELEPORT,
-				SoundSource.PLAYERS,
-				0.6F, 1.5F
-		);
-
-		return true;
+		return null;
 	}
 
 	@Override
-	public boolean upgradeEnchantedBook(
-			final MyLivingEntity caster,
+	public List<MyLivingEntity> entitiesIntersectingMovement(
+			final MyLivingEntity abstractEntity,
+			final MyVec3 from,
+			final MyVec3 to,
+			final double inflate) {
+
+		final LivingEntity entity =
+				nativeEntity(abstractEntity);
+
+		if (!(entity.level() instanceof ServerLevel level))
+			return List.of();
+
+		final Vec3 origin =
+				new Vec3(from.x(), from.y(), from.z());
+
+		final Vec3 destination =
+				new Vec3(to.x(), to.y(), to.z());
+
+		final AABB sweptArea =
+				entity.getBoundingBox()
+						.expandTowards(destination.subtract(origin))
+						.inflate(1.0);
+
+		return level.getEntitiesOfClass(
+						LivingEntity.class,
+						sweptArea,
+						target -> {
+							if (target == entity)
+								return false;
+
+							final AABB hitbox =
+									target.getBoundingBox().inflate(inflate);
+
+							return hitbox.clip(origin, destination).isPresent();
+						}
+				)
+				.stream()
+				.map(NeoLivingEntity::new)
+				.map(MyLivingEntity.class::cast)
+				.toList();
+	}
+
+	@Override
+	public boolean upgradeFirstStoredEnchantment(
+			final MyLivingEntity abstractEntity,
 			final int experienceCost) {
 
-		final ServerPlayer player = player(caster);
-		if (player == null)
+		final LivingEntity entity =
+				nativeEntity(abstractEntity);
+
+		if (!(entity instanceof ServerPlayer player))
 			return false;
 
-		final ItemStack stack = player.getMainHandItem();
+		final ItemStack stack =
+				player.getMainHandItem();
 
 		if (!stack.is(Items.ENCHANTED_BOOK))
 			return false;
 
-		if (!player.isCreative() && player.experienceLevel < experienceCost) {
-			player.displayClientMessage(
-					message(
-							"message.vitalrelics.enchant_upgrade_insufficient_experience",
-							"Not enough experience. Required level: %s",
-							experienceCost
-					),
-					true
-			);
+		if (!player.isCreative() &&
+				player.experienceLevel < experienceCost) {
 			return false;
 		}
 
@@ -552,21 +427,24 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		final ItemEnchantments.Mutable mutable =
 				new ItemEnchantments.Mutable(enchantments);
 
-		int upgradedLevel = 0;
+		boolean upgraded = false;
 
 		for (final var enchantment : enchantments.keySet()) {
-			final int level = enchantments.getLevel(enchantment);
-			final int maximum = enchantment.value().getMaxLevel();
+			final int level =
+					enchantments.getLevel(enchantment);
+
+			final int maximum =
+					enchantment.value().getMaxLevel();
 
 			if (level >= maximum)
 				continue;
 
-			upgradedLevel = level + 1;
-			mutable.set(enchantment, upgradedLevel);
+			mutable.set(enchantment, level + 1);
+			upgraded = true;
 			break;
 		}
 
-		if (upgradedLevel == 0)
+		if (!upgraded)
 			return false;
 
 		stack.set(
@@ -577,23 +455,98 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (!player.isCreative())
 			player.giveExperienceLevels(-experienceCost);
 
+		return true;
+	}
+
+	@Override
+	public void syncSpellHud(
+			final MyLivingEntity caster,
+			final String spellId,
+			final int cooldownTicks) {
+
+		final ServerPlayer player = player(caster);
+
+		if (player == null)
+			return;
+
+		PacketDistributor.sendToPlayer(
+				player,
+				new SelectedSpellPayload(spellId, cooldownTicks)
+		);
+	}
+
+	@Override
+	public void clearSpellHud(final MyLivingEntity caster) {
+		final ServerPlayer player = player(caster);
+
+		if (player == null)
+			return;
+
+		PacketDistributor.sendToPlayer(
+				player,
+				new SelectedSpellPayload("", 0)
+		);
+	}
+
+	@Override
+	public void showSelectedSpell(
+			final MyLivingEntity caster,
+			final String spellId) {
+
+		final ServerPlayer player = player(caster);
+
+		if (player == null)
+			return;
+
 		player.displayClientMessage(
 				message(
-						"message.vitalrelics.enchant_upgrade_success",
-						"Enchantment upgraded to level %s.",
-						upgradedLevel
+						"message.vitalrelics.selected_spell",
+						"Selected spell: %s",
+						spellName(spellId)
 				),
 				true
 		);
+	}
 
-		player.level().playSound(
-				null,
-				player.getX(), player.getY(), player.getZ(),
-				SoundEvents.ENCHANTMENT_TABLE_USE,
-				SoundSource.PLAYERS,
-				1.0F, 1.0F
+	@Override
+	public void showSpellCooldown(
+			final MyLivingEntity caster,
+			final String spellId,
+			final int remainingTicks) {
+
+		final ServerPlayer player = player(caster);
+
+		if (player == null)
+			return;
+
+		player.displayClientMessage(
+				message(
+						"message.vitalrelics.spell_cooldown",
+						"%s cooldown: %s",
+						spellName(spellId),
+						String.format(
+								Locale.ROOT,
+								"%.1fs",
+								remainingTicks / 20.0
+						)
+				),
+				true
 		);
+	}
 
-		return true;
+	@Override
+	public void showCurseRequiresTarget(final MyLivingEntity caster) {
+		final ServerPlayer player = player(caster);
+
+		if (player == null)
+			return;
+
+		player.displayClientMessage(
+				message(
+						"message.vitalrelics.curse_requires_target",
+						"Curse requires a target."
+				),
+				true
+		);
 	}
 }

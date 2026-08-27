@@ -5,49 +5,50 @@ import com.example.vitalrelics.common.Relic;
 import java.util.List;
 
 public interface MyRuntimeUtils {
-	List<Relic> gatherRelics(MyLivingEntity caster);
+	List<Relic> gatherRelics(MyLivingEntity entity);
+
+	MyLivingEntity pointedLivingEntity(
+			MyLivingEntity source,
+			double range
+	);
+
+	MyVec3 safeDestinationAlongLook(
+			MyLivingEntity entity,
+			double range
+	);
+
+	MyVec3 safeHorizontalDestination(
+			MyLivingEntity entity,
+			double range
+	);
+
+	List<MyLivingEntity> entitiesIntersectingMovement(
+			MyLivingEntity entity,
+			MyVec3 from,
+			MyVec3 to,
+			double inflate
+	);
+
+	boolean upgradeFirstStoredEnchantment(
+			MyLivingEntity entity,
+			int experienceCost
+	);
 
 	void syncSpellHud(
 			MyLivingEntity caster,
 			String spellId,
-			int cooldownTicks
-	);
+			int cooldownTicks);
 
 	void clearSpellHud(MyLivingEntity caster);
 
 	void showSelectedSpell(
 			MyLivingEntity caster,
-			String spellId
-	);
+			String spellId);
 
 	void showSpellCooldown(
 			MyLivingEntity caster,
 			String spellId,
-			int remainingTicks
-	);
+			int remainingTicks);
 
 	void showCurseRequiresTarget(MyLivingEntity caster);
-
-	boolean teleportAlongLook(MyLivingEntity caster, double range);
-
-	MyLivingEntity pointedLivingEntity(
-			MyLivingEntity caster,
-			double range
-	);
-
-	boolean shadowExchange(
-			MyLivingEntity caster,
-			double range
-	);
-
-	boolean phantomStep(
-			MyLivingEntity caster,
-			double range,
-			float intensity
-	);
-
-	boolean upgradeEnchantedBook(
-			MyLivingEntity caster,
-			int experienceCost
-	);
 }

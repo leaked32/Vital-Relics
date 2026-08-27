@@ -47,7 +47,19 @@ public final class MySpellSystem {
 			if (distance <= 0.0)
 				return false;
 
-			return runtime.teleportAlongLook(caster, distance);
+			final MyVec3 destination =
+					runtime.safeDestinationAlongLook(caster, distance);
+
+			if (destination == null)
+				return false;
+
+			caster.teleport(
+					destination.x(),
+					destination.y(),
+					destination.z()
+			);
+
+			return true;
 		});
 
 		register(Relic.SPELL_CURSE, (caster, spell, runtime) -> {
@@ -367,7 +379,26 @@ public final class MySpellSystem {
 			if (range <= 0.0)
 				return false;
 
-			return runtime.shadowExchange(caster, range);
+			final MyLivingEntity target =
+					runtime.pointedLivingEntity(caster, range);
+
+			if (target == null || caster.isAllied(target))
+				return false;
+
+			final double casterX = caster.x();
+			final double casterY = caster.y();
+			final double casterZ = caster.z();
+
+			final double targetX = target.x();
+			final double targetY = target.y();
+			final double targetZ = target.z();
+
+			caster.teleport(targetX, targetY, targetZ);
+			target.teleport(casterX, casterY, casterZ);
+
+			caster.playSound(MySound.TELEPORT);
+			target.playSound(MySound.TELEPORT);
+			return true;
 		});
 
 		register(Relic.SPELL_PHANTOM_STEP, (caster, spell, runtime) -> {
@@ -387,7 +418,45 @@ public final class MySpellSystem {
 			if (range <= 0.0 || intensity <= 0.0F)
 				return false;
 
-			return runtime.phantomStep(caster, range, intensity);
+			final MyVec3 origin =
+					new MyVec3(caster.x(), caster.y(), caster.z());
+
+			final MyVec3 destination =
+					runtime.safeHorizontalDestination(caster, range);
+
+			if (destination == null)
+				return false;
+
+			final float damage =
+					caster.attackDamage() * intensity;
+
+			for (final MyLivingEntity target :
+					runtime.entitiesIntersectingMovement(
+							caster,
+							origin,
+							destination,
+							caster.width() * 0.5
+					)) {
+
+				if (!caster.hostileTargeted(target))
+					continue;
+
+				MyDamageInfo.directAttack(
+						caster,
+						target,
+						damage,
+						1
+				);
+			}
+
+			caster.teleport(
+					destination.x(),
+					destination.y(),
+					destination.z()
+			);
+
+			caster.playSound(MySound.TELEPORT);
+			return true;
 		});
 
 		register(Relic.SPELL_UPGRADE_ENCHANTED_BOOK, (caster, spell, runtime) -> {
@@ -402,10 +471,14 @@ public final class MySpellSystem {
 					)
 			);
 
-			return runtime.upgradeEnchantedBook(
+			if (!runtime.upgradeFirstStoredEnchantment(
 					caster,
 					experienceCost
-			);
+			))
+				return false;
+
+			caster.playSound(MySound.ENCHANTMENT_TABLE_USE);
+			return true;
 		});
 	}
 
