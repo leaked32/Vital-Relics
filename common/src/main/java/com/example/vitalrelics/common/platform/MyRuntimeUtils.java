@@ -4,7 +4,7 @@ import com.example.vitalrelics.common.Relic;
 
 import java.util.List;
 
-public interface MySpellRuntime {
+public interface MyRuntimeUtils {
 	List<Relic> gatherRelics(MyLivingEntity caster);
 
 	void syncSpellHud(
@@ -34,8 +34,6 @@ public interface MySpellRuntime {
 			MyLivingEntity caster,
 			double range
 	);
-
-	boolean cleanseHarmfulEffects(MyLivingEntity caster);
 
 	boolean shadowExchange(
 			MyLivingEntity caster,

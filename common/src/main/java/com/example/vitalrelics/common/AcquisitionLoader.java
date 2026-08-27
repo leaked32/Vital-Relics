@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.vitalrelics.common.Util.load_external_file;
+import static com.example.vitalrelics.common.utils.ConfigurationFiles.load_external_file;
 
 public class AcquisitionLoader {
 	public final Acquisition data = new Acquisition();

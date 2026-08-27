@@ -1,5 +1,6 @@
 package com.example.vitalrelics.common;
 
+import com.example.vitalrelics.common.utils.ConfigurationFiles;
 import com.example.vitalrelics.common.utils.Json;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public final class RelicTranslations {
 		for (final String locale : Manifest.DEFAULT_LOCALES) {
 			final Path external = directory.resolve(locale + ".json");
 
-			final Map<String, Object> root = Util.load_external_file(
+			final Map<String, Object> root = ConfigurationFiles.load_external_file(
 					Manifest.INTERNAL_PATH_TO_LANG(locale),
 					external,
 					Manifest.OPT_LANG_VER
@@ -47,7 +48,7 @@ public final class RelicTranslations {
 					.forEach(path -> loaded.put(
 							localeFrom(path),
 							readTable(
-									Json.parseObject(Util.read_external_file(path)),
+									Json.parseObject(ConfigurationFiles.read_external_file(path)),
 									path
 							)
 					));

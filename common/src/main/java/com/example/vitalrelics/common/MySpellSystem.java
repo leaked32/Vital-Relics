@@ -1,9 +1,6 @@
 package com.example.vitalrelics.common;
 
-import com.example.vitalrelics.common.platform.MyEffect;
-import com.example.vitalrelics.common.platform.MyLivingEntity;
-import com.example.vitalrelics.common.platform.MySound;
-import com.example.vitalrelics.common.platform.MySpellRuntime;
+import com.example.vitalrelics.common.platform.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +13,7 @@ public final class MySpellSystem {
 		boolean activate(
 				MyLivingEntity caster,
 				Relic.Spells.Info spell,
-				MySpellRuntime runtime
+				MyRuntimeUtils runtime
 		);
 	}
 
@@ -113,7 +110,10 @@ public final class MySpellSystem {
 		});
 
 		register(Relic.SPELL_CLEANSE, (caster, spell, runtime) -> {
-			if (!runtime.cleanseHarmfulEffects(caster))
+			if (!MyUtils.cleanseEffects(
+					caster,
+					MyLivingEntity.MyEffectCategory.NEGATIVE
+			))
 				return false;
 
 			caster.playSound(MySound.AMETHYST_CHIME);
@@ -419,7 +419,7 @@ public final class MySpellSystem {
 
 	public void syncSpellHud(
 			final MyLivingEntity caster,
-			final MySpellRuntime runtime) {
+			final MyRuntimeUtils runtime) {
 
 		final int tick = caster.serverTick();
 		if (tick < 0)
@@ -449,7 +449,7 @@ public final class MySpellSystem {
 			final MyLivingEntity caster,
 			final String spellId,
 			final int tick,
-			final MySpellRuntime runtime) {
+			final MyRuntimeUtils runtime) {
 
 		final int cooldownTicks =
 				Scheduler.INSTANCE().getSpellCooldownRemaining(
@@ -462,7 +462,7 @@ public final class MySpellSystem {
 	public void activate(
 			final MyLivingEntity caster,
 			String abilityId,
-			final MySpellRuntime runtime) {
+			final MyRuntimeUtils runtime) {
 
 		if (caster.isClientSide() ||
 				!abilityId.matches("[a-z0-9_./-]{1,64}")) {

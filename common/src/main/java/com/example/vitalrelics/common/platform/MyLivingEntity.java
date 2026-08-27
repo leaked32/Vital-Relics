@@ -59,4 +59,19 @@ public interface MyLivingEntity {
 	int serverTick();
 
 	void logInfo(String message);
+
+
+	enum MyEffectCategory {
+		POSITIVE,
+		NEGATIVE,
+		NEUTRAL,
+		ALL
+	}
+	record MyEffectInstance(
+			String id,
+			MyEffectCategory category) {
+	}
+	List<MyEffectInstance> activeEffects();
+
+	void removeEffect(String id);
 }

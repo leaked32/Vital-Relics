@@ -2,7 +2,7 @@ package com.example.vitalrelics.network;
 
 import com.example.vitalrelics.common.MySpellSystem;
 import com.example.vitalrelics.platform.NeoLivingEntity;
-import com.example.vitalrelics.platform.NeoSpellRuntime;
+import com.example.vitalrelics.platform.NeoRuntimeUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -25,7 +25,7 @@ public final class SpellSystem {
 		MySpellSystem.INSTANCE.activate(
 				new NeoLivingEntity(caster),
 				abilityId,
-				NeoSpellRuntime.INSTANCE
+				NeoRuntimeUtils.INSTANCE
 		);
 	}
 
@@ -34,7 +34,7 @@ public final class SpellSystem {
 
 		MySpellSystem.INSTANCE.syncSpellHud(
 				new NeoLivingEntity(player),
-				NeoSpellRuntime.INSTANCE
+				NeoRuntimeUtils.INSTANCE
 		);
 	}
 }

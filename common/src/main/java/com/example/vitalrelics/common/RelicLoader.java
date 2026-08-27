@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
-import static com.example.vitalrelics.common.Util.load_external_file;
+import static com.example.vitalrelics.common.utils.ConfigurationFiles.load_external_file;
 
 public class RelicLoader {
 	public final List<Relic> relics_ = new ArrayList<>();

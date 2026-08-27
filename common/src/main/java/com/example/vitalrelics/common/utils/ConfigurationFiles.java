@@ -1,7 +1,6 @@
-package com.example.vitalrelics.common;
+package com.example.vitalrelics.common.utils;
 
-import com.example.vitalrelics.common.utils.ConfigurationException;
-import com.example.vitalrelics.common.utils.Json;
+import com.example.vitalrelics.common.RelicLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
-public class Util {
+public class ConfigurationFiles {
 
 	public static void copy_to_external(
 			final String internal,

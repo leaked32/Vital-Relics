@@ -4,7 +4,7 @@ import com.example.vitalrelics.common.MyDamageInfo;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
-import com.example.vitalrelics.common.platform.MySpellRuntime;
+import com.example.vitalrelics.common.platform.MyRuntimeUtils;
 import com.example.vitalrelics.network.SelectedSpellPayload;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -37,10 +37,10 @@ import java.util.Locale;
 
 import static com.example.vitalrelics.Utils.message;
 
-public final class NeoSpellRuntime implements MySpellRuntime {
-	public static final NeoSpellRuntime INSTANCE = new NeoSpellRuntime();
+public final class NeoRuntimeUtils implements MyRuntimeUtils {
+	public static final NeoRuntimeUtils INSTANCE = new NeoRuntimeUtils();
 
-	private NeoSpellRuntime() {}
+	private NeoRuntimeUtils() {}
 
 	private static NeoLivingEntity neo(final MyLivingEntity entity) {
 		if (!(entity instanceof NeoLivingEntity neo))
@@ -366,26 +366,6 @@ public final class NeoSpellRuntime implements MySpellRuntime {
 		return selected == null ? null : new NeoLivingEntity(selected);
 	}
 
-	@Override
-	public boolean cleanseHarmfulEffects(final MyLivingEntity caster) {
-		final LivingEntity entity = nativeEntity(caster);
-
-		final List<net.minecraft.world.effect.MobEffectInstance> harmfulEffects =
-				entity.getActiveEffects().stream()
-						.filter(effect ->
-								effect.getEffect().value().getCategory() ==
-										MobEffectCategory.HARMFUL
-						)
-						.toList();
-
-		if (harmfulEffects.isEmpty())
-			return false;
-
-		for (final var effect : harmfulEffects)
-			entity.removeEffect(effect.getEffect());
-
-		return true;
-	}
 
 	@Override
 	public boolean shadowExchange(

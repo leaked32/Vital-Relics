@@ -1,11 +1,7 @@
 package com.example.vitalrelics.platform;
 
 import com.example.vitalrelics.Utils;
-import com.example.vitalrelics.common.platform.MyDamageKind;
-import com.example.vitalrelics.common.platform.MyDamageSource;
-import com.example.vitalrelics.common.platform.MyEffect;
-import com.example.vitalrelics.common.platform.MyLivingEntity;
-import com.example.vitalrelics.common.platform.MySound;
+import com.example.vitalrelics.common.platform.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,12 +17,14 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.example.vitalrelics.VitalRelics.LOGGER;
@@ -301,6 +299,52 @@ public final class NeoLivingEntity implements MyLivingEntity {
 			final double z) {
 
 		entity.setDeltaMovement(x, y, z);
+	}
+
+	@Override
+	public List<MyEffectInstance> activeEffects() {
+		return entity.getActiveEffects()
+				.stream()
+				.map(instance -> {
+					final var effect = instance.getEffect().value();
+
+					final ResourceLocation id =
+							BuiltInRegistries.MOB_EFFECT.getKey(effect);
+
+					if (id == null)
+						return null;
+
+					final MyEffectCategory category =
+							switch (effect.getCategory()) {
+								case BENEFICIAL -> MyEffectCategory.POSITIVE;
+								case HARMFUL -> MyEffectCategory.NEGATIVE;
+								case NEUTRAL -> MyEffectCategory.NEUTRAL;
+							};
+
+					return new MyEffectInstance(
+							id.getPath(),
+							category
+					);
+				})
+				.filter(Objects::nonNull)
+				.toList();
+	}
+
+
+	@Override
+	public void removeEffect(final String id) {
+		final ResourceLocation resource =
+				ResourceLocation.fromNamespaceAndPath("minecraft", id);
+
+		final var effect =
+				BuiltInRegistries.MOB_EFFECT.get(resource);
+
+		if (effect == null)
+			return;
+
+		entity.removeEffect(
+				BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect)
+		);
 	}
 
 
