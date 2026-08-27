@@ -31,6 +31,7 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
@@ -542,5 +543,39 @@ public final class VitalEvents {
 		arrow.setBaseDamage(
 				Math.max(arrow.getBaseDamage() * level, leastDamage)
 		);
+	}
+
+	@SubscribeEvent
+	public static void onEntityJoinLevel(final EntityJoinLevelEvent event) {
+		if (event.getLevel().isClientSide())
+			return;
+
+		if (!(event.getEntity() instanceof LivingEntity livingEntity))
+			return;
+
+		if (enemyRelicsRolled(livingEntity))
+			return;
+
+		/*
+		 * Mark before rolling.
+		 *
+		 * Even entities which receive no relics must be marked, otherwise
+		 * loading them again would give them another chance to roll.
+		 */
+		markEnemyRelicsRolled(livingEntity);
+
+		final ResourceLocation entityId =
+				BuiltInRegistries.ENTITY_TYPE.getKey(livingEntity.getType());
+
+		if (entityId == null)
+			return;
+
+		final List<Relic> relics =
+				VitalRelics.loader.rollEnemyRelics(entityId.toString());
+
+		if (relics.isEmpty())
+			return;
+
+		setEnemyRelics(livingEntity, relics);
 	}
 }

@@ -59,6 +59,7 @@ public class Relic {
 	 */
 	public final Map<String, Callbacks.Info> callbacks = new LinkedHashMap<>();
 
+	public final Map<String, Double> enemy_spawn = new LinkedHashMap<>();
 
 	/*
 	 * - `teleport`:
@@ -96,6 +97,7 @@ public class Relic {
 	public static final String SPELL_SKY_LAUNCH = "sky_launch";
 	public static final String SPELL_SHADOW_EXCHANGE = "shadow_exchange";
 	public static final String SPELL_PHANTOM_STEP = "phantom_step";
+	public static final String SPELL_UPGRADE_ENCHANTED_BOOK = "upgrade_enchanted_book";
 
 	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
 

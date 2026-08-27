@@ -7,6 +7,7 @@ import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.common.Scheduler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -14,6 +15,9 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
@@ -867,6 +871,96 @@ public final class SpellSystem {
 					SoundEvents.ENDERMAN_TELEPORT,
 					SoundSource.PLAYERS,
 					0.6F, 1.5F
+			);
+
+			return true;
+		});
+
+		register(Relic.SPELL_UPGRADE_ENCHANTED_BOOK, (caster, spell) -> {
+			if (!(caster instanceof ServerPlayer player))
+				return false;
+
+			final ItemStack stack = player.getMainHandItem();
+
+			if (!stack.is(Items.ENCHANTED_BOOK))
+				return false;
+
+			final int experienceCost = Math.max(
+					0,
+					(int) Math.round(
+							RelicSpells.numberParameter(
+									spell,
+									"experience_cost",
+									0.0
+							)
+					)
+			);
+
+			if (!player.isCreative() && player.experienceLevel < experienceCost) {
+				player.displayClientMessage(
+						message(
+								"message.vitalrelics.enchant_upgrade_insufficient_experience",
+								"Not enough experience. Required level: %s",
+								experienceCost
+						),
+						true
+				);
+
+				return false;
+			}
+
+			final ItemEnchantments enchantments =
+					stack.getOrDefault(
+							DataComponents.STORED_ENCHANTMENTS,
+							ItemEnchantments.EMPTY
+					);
+
+			final ItemEnchantments.Mutable mutable =
+					new ItemEnchantments.Mutable(enchantments);
+
+			int upgradedLevel = 0;
+
+			for (final var enchantment : enchantments.keySet()) {
+				final int level = enchantments.getLevel(enchantment);
+				final int maximum = enchantment.value().getMaxLevel();
+
+				if (level >= maximum)
+					continue;
+
+				upgradedLevel = level + 1;
+				mutable.set(enchantment, upgradedLevel);
+				break;
+			}
+
+			if (upgradedLevel == 0)
+				return false;
+
+			stack.set(
+					DataComponents.STORED_ENCHANTMENTS,
+					mutable.toImmutable()
+			);
+
+			if (!player.isCreative())
+				player.giveExperienceLevels(-experienceCost);
+
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchant_upgrade_success",
+							"Enchantment upgraded to level %s.",
+							upgradedLevel
+					),
+					true
+			);
+
+			player.level().playSound(
+					null,
+					player.getX(),
+					player.getY(),
+					player.getZ(),
+					SoundEvents.ENCHANTMENT_TABLE_USE,
+					SoundSource.PLAYERS,
+					1.0F,
+					1.0F
 			);
 
 			return true;

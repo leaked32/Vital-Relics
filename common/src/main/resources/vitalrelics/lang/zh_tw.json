@@ -138,5 +138,13 @@
   "item.vitalrelics.phantom_step_bracelet": "幻影步手環",
 
   "tooltip.vitalrelics.shadow_exchange_bracelet": "藉由一瞬暗影，與敵人交換所在位置。",
-  "tooltip.vitalrelics.phantom_step_bracelet": "如幻影般穿越戰場，並斬擊沿途的敵人。"
+  "tooltip.vitalrelics.phantom_step_bracelet": "如幻影般穿越戰場，並斬擊沿途的敵人。",
+
+  "relic.vitalrelics.spell.upgrade_enchanted_book": "附魔強化",
+
+  "item.vitalrelics.enchanters_bracelet": "附魔師手環",
+  "tooltip.vitalrelics.enchanters_bracelet": "將經驗注入手持的附魔書，提升其中一項附魔的等級。",
+
+  "message.vitalrelics.enchant_upgrade_insufficient_experience": "經驗不足。需要等級：%s",
+  "message.vitalrelics.enchant_upgrade_success": "附魔已提升至 %s 級。"
 }

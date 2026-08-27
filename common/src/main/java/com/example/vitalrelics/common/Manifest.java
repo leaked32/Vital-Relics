@@ -26,4 +26,12 @@ public class Manifest {
 		return "vitalrelics/lang/" + locale + ".json";
 	}
 
+
+	public static final String ENEMY_RELICS_TAG =
+			"VitalRelicsEnemyRelics";
+
+	public static final String ENEMY_RELICS_ROLLED_TAG =
+			"VitalRelicsEnemyRelicsRolled";
+
+
 }

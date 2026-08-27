@@ -70,6 +70,9 @@ public class Utils {
 			gatherMaidRelics(entity, out);
 		}
 
+		// Relics assigned directly to spawned enemies.
+		gatherEnemyRelics(entity, out);
+
 		return out;
 	}
 
@@ -426,6 +429,57 @@ public class Utils {
 		return Component.literal(
 				String.format(Locale.ROOT, pattern, arguments)
 		);
+	}
+
+
+	/*
+	Make relics used by enemies as well.
+	 */
+
+	public static void setEnemyRelics(
+			final LivingEntity entity,
+			final List<Relic> relics) {
+
+		final var tag = entity.getPersistentData();
+
+		final var list = new net.minecraft.nbt.ListTag();
+
+		for (final Relic relic : relics)
+			list.add(net.minecraft.nbt.StringTag.valueOf(relic.id));
+
+		tag.put(Manifest.ENEMY_RELICS_TAG, list);
+	}
+
+	public static void gatherEnemyRelics(
+			final LivingEntity entity,
+			final List<Relic> out) {
+
+		final var tag = entity.getPersistentData();
+
+		if (!tag.contains(Manifest.ENEMY_RELICS_TAG))
+			return;
+
+		final var list = tag.getList(
+				Manifest.ENEMY_RELICS_TAG,
+				net.minecraft.nbt.Tag.TAG_STRING
+		);
+
+		for (int i = 0; i < list.size(); ++i) {
+			final Relic relic = loader.find(list.getString(i));
+
+			if (relic != null)
+				out.add(relic);
+		}
+	}
+
+	public static boolean enemyRelicsRolled(final LivingEntity entity) {
+		return entity.getPersistentData()
+				.getBoolean(Manifest.ENEMY_RELICS_ROLLED_TAG);
+	}
+
+	public static void markEnemyRelicsRolled(final LivingEntity entity) {
+		entity.getPersistentData()
+				.putBoolean(Manifest.ENEMY_RELICS_ROLLED_TAG, true);
 	}
 
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 
 import static com.example.vitalrelics.common.Util.load_external_file;
@@ -48,20 +49,39 @@ public class RelicLoader {
 
 	public static void add_map_double(
 			final Map<String, Double> target,
-			final Object rawValue) {
+			final Object rawValue,
+			final Double minimum,
+			final Double maximum) {
+
+		if (rawValue == null)
+			return;
 
 		if (!(rawValue instanceof Map<?, ?> values))
-			return;
+			throw new IllegalArgumentException(
+					"Expected a JSON object"
+			);
 
 		for (final var entry : values.entrySet()) {
 			if (!(entry.getKey() instanceof String key) ||
 					!(entry.getValue() instanceof Number value)) {
 				throw new IllegalArgumentException(
-						"Ability entries must map strings to numbers"
+						"Entries must map strings to numbers"
 				);
 			}
 
-			target.put(key, value.doubleValue());
+			final double number = value.doubleValue();
+
+			if (minimum != null && number < minimum)
+				throw new IllegalArgumentException(
+						"Value for '" + key + "' must be >= " + minimum
+				);
+
+			if (maximum != null && number > maximum)
+				throw new IllegalArgumentException(
+						"Value for '" + key + "' must be <= " + maximum
+				);
+
+			target.put(key, number);
 		}
 	}
 
@@ -120,8 +140,9 @@ public class RelicLoader {
 		}
 
 		add_list(relic.effective_slots, rawRelic.get("effective_slots"));
-		add_map_double(relic.passive_skills, rawRelic.get("passive_skills"));
+		add_map_double(relic.passive_skills, rawRelic.get("passive_skills"), null, null);
 		add_map_int(relic.granted_effects, rawRelic.get("granted_effects"));
+		add_map_double(relic.enemy_spawn, rawRelic.get("enemy_spawn"), 0.0, 1.0);
 
 		addStructuredMap(
 				relic.properties,
@@ -425,4 +446,23 @@ public class RelicLoader {
 
 		return highestLevel;
 	}
+
+	public List<Relic> rollEnemyRelics(final String entityId) {
+		final List<Relic> result = new ArrayList<>();
+
+		for (final Relic relic : relics_) {
+			final Double probability = relic.enemy_spawn.get(entityId);
+
+			if (probability == null || probability <= 0.0)
+				continue;
+
+			if (probability >= 1.0 ||
+					ThreadLocalRandom.current().nextDouble() < probability) {
+				result.add(relic);
+			}
+		}
+
+		return result;
+	}
+
 }

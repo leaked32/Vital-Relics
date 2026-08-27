@@ -4,6 +4,7 @@ import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import com.example.vitalrelics.common.Scheduler;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -28,6 +29,7 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -458,5 +460,39 @@ public final class VitalEvents {
 		arrow.setBaseDamage(
 				Math.max(arrow.getBaseDamage() * level, leastDamage)
 		);
+	}
+
+	@SubscribeEvent
+	public static void onEntityJoinLevel(final EntityJoinLevelEvent event) {
+		if (event.getLevel().isClientSide())
+			return;
+
+		if (!(event.getEntity() instanceof LivingEntity livingEntity))
+			return;
+
+		if (enemyRelicsRolled(livingEntity))
+			return;
+
+		/*
+		 * Mark before rolling.
+		 *
+		 * Even entities which receive no relics must be marked, otherwise
+		 * loading them again would give them another chance to roll.
+		 */
+		markEnemyRelicsRolled(livingEntity);
+
+		final ResourceLocation entityId =
+				ForgeRegistries.ENTITY_TYPES.getKey(livingEntity.getType());
+
+		if (entityId == null)
+			return;
+
+		final List<Relic> relics =
+				VitalRelics.loader.rollEnemyRelics(entityId.toString());
+
+		if (relics.isEmpty())
+			return;
+
+		setEnemyRelics(livingEntity, relics);
 	}
 }

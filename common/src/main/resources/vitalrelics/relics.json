@@ -12,7 +12,10 @@
       "curio_slot": "ring",
       "rarity": "common",
       "granted_effects": {
-        "speed": 1
+        "speed": 2
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.5
       }
     },
     {
@@ -47,6 +50,9 @@
       "rarity": "common",
       "granted_effects": {
         "strength": 1
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.5
       }
     },
     {
@@ -287,6 +293,20 @@
         "phantom_step": {
           "range": 8,
           "intensity": 1.2,
+          "recovery": 0.5
+        }
+      }
+    },
+    {
+      "id": "enchanters_bracelet",
+      "display_name": "Enchanter's Bracelet",
+      "tooltip": "Feeds experience into a held enchanted book, strengthening one of its enchantments.",
+      "texture": "bracelet_yellow_saturated.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "available_spells": {
+        "upgrade_enchanted_book": {
+          "experience_cost": 10,
           "recovery": 0.5
         }
       }

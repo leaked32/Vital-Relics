@@ -140,5 +140,13 @@
   "item.vitalrelics.phantom_step_bracelet": "Bracelet of Phantom Step",
 
   "tooltip.vitalrelics.shadow_exchange_bracelet": "Trades places with an enemy through a flicker of shadow.",
-  "tooltip.vitalrelics.phantom_step_bracelet": "Passes through the battlefield like a phantom, cutting enemies along the way."
+  "tooltip.vitalrelics.phantom_step_bracelet": "Passes through the battlefield like a phantom, cutting enemies along the way.",
+
+  "relic.vitalrelics.spell.upgrade_enchanted_book": "Upgrade Enchanted Book",
+
+  "item.vitalrelics.enchanters_bracelet": "Enchanter's Bracelet",
+  "tooltip.vitalrelics.enchanters_bracelet": "Feeds experience into a held enchanted book, strengthening one of its enchantments.",
+
+  "message.vitalrelics.enchant_upgrade_insufficient_experience": "Not enough experience. Required level: %s",
+  "message.vitalrelics.enchant_upgrade_success": "Enchantment upgraded to level %s."
 }

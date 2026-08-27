@@ -139,5 +139,13 @@
   "item.vitalrelics.phantom_step_bracelet": "幻影歩法の腕輪",
 
   "tooltip.vitalrelics.shadow_exchange_bracelet": "影の揺らめきを通じて敵と瞬時に位置を入れ替える。",
-  "tooltip.vitalrelics.phantom_step_bracelet": "幻影のように戦場を駆け抜け、通過した敵を切り裂く。"
+  "tooltip.vitalrelics.phantom_step_bracelet": "幻影のように戦場を駆け抜け、通過した敵を切り裂く。",
+
+  "relic.vitalrelics.spell.upgrade_enchanted_book": "エンチャント強化",
+
+  "item.vitalrelics.enchanters_bracelet": "付魔師の腕輪",
+  "tooltip.vitalrelics.enchanters_bracelet": "手に持ったエンチャント本へ経験値を注ぎ込み、そのエンチャントの一つを強化する。",
+
+  "message.vitalrelics.enchant_upgrade_insufficient_experience": "経験値が足りません。必要レベル: %s",
+  "message.vitalrelics.enchant_upgrade_success": "エンチャントをレベル %s に強化しました。"
 }
