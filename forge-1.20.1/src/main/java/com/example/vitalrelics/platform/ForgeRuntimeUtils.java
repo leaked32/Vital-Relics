@@ -11,6 +11,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -551,5 +553,28 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 				),
 				true
 		);
+	}
+
+	@Override
+	public void summonVisualLightning(final MyLivingEntity target) {
+		final LivingEntity entity = nativeEntity(target);
+
+		if (!(entity.level() instanceof ServerLevel level))
+			return;
+
+		final LightningBolt lightning =
+				EntityType.LIGHTNING_BOLT.create(level);
+
+		if (lightning == null)
+			return;
+
+		lightning.setVisualOnly(true);
+		lightning.moveTo(
+				entity.getX(),
+				entity.getY(),
+				entity.getZ()
+		);
+
+		level.addFreshEntity(lightning);
 	}
 }

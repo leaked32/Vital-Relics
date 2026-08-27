@@ -51,4 +51,6 @@ public interface MyRuntimeUtils {
 			int remainingTicks);
 
 	void showCurseRequiresTarget(MyLivingEntity caster);
+
+	void summonVisualLightning(MyLivingEntity target);
 }

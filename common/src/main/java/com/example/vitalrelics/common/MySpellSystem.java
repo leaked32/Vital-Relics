@@ -96,6 +96,7 @@ public final class MySpellSystem {
 				return false;
 
 			MyDamageInfo.directAttack(caster, target, damage, 1);
+			runtime.summonVisualLightning(target);
 			caster.playSound(MySound.ILLUSIONER_CAST);
 			return true;
 		});

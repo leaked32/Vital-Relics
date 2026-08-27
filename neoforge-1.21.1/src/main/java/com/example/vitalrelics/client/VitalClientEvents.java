@@ -221,14 +221,10 @@ public final class VitalClientEvents {
 
 		final int height = 18;
 
-		final int hotbarLeft =
-				graphics.guiWidth() / 2 - 91;
-
-		final int x =
-				hotbarLeft - width - 6;
-
-		final int y =
-				graphics.guiHeight() - 22;
+		// Anchor the spell HUD to the bottom-left of the screen.
+		// Its dynamic width therefore grows toward the right.
+		final int x = 6;
+		final int y = graphics.guiHeight() - 22;
 
 		// Main background.
 		graphics.fill(
