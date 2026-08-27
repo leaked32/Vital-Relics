@@ -4,6 +4,7 @@ import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import com.example.vitalrelics.common.Scheduler;
+import com.example.vitalrelics.network.SpellSystem;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -283,6 +284,12 @@ public final class VitalEvents {
 						1,
 						Math.round((float) (reality_severance_level / 4.0))
 				);
+			}
+
+			// Client HUD
+
+			if (livingEntity instanceof ServerPlayer player) {
+				SpellSystem.syncSpellHud(player);
 			}
 		}
 

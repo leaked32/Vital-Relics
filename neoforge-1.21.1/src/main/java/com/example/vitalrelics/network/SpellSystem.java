@@ -76,6 +76,35 @@ public final class SpellSystem {
 		);
 	}
 
+	public static void syncSpellHud(final ServerPlayer player) {
+		if (!(player.level() instanceof ServerLevel level))
+			return;
+
+		final int tick = level.getServer().getTickCount();
+
+		final Map<String, Relic.Spells.Info> spells =
+				RelicSpells.gatherSpells(gatherRelics(player));
+
+		final List<String> spellIds = new ArrayList<>(spells.keySet());
+
+		final String selected =
+				Scheduler.INSTANCE().selectedSpell(
+						player.getUUID(),
+						spellIds,
+						tick
+				);
+
+		if (selected == null) {
+			PacketDistributor.sendToPlayer(
+					player,
+					new SelectedSpellPayload("", 0)
+			);
+			return;
+		}
+
+		syncSpellHud(player, selected, tick);
+	}
+
 
 	public static final String CAST_SPELL = "cast_spell";
 	public static final String SWITCH_SPELL_NEXT = "switch_spell_next";
