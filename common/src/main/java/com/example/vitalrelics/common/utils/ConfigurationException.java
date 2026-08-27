@@ -32,4 +32,24 @@ public final class ConfigurationException extends RuntimeException {
 				exception
 		);
 	}
+
+	public static ConfigurationException invalid_configuration(
+			final Path path,
+			final String location,
+			final String reason) {
+
+		final String where = location == null || location.isBlank()
+				? ""
+				: "\nLocation: " + location;
+
+		return new ConfigurationException(
+				"Vital Relics could not understand a configuration file:\n" +
+						"  " + path.toAbsolutePath() +
+						where + "\n" +
+						"Reason: " + reason + "\n" +
+						"You can fix the value manually, or remove this configuration file " +
+						"and restart the game. Vital Relics will automatically regenerate it.",
+				null
+		);
+	}
 }

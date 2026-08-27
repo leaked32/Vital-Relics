@@ -4,7 +4,7 @@ import com.example.vitalrelics.MyDamageInfo;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicSpells;
 import com.example.vitalrelics.common.RelicTranslations;
-import com.example.vitalrelics.common.scheduled.Scheduler;
+import com.example.vitalrelics.common.Scheduler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;

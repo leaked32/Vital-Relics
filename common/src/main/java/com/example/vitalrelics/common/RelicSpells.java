@@ -1,6 +1,6 @@
 package com.example.vitalrelics.common;
 
-import com.example.vitalrelics.common.scheduled.MyMap;
+import com.example.vitalrelics.common.utils.MyMap;
 
 import java.util.LinkedHashMap;
 import java.util.List;

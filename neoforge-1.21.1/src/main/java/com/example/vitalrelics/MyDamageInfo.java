@@ -1,7 +1,7 @@
 package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.Manifest;
-import com.example.vitalrelics.common.scheduled.Scheduler;
+import com.example.vitalrelics.common.Scheduler;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,7 +19,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.core.registries.BuiltInRegistries;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;

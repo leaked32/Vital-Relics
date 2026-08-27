@@ -1,7 +1,7 @@
 package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.Manifest;
-import com.example.vitalrelics.common.scheduled.Scheduler;
+import com.example.vitalrelics.common.Scheduler;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;

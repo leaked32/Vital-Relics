@@ -1,6 +1,7 @@
 package com.example.vitalrelics.common;
 
 import com.example.vitalrelics.common.utils.ConfigurationException;
+import com.example.vitalrelics.common.utils.Json;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -3,7 +3,7 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
-import com.example.vitalrelics.common.scheduled.Scheduler;
+import com.example.vitalrelics.common.Scheduler;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

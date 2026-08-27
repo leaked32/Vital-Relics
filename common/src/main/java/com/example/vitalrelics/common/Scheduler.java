@@ -1,7 +1,8 @@
-package com.example.vitalrelics.common.scheduled;
+package com.example.vitalrelics.common;
+
+import com.example.vitalrelics.common.utils.MyMap;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Function;
 

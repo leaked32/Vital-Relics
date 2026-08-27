@@ -1,4 +1,4 @@
-package com.example.vitalrelics.common.scheduled;
+package com.example.vitalrelics.common.utils;
 
 
 import java.util.*;
