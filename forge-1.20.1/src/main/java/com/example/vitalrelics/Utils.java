@@ -69,6 +69,9 @@ public class Utils {
 			gatherMaidRelics(entity, out);
 		}
 
+		// Relics assigned directly to spawned enemies.
+		gatherEnemyRelics(entity, out);
+
 		return out;
 	}
 
@@ -494,7 +497,6 @@ public class Utils {
 			final List<Relic> relics) {
 
 		final var tag = entity.getPersistentData();
-
 		final var list = new net.minecraft.nbt.ListTag();
 
 		for (final Relic relic : relics)

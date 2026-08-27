@@ -441,7 +441,6 @@ public class Utils {
 			final List<Relic> relics) {
 
 		final var tag = entity.getPersistentData();
-
 		final var list = new net.minecraft.nbt.ListTag();
 
 		for (final Relic relic : relics)
@@ -481,6 +480,5 @@ public class Utils {
 		entity.getPersistentData()
 				.putBoolean(Manifest.ENEMY_RELICS_ROLLED_TAG, true);
 	}
-
 
 }
