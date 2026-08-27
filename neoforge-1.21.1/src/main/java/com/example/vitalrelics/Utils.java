@@ -175,7 +175,7 @@ public class Utils {
 		if (owner != null) {
 			final double distance = currentPos.distanceTo(owner.position());
 
-			final double baseHeight = owner.getEyeHeight();
+			final double baseHeight = owner.getEyeHeight() * 0.9;
 			final double extraHeight = Math.min(distance * 0.02, 4.0);
 
 			final Vec3 ownerPos =

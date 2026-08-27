@@ -66,28 +66,26 @@ public class Relic {
 
 	/*
 	 * - `teleport`:
-	 *   BLOCK hit
+	 *     BLOCK hit
 	 *     -> try center for thin blocks
 	 *     -> otherwise try above
 	 *     -> if blocked, try before the hit face
-	 *
-	 *   MISS / sky
-	 *     -> teleport as far along look direction as possible
+	 *     MISS / sky -> teleport as far along look direction as possible
 	 *
 	 * - `curse`: Calls `directAttack` with the pointed living entity
 	 * - `heal`: Restores `amount` health plus `ratio` of the caster's maximum health
 	 * - `cleanse`: Removes all negative effects from the caster
 	 * - `dash`: Launches the caster forward by `strength`, with optional `vertical` velocity
 	 * - `arc_burst`: Repeatedly damages hostile targets within `range`;
-	 *   each hit deals `intensity`% attack damage, repeated `count` times,
-	 *   with optional `weaken` debuff strength
+	 *      each hit deals `intensity`% attack damage, repeated `count` times,
+	 *      with optional `weaken` debuff strength
 	 * - `repulse`: Pushes hostile living entities within `range` away from the caster
-	 *   using `strength`, with optional `vertical` lift
+	 *      using `strength`, with optional `vertical` lift
 	 * - `absorption`: Grants Absorption for `duration_ticks` with the configured `amplifier`
 	 * - `sky_launch`: Launches hostile living entities within `range` upward by `strength`
 	 * - `shadow_exchange`: Swaps positions with the pointed hostile living entity within `range`
 	 * - `phantom_step`: Instantly moves forward up to `range` blocks and damages hostile
-	 *   living entities crossed for `intensity`% attack damage
+	 *      living entities crossed for `intensity`% attack damage
 	 */
 	public static final String SPELL_TELEPORT = "teleport";
 	public static final String SPELL_CURSE = "curse";
@@ -216,31 +214,6 @@ public class Relic {
 
 		return immune_to_effects.contains(effectId) ||
 				(negative && immune_to_effects.contains("all_negative"));
-	}
-
-	private static boolean nz(final Double value) {
-		return value != null && value != 0.0;
-	}
-
-	private static String signed(final double value) {
-		return (value >= 0.0 ? "+" : "") + fmt(value);
-	}
-
-	private static String signedPercent(final double value) {
-		return signedPercentRaw(value * 100.0);
-	}
-
-	private static String signedPercentRaw(final double value) {
-		return (value >= 0.0 ? "+" : "") + fmt(value) + "%";
-	}
-
-	private static String fmt(final double value) {
-		if (Math.abs(value - Math.round(value)) < 0.000001)
-			return Long.toString(Math.round(value));
-
-		return String.format("%.2f", value)
-				.replaceAll("0+$", "")
-				.replaceAll("\\.$", "");
 	}
 
 	public static String itemDisplayName(final String id) {

@@ -53,21 +53,22 @@ The configuration directory is `config/vitalrelics`. Files are generated automat
 
 ## Passive Skills
 
-`passive_abilities` defines special passive relic behavior.
+`passive_skills` defines special passive relic behavior.
 
 Passive skills:
-- `retarget_arrow`: Reflected arrow minimum damage = ATTACK_DAMAGE × level
+- `retarget_arrow`: Reflected arrow minimum damage = ATTACK_DAMAGE × level.
+- `arrow_deflection`: Reflects one incoming arrow. Reflected arrow damage and speed
+     are multiplied by level. Cooldown is `5 / level` seconds.
 - `reality_severance`: level% attack-damage contribution, level-block radius,
-  roughly level/4 debuff strength
-- `metal_mending`: Repairs up to level durability every 4 seconds
-- `flight`: Any level > 0 grants flight; flight speed = vanilla flight speed × level
-- `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level
-- `lifesteal`: Heals the bearer for damage dealt × level
-- `thorns`: Reflects received damage × level; reflection is limited by a cooldown
-
+     roughly level/4 debuff strength.
+- `metal_mending`: Repairs up to level durability every 4 seconds.
+- `flight`: Any level > 0 grants flight; flight speed = vanilla flight speed × level.
+- `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level.
+- `lifesteal`: Heals the bearer for damage dealt × level.
+- `thorns`: Reflects received damage × level; reflection is limited by a cooldown.
 
 ```json
-{ "passive_abilities": { "flight": 0.5 } }
+{ "passive_skills": { "arrow_deflection": 1.0 } }
 ```
 
 ## Attribute Modifiers
