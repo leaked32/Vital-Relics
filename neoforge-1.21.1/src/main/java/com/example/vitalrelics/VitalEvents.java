@@ -1,10 +1,8 @@
 package com.example.vitalrelics;
 
-import com.example.vitalrelics.common.Manifest;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicLoader;
-import com.example.vitalrelics.common.Scheduler;
+import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.network.SpellSystem;
+import com.example.vitalrelics.platform.NeoLivingEntity;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -278,7 +276,7 @@ public final class VitalEvents {
 								(float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
 				MyDamageInfo.directRangedAttack(
-						livingEntity,
+						new NeoLivingEntity(livingEntity),
 						rangeDamage,
 						Math.round((float) reality_severance_level),
 						1,

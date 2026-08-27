@@ -8,10 +8,12 @@ import com.example.vitalrelics.network.SpellSystem;
 import com.example.vitalrelics.network.Network;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.event.TickEvent;
@@ -20,6 +22,8 @@ import org.lwjgl.glfw.GLFW;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
+
+import java.util.Locale;
 
 
 public final class VitalClientEvents {
@@ -32,6 +36,7 @@ public final class VitalClientEvents {
 		modEventBus.addListener(VitalClientEvents::registerKeys);
 		modEventBus.addListener(VitalClientEvents::registerAdditionalModels);
 		modEventBus.addListener(VitalClientEvents::modifyBakingResult);
+		modEventBus.addListener(VitalClientEvents::registerGuiOverlays);
 
 		MinecraftForge.EVENT_BUS.addListener(VitalClientEvents::clientTick);
 		MinecraftForge.EVENT_BUS.addListener(VitalClientEvents::mouseScroll);
@@ -63,6 +68,8 @@ public final class VitalClientEvents {
 	public static void clientTick(final TickEvent.ClientTickEvent event) {
 		if (event.phase != TickEvent.Phase.END)
 			return;
+
+		ClientSpellState.clientTick();
 
 		while (ACTIVE_SKILL_KEY.consumeClick()) {
 			Minecraft.getInstance().options.keyDrop.consumeClick();
@@ -123,5 +130,142 @@ public final class VitalClientEvents {
 
 			event.getModels().put(itemModel, flat);
 		}
+	}
+
+	/*
+	HUD
+	 */
+
+	public static void registerGuiOverlays(
+			final RegisterGuiOverlaysEvent event) {
+
+		event.registerAboveAll(
+				"spell_hud",
+				(gui, graphics, partialTick, screenWidth, screenHeight) ->
+						renderSpellHud(
+								graphics,
+								screenWidth,
+								screenHeight
+						)
+		);
+	}
+
+	private static void renderSpellHud(
+			final GuiGraphics graphics,
+			final int guiWidth,
+			final int guiHeight) {
+
+		final Minecraft minecraft = Minecraft.getInstance();
+
+		if (minecraft.player == null || minecraft.options.hideGui)
+			return;
+
+		final String spellId = ClientSpellState.selectedSpellId();
+
+		if (spellId == null || spellId.isBlank())
+			return;
+
+		final String spellName =
+				RelicTranslations.INSTANCE.translate(
+						"relic.vitalrelics.spell." + spellId,
+						Relic.itemDisplayName(spellId)
+				);
+
+		final int cooldownTicks =
+				ClientSpellState.cooldownTicks();
+
+		final String status =
+				cooldownTicks > 0
+						? String.format(
+								Locale.ROOT,
+								"%.1fs",
+								cooldownTicks / 20.0
+						)
+						: "Ready";
+
+		final var font = minecraft.font;
+
+		final int padding = 6;
+		final int gap = 12;
+
+		final int width =
+				font.width(spellName) +
+						gap +
+						font.width(status) +
+						padding * 2;
+
+		final int height = 18;
+
+		final int hotbarLeft =
+				guiWidth / 2 - 91;
+
+		final int x =
+				hotbarLeft - width - 6;
+
+		final int y =
+				guiHeight - 22;
+
+		// Main background.
+		graphics.fill(
+				x,
+				y,
+				x + width,
+				y + height,
+				0xB0101014
+		);
+
+		// Top highlight.
+		graphics.fill(
+				x,
+				y,
+				x + width,
+				y + 1,
+				0xFF8C4650
+		);
+
+		// Bottom shadow.
+		graphics.fill(
+				x,
+				y + height - 1,
+				x + width,
+				y + height,
+				0xFF35191E
+		);
+
+		// Cooldown / ready accent.
+		graphics.fill(
+				x,
+				y + 1,
+				x + 2,
+				y + height - 1,
+				cooldownTicks > 0
+						? 0xFF9E434C
+						: 0xFF6FA57A
+		);
+
+		graphics.drawString(
+				font,
+				spellName,
+				x + padding,
+				y + 5,
+				0xFFE8D8DC,
+				true
+		);
+
+		final int statusX =
+				x + width -
+						padding -
+						font.width(status);
+
+		graphics.drawString(
+				font,
+				status,
+				statusX,
+				y + 5,
+				cooldownTicks > 0
+						? 0xFFE38A91
+						: 0xFFA8D6AF,
+				true
+		);
 	}
 }

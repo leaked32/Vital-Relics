@@ -1,10 +1,9 @@
 package com.example.vitalrelics.network;
 
-import com.example.vitalrelics.MyDamageInfo;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicSpells;
-import com.example.vitalrelics.common.RelicTranslations;
-import com.example.vitalrelics.common.Scheduler;
+import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.platform.MyLivingEntity;
+import com.example.vitalrelics.platform.NeoLivingEntity;
+import com.example.vitalrelics.platform.NeoSpellPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -27,9 +26,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.util.*;
+import java.util.List;
 
 import static com.example.vitalrelics.Utils.*;
 
@@ -39,179 +37,46 @@ public final class SpellSystem {
 		boolean activate(LivingEntity livingEntity, Relic.Spells.Info spell);
 	}
 
-	private static final Map<String, Handler> HANDLERS = new HashMap<>();
-
 	private SpellSystem() {}
 
-	public static void register(final String abilityId, final Handler handler) {
-		if (HANDLERS.putIfAbsent(abilityId, handler) != null) {
-			throw new IllegalStateException(
-					"Spell already registered: " + abilityId
-			);
-		}
-	}
+	private static void register(
+			final String abilityId,
+			final Handler handler) {
 
-	private static String spellName(final String id) {
-		return RelicTranslations.INSTANCE.translate(
-				"relic.vitalrelics.spell." + id,
-				Relic.itemDisplayName(id)
-		);
-	}
+		MySpellSystem.INSTANCE.register(
+				abilityId,
+				(caster, spell) -> {
+					if (!(caster instanceof NeoLivingEntity neo))
+						return false;
 
-
-
-	private static void syncSpellHud(
-			final ServerPlayer player,
-			final String spellId,
-			final int tick) {
-
-		final int cooldownTicks =
-				Scheduler.INSTANCE().getSpellCooldownRemaining(
-						player.getUUID(), spellId, tick
-				);
-
-		PacketDistributor.sendToPlayer(
-				player,
-				new SelectedSpellPayload(spellId, cooldownTicks)
+					return handler.activate(neo.nativeEntity(), spell);
+				}
 		);
 	}
 
 	public static void syncSpellHud(final ServerPlayer player) {
-		if (!(player.level() instanceof ServerLevel level))
-			return;
-
-		final int tick = level.getServer().getTickCount();
-
-		final Map<String, Relic.Spells.Info> spells =
-				RelicSpells.gatherSpells(gatherRelics(player));
-
-		final List<String> spellIds = new ArrayList<>(spells.keySet());
-
-		final String selected =
-				Scheduler.INSTANCE().selectedSpell(
-						player.getUUID(),
-						spellIds,
-						tick
-				);
-
-		if (selected == null) {
-			PacketDistributor.sendToPlayer(
-					player,
-					new SelectedSpellPayload("", 0)
-			);
-			return;
-		}
-
-		syncSpellHud(player, selected, tick);
+		MySpellSystem.INSTANCE.syncSpellHud(
+				new NeoLivingEntity(player),
+				NeoSpellPlatform.INSTANCE
+		);
 	}
 
-
-	public static final String CAST_SPELL = "cast_spell";
-	public static final String SWITCH_SPELL_NEXT = "switch_spell_next";
-	public static final String SWITCH_SPELL_PREVIOUS = "switch_spell_previous";
+	public static final String CAST_SPELL =
+			MySpellSystem.CAST_SPELL;
+	public static final String SWITCH_SPELL_NEXT =
+			MySpellSystem.SWITCH_SPELL_NEXT;
+	public static final String SWITCH_SPELL_PREVIOUS =
+			MySpellSystem.SWITCH_SPELL_PREVIOUS;
 
 	public static void activate(
 			final LivingEntity caster,
-			String abilityId) {
+			final String abilityId) {
 
-		if (caster.level().isClientSide() ||
-				!abilityId.matches("[a-z0-9_./-]{1,64}")) {
-			return;
-		}
-
-		if (!(caster.level() instanceof ServerLevel level))
-			return;
-
-		final int tick = level.getServer().getTickCount();
-
-		final Map<String, Relic.Spells.Info> spells =
-				RelicSpells.gatherSpells(gatherRelics(caster));
-
-		final List<String> spellIds = new ArrayList<>(spells.keySet());
-
-		if (abilityId.equals(SWITCH_SPELL_NEXT) ||
-				abilityId.equals(SWITCH_SPELL_PREVIOUS)) {
-
-			final int direction = abilityId.equals(SWITCH_SPELL_NEXT) ? 1 : -1;
-
-			final String selected = Scheduler.INSTANCE().selectSpell(
-					caster.getUUID(),
-					spellIds,
-					direction,
-					tick
-			);
-
-			if (caster instanceof ServerPlayer player && selected != null) {
-				syncSpellHud(player, selected, tick);
-
-				player.displayClientMessage(
-						message(
-								"message.vitalrelics.selected_spell",
-								"Selected spell: %s",
-								spellName(selected)
-						),
-						true
-				);
-			}
-			return;
-		}
-
-		if (abilityId.equals(CAST_SPELL)) {
-			abilityId = Scheduler.INSTANCE().selectedSpell(
-					caster.getUUID(),
-					spellIds,
-					tick
-			);
-
-			if (abilityId == null) {
-				return;
-			}
-
-			final Relic.Spells.Info spell = spells.get(abilityId);
-
-			if (spell == null) {
-				return;
-			}
-
-			final int remainingTicks =
-					Scheduler.INSTANCE().getSpellCooldownRemaining(
-							caster.getUUID(), abilityId, tick
-					);
-
-			if (remainingTicks > 0) {
-				if (caster instanceof ServerPlayer player) {
-					player.displayClientMessage(
-							message(
-									"message.vitalrelics.spell_cooldown",
-									"%s cooldown: %s",
-									spellName(abilityId),
-									String.format(
-											Locale.ROOT,
-											"%.1fs",
-											remainingTicks / 20.0
-									)
-							),
-							true
-					);
-				}
-				return;
-			}
-
-			final Handler handler = HANDLERS.get(abilityId);
-
-			if (handler != null && handler.activate(caster, spell)) {
-				Scheduler.INSTANCE().setSpellCooldown(
-						caster.getUUID(),
-						abilityId,
-						tick,
-						RelicSpells.cooldownTicks(spell)
-				);
-
-				if (caster instanceof ServerPlayer player) {
-					syncSpellHud(player, abilityId, tick);
-				}
-			}
-		}
+		MySpellSystem.INSTANCE.activate(
+				new NeoLivingEntity(caster),
+				abilityId,
+				NeoSpellPlatform.INSTANCE
+		);
 	}
 
 	static {
@@ -442,8 +307,7 @@ public final class SpellSystem {
 
 			if (damage <= 0.0F)
 				return false;
-
-			MyDamageInfo.directAttack(caster, target, damage, 1);
+			MyDamageInfo.directAttack(new NeoLivingEntity(caster), new NeoLivingEntity(target), damage, 1);
 
 			level.playSound(
 					null,
@@ -598,7 +462,7 @@ public final class SpellSystem {
 			if (damage <= 0.0F)
 				return false;
 
-			MyDamageInfo.directRangedAttack(caster, damage, range, count, weaken);
+			MyDamageInfo.directRangedAttack(new NeoLivingEntity(caster), damage, range, count, weaken);
 
 			caster.level().playSound(
 					null,
@@ -634,30 +498,30 @@ public final class SpellSystem {
 
 			boolean affected = false;
 
-			for (final LivingEntity target :
-					MyDamageInfo.getLivingEntitiesInRange(caster, range)) {
+			final MyLivingEntity myCaster = new NeoLivingEntity(caster);
 
-				if (!hostileTargeted(caster, target))
+			for (final MyLivingEntity target :
+					MyDamageInfo.getLivingEntitiesInRange(myCaster, range)) {
+
+				if (!myCaster.hostileTargeted(target))
 					continue;
 
-				final Vec3 away = new Vec3(
-						target.getX() - caster.getX(),
-						0.0,
-						target.getZ() - caster.getZ()
-				);
+				final double dx = target.x() - myCaster.x();
+				final double dz = target.z() - myCaster.z();
+				final double lengthSqr = dx * dx + dz * dz;
 
-				if (away.lengthSqr() <= 1.0e-8)
+				if (lengthSqr <= 1.0e-8)
 					continue;
 
-				final Vec3 direction = away.normalize();
+				final double inverseLength = 1.0 / Math.sqrt(lengthSqr);
 
 				target.push(
-						direction.x * strength,
+						dx * inverseLength * strength,
 						vertical,
-						direction.z * strength
+						dz * inverseLength * strength
 				);
 
-				target.hurtMarked = true;
+				target.markMovementChanged();
 				affected = true;
 			}
 
@@ -738,14 +602,16 @@ public final class SpellSystem {
 
 			boolean affected = false;
 
-			for (final LivingEntity target :
-					MyDamageInfo.getLivingEntitiesInRange(caster, range)) {
+			final MyLivingEntity myCaster = new NeoLivingEntity(caster);
 
-				if (!hostileTargeted(caster, target))
+			for (final MyLivingEntity target :
+					MyDamageInfo.getLivingEntitiesInRange(myCaster, range)) {
+
+				if (!myCaster.hostileTargeted(target))
 					continue;
 
 				target.push(0.0, strength, 0.0);
-				target.hurtMarked = true;
+				target.markMovementChanged();
 				affected = true;
 			}
 
@@ -914,7 +780,12 @@ public final class SpellSystem {
 				if (hitbox.clip(origin, destination).isEmpty())
 					continue;
 
-				MyDamageInfo.directAttack(caster, target, damage, 1);
+				MyDamageInfo.directAttack(
+						new NeoLivingEntity(caster),
+						new NeoLivingEntity(target),
+						damage,
+						1
+				);
 			}
 
 			teleport(caster, level, destination);

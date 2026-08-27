@@ -32,6 +32,12 @@ public record NetworkPacket(String abilityId) {
 			if (player != null) {
 				// TODO, implement the handler later.
 				SpellSystem.activate(player, packet.abilityId());
+
+				/*
+				 * SpellSystem may have changed the selected spell or started
+				 * a cooldown, so synchronize the final authoritative state.
+				 */
+				Network.syncSpellHud(player);
 			}
 		});
 

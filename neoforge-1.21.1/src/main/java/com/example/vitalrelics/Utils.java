@@ -2,6 +2,8 @@ package com.example.vitalrelics;
 
 
 import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.platform.EntityActions;
+import com.example.vitalrelics.platform.NeoLivingEntity;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -356,24 +358,11 @@ public class Utils {
 			final ServerLevel level,
 			final Vec3 destination) {
 
-		if (entity instanceof ServerPlayer player) {
-			player.teleportTo(
-					level,
-					destination.x, destination.y, destination.z,
-					player.getYRot(), player.getXRot()
-			);
-		} else {
-			entity.teleportTo(
-					destination.x, destination.y, destination.z
-			);
-		}
-
-
-		level.playSound(
-				null,
-				entity.getX(), entity.getY(), entity.getZ(),
-				SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS,
-				0.8F, 1.15F
+		EntityActions.teleport(
+				new NeoLivingEntity(entity),
+				destination.x,
+				destination.y,
+				destination.z
 		);
 	}
 
