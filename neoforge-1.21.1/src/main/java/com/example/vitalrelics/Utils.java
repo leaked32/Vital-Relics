@@ -230,7 +230,7 @@ public class Utils {
 	}
 
 	public static void retargetArrow(
-			AbstractArrow arrow, LivingEntity newOwner, final int multiplierOfAttrDamage) {
+			AbstractArrow arrow, LivingEntity newOwner, final double multiplierOfAttrDamage) {
 
 		Entity owner = arrow.getOwner();
 

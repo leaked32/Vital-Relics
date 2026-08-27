@@ -242,13 +242,13 @@ public final class VitalEvents {
 			// Passive Skill: Flight
 
 			if (livingEntity instanceof ServerPlayer player) {
-				int flight_level = RelicLoader.levelOfSuchPassiveSkill(
+				final double flight_level = RelicLoader.levelOfSuchPassiveSkill(
 						relics, Relic.PASSIVE_SKILL_FLIGHT
 				);
 				if (flight_level > 0) {
 					if (!player.getAbilities().mayfly) {
 						player.getAbilities().mayfly = true;
-						player.getAbilities().setFlyingSpeed(0.05F * flight_level);
+						player.getAbilities().setFlyingSpeed((float) (0.05 * flight_level));
 						player.onUpdateAbilities();
 					}
 				} else {
@@ -264,29 +264,35 @@ public final class VitalEvents {
 
 			// Passive Skill: reality_severance
 
-			final int reality_severance_level = RelicLoader.levelOfSuchPassiveSkill(
-					relics, Relic.PASSIVE_SKILL_REALITY_SEVERANCE
-			);
-			if (reality_severance_level > 0) {
-				final float ratioDamage = reality_severance_level / 100.0f;
-				final float rangeDamage = ratioDamage * (float)livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-				MyDamageInfo.directRangedAttack(livingEntity, rangeDamage, reality_severance_level, 1, Math.round(reality_severance_level / 4.0f));
-			}
+			final double reality_severance_level =
+					RelicLoader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_REALITY_SEVERANCE);
 
+			if (reality_severance_level > 0.0) {
+				final float ratioDamage = (float) (reality_severance_level / 100.0);
+				final float rangeDamage =
+						ratioDamage *
+								(float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
+
+				MyDamageInfo.directRangedAttack(
+						livingEntity,
+						rangeDamage,
+						Math.round((float) reality_severance_level),
+						1,
+						Math.round((float) (reality_severance_level / 4.0))
+				);
+			}
 		}
 
 		// Scheduled to update on each 4 seconds
 		if (currentTickCount % 80 == 0) {
 			// Passive Skill: metal_mending
 
-			final int metalMendingLevel = RelicLoader.levelOfSuchPassiveSkill(
-					relics, Relic.PASSIVE_SKILL_METAL_MENDING
-			);
+			final double metalMendingLevel =
+					RelicLoader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_METAL_MENDING);
 
-			if (metalMendingLevel > 0) {
-				Utils.metalMending(livingEntity, metalMendingLevel);
+			if (metalMendingLevel > 0.0) {
+				Utils.metalMending(livingEntity, Math.max(1, (int) Math.round(metalMendingLevel)));
 			}
-
 		}
 
 	}
@@ -354,13 +360,13 @@ public final class VitalEvents {
 			event.setNewDamage(amount);
 
 			// Lifesteal
-			final int lifestealLevel = RelicLoader.levelOfSuchPassiveSkill(
+			final double lifestealLevel = RelicLoader.levelOfSuchPassiveSkill(
 					attackerRelics,
 					Relic.PASSIVE_SKILL_LIFESTEAL
 			);
 
-			if (lifestealLevel > 0 && amount > 0.0F) {
-				criminal.heal(amount * lifestealLevel / 100.0F);
+			if (lifestealLevel > 0.0 && amount > 0.0F) {
+				criminal.heal((float) (amount * lifestealLevel));
 			}
 		}
 
@@ -397,24 +403,21 @@ public final class VitalEvents {
 		// Thorns
 
 		if (entity_criminal instanceof LivingEntity criminal && amount > 0.0F) {
-			final int thornsLevel = RelicLoader.levelOfSuchPassiveSkill(
+			final double thornsLevel = RelicLoader.levelOfSuchPassiveSkill(
 					victimRelics,
 					Relic.PASSIVE_SKILL_THORNS
 			);
 
-			if (thornsLevel > 0 &&
+			if (thornsLevel > 0.0 &&
 					Scheduler.INSTANCE().acquireThorns(
 							victim.getUUID(),
 							victim_server.getTickCount(),
 							10
 					)) {
 
-				final float reflected =
-						amount * thornsLevel / 100.0F;
-
 				criminal.hurt(
 						victim.damageSources().thorns(victim),
-						reflected
+						(float) (amount * thornsLevel)
 				);
 			}
 		}
@@ -476,10 +479,15 @@ public final class VitalEvents {
 			if (entityResult.getEntity() instanceof LivingEntity victim) {
 
 				final var relics = gatherRelics(victim);
-				final int sp_level = RelicLoader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_RETARGET_ARROW);
-				if (sp_level > 0) {
+				final double sp_level =
+						RelicLoader.levelOfSuchPassiveSkill(
+								gatherRelics(victim),
+								Relic.PASSIVE_SKILL_RETARGET_ARROW
+						);
+
+				if (sp_level > 0.0) {
 					retargetArrow(arrow, victim, sp_level);
-					event.setCanceled(true);
+					// existing event cancellation unchanged
 				}
 			}
 		}
@@ -493,18 +501,15 @@ public final class VitalEvents {
 			return;
 		}
 
-		final int level = RelicLoader.levelOfSuchPassiveSkill(
+		final double level = RelicLoader.levelOfSuchPassiveSkill(
 				gatherRelics(player),
 				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
 		);
 
-		if (level <= 0) {
+		if (level <= 0.0)
 			return;
-		}
 
-		final float ratios = level / 100.0f;
-
-		event.setCharge(Math.round(event.getCharge() * ratios));
+		event.setCharge(Math.round((float) (event.getCharge() * level)));
 	}
 
 
@@ -519,24 +524,23 @@ public final class VitalEvents {
 			return;
 		}
 
-		final int level = RelicLoader.levelOfSuchPassiveSkill(
+		final double level = RelicLoader.levelOfSuchPassiveSkill(
 				gatherRelics(owner),
 				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
 		);
 
-		if (level <= 0) {
+		if (level <= 0.0)
 			return;
-		}
-
-		final float ratios = level / 100.0f;
 
 		arrow.setDeltaMovement(
-				arrow.getDeltaMovement().scale(ratios)
+				arrow.getDeltaMovement().scale(level)
 		);
 
-		final float leastDamage = ratios * (float)owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		final double leastDamage =
+				level * owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+
 		arrow.setBaseDamage(
-				Math.max(arrow.getBaseDamage() * ratios, leastDamage)
+				Math.max(arrow.getBaseDamage() * level, leastDamage)
 		);
 	}
 }

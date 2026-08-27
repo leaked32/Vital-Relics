@@ -195,7 +195,7 @@ public class Utils {
 		}
 	}
 
-	public static void retargetArrow(AbstractArrow arrow, LivingEntity newOwner, final int damage_mul) {
+	public static void retargetArrow(AbstractArrow arrow, LivingEntity newOwner, final double damage_mul) {
 
 		Entity owner = arrow.getOwner();
 

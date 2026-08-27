@@ -208,7 +208,7 @@
       "rarity": "rare",
       "available_spells": {
         "arc_burst": {
-          "intensity": 105,
+          "intensity": 1.05,
           "range": 12,
           "count": 3,
           "weaken": 0,
@@ -286,7 +286,7 @@
       "available_spells": {
         "phantom_step": {
           "range": 8,
-          "intensity": 120,
+          "intensity": 1.2,
           "recovery": 0.5
         }
       }
