@@ -384,7 +384,7 @@ public final class SpellSystem {
 			if (isAllied(caster, target))
 				return false;
 
-			final float damage = intensity / 100.0F *
+			final float damage = intensity *
 					(float) caster.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
 			if (damage <= 0.0F)
@@ -540,7 +540,7 @@ public final class SpellSystem {
 
 			final float damage =
 					(float) caster.getAttributeValue(Attributes.ATTACK_DAMAGE) *
-							intensity / 100.0F;
+							intensity;
 
 			if (damage <= 0.0F)
 				return false;
@@ -835,7 +835,7 @@ public final class SpellSystem {
 
 			final float damage =
 					(float) caster.getAttributeValue(Attributes.ATTACK_DAMAGE) *
-							intensity / 100.0F;
+							intensity;
 
 			/*
 			 * Damage only hostile entities whose hitboxes intersect the actual
