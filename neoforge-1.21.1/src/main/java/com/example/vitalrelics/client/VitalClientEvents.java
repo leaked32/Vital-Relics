@@ -6,7 +6,6 @@ import com.example.vitalrelics.common.MySpellSystem;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.network.NeoNetwork;
-import com.example.vitalrelics.network.SpellSystem;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;

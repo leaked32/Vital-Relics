@@ -72,6 +72,62 @@ public final class NeoLivingEntity implements MyLivingEntity {
 					SoundSource.PLAYERS,
 					0.8F, 1.15F
 			);
+			case ILLUSIONER_CAST -> level.playSound(
+					null,
+					entity.getX(), entity.getY(), entity.getZ(),
+					SoundEvents.ILLUSIONER_CAST_SPELL,
+					SoundSource.PLAYERS,
+					1.0F, 1.0F
+			);
+			case PLAYER_LEVELUP -> level.playSound(
+					null,
+					entity.getX(), entity.getY(), entity.getZ(),
+					SoundEvents.PLAYER_LEVELUP,
+					SoundSource.PLAYERS,
+					1.0F, 1.0F
+			);
+			case AMETHYST_CHIME -> level.playSound(
+					null,
+					entity.getX(), entity.getY(), entity.getZ(),
+					SoundEvents.AMETHYST_BLOCK_CHIME,
+					SoundSource.PLAYERS,
+					1.0F, 1.0F
+			);
+			case DRAGON_FLAP -> level.playSound(
+					null,
+					entity.getX(), entity.getY(), entity.getZ(),
+					SoundEvents.ENDER_DRAGON_FLAP,
+					SoundSource.PLAYERS,
+					1.0F, 1.0F
+			);
+			case EVOKER_CAST -> level.playSound(
+					null,
+					entity.getX(), entity.getY(), entity.getZ(),
+					SoundEvents.EVOKER_CAST_SPELL,
+					SoundSource.PLAYERS,
+					1.0F, 1.0F
+			);
+			case GENERIC_EXPLODE -> level.playSound(
+					null,
+					entity.getX(), entity.getY(), entity.getZ(),
+					SoundEvents.GENERIC_EXPLODE,
+					SoundSource.PLAYERS,
+					1.0F, 1.0F
+			);
+			case BEACON_ACTIVATE -> level.playSound(
+					null,
+					entity.getX(), entity.getY(), entity.getZ(),
+					SoundEvents.BEACON_ACTIVATE,
+					SoundSource.PLAYERS,
+					1.0F, 1.0F
+			);
+			case ENCHANTMENT_TABLE_USE -> level.playSound(
+					null,
+					entity.getX(), entity.getY(), entity.getZ(),
+					SoundEvents.ENCHANTMENT_TABLE_USE,
+					SoundSource.PLAYERS,
+					1.0F, 1.0F
+			);
 		}
 	}
 
