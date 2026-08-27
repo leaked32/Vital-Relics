@@ -12,7 +12,7 @@
       "curio_slot": "ring",
       "rarity": "common",
       "granted_effects": {
-        "speed": 2
+        "speed": 1
       },
       "enemy_spawn": {
         "minecraft:zombie": 0.5,
