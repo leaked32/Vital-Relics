@@ -3,10 +3,7 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
 import com.example.vitalrelics.client.VitalClientEvents;
-import com.example.vitalrelics.common.AcquisitionLoader;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicLoader;
-import com.example.vitalrelics.common.RelicTranslations;
+import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.network.Network;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
@@ -41,16 +38,16 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
-@Mod(VitalRelics.MODID)
+@Mod(Manifest.MODID)
 public class VitalRelics {
-	public static final String MODID = "vitalrelics";
+	// public static final String MODID = "vitalrelics";
 	public static final Logger LOGGER = LogUtils.getLogger();
 
 	public static final DeferredRegister<Item> ITEMS =
-			DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+			DeferredRegister.create(ForgeRegistries.ITEMS, Manifest.MODID);
 
 	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
-			DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+			DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Manifest.MODID);
 
 	public static RegistryObject<CreativeModeTab> RELICS_TAB;
 
@@ -61,7 +58,7 @@ public class VitalRelics {
 	public static AcquisitionLoader acquisition;
 
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
-			DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MODID);
+			DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Manifest.MODID);
 
 	public static final RegistryObject<RecipeSerializer<DynamicRelicRecipe>>
 			DYNAMIC_RELIC_RECIPE =
@@ -142,7 +139,7 @@ public class VitalRelics {
 		Network.register();
 
 		final ResourceLocation validator =
-				ResourceLocation.fromNamespaceAndPath(MODID, "relic_slot");
+				ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "relic_slot");
 
 		CuriosApi.registerCurioPredicate(validator, result -> {
 			final ItemStack stack = result.stack();
@@ -150,7 +147,7 @@ public class VitalRelics {
 			final ResourceLocation itemId = ForgeRegistries.ITEMS.getKey(stack.getItem());
 
 			assert itemId != null;
-			if (!itemId.getNamespace().equals(MODID))
+			if (!itemId.getNamespace().equals(Manifest.MODID))
 				return false;
 
 			final Relic relic = loader.find(itemId.getPath());

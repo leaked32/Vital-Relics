@@ -1,6 +1,7 @@
 package com.example.vitalrelics.network;
 
 import com.example.vitalrelics.VitalRelics;
+import com.example.vitalrelics.common.Manifest;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -13,7 +14,7 @@ public record NetworkPayload(String abilityId)
 	public static final Type<NetworkPayload> TYPE =
 			new Type<>(
 					ResourceLocation.fromNamespaceAndPath(
-							VitalRelics.MODID,
+							Manifest.MODID,
 							"activate_ability"
 					)
 			);

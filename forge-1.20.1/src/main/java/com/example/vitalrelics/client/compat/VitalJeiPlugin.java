@@ -2,6 +2,7 @@ package com.example.vitalrelics.client.compat;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Acquisition;
+import com.example.vitalrelics.common.Manifest;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -24,7 +25,7 @@ import java.util.Map;
 @JeiPlugin
 public final class VitalJeiPlugin implements IModPlugin {
 	private static final ResourceLocation UID =
-			new ResourceLocation(VitalRelics.MODID, "jei_plugin");
+			new ResourceLocation(Manifest.MODID, "jei_plugin");
 
 	@Override
 	public ResourceLocation getPluginUid() {
@@ -39,7 +40,7 @@ public final class VitalJeiPlugin implements IModPlugin {
 				VitalRelics.acquisition.data.recipes.entrySet()) {
 
 			final ResourceLocation id =
-					new ResourceLocation(VitalRelics.MODID, entry.getKey());
+					new ResourceLocation(Manifest.MODID, entry.getKey());
 
 			final ItemStack output = itemStack(id, entry.getValue().count);
 

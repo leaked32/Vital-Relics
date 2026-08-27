@@ -270,4 +270,119 @@ public final class Json {
 			return new IllegalArgumentException(message + " at position " + pos_);
 		}
 	}
+
+	// We need this because customized legacy files should be parsed → metadata inserted → saved,
+	// rather than doing fragile text manipulation.
+	public static String stringify(final Object value) {
+		final StringBuilder out = new StringBuilder();
+		writeValue(out, value, 0);
+		out.append('\n');
+		return out.toString();
+	}
+
+	private static void writeValue(
+			final StringBuilder out,
+			final Object value,
+			final int indent) {
+
+		if (value == null) {
+			out.append("null");
+			return;
+		}
+
+		if (value instanceof String string) {
+			writeString(out, string);
+			return;
+		}
+
+		if (value instanceof Number || value instanceof Boolean) {
+			out.append(value);
+			return;
+		}
+
+		if (value instanceof Map<?, ?> map) {
+			out.append('{');
+
+			if (!map.isEmpty()) {
+				boolean first = true;
+
+				for (final var entry : map.entrySet()) {
+					if (!(entry.getKey() instanceof String key))
+						throw new IllegalArgumentException("JSON object keys must be strings");
+
+					if (first) {
+						first = false;
+					} else {
+						out.append(',');
+					}
+
+					out.append('\n');
+					out.append("  ".repeat(indent + 1));
+					writeString(out, key);
+					out.append(": ");
+					writeValue(out, entry.getValue(), indent + 1);
+				}
+
+				out.append('\n');
+				out.append("  ".repeat(indent));
+			}
+
+			out.append('}');
+			return;
+		}
+
+		if (value instanceof List<?> list) {
+			out.append('[');
+
+			if (!list.isEmpty()) {
+				for (int i = 0; i < list.size(); ++i) {
+					if (i != 0)
+						out.append(',');
+
+					out.append('\n');
+					out.append("  ".repeat(indent + 1));
+					writeValue(out, list.get(i), indent + 1);
+				}
+
+				out.append('\n');
+				out.append("  ".repeat(indent));
+			}
+
+			out.append(']');
+			return;
+		}
+
+		throw new IllegalArgumentException(
+				"Unsupported JSON value: " + value.getClass().getName()
+		);
+	}
+
+	private static void writeString(
+			final StringBuilder out,
+			final String value) {
+
+		out.append('"');
+
+		for (int i = 0; i < value.length(); ++i) {
+			final char c = value.charAt(i);
+
+			switch (c) {
+				case '"' -> out.append("\\\"");
+				case '\\' -> out.append("\\\\");
+				case '\b' -> out.append("\\b");
+				case '\f' -> out.append("\\f");
+				case '\n' -> out.append("\\n");
+				case '\r' -> out.append("\\r");
+				case '\t' -> out.append("\\t");
+				default -> {
+					if (c < 0x20)
+						out.append(String.format("\\u%04x", (int) c));
+					else
+						out.append(c);
+				}
+			}
+		}
+
+		out.append('"');
+	}
 }

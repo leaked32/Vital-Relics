@@ -1,5 +1,6 @@
 package com.example.vitalrelics;
 
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import com.example.vitalrelics.common.scheduled.Scheduler;
@@ -35,7 +36,6 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import static com.example.vitalrelics.Utils.*;
-import static com.example.vitalrelics.VitalRelics.MODID;
 
 public final class VitalEvents {
 	/*
@@ -43,76 +43,76 @@ public final class VitalEvents {
 	 */
 
 	private static final ResourceLocation ATTACK_DAMAGE_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "attack_damage_add");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_damage_add");
 
 	private static final ResourceLocation ATTACK_DAMAGE_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "attack_damage_mul_base");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_damage_mul_base");
 
 	private static final ResourceLocation ATTACK_DAMAGE_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "attack_damage_mul_total");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_damage_mul_total");
 
 	private static final ResourceLocation ATTACK_SPEED_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "attack_speed_add");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_speed_add");
 
 	private static final ResourceLocation ATTACK_SPEED_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "attack_speed_mul_base");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_speed_mul_base");
 
 	private static final ResourceLocation ATTACK_SPEED_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "attack_speed_mul_total");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_speed_mul_total");
 
 	private static final ResourceLocation ARMOR_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "armor_add");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_add");
 
 	private static final ResourceLocation ARMOR_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "armor_mul_base");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_mul_base");
 
 	private static final ResourceLocation ARMOR_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "armor_mul_total");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_mul_total");
 
 	private static final ResourceLocation ARMOR_TOUGHNESS_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "armor_toughness_add");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_toughness_add");
 
 	private static final ResourceLocation ARMOR_TOUGHNESS_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "armor_toughness_mul_base");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_toughness_mul_base");
 
 	private static final ResourceLocation ARMOR_TOUGHNESS_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "armor_toughness_mul_total");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_toughness_mul_total");
 
 	private static final ResourceLocation KNOCKBACK_RESISTANCE_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "knockback_resistance_add");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "knockback_resistance_add");
 
 	private static final ResourceLocation KNOCKBACK_RESISTANCE_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "knockback_resistance_mul_base");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "knockback_resistance_mul_base");
 
 	private static final ResourceLocation KNOCKBACK_RESISTANCE_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "knockback_resistance_mul_total");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "knockback_resistance_mul_total");
 
 	private static final ResourceLocation MAX_HEALTH_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "max_health_add");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "max_health_add");
 
 	private static final ResourceLocation MAX_HEALTH_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "max_health_mul_base");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "max_health_mul_base");
 
 	private static final ResourceLocation MAX_HEALTH_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "max_health_mul_total");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "max_health_mul_total");
 
 	private static final ResourceLocation BLOCK_INTERACTION_RANGE_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "block_interaction_range_add");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "block_interaction_range_add");
 
 	private static final ResourceLocation BLOCK_INTERACTION_RANGE_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "block_interaction_range_mul_base");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "block_interaction_range_mul_base");
 
 	private static final ResourceLocation BLOCK_INTERACTION_RANGE_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "block_interaction_range_mul_total");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "block_interaction_range_mul_total");
 
 	private static final ResourceLocation ENTITY_INTERACTION_RANGE_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "entity_interaction_range_add");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "entity_interaction_range_add");
 
 	private static final ResourceLocation ENTITY_INTERACTION_RANGE_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "entity_interaction_range_mul_base");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "entity_interaction_range_mul_base");
 
 	private static final ResourceLocation ENTITY_INTERACTION_RANGE_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(MODID, "entity_interaction_range_mul_total");
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "entity_interaction_range_mul_total");
 
 	private record PropertyTarget(
 			Holder<Attribute> attribute,

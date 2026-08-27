@@ -398,7 +398,7 @@
       "granted_effects": { "wither": 1 },
       "properties": {
         "attack_damage": {
-          "add": 3.0
+          "add": 4.0
         }
       }
     },
@@ -427,7 +427,7 @@
       "available_spells": {
         "teleport": {
           "range": 128,
-          "recovery": 2
+          "recovery": 1
         }
       }
     },
@@ -472,7 +472,7 @@
       "available_spells": {
         "curse": {
           "intensity": 100,
-          "range": 128,
+          "range": 64,
           "recovery": 0.5
         }
       },
@@ -481,7 +481,7 @@
           "modifier": 1.15
         },
         "invulnerable_time_dealt": {
-          "modifier": 0.5
+          "modifier": 0.9
         }
       }
     },

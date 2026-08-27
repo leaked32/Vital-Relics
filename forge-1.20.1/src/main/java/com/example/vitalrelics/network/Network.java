@@ -1,6 +1,7 @@
 package com.example.vitalrelics.network;
 
 import com.example.vitalrelics.VitalRelics;
+import com.example.vitalrelics.common.Manifest;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -10,7 +11,7 @@ public final class Network {
 
 	private static final SimpleChannel CHANNEL =
 			NetworkRegistry.newSimpleChannel(
-					new ResourceLocation(VitalRelics.MODID, "main"),
+					new ResourceLocation(Manifest.MODID, "main"),
 					() -> PROTOCOL_VERSION,
 					PROTOCOL_VERSION::equals,
 					PROTOCOL_VERSION::equals

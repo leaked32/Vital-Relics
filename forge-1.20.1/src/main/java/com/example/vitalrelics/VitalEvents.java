@@ -1,5 +1,6 @@
 package com.example.vitalrelics;
 
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicLoader;
 import com.example.vitalrelics.common.scheduled.Scheduler;
@@ -35,11 +36,10 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import static com.example.vitalrelics.Utils.*;
-import static com.example.vitalrelics.VitalRelics.MODID;
 
 public final class VitalEvents {
 	private static UUID modifierId(final String name) {
-		return UUID.nameUUIDFromBytes((MODID + ":" + name).getBytes(StandardCharsets.UTF_8));
+		return UUID.nameUUIDFromBytes((Manifest.MODID + ":" + name).getBytes(StandardCharsets.UTF_8));
 	}
 
 	private static final UUID ATTACK_DAMAGE_ADD_ID = modifierId("attack_damage_add");
@@ -257,7 +257,7 @@ public final class VitalEvents {
 		attr.removeModifier(id);
 
 		if (amount != 0.0)
-			attr.addTransientModifier(new AttributeModifier(id, MODID, amount, operation));
+			attr.addTransientModifier(new AttributeModifier(id, Manifest.MODID, amount, operation));
 	}
 
 

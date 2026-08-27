@@ -3,10 +3,7 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
 import com.example.vitalrelics.client.VitalClientEvents;
-import com.example.vitalrelics.common.AcquisitionLoader;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicLoader;
-import com.example.vitalrelics.common.RelicTranslations;
+import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.network.Network;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -35,18 +32,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
-@Mod(VitalRelics.MODID)
+@Mod(Manifest.MODID)
 public class VitalRelics
 {
 	// Define mod id in a common place for everything to reference
-	public static final String MODID = "vitalrelics";
+	// public static final String MODID = "vitalrelics";
 	// Directly reference a slf4j logger
 	public static final Logger LOGGER = LogUtils.getLogger();
-	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Manifest.MODID);
+	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Manifest.MODID);
+	public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Manifest.MODID);
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
-			DeferredRegister.create(Registries.RECIPE_SERIALIZER, MODID);
+			DeferredRegister.create(Registries.RECIPE_SERIALIZER, Manifest.MODID);
 	public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<DynamicRelicRecipe>>
 			DYNAMIC_RELIC_RECIPE =
 			RECIPE_SERIALIZERS.register(
@@ -118,7 +115,7 @@ public class VitalRelics
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
 		final ResourceLocation validator =
-				ResourceLocation.fromNamespaceAndPath(MODID, "relic_slot");
+				ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "relic_slot");
 
 		CuriosApi.registerCurioPredicate(validator, result -> {
 			final ItemStack stack = result.stack();
@@ -126,7 +123,7 @@ public class VitalRelics
 			final ResourceLocation itemId =
 					BuiltInRegistries.ITEM.getKey(stack.getItem());
 
-			if (!itemId.getNamespace().equals(MODID))
+			if (!itemId.getNamespace().equals(Manifest.MODID))
 				return false;
 
 			final Relic relic = loader.find(itemId.getPath());

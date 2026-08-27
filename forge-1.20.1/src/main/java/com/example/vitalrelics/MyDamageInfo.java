@@ -1,5 +1,6 @@
 package com.example.vitalrelics;
 
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.scheduled.Scheduler;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -7,6 +8,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffects;
@@ -24,7 +27,6 @@ import java.util.UUID;
 
 import static com.example.vitalrelics.Utils.*;
 import static com.example.vitalrelics.VitalRelics.LOGGER;
-import static com.example.vitalrelics.VitalRelics.MODID;
 
 public class MyDamageInfo
 {
@@ -387,15 +389,23 @@ public class MyDamageInfo
 
 	public static class MyDamageTypes {
 		public static final String DAMAGE_TAG = "extra_damage";
-		public static final String DAMAGE_STR = "DamageSource (" + MODID + "." + DAMAGE_TAG + ")";
+		public static final String DAMAGE_STR = "DamageSource (" + Manifest.MODID + "." + DAMAGE_TAG + ")";
 
 		public static DamageSource myDamageSource(Level level, Entity entity) {
 			HolderLookup.RegistryLookup<DamageType> damageTypeLookup = level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
 
 			Holder<DamageType> baseHolder = damageTypeLookup.getOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("minecraft", "generic")));
 
-			DamageSource extraDamageSource = new DamageSource(baseHolder, entity)
-			{
+
+			DamageSource extraDamageSource = new DamageSource(baseHolder, entity) {
+				@Override
+				public boolean is(TagKey<DamageType> tag) {
+					if (tag == DamageTypeTags.BYPASSES_COOLDOWN) {
+						return true;
+					}
+					return super.is(tag);
+				}
+
 				@Override
 				public String toString() {
 					return DAMAGE_STR;

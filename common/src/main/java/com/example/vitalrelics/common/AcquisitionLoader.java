@@ -15,8 +15,11 @@ public class AcquisitionLoader {
 			throw new RuntimeException("RelicLoader#load `external_path` cannot be null");
 		}
 
-		final String internal_path = "vitalrelics/recipes.json";
-		final Map<String, Object> root = load_external_file(internal_path, external_path);
+		final Map<String, Object> root = load_external_file(
+				Manifest.INTERNAL_PATH_TO_RECIPES,
+				external_path,
+				Manifest.OPT_RECIPES_VER
+		);
 
 		data.recipes.clear();
 		data.loot.clear();

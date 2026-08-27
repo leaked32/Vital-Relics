@@ -13,13 +13,6 @@ public final class RelicTranslations {
 	public static final RelicTranslations INSTANCE =
 			new RelicTranslations();
 
-	private static final List<String> DEFAULT_LOCALES = List.of(
-			"en_us",
-			"zh_cn",
-			"zh_tw",
-			"ja_jp"
-	);
-
 	private volatile Map<String, Map<String, String>> tables =
 			Map.of();
 
@@ -30,12 +23,13 @@ public final class RelicTranslations {
 	public void load(final Path directory) {
 		final Map<String, Map<String, String>> loaded = new LinkedHashMap<>();
 
-		for (final String locale : DEFAULT_LOCALES) {
+		for (final String locale : Manifest.DEFAULT_LOCALES) {
 			final Path external = directory.resolve(locale + ".json");
 
 			final Map<String, Object> root = Util.load_external_file(
-					"vitalrelics/lang/" + locale + ".json",
-					external
+					Manifest.INTERNAL_PATH_TO_LANG(locale),
+					external,
+					Manifest.OPT_LANG_VER
 			);
 
 			loaded.put(locale, readTable(root, external));

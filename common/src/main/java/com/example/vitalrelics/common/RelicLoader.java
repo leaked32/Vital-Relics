@@ -54,8 +54,9 @@ public class RelicLoader {
 		}
 
 		final Map<String, Object> root = load_external_file(
-				"vitalrelics/relics.json",
-				externalPath
+				Manifest.INTERNAL_PATH_TO_RELICS,
+				externalPath,
+				Manifest.OPT_RELICS_VER
 		);
 
 		if (!(root.get("relics") instanceof List<?> entries))
@@ -76,8 +77,9 @@ public class RelicLoader {
 	private static Relic loadRelic(final Map<?, ?> rawRelic) {
 		final Relic relic = new Relic();
 
-		if (!(rawRelic.get("id") instanceof String id))
+		if (!(rawRelic.get("id") instanceof String id)) {
 			throw new IllegalArgumentException("Relic id must be a string");
+		}
 
 		relic.id = id;
 		setString(rawRelic, "curio_slot", value -> relic.curio_slot = value);
