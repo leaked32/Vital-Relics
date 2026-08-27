@@ -27,6 +27,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
 
@@ -54,6 +55,24 @@ public final class SpellSystem {
 		return RelicTranslations.INSTANCE.translate(
 				"relic.vitalrelics.spell." + id,
 				Relic.itemDisplayName(id)
+		);
+	}
+
+
+
+	private static void syncSpellHud(
+			final ServerPlayer player,
+			final String spellId,
+			final int tick) {
+
+		final int cooldownTicks =
+				Scheduler.INSTANCE().getSpellCooldownRemaining(
+						player.getUUID(), spellId, tick
+				);
+
+		PacketDistributor.sendToPlayer(
+				player,
+				new SelectedSpellPayload(spellId, cooldownTicks)
 		);
 	}
 
@@ -94,6 +113,8 @@ public final class SpellSystem {
 			);
 
 			if (caster instanceof ServerPlayer player && selected != null) {
+				syncSpellHud(player, selected, tick);
+
 				player.displayClientMessage(
 						message(
 								"message.vitalrelics.selected_spell",
@@ -156,6 +177,10 @@ public final class SpellSystem {
 						tick,
 						RelicSpells.cooldownTicks(spell)
 				);
+
+				if (caster instanceof ServerPlayer player) {
+					syncSpellHud(player, abilityId, tick);
+				}
 			}
 		}
 	}
