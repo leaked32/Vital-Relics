@@ -532,9 +532,6 @@
         "invulnerable_time_dealt": {
           "modifier": 0.9
         }
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.05
       }
     },
     {

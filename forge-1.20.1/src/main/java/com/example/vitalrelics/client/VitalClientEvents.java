@@ -2,6 +2,7 @@ package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Manifest;
+import com.example.vitalrelics.common.MySpellSystem;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.network.SpellSystem;
@@ -73,7 +74,7 @@ public final class VitalClientEvents {
 
 		while (ACTIVE_SKILL_KEY.consumeClick()) {
 			Minecraft.getInstance().options.keyDrop.consumeClick();
-			ForgeNetwork.sendToServer(SpellSystem.CAST_SPELL);
+			ForgeNetwork.sendToServer(MySpellSystem.CAST_SPELL);
 		}
 
 		RelicTranslations.INSTANCE.setSelectedLocale(
@@ -92,8 +93,8 @@ public final class VitalClientEvents {
 
 		ForgeNetwork.sendToServer(
 				delta > 0.0
-						? SpellSystem.SWITCH_SPELL_PREVIOUS
-						: SpellSystem.SWITCH_SPELL_NEXT
+						? MySpellSystem.SWITCH_SPELL_PREVIOUS
+						: MySpellSystem.SWITCH_SPELL_NEXT
 		);
 
 		event.setCanceled(true);

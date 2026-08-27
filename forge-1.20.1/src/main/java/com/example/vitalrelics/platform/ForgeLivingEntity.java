@@ -4,7 +4,6 @@ import com.example.vitalrelics.Utils;
 import com.example.vitalrelics.common.platform.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +17,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -144,7 +142,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 		return switch (source.kind()) {
 			case EXTRA_DAMAGE ->
 					entity.hurt(
-							extraDamageSource(forgeAttacker.entity),
+							_extraDamageSource(forgeAttacker.entity),
 							amount
 					);
 
@@ -154,35 +152,6 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 		};
 	}
 
-	private DamageSource extraDamageSource(final LivingEntity attacker) {
-		final HolderLookup.RegistryLookup<DamageType> damageTypeLookup =
-				entity.level()
-						.registryAccess()
-						.lookupOrThrow(Registries.DAMAGE_TYPE);
-
-		final Holder<DamageType> baseHolder =
-				damageTypeLookup.getOrThrow(
-						ResourceKey.create(
-								Registries.DAMAGE_TYPE,
-								new ResourceLocation("minecraft", "generic")
-						)
-				);
-
-		return new DamageSource(baseHolder, attacker) {
-			@Override
-			public boolean is(final TagKey<DamageType> tag) {
-				if (tag == DamageTypeTags.BYPASSES_COOLDOWN)
-					return true;
-
-				return super.is(tag);
-			}
-
-			@Override
-			public String toString() {
-				return "DamageSource (vitalrelics.extra_damage)";
-			}
-		};
-	}
 
 	@Override
 	public void resetInvulnerableTime() {
@@ -437,5 +406,36 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 						visible
 				)
 		);
+	}
+
+
+	private DamageSource _extraDamageSource(final LivingEntity attacker) {
+		final HolderLookup.RegistryLookup<DamageType> damageTypeLookup =
+				entity.level()
+						.registryAccess()
+						.lookupOrThrow(Registries.DAMAGE_TYPE);
+
+		final Holder<DamageType> baseHolder =
+				damageTypeLookup.getOrThrow(
+						ResourceKey.create(
+								Registries.DAMAGE_TYPE,
+								new ResourceLocation("minecraft", "generic")
+						)
+				);
+
+		return new DamageSource(baseHolder, attacker) {
+			@Override
+			public boolean is(final TagKey<DamageType> tag) {
+				if (tag == DamageTypeTags.BYPASSES_COOLDOWN)
+					return true;
+
+				return super.is(tag);
+			}
+
+			@Override
+			public String toString() {
+				return "DamageSource (vitalrelics.extra_damage)";
+			}
+		};
 	}
 }

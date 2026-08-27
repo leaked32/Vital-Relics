@@ -17,7 +17,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -90,46 +89,13 @@ public final class NeoLivingEntity implements MyLivingEntity {
 		return switch (source.kind()) {
 			case EXTRA_DAMAGE ->
 					entity.hurt(
-							extraDamageSource(neoAttacker.entity),
+							_extraDamageSource(neoAttacker.entity),
 							amount
 					);
 
 			case OTHER -> throw new IllegalArgumentException(
 					"OTHER damage cannot be created by MyDamageInfo"
 			);
-		};
-	}
-
-	private DamageSource extraDamageSource(final LivingEntity attacker) {
-		final HolderLookup.RegistryLookup<DamageType> damageTypeLookup =
-				entity.level()
-						.registryAccess()
-						.lookupOrThrow(Registries.DAMAGE_TYPE);
-
-		final Holder<DamageType> baseHolder =
-				damageTypeLookup.getOrThrow(
-						ResourceKey.create(
-								Registries.DAMAGE_TYPE,
-								ResourceLocation.fromNamespaceAndPath(
-										"minecraft",
-										"generic"
-								)
-						)
-				);
-
-		return new DamageSource(baseHolder, attacker) {
-			@Override
-			public boolean is(final TagKey<DamageType> tag) {
-				if (tag == DamageTypeTags.BYPASSES_COOLDOWN) {
-					return true;
-				}
-				return super.is(tag);
-			}
-
-			@Override
-			public String toString() {
-				return "DamageSource (vitalrelics.extra_damage)";
-			}
 		};
 	}
 
@@ -398,5 +364,39 @@ public final class NeoLivingEntity implements MyLivingEntity {
 
 		target.forceAddEffect(instance, null);
 	}
+
+	private DamageSource _extraDamageSource(final LivingEntity attacker) {
+		final HolderLookup.RegistryLookup<DamageType> damageTypeLookup =
+				entity.level()
+						.registryAccess()
+						.lookupOrThrow(Registries.DAMAGE_TYPE);
+
+		final Holder<DamageType> baseHolder =
+				damageTypeLookup.getOrThrow(
+						ResourceKey.create(
+								Registries.DAMAGE_TYPE,
+								ResourceLocation.fromNamespaceAndPath(
+										"minecraft",
+										"generic"
+								)
+						)
+				);
+
+		return new DamageSource(baseHolder, attacker) {
+			@Override
+			public boolean is(final TagKey<DamageType> tag) {
+				if (tag == DamageTypeTags.BYPASSES_COOLDOWN) {
+					return true;
+				}
+				return super.is(tag);
+			}
+
+			@Override
+			public String toString() {
+				return "DamageSource (vitalrelics.extra_damage)";
+			}
+		};
+	}
+
 
 }

@@ -3,8 +3,8 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyUtils;
-import com.example.vitalrelics.network.SpellSystem;
 import com.example.vitalrelics.platform.NeoLivingEntity;
+import com.example.vitalrelics.platform.NeoRuntimeUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -294,7 +294,10 @@ public final class VitalEvents {
 			// Client HUD
 
 			if (livingEntity instanceof ServerPlayer player) {
-				SpellSystem.syncSpellHud(player);
+				MySpellSystem.INSTANCE.syncSpellHud(
+						new NeoLivingEntity(player),
+						NeoRuntimeUtils.INSTANCE
+				);
 			}
 		}
 
@@ -591,6 +594,5 @@ public final class VitalEvents {
 			return;
 
 		setEnemyRelics(livingEntity, relics);
-		// updateEnemyRelicName(livingEntity, relics);
 	}
 }
