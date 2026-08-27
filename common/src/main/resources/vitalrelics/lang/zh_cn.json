@@ -147,5 +147,9 @@
   "tooltip.vitalrelics.enchanters_bracelet": "将经验注入手持的附魔书，提升其中一项附魔的等级。",
 
   "message.vitalrelics.enchant_upgrade_insufficient_experience": "经验不足。需要等级：%s",
-  "message.vitalrelics.enchant_upgrade_success": "附魔已提升至 %s 级。"
+  "message.vitalrelics.enchant_upgrade_success": "附魔已提升至 %s 级。",
+
+  "item.vitalrelics.windward_bracelet": "御风手环",
+  "tooltip.vitalrelics.windward_bracelet": "偏转一次来袭的箭矢，随后进入短暂冷却。",
+  "relic.vitalrelics.passive_skill.arrow_deflection": "箭矢偏转"
 }

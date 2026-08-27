@@ -72,13 +72,13 @@ public class Scheduler {
 				new HashMap<>();
 	}
 
-	// TODO, make all of them private.
 	private final MyMap<MyList<DelayTask>> DELAYED_TASK_LIST = new MyMap<>();
 	private final MyMap<Float> HEAL_PREVENTION_LIST = new MyMap<>();
 	private final MyMap<Integer> PROTECTED_PLAYER_LIST = new MyMap<>();
 
 	private final MyMap<SpellState> SPELL_STATE_LIST = new MyMap<>(0);
 	private final MyMap<Integer> THORNS_COOLDOWN_LIST = new MyMap<>();
+	private final MyMap<Integer> ARROW_DEFLECTION_COOLDOWN_LIST = new MyMap<>();
 
 	private static final int DELAYED_TASK_LIST_MAX = 12;
 
@@ -121,6 +121,8 @@ public class Scheduler {
 			HEAL_PREVENTION_LIST.cleanUp(currentTickCount, isEntityValid);
 			PROTECTED_PLAYER_LIST.cleanUp(currentTickCount, isEntityValid);
 			THORNS_COOLDOWN_LIST.cleanUp(currentTickCount, isEntityValid);
+			ARROW_DEFLECTION_COOLDOWN_LIST.cleanUp(currentTickCount, isEntityValid);
+
 		}
 	}
 
@@ -270,10 +272,17 @@ public class Scheduler {
 			final int currentTick,
 			final int invulnerableTicks) {
 
-		if (PROTECTED_PLAYER_LIST.getOrDefault(uuid, 0) != 0)
+		final int protectionEnd =
+				PROTECTED_PLAYER_LIST.getOrDefault(uuid, 0);
+
+		if (currentTick < protectionEnd)
 			return false;
 
-		PROTECTED_PLAYER_LIST.put(uuid, currentTick, invulnerableTicks);
+		PROTECTED_PLAYER_LIST.put(
+				uuid,
+				currentTick,
+				currentTick + Math.max(0, invulnerableTicks)
+		);
 		return true;
 	}
 
@@ -296,6 +305,30 @@ public class Scheduler {
 				uuid,
 				currentTick,
 				currentTick + cooldownTicks
+		);
+
+		return true;
+	}
+
+	/*
+	Arrow Deflection Cooldown
+	 */
+
+	public boolean acquireArrowDeflection(
+			final UUID uuid,
+			final int currentTick,
+			final int cooldownTicks) {
+
+		final int cooldownEnd =
+				ARROW_DEFLECTION_COOLDOWN_LIST.getOrDefault(uuid, 0);
+
+		if (currentTick < cooldownEnd)
+			return false;
+
+		ARROW_DEFLECTION_COOLDOWN_LIST.put(
+				uuid,
+				currentTick,
+				currentTick + Math.max(1, cooldownTicks)
 		);
 
 		return true;

@@ -15,7 +15,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 public final class NeoNetwork {
-	private static final String PROTOCOL_VERSION = "1";
+	private static final String PROTOCOL_VERSION = "0.6.7";
 
 	private NeoNetwork() {}
 

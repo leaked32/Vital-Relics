@@ -322,6 +322,17 @@
         }
       }
     },
+    {
+      "id": "windward_bracelet",
+      "display_name": "Windward Bracelet",
+      "tooltip": "Twists incoming arrows away before they can strike.",
+      "texture": "bracelet_green.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "passive_skills": {
+        "arrow_deflection": 1.0
+      }
+    },
 
     {
       "id": "iron_heart",

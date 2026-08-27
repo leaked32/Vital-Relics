@@ -147,5 +147,9 @@
   "tooltip.vitalrelics.enchanters_bracelet": "手に持ったエンチャント本へ経験値を注ぎ込み、そのエンチャントの一つを強化する。",
 
   "message.vitalrelics.enchant_upgrade_insufficient_experience": "経験値が足りません。必要レベル: %s",
-  "message.vitalrelics.enchant_upgrade_success": "エンチャントをレベル %s に強化しました。"
+  "message.vitalrelics.enchant_upgrade_success": "エンチャントをレベル %s に強化しました。",
+
+  "item.vitalrelics.windward_bracelet": "風護りの腕輪",
+  "tooltip.vitalrelics.windward_bracelet": "飛来する矢を一度そらし、その後短いクールダウンに入る。",
+  "relic.vitalrelics.passive_skill.arrow_deflection": "矢そらし"
 }

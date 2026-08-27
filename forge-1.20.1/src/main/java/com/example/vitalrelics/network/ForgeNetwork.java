@@ -21,7 +21,7 @@ import net.minecraftforge.fml.DistExecutor;
 import java.util.function.Supplier;
 
 public final class ForgeNetwork {
-	private static final String PROTOCOL_VERSION = "1";
+	private static final String PROTOCOL_VERSION = "0.6.7";
 
 	private static final SimpleChannel CHANNEL =
 			NetworkRegistry.newSimpleChannel(

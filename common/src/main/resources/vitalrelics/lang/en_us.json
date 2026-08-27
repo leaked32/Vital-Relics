@@ -148,5 +148,10 @@
   "tooltip.vitalrelics.enchanters_bracelet": "Feeds experience into a held enchanted book, strengthening one of its enchantments.",
 
   "message.vitalrelics.enchant_upgrade_insufficient_experience": "Not enough experience. Required level: %s",
-  "message.vitalrelics.enchant_upgrade_success": "Enchantment upgraded to level %s."
+  "message.vitalrelics.enchant_upgrade_success": "Enchantment upgraded to level %s.",
+
+  "item.vitalrelics.windward_bracelet": "Windward Bracelet",
+  "tooltip.vitalrelics.windward_bracelet": "Deflects an incoming arrow, then enters a short cooldown.",
+  "relic.vitalrelics.passive_skill.arrow_deflection": "Arrow Deflection"
+
 }

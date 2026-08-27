@@ -118,7 +118,7 @@ public final class MySpellSystem {
 				return false;
 
 			caster.heal(healing);
-			caster.playSound(MySound.PLAYER_LEVELUP);
+			caster.playSound(MySound.BEACON_ACTIVATE);
 			return true;
 		});
 

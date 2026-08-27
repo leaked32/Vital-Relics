@@ -130,45 +130,45 @@ public class Utils {
 	public static void retargetArrow(
 			final AbstractArrow arrow,
 			final LivingEntity newOwner,
-			final double damage_mul) {
+			final double speedMultiplier,
+			final double damageMultiplier,
+			final double minimumDamageFromAttack) {
 
-		Entity owner = arrow.getOwner();
+		final Entity owner = arrow.getOwner();
 
-		// === Always bounce back, even if owner is null ===
-		Vec3 currentPos = arrow.position();
-		Vec3 direction;
+		final Vec3 currentPos = arrow.position();
+		final Vec3 direction;
+
 		if (owner != null) {
-			double distance = currentPos.distanceTo(owner.position());
+			final double distance = currentPos.distanceTo(owner.position());
 
-			// Dynamic aim height - higher when target is farther away
-			double baseHeight = owner.getEyeHeight();
-			double extraHeight = Math.min(distance * 0.02, 4.0);   // increases with distance
+			final double baseHeight = owner.getEyeHeight();
+			final double extraHeight = Math.min(distance * 0.02, 4.0);
 
-			// Aim at eye level
-			Vec3 ownerPos = owner.position().add(0, baseHeight + extraHeight, 0);
+			final Vec3 ownerPos =
+					owner.position().add(0, baseHeight + extraHeight, 0);
+
 			direction = ownerPos.subtract(currentPos).normalize();
 		} else {
-			// No owner → just reverse current direction
 			direction = arrow.getDeltaMovement().normalize().scale(-1.0);
 		}
 
-		// Vec3 direction = targetPos.subtract(currentPos).normalize();
+		final double originalSpeed = arrow.getDeltaMovement().length();
+		final double newSpeed = originalSpeed * speedMultiplier;
 
-		double minSpeed = 5f;
-		double newSpeed = Math.max(arrow.getDeltaMovement().length(), minSpeed);
-
-		Vec3 newVelocity = direction.scale(newSpeed);
-
-		arrow.setDeltaMovement(newVelocity);
+		arrow.setDeltaMovement(direction.scale(newSpeed));
 		arrow.hasImpulse = true;
 
 		arrow.setOwner(newOwner);
-		arrow.setBaseDamage(Math.max(
-				arrow.getBaseDamage(),
-				newOwner.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage_mul
-		));
 
-		// Allow the arrow to continue flying after bounce
+		final double multipliedDamage =
+				arrow.getBaseDamage() * damageMultiplier;
+
+		final double minimumDamage =
+				newOwner.getAttributeValue(Attributes.ATTACK_DAMAGE) *
+						minimumDamageFromAttack;
+
+		arrow.setBaseDamage(Math.max(multipliedDamage, minimumDamage));
 	}
 
 	/*

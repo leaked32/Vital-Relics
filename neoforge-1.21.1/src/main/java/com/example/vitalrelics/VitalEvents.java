@@ -477,10 +477,8 @@ public final class VitalEvents {
 		}
 	}
 
-
 	@SubscribeEvent
-	public static void onArrowImpact(ProjectileImpactEvent event) {
-		// Only care about arrows
+	public static void onArrowImpact(final ProjectileImpactEvent event) {
 		if (!(event.getEntity() instanceof AbstractArrow arrow)) {
 			return;
 		}
@@ -489,26 +487,56 @@ public final class VitalEvents {
 			return;
 		}
 
-		// Check if it's about to hit a LivingEntity
-		if (event.getRayTraceResult().getType() == HitResult.Type.ENTITY) {
-			EntityHitResult entityResult = (EntityHitResult) event.getRayTraceResult();
-
-			// Protection
-			if (entityResult.getEntity() instanceof LivingEntity victim) {
-
-				final var relics = gatherRelics(victim);
-				final double sp_level =
-						RelicLoader.levelOfSuchPassiveSkill(
-								gatherRelics(victim),
-								Relic.PASSIVE_SKILL_RETARGET_ARROW
-						);
-
-				if (sp_level > 0.0) {
-					retargetArrow(arrow, victim, sp_level);
-					event.setCanceled(true);
-				}
-			}
+		if (event.getRayTraceResult().getType() != HitResult.Type.ENTITY) {
+			return;
 		}
+
+		final EntityHitResult entityResult =
+				(EntityHitResult) event.getRayTraceResult();
+
+		if (!(entityResult.getEntity() instanceof LivingEntity victim)) {
+			return;
+		}
+
+		final List<Relic> relics = gatherRelics(victim);
+
+		final double retargetLevel =
+				RelicLoader.levelOfSuchPassiveSkill(
+						relics,
+						Relic.PASSIVE_SKILL_RETARGET_ARROW
+				);
+
+		if (retargetLevel > 0.0) {
+			retargetArrow(arrow, victim, 1.0, 1.0, retargetLevel);
+
+			event.setCanceled(true);
+			return;
+		}
+
+		final double deflectionLevel =
+				RelicLoader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_ARROW_DEFLECTION);
+
+		if (deflectionLevel <= 0.0) {
+			return;
+		}
+
+		final MinecraftServer server = victim.getServer();
+		if (server == null)
+			return;
+
+		final int cooldownTicks =
+				Math.max(1, (int) Math.round(100.0 / deflectionLevel));
+
+		if (!Scheduler.INSTANCE().acquireArrowDeflection(
+				victim.getUUID(),
+				server.getTickCount(),
+				cooldownTicks
+		))
+			return;
+
+		retargetArrow(arrow, victim, deflectionLevel, deflectionLevel, 0.0);
+
+		event.setCanceled(true);
 	}
 
 	@SubscribeEvent

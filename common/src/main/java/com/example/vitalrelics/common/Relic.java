@@ -26,8 +26,10 @@ public class Relic {
 	/*
 	 * Passive skills:
 	 * - `retarget_arrow`: Reflected arrow minimum damage = ATTACK_DAMAGE × level
+	 * - `arrow_deflection`: Reflects one incoming arrow; reflected damage and speed are
+	 *      multiplied by level, and cooldown is 5 / level seconds
 	 * - `reality_severance`: level% attack-damage contribution, level-block radius,
-	 *   roughly level/4 debuff strength
+	 *      roughly level/4 debuff strength
 	 * - `metal_mending`: Repairs up to level durability every 4 seconds
 	 * - `flight`: Any level > 0 grants flight; flight speed = vanilla flight speed × level
 	 * - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level
@@ -41,6 +43,7 @@ public class Relic {
 	public static final String PASSIVE_SKILL_EMPOWERED_ARROW = "empowered_arrows";
 	public static final String PASSIVE_SKILL_LIFESTEAL = "lifesteal";
 	public static final String PASSIVE_SKILL_THORNS = "thorns";
+	public static final String PASSIVE_SKILL_ARROW_DEFLECTION = "arrow_deflection";
 
 	public final Map<String, Double> passive_skills = new LinkedHashMap<>();
 
