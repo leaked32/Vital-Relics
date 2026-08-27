@@ -42,7 +42,7 @@ public class Relic {
 	public static final String PASSIVE_SKILL_LIFESTEAL = "lifesteal";
 	public static final String PASSIVE_SKILL_THORNS = "thorns";
 
-	public final Map<String, Integer> passive_skills = new LinkedHashMap<>();
+	public final Map<String, Double> passive_skills = new LinkedHashMap<>();
 
 	/*
 	 * Each map is intentionally open-ended. Adding a new configuration entry

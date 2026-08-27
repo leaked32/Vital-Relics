@@ -27,7 +27,7 @@ public class RelicLoader {
 		}
 	}
 
-	public static void add_map(
+	public static void add_map_int(
 			final Map<String, Integer> target,
 			final Object rawValue) {
 
@@ -43,6 +43,25 @@ public class RelicLoader {
 			}
 
 			target.put(key, value.intValue());
+		}
+	}
+
+	public static void add_map_double(
+			final Map<String, Double> target,
+			final Object rawValue) {
+
+		if (!(rawValue instanceof Map<?, ?> values))
+			return;
+
+		for (final var entry : values.entrySet()) {
+			if (!(entry.getKey() instanceof String key) ||
+					!(entry.getValue() instanceof Number value)) {
+				throw new IllegalArgumentException(
+						"Ability entries must map strings to numbers"
+				);
+			}
+
+			target.put(key, value.doubleValue());
 		}
 	}
 
@@ -101,8 +120,8 @@ public class RelicLoader {
 		}
 
 		add_list(relic.effective_slots, rawRelic.get("effective_slots"));
-		add_map(relic.passive_skills, rawRelic.get("passive_skills"));
-		add_map(relic.granted_effects, rawRelic.get("granted_effects"));
+		add_map_double(relic.passive_skills, rawRelic.get("passive_skills"));
+		add_map_int(relic.granted_effects, rawRelic.get("granted_effects"));
 
 		addStructuredMap(
 				relic.properties,
@@ -374,23 +393,30 @@ public class RelicLoader {
 		return false;
 	}
 
-	public static int highestLevelInMap(
+	public static int highestIntLevelInMap(
 			final Map<String, Integer> values,
 			final String id) {
 
 		return values.getOrDefault(id, 0);
 	}
 
-	public static int levelOfSuchPassiveSkill(
+	public static double highestDoubleLevelInMap(
+			final Map<String, Double> values,
+			final String id) {
+
+		return values.getOrDefault(id, 0.0);
+	}
+
+	public static double levelOfSuchPassiveSkill(
 			final List<Relic> relics,
 			final String requiredPassiveSkill) {
 
-		int highestLevel = 0;
+		double highestLevel = 0.0;
 
 		for (final Relic relic : relics) {
 			highestLevel = Math.max(
 					highestLevel,
-					highestLevelInMap(
+					highestDoubleLevelInMap(
 							relic.passive_skills,
 							requiredPassiveSkill
 					)

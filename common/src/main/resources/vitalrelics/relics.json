@@ -131,7 +131,7 @@
       "texture": "ring_aqua_saturated.png",
       "curio_slot": "ring",
       "rarity": "rare",
-      "passive_skills": { "metal_mending": 2 }
+      "passive_skills": { "metal_mending": 2.0 }
     },
 
     {
@@ -185,7 +185,7 @@
       "curio_slot": "bracelet",
       "rarity": "rare",
       "passive_skills": {
-        "lifesteal": 10
+        "lifesteal": 0.1
       }
     },
     {
@@ -196,7 +196,7 @@
       "curio_slot": "bracelet",
       "rarity": "rare",
       "passive_skills": {
-        "thorns": 25
+        "thorns": 0.25
       }
     },
     {
@@ -426,7 +426,7 @@
       "id": "celestial_wings",
       "texture": "celestial_wings.png",
       "rarity": "epic",
-      "passive_skills": { "flight": 2 },
+      "passive_skills": { "flight": 0.6 },
       "available_spells": {
         "teleport": {
           "range": 64,
@@ -470,7 +470,7 @@
       "texture": "cursed_crimson_rune.png",
       "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "rarity": "epic",
-      "passive_skills": { "reality_severance": 6 },
+      "passive_skills": { "reality_severance": 6.75 },
       "granted_effects": { "strength": 2 },
       "available_spells": {
         "curse": {
@@ -495,7 +495,7 @@
       "texture": "icy_feathered_arrow.png",
       "rarity": "epic",
       "passive_skills": {
-        "empowered_arrows": 125
+        "empowered_arrows": 1.25
       }
     },
     {
@@ -507,7 +507,7 @@
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",
-      "passive_skills": { "retarget_arrow": 2, "reality_severance": 32, "lingering_wound": 30 },
+      "passive_skills": { "retarget_arrow": 2.0, "reality_severance": 32.0, "lingering_wound": 30.0 },
       "properties": {
         "attack_damage": {
           "add": 9.0,
