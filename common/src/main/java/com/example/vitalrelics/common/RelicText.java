@@ -11,11 +11,24 @@ public final class RelicText {
 		VANILLA
 	}
 
+	public enum Style {
+		DEFAULT,
+		DESCRIPTION,
+		POSITIVE,
+		NEGATIVE,
+		PROPERTY,
+		EFFECT,
+		ABILITY,
+		SPELL,
+		IMMUNITY
+	}
+
 	public record Text(
 			Source source,
 			String translationKey,
 			String fallback,
-			List<Text> arguments) {
+			List<Text> arguments,
+			Style style) {
 
 		public Text {
 			arguments = List.copyOf(arguments);
@@ -27,8 +40,16 @@ public final class RelicText {
 
 	private RelicText() {}
 
+	/*
+	Constructors
+	 */
+
 	public static Text literal(final String value) {
-		return new Text(Source.LITERAL, null, value, List.of());
+		return literal(value, Style.DEFAULT);
+	}
+
+	public static Text literal(final String value, final Style style) {
+		return new Text(Source.LITERAL, null, value, List.of(), style);
 	}
 
 	public static Text key(
@@ -36,17 +57,29 @@ public final class RelicText {
 			final String fallback,
 			final Text... arguments) {
 
-		return new Text(
-				Source.EXTERNAL, translationKey, fallback, List.of(arguments)
-		);
+		return key(translationKey, fallback, Style.DEFAULT, arguments);
+	}
+
+	public static Text key(
+			final String translationKey,
+			final String fallback,
+			final Style style,
+			final Text... arguments) {
+
+		return new Text(Source.EXTERNAL, translationKey, fallback, List.of(arguments), style);
 	}
 
 	private static Text vanillaKey(
 			final String translationKey,
-			final String fallback) {
+			final String fallback,
+			final Style style) {
 
-		return new Text(Source.VANILLA, translationKey, fallback, List.of());
+		return new Text(Source.VANILLA, translationKey, fallback, List.of(), style);
 	}
+
+	/*
+	Applications
+	 */
 
 	public static Text itemName(final Relic relic) {
 		final String fallback =
@@ -66,7 +99,8 @@ public final class RelicText {
 		if (relic.tooltip != null && !relic.tooltip.isBlank()) {
 			out.add(key(
 					"tooltip.vitalrelics." + relic.id,
-					relic.tooltip
+					relic.tooltip,
+					Style.DESCRIPTION
 			));
 			out.add(literal(""));
 		}
@@ -83,7 +117,8 @@ public final class RelicText {
 		if (relic.immune_to_effects.contains("all_negative")) {
 			out.add(key(
 					"tooltip.vitalrelics.immune_all_negative",
-					"Immune to all negative effects"
+					"Immune to all negative effects",
+					Style.IMMUNITY
 			));
 		} else {
 			for (final String effect : relic.immune_to_effects) {
@@ -92,6 +127,7 @@ public final class RelicText {
 				out.add(key(
 						"tooltip.vitalrelics.immune_effect",
 						"Immune to " + effectName.fallback(),
+						Style.IMMUNITY,
 						effectName
 				));
 			}
@@ -316,41 +352,26 @@ public final class RelicText {
 			final String category,
 			final String id) {
 
+		final Style style = switch (category) {
+			case "property" -> Style.PROPERTY;
+			case "passive_skill" -> Style.ABILITY;
+			case "spell" -> Style.SPELL;
+			default -> Style.DEFAULT;
+		};
+
 		return key(
 				"relic.vitalrelics." + category + "." + id,
-				displayName(id)
+				displayName(id),
+				style
 		);
 	}
 
 	private static Text vanillaEffectName(final String id) {
 		return vanillaKey(
 				"effect.minecraft." + id,
-				displayName(id)
+				displayName(id),
+				Style.EFFECT
 		);
-	}
-
-	private static Text number(final double value) {
-		return literal(format(value));
-	}
-
-	private static Text signed(final double value) {
-		return literal((value >= 0.0 ? "+" : "") + format(value));
-	}
-
-	private static Text percent(final double value) {
-		return literal(format(value * 100.0) + "%");
-	}
-
-	private static Text signedPercent(final double value) {
-		return signedPercentRaw(value * 100.0);
-	}
-
-	private static Text signedPercentRaw(final double value) {
-		return literal((value >= 0.0 ? "+" : "") + format(value) + "%");
-	}
-
-	private static boolean nonZero(final Double value) {
-		return value != null && value != 0.0;
 	}
 
 	private static String format(final double value) {
@@ -381,4 +402,37 @@ public final class RelicText {
 		}
 	}
 
+	/*
+	Numbers
+	 */
+
+	private static Text number(final double value) {
+		return literal(format(value));
+	}
+
+	private static Text percent(final double value) {
+		return literal(format(value * 100.0) + "%");
+	}
+
+	private static Text signed(final double value) {
+		return literal(
+				(value >= 0.0 ? "+" : "") + format(value),
+				value >= 0.0 ? Style.POSITIVE : Style.NEGATIVE
+		);
+	}
+
+	private static Text signedPercent(final double value) {
+		return signedPercentRaw(value * 100.0);
+	}
+
+	private static Text signedPercentRaw(final double value) {
+		return literal(
+				(value >= 0.0 ? "+" : "") + format(value) + "%",
+				value >= 0.0 ? Style.POSITIVE : Style.NEGATIVE
+		);
+	}
+
+	private static boolean nonZero(final Double value) {
+		return value != null && value != 0.0;
+	}
 }

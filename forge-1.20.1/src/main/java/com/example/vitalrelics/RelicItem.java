@@ -4,6 +4,7 @@ import com.example.vitalrelics.client.RelicClientExtensions;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicText;
 import com.example.vitalrelics.common.RelicTranslations;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
@@ -50,17 +51,38 @@ public class RelicItem extends Item {
 	}
 
 	private static Component component(final RelicText.Text text) {
-		return switch (text.source()) {
+		final Component result = switch (text.source()) {
 			case LITERAL -> Component.literal(text.fallback());
 
 			case VANILLA -> Component.translatableWithFallback(
-					text.translationKey(), text.fallback()
+					text.translationKey(),
+					text.fallback()
 			);
 
 			case EXTERNAL -> externalComponent(text);
 		};
+
+		return applyStyle(result, text.style());
 	}
 
+	private static Component applyStyle(
+			final Component component,
+			final RelicText.Style style) {
+
+		final MutableComponent result = component.copy();
+
+		return switch (style) {
+			case DESCRIPTION -> result.withStyle(ChatFormatting.GRAY);
+			case POSITIVE -> result.withStyle(ChatFormatting.GREEN);
+			case NEGATIVE -> result.withStyle(ChatFormatting.RED);
+			case PROPERTY -> result.withStyle(ChatFormatting.AQUA);
+			case EFFECT -> result.withStyle(ChatFormatting.LIGHT_PURPLE);
+			case ABILITY -> result.withStyle(ChatFormatting.GOLD);
+			case SPELL -> result.withStyle(ChatFormatting.BLUE);
+			case IMMUNITY -> result.withStyle(ChatFormatting.YELLOW);
+			case DEFAULT -> result;
+		};
+	}
 	private static Component externalComponent(final RelicText.Text text) {
 		final String pattern = RelicTranslations.INSTANCE.translate(
 				text.translationKey(), text.fallback()
