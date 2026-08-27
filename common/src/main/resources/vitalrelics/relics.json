@@ -39,6 +39,9 @@
       "rarity": "rare",
       "granted_effects": {
         "regeneration": 1
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.25
       }
     },
     {
@@ -329,6 +332,9 @@
         "max_health": {
           "add": 4.0
         }
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.25
       }
     },
     {
@@ -351,6 +357,9 @@
         "entity_interaction_range": {
           "add": 1.0
         }
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.25
       }
     },
     {
@@ -362,6 +371,9 @@
         "attack_damage": {
           "add": 2.0
         }
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.25
       }
     },
     {
@@ -450,6 +462,9 @@
           "interval_ticks": 60,
           "add": 1.0
         }
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.25
       }
     },
     {
@@ -500,7 +515,7 @@
       "texture": "cursed_crimson_rune.png",
       "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "rarity": "epic",
-      "passive_skills": { "reality_severance": 6.75 },
+      "passive_skills": { "reality_severance": 4.5 },
       "granted_effects": { "strength": 2 },
       "available_spells": {
         "curse": {
@@ -518,7 +533,7 @@
         }
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.25
+        "minecraft:zombie": 0.05
       }
     },
     {
@@ -529,9 +544,6 @@
       "rarity": "epic",
       "passive_skills": {
         "empowered_arrows": 1.25
-      },
-      "enemy_spawn": {
-        "minecraft:skeleton": 0.5
       }
     },
     {

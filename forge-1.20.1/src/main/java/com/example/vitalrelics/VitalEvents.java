@@ -154,24 +154,27 @@ public final class VitalEvents {
 		}
 
 		final List<Relic> relics = gatherRelics(livingEntity);
-		final int tick = livingEntity.getServer().getTickCount();
+		final int currentTickCount = livingEntity.getServer().getTickCount();
 
-		final Map<String, Relic.Ticks.Info> ticks =
-				RelicLoader.computeTicks(relics, tick);
+		{
+			final Map<String, Relic.Ticks.Info> ticks =
+					RelicLoader.computeTicks(relics, currentTickCount);
 
-		for (final var entry : ticks.entrySet()) {
-			final TickAction action = TICK_ACTIONS.get(entry.getKey());
-			if (action != null)
-				action.apply(livingEntity, entry.getValue());
+			for (final var entry : ticks.entrySet()) {
+				final TickAction action = TICK_ACTIONS.get(entry.getKey());
+				if (action != null)
+					action.apply(livingEntity, entry.getValue());
+			}
+
+			spawnEnemyRelicParticles(livingEntity, relics, currentTickCount);
 		}
 
-
-		if (tick % 10 == 0) {
+		if (currentTickCount % 10 == 0) {
 			removeImmuneEffects(livingEntity, relics);
 			applyRelicEffects(livingEntity, relics);
 		}
 
-		if (tick % 20 == 0) {
+		if (currentTickCount % 20 == 0) {
 			// Properties
 
 			final Map<String, Relic.Properties.Info> properties =
@@ -240,7 +243,7 @@ public final class VitalEvents {
 			}
 		}
 
-		if (tick % 80 == 0) {
+		if (currentTickCount % 80 == 0) {
 			final double metalMendingLevel =
 					RelicLoader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_METAL_MENDING);
 
@@ -494,5 +497,6 @@ public final class VitalEvents {
 			return;
 
 		setEnemyRelics(livingEntity, relics);
+		// updateEnemyRelicName(livingEntity, relics);
 	}
 }

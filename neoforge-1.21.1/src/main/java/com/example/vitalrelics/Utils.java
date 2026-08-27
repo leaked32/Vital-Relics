@@ -1,10 +1,7 @@
 package com.example.vitalrelics;
 
 
-import com.example.vitalrelics.common.Manifest;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicLoader;
-import com.example.vitalrelics.common.RelicTranslations;
+import com.example.vitalrelics.common.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -493,6 +490,107 @@ public class Utils {
 	public static void markEnemyRelicsRolled(final LivingEntity entity) {
 		entity.getPersistentData()
 				.putBoolean(Manifest.ENEMY_RELICS_ROLLED_TAG, true);
+	}
+
+	// Visual effects for enemies with relics in this mod.
+	private static double relicEnemyScore(final Relic relic) {
+		return switch (relic.rarity) {
+			case "common" -> 0.10;
+			case "uncommon" -> 0.20;
+			case "rare" -> 0.40;
+			case "epic" -> 1.00;
+			default -> 0.10;
+		};
+	}
+
+	private static double enemyRelicScore(final List<Relic> relics) {
+		double score = 0.0;
+
+		for (final Relic relic : relics)
+			score += relicEnemyScore(relic);
+
+		return score;
+	}
+
+	public static boolean hasEnemyRelics(final LivingEntity entity) {
+		final var tag = entity.getPersistentData();
+
+		if (!tag.contains(Manifest.ENEMY_RELICS_TAG))
+			return false;
+
+		return !tag.getList(
+				Manifest.ENEMY_RELICS_TAG,
+				net.minecraft.nbt.Tag.TAG_STRING
+		).isEmpty();
+	}
+
+	public static void spawnEnemyRelicParticles(
+			final LivingEntity entity,
+			final List<Relic> relics,
+			final int currentTick) {
+
+		if (!hasEnemyRelics(entity) || relics.isEmpty())
+			return;
+
+		if (!(entity.level() instanceof ServerLevel level))
+			return;
+
+		if (currentTick % 2 != 0)
+			return;
+
+		final double score = enemyRelicScore(relics);
+
+		final int particleCount = 8;
+		final double radius = Math.max(0.6, entity.getBbWidth() * 0.75);
+		final double y = entity.getY() + entity.getBbHeight() + 0.35;
+		final double rotation = currentTick * 0.12;
+
+		for (int i = 0; i < particleCount; ++i) {
+			final double angle =
+					rotation +
+							Math.PI * 2.0 * i / particleCount;
+
+			final double x =
+					entity.getX() + Math.cos(angle) * radius;
+
+			final double z =
+					entity.getZ() + Math.sin(angle) * radius;
+
+			final org.joml.Vector3f color;
+
+			if (score >= 1.0) {
+				/*
+				 * Extremely dangerous:
+				 * alternate bloody red with almost-black crimson.
+				 */
+				color = (i & 1) == 0
+						? new org.joml.Vector3f(0.45F, 0.01F, 0.01F)
+						: new org.joml.Vector3f(0.10F, 0.005F, 0.005F);
+			} else {
+				/*
+				 * 0.0 -> light pink
+				 * ~0.3 -> light red
+				 * ~0.7 -> darker red
+				 * 1.0 -> bloody red
+				 */
+				final float t = (float) Math.max(0.0, Math.min(1.0, score));
+
+				final float red = 1.0F - 0.55F * t;
+				final float green = 0.65F * (1.0F - t);
+				final float blue = 0.75F * (1.0F - t);
+
+				color = new org.joml.Vector3f(
+						red,
+						green,
+						blue
+				);
+			}
+
+			level.sendParticles(
+					new net.minecraft.core.particles.DustParticleOptions(color, 1.0F),
+					x, y, z, 1, 0.0, 0.0, 0.0, 0.0
+			);
+		}
 	}
 
 }

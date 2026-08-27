@@ -207,6 +207,8 @@ public final class VitalEvents {
 				if (action != null)
 					action.apply(livingEntity, entry.getValue());
 			}
+
+			spawnEnemyRelicParticles(livingEntity, relics, currentTickCount);
 		}
 
 		// Scheduled to update on each half seconds
@@ -577,5 +579,6 @@ public final class VitalEvents {
 			return;
 
 		setEnemyRelics(livingEntity, relics);
+		// updateEnemyRelicName(livingEntity, relics);
 	}
 }
