@@ -5,16 +5,17 @@ import com.example.vitalrelics.common.RelicTranslations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyRuntimeUtils;
 import com.example.vitalrelics.common.platform.MyVec3;
-import com.example.vitalrelics.network.NeoNetwork;
+import com.example.vitalrelics.network.ForgeNetwork;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
@@ -27,27 +28,27 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import static com.example.vitalrelics.Utils.message;
 
-public final class NeoRuntimeUtils implements MyRuntimeUtils {
-	public static final NeoRuntimeUtils INSTANCE = new NeoRuntimeUtils();
+public final class ForgeRuntimeUtils implements MyRuntimeUtils {
+	public static final ForgeRuntimeUtils INSTANCE = new ForgeRuntimeUtils();
 
-	private NeoRuntimeUtils() {}
+	private ForgeRuntimeUtils() {}
 
-	private static NeoLivingEntity neo(final MyLivingEntity entity) {
-		if (!(entity instanceof NeoLivingEntity neo))
-			throw new IllegalArgumentException("Expected NeoLivingEntity");
+	private static ForgeLivingEntity forge(final MyLivingEntity entity) {
+		if (!(entity instanceof ForgeLivingEntity forge))
+			throw new IllegalArgumentException("Expected ForgeLivingEntity");
 
-		return neo;
+		return forge;
 	}
 
 	private static LivingEntity nativeEntity(final MyLivingEntity entity) {
-		return neo(entity).nativeEntity();
+		return forge(entity).nativeEntity();
 	}
 
 	private static ServerPlayer player(final MyLivingEntity entity) {
@@ -69,8 +70,6 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 	private static MyVec3 wrap(final Vec3 value) {
 		return new MyVec3(value.x, value.y, value.z);
 	}
-
-
 
 	@Override
 	public List<Relic> gatherRelics(final MyLivingEntity entity) {
@@ -105,35 +104,28 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 						? origin.distanceTo(blockHit.getLocation())
 						: range;
 
-		final Vec3 end =
-				origin.add(direction.scale(visibleRange));
-
-		final AABB searchBox =
-				entity.getBoundingBox()
-						.expandTowards(direction.scale(visibleRange))
-						.inflate(1.0);
+		final Vec3 end = origin.add(direction.scale(visibleRange));
+		final AABB searchBox = entity.getBoundingBox()
+				.expandTowards(direction.scale(visibleRange))
+				.inflate(1.0);
 
 		LivingEntity selected = null;
 		double selectedDistance = Double.MAX_VALUE;
 
-		for (final LivingEntity candidate :
-				level.getEntitiesOfClass(
-						LivingEntity.class,
-						searchBox,
-						target -> target != entity && target.isAlive()
-				)) {
-
-			final Vec3 hit =
-					candidate.getBoundingBox()
-							.inflate(candidate.getPickRadius())
-							.clip(origin, end)
-							.orElse(null);
+		for (final LivingEntity candidate : level.getEntitiesOfClass(
+				LivingEntity.class,
+				searchBox,
+				target -> target != entity && target.isAlive()
+		)) {
+			final Vec3 hit = candidate.getBoundingBox()
+					.inflate(candidate.getPickRadius())
+					.clip(origin, end)
+					.orElse(null);
 
 			if (hit == null)
 				continue;
 
-			final double distance =
-					origin.distanceToSqr(hit);
+			final double distance = origin.distanceToSqr(hit);
 
 			if (distance < selectedDistance) {
 				selected = candidate;
@@ -143,7 +135,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 
 		return selected == null
 				? null
-				: new NeoLivingEntity(selected);
+				: new ForgeLivingEntity(selected);
 	}
 
 	@Override
@@ -161,53 +153,9 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		final Vec3 direction = entity.getLookAngle().normalize();
 		final Vec3 rayEnd = rayOrigin.add(direction.scale(range));
 
-		/*
-		 * Raycast while treating snow as transparent.
-		 */
-		Vec3 clipStart = rayOrigin;
-		BlockHitResult hit;
+		final BlockHitResult hit =
+				clipTeleportRay(level, entity, rayOrigin, rayEnd);
 
-		while (true) {
-			hit = level.clip(new ClipContext(
-					clipStart,
-					rayEnd,
-					ClipContext.Block.COLLIDER,
-					ClipContext.Fluid.NONE,
-					entity
-			));
-
-			if (hit.getType() != HitResult.Type.BLOCK)
-				break;
-
-			if (!level.getBlockState(hit.getBlockPos()).is(Blocks.SNOW))
-				break;
-
-			/*
-			 * Move slightly beyond the snow collision and continue the ray.
-			 */
-			clipStart = hit.getLocation().add(direction.scale(0.01));
-
-			if (clipStart.distanceToSqr(rayOrigin) >=
-					rayEnd.distanceToSqr(rayOrigin)) {
-
-				hit = BlockHitResult.miss(
-						rayEnd,
-						Direction.getNearest(
-								direction.x,
-								direction.y,
-								direction.z
-						),
-						BlockPos.containing(rayEnd)
-				);
-
-				break;
-			}
-		}
-
-		/*
-		 * Sky / no block:
-		 * use the farthest collision-free destination.
-		 */
 		if (hit.getType() == HitResult.Type.MISS) {
 			for (double travelled = range;
 			     travelled >= 0.5;
@@ -265,11 +213,8 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 				return wrap(above);
 		}
 
-		final Direction beforeDirection =
-				hit.getDirection();
-
-		final BlockPos before =
-				target.relative(beforeDirection);
+		final Direction beforeDirection = hit.getDirection();
+		final BlockPos before = target.relative(beforeDirection);
 
 		final Vec3 candidate = new Vec3(
 				before.getX() + 0.5 +
@@ -289,6 +234,76 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 				: null;
 	}
 
+	private static BlockHitResult clipTeleportRay(
+			final ServerLevel level,
+			final Entity caster,
+			final Vec3 start,
+			final Vec3 end) {
+
+		final Vec3 direction = end.subtract(start).normalize();
+		Vec3 current = start;
+
+		for (int i = 0; i < 64; ++i) {
+			final BlockHitResult hit = level.clip(
+					new ClipContext(
+							current,
+							end,
+							ClipContext.Block.COLLIDER,
+							ClipContext.Fluid.NONE,
+							caster
+					)
+			);
+
+			if (hit.getType() != HitResult.Type.BLOCK)
+				return hit;
+
+			final BlockPos pos = hit.getBlockPos();
+
+			/*
+			 * Snow layers have collision shapes, so COLLIDER normally stops here.
+			 * For teleport targeting, they should be transparent.
+			 */
+			if (!level.getBlockState(pos).is(Blocks.SNOW))
+				return hit;
+
+			/*
+			 * Advance past this entire voxel instead of merely adding an epsilon.
+			 * Otherwise a multi-layer snow block can immediately be hit again.
+			 */
+			final Vec3 p = hit.getLocation();
+			double advance = Double.POSITIVE_INFINITY;
+
+			if (direction.x > 0.0)
+				advance = Math.min(advance, (pos.getX() + 1.0 - p.x) / direction.x);
+			else if (direction.x < 0.0)
+				advance = Math.min(advance, (pos.getX() - p.x) / direction.x);
+
+			if (direction.y > 0.0)
+				advance = Math.min(advance, (pos.getY() + 1.0 - p.y) / direction.y);
+			else if (direction.y < 0.0)
+				advance = Math.min(advance, (pos.getY() - p.y) / direction.y);
+
+			if (direction.z > 0.0)
+				advance = Math.min(advance, (pos.getZ() + 1.0 - p.z) / direction.z);
+			else if (direction.z < 0.0)
+				advance = Math.min(advance, (pos.getZ() - p.z) / direction.z);
+
+			if (!Double.isFinite(advance))
+				break;
+
+			current = p.add(direction.scale(advance + 1.0e-4));
+
+			if (current.distanceToSqr(start) >= end.distanceToSqr(start))
+				break;
+		}
+
+		return BlockHitResult.miss(
+				end,
+				Direction.getNearest(direction.x, direction.y, direction.z),
+				BlockPos.containing(end)
+		);
+	}
+
 	@Override
 	public MyVec3 safeHorizontalDestination(
 			final MyLivingEntity abstractEntity,
@@ -300,18 +315,15 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 			return null;
 
 		final Vec3 look = entity.getLookAngle();
-		final Vec3 horizontal =
-				new Vec3(look.x, 0.0, look.z);
+		final Vec3 horizontal = new Vec3(look.x, 0.0, look.z);
 
 		if (horizontal.lengthSqr() <= 1.0e-8)
 			return null;
 
 		final Vec3 direction = horizontal.normalize();
 		final Vec3 origin = entity.position();
-
 		final Vec3 rayOrigin = entity.getEyePosition();
-		final Vec3 rayEnd =
-				rayOrigin.add(direction.scale(range));
+		final Vec3 rayEnd = rayOrigin.add(direction.scale(range));
 
 		final BlockHitResult hit = level.clip(new ClipContext(
 				rayOrigin,
@@ -339,12 +351,9 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		     distance >= 0.25;
 		     distance -= 0.25) {
 
-			final Vec3 candidate =
-					origin.add(direction.scale(distance));
-
+			final Vec3 candidate = origin.add(direction.scale(distance));
 			final AABB targetBox =
-					entity.getBoundingBox()
-							.move(candidate.subtract(origin));
+					entity.getBoundingBox().move(candidate.subtract(origin));
 
 			if (level.noCollision(entity, targetBox))
 				return wrap(candidate);
@@ -360,22 +369,17 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 			final MyVec3 to,
 			final double inflate) {
 
-		final LivingEntity entity =
-				nativeEntity(abstractEntity);
+		final LivingEntity entity = nativeEntity(abstractEntity);
 
 		if (!(entity.level() instanceof ServerLevel level))
 			return List.of();
 
-		final Vec3 origin =
-				new Vec3(from.x(), from.y(), from.z());
+		final Vec3 origin = new Vec3(from.x(), from.y(), from.z());
+		final Vec3 destination = new Vec3(to.x(), to.y(), to.z());
 
-		final Vec3 destination =
-				new Vec3(to.x(), to.y(), to.z());
-
-		final AABB sweptArea =
-				entity.getBoundingBox()
-						.expandTowards(destination.subtract(origin))
-						.inflate(1.0);
+		final AABB sweptArea = entity.getBoundingBox()
+				.expandTowards(destination.subtract(origin))
+				.inflate(1.0);
 
 		return level.getEntitiesOfClass(
 						LivingEntity.class,
@@ -391,7 +395,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 						}
 				)
 				.stream()
-				.map(NeoLivingEntity::new)
+				.map(ForgeLivingEntity::new)
 				.map(MyLivingEntity.class::cast)
 				.toList();
 	}
@@ -401,59 +405,64 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 			final MyLivingEntity abstractEntity,
 			final int experienceCost) {
 
-		final LivingEntity entity =
-				nativeEntity(abstractEntity);
+		final LivingEntity entity = nativeEntity(abstractEntity);
 
 		if (!(entity instanceof ServerPlayer player))
 			return false;
 
-		final ItemStack stack =
-				player.getMainHandItem();
+		final ItemStack stack = player.getMainHandItem();
 
 		if (!stack.is(Items.ENCHANTED_BOOK))
 			return false;
 
-		if (!player.isCreative() &&
-				player.experienceLevel < experienceCost) {
+		if (!player.isCreative() && player.experienceLevel < experienceCost) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchant_upgrade_insufficient_experience",
+							"Not enough experience. Required level: %s",
+							experienceCost
+					),
+					true
+			);
 			return false;
 		}
 
-		final ItemEnchantments enchantments =
-				stack.getOrDefault(
-						DataComponents.STORED_ENCHANTMENTS,
-						ItemEnchantments.EMPTY
-				);
+		final Map<Enchantment, Integer> enchantments =
+				EnchantmentHelper.getEnchantments(stack);
 
-		final ItemEnchantments.Mutable mutable =
-				new ItemEnchantments.Mutable(enchantments);
+		Enchantment selected = null;
+		int selectedLevel = 0;
 
-		boolean upgraded = false;
+		for (final var entry : enchantments.entrySet()) {
+			final Enchantment enchantment = entry.getKey();
+			final int level = entry.getValue();
 
-		for (final var enchantment : enchantments.keySet()) {
-			final int level =
-					enchantments.getLevel(enchantment);
-
-			final int maximum =
-					enchantment.value().getMaxLevel();
-
-			if (level >= maximum)
+			if (level >= enchantment.getMaxLevel())
 				continue;
 
-			mutable.set(enchantment, level + 1);
-			upgraded = true;
+			selected = enchantment;
+			selectedLevel = level;
 			break;
 		}
 
-		if (!upgraded)
+		if (selected == null)
 			return false;
 
-		stack.set(
-				DataComponents.STORED_ENCHANTMENTS,
-				mutable.toImmutable()
-		);
+		final int upgradedLevel = selectedLevel + 1;
+		enchantments.put(selected, upgradedLevel);
+		EnchantmentHelper.setEnchantments(enchantments, stack);
 
 		if (!player.isCreative())
 			player.giveExperienceLevels(-experienceCost);
+
+		player.displayClientMessage(
+				message(
+						"message.vitalrelics.enchant_upgrade_success",
+						"Enchantment upgraded to level %s.",
+						upgradedLevel
+				),
+				true
+		);
 
 		return true;
 	}
@@ -469,10 +478,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (player == null)
 			return;
 
-		PacketDistributor.sendToPlayer(
-				player,
-				new NeoNetwork.SelectedSpellPayload(spellId, cooldownTicks)
-		);
+		ForgeNetwork.sendSpellHud(player, spellId, cooldownTicks);
 	}
 
 	@Override
@@ -482,10 +488,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (player == null)
 			return;
 
-		PacketDistributor.sendToPlayer(
-				player,
-				new NeoNetwork.SelectedSpellPayload("", 0)
-		);
+		ForgeNetwork.sendSpellHud(player, "", 0);
 	}
 
 	@Override

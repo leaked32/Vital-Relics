@@ -1,9 +1,9 @@
 package com.example.vitalrelics;
 
-import com.example.vitalrelics.common.Manifest;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicLoader;
-import com.example.vitalrelics.common.Scheduler;
+import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.platform.MyLivingEntity;
+import com.example.vitalrelics.common.platform.MyUtils;
+import com.example.vitalrelics.platform.ForgeLivingEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -153,8 +153,12 @@ public final class VitalEvents {
 			return;
 		}
 
+		final MinecraftServer server = livingEntity.getServer();
+		if (server == null)
+			return;
+
 		final List<Relic> relics = gatherRelics(livingEntity);
-		final int currentTickCount = livingEntity.getServer().getTickCount();
+		final int currentTickCount = server.getTickCount();
 
 		{
 			final Map<String, Relic.Ticks.Info> ticks =
@@ -170,8 +174,15 @@ public final class VitalEvents {
 		}
 
 		if (currentTickCount % 10 == 0) {
-			removeImmuneEffects(livingEntity, relics);
-			applyRelicEffects(livingEntity, relics);
+			final MyLivingEntity entity = new ForgeLivingEntity(livingEntity);
+
+			MyUtils.removeImmuneEffects(
+					entity,
+					relics,
+					MyLivingEntity.MyEffectCategory.ALL
+			);
+
+			MyUtils.applyRelicEffects(entity, relics);
 		}
 
 		if (currentTickCount % 20 == 0) {
@@ -221,7 +232,6 @@ public final class VitalEvents {
 				}
 			}
 
-
 			// Passive Skill: reality_severance
 
 			final double reality_severance_level =
@@ -234,7 +244,7 @@ public final class VitalEvents {
 								(float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
 				MyDamageInfo.directRangedAttack(
-						livingEntity,
+						new ForgeLivingEntity(livingEntity),
 						rangeDamage,
 						Math.round((float) reality_severance_level),
 						1,
@@ -282,7 +292,6 @@ public final class VitalEvents {
 			attr.addTransientModifier(new AttributeModifier(id, Manifest.MODID, amount, operation));
 	}
 
-
 	@SubscribeEvent
 	public static void onLivingDamage(final LivingDamageEvent event) {
 		final LivingEntity victim = event.getEntity();
@@ -311,7 +320,6 @@ public final class VitalEvents {
 					attackerRelics, "invulnerable_time_dealt", victim.invulnerableTime, 10.0);
 			victim.invulnerableTime = Math.round((float) invulnerableTime);
 
-
 			// Lifesteal
 			final double lifestealLevel = RelicLoader.levelOfSuchPassiveSkill(
 					attackerRelics,
@@ -322,7 +330,6 @@ public final class VitalEvents {
 				criminal.heal((float) (amount * lifestealLevel));
 			}
 		}
-
 
 		/*
 		Protection
@@ -379,8 +386,7 @@ public final class VitalEvents {
 			return;
 
 		final MobEffect effect = event.getEffectInstance().getEffect();
-		final ResourceLocation id =
-				net.minecraft.core.registries.BuiltInRegistries.MOB_EFFECT.getKey(effect);
+		final ResourceLocation id = BuiltInRegistries.MOB_EFFECT.getKey(effect);
 
 		if (id == null)
 			return;
@@ -390,7 +396,6 @@ public final class VitalEvents {
 		if (RelicLoader.isImmuneToEffect(gatherRelics(entity), id.getPath(), negative))
 			event.setResult(Event.Result.DENY);
 	}
-
 
 	@SubscribeEvent
 	public static void onArrowImpact(final ProjectileImpactEvent event) {
@@ -413,7 +418,6 @@ public final class VitalEvents {
 		}
 	}
 
-
 	@SubscribeEvent
 	public static void onArrowLoose(final ArrowLooseEvent event) {
 		final Player player = event.getEntity();
@@ -432,7 +436,6 @@ public final class VitalEvents {
 
 		event.setCharge(Math.round((float) (event.getCharge() * level)));
 	}
-
 
 	@SubscribeEvent
 	public static void onArrowShot(final EntityJoinLevelEvent event) {

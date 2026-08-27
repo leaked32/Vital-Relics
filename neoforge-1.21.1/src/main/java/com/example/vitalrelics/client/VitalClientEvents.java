@@ -4,7 +4,7 @@ import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.Relic;
 import com.example.vitalrelics.common.RelicTranslations;
-import com.example.vitalrelics.network.NetworkPayload;
+import com.example.vitalrelics.network.NeoNetwork;
 import com.example.vitalrelics.network.SpellSystem;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
@@ -73,7 +73,7 @@ public final class VitalClientEvents {
 			minecraft.options.keyDrop.consumeClick();
 
 			PacketDistributor.sendToServer(
-					new NetworkPayload(SpellSystem.CAST_SPELL)
+					new NeoNetwork.NetworkPayload(SpellSystem.CAST_SPELL)
 			);
 		}
 
@@ -99,7 +99,7 @@ public final class VitalClientEvents {
 		if (delta == 0.0)
 			return;
 
-		PacketDistributor.sendToServer(new NetworkPayload(
+		PacketDistributor.sendToServer(new NeoNetwork.NetworkPayload(
 				delta > 0.0
 						? SpellSystem.SWITCH_SPELL_PREVIOUS
 						: SpellSystem.SWITCH_SPELL_NEXT

@@ -4,7 +4,7 @@ import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
 import com.example.vitalrelics.client.VitalClientEvents;
 import com.example.vitalrelics.common.*;
-import com.example.vitalrelics.network.Network;
+import com.example.vitalrelics.network.ForgeNetwork;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -136,7 +136,7 @@ public class VitalRelics {
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
-		Network.register();
+		ForgeNetwork.register();
 
 		final ResourceLocation validator =
 				ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "relic_slot");
@@ -178,4 +178,3 @@ public class VitalRelics {
 		});
 	}
 }
-

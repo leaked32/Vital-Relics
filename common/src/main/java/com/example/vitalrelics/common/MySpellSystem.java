@@ -58,6 +58,7 @@ public final class MySpellSystem {
 					destination.y(),
 					destination.z()
 			);
+			caster.playSound(MySound.TELEPORT);
 
 			return true;
 		});

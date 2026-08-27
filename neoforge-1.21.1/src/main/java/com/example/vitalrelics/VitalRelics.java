@@ -4,7 +4,7 @@ import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
 import com.example.vitalrelics.client.VitalClientEvents;
 import com.example.vitalrelics.common.*;
-import com.example.vitalrelics.network.Network;
+import com.example.vitalrelics.network.NeoNetwork;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -68,7 +68,7 @@ public class VitalRelics
 		// existing constructor body...
 
 		modEventBus.addListener(this::commonSetup);
-		modEventBus.addListener(Network::registerPayloadHandlers);
+		modEventBus.addListener(NeoNetwork::registerPayloadHandlers);
 
 		BLOCKS.register(modEventBus);
 		ITEMS.register(modEventBus);
