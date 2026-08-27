@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "version": "0.6.5",
+    "version": "0.6.7",
     "customized": false
   },
   "relics": [
@@ -15,7 +15,8 @@
         "speed": 2
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.5
+        "minecraft:zombie": 0.5,
+        "minecraft:creeper": 0.5
       }
     },
     {

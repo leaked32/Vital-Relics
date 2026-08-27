@@ -11,22 +11,35 @@ public final class Network {
 	public static void registerPayloadHandlers(
 			final RegisterPayloadHandlersEvent event) {
 
-		event.registrar(PROTOCOL_VERSION)
-				.playToServer(
-						NetworkPayload.TYPE,
-						NetworkPayload.STREAM_CODEC,
-						(payload, context) -> {
-							context.enqueueWork(() -> {
-								if (context.player()
-										instanceof ServerPlayer player) {
+		final var registrar =
+				event.registrar(PROTOCOL_VERSION);
 
-									SpellSystem.activate(
-											player,
-											payload.abilityId()
-									);
-								}
-							});
+		registrar.playToServer(
+				NetworkPayload.TYPE,
+				NetworkPayload.STREAM_CODEC,
+				(payload, context) -> {
+					context.enqueueWork(() -> {
+						if (context.player() instanceof ServerPlayer player) {
+							SpellSystem.activate(
+									player,
+									payload.abilityId()
+							);
 						}
-				);
+					});
+				}
+		);
+
+		registrar.playToClient(
+				SelectedSpellPayload.TYPE,
+				SelectedSpellPayload.STREAM_CODEC,
+				(payload, context) -> {
+					context.enqueueWork(() ->
+							com.example.vitalrelics.client.ClientSpellState.update(
+									payload.spellId(),
+									payload.cooldownTicks()
+							)
+					);
+				}
+		);
 	}
 }

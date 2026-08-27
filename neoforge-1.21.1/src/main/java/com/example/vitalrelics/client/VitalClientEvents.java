@@ -13,7 +13,6 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
@@ -24,6 +23,7 @@ import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 
 public final class VitalClientEvents {
 	private static final ResourceLocation FLAT_ID =
@@ -42,6 +42,8 @@ public final class VitalClientEvents {
 
 		NeoForge.EVENT_BUS.addListener(VitalClientEvents::clientTick);
 		NeoForge.EVENT_BUS.addListener(VitalClientEvents::mouseScroll);
+
+		modEventBus.addListener(VitalClientEvents::registerGuiLayers);
 	}
 
 	/*
@@ -63,6 +65,8 @@ public final class VitalClientEvents {
 
 	public static void clientTick(
 			final ClientTickEvent.Post event) {
+
+		ClientSpellState.clientTick();
 
 		while (ACTIVE_SKILL_KEY.consumeClick()) {
 			final Minecraft minecraft = Minecraft.getInstance();
@@ -152,4 +156,125 @@ public final class VitalClientEvents {
 			event.getModels().put(itemModel, flat);
 		}
 	}
+
+	/*
+	HUD
+	 */
+
+	private static final ResourceLocation SPELL_HUD =
+			ResourceLocation.fromNamespaceAndPath(
+					Manifest.MODID,
+					"spell_hud"
+			);
+
+	public static void registerGuiLayers(
+			final RegisterGuiLayersEvent event) {
+
+		event.registerAboveAll(
+				SPELL_HUD,
+				VitalClientEvents::renderSpellHud
+		);
+	}
+
+	private static void renderSpellHud(
+			final net.minecraft.client.gui.GuiGraphics graphics,
+			final net.minecraft.client.DeltaTracker deltaTracker) {
+
+		final Minecraft minecraft = Minecraft.getInstance();
+
+		if (minecraft.player == null || minecraft.options.hideGui)
+			return;
+
+		final String spellId = ClientSpellState.selectedSpellId();
+
+		if (spellId == null || spellId.isBlank())
+			return;
+
+		final String spellName =
+				RelicTranslations.INSTANCE.translate(
+						"relic.vitalrelics.spell." + spellId,
+						Relic.itemDisplayName(spellId)
+				);
+
+		final int cooldownTicks =
+				ClientSpellState.cooldownTicks();
+
+		final String status =
+				cooldownTicks > 0
+						? String.format(
+						java.util.Locale.ROOT,
+						"%.1fs",
+						cooldownTicks / 20.0
+				)
+						: "Ready";
+
+		final var font = minecraft.font;
+
+		final int padding = 6;
+		final int gap = 12;
+
+		final int width =
+				font.width(spellName) +
+						gap +
+						font.width(status) +
+						padding * 2;
+
+		final int height = 18;
+
+		final int hotbarLeft =
+				graphics.guiWidth() / 2 - 91;
+
+		final int x =
+				hotbarLeft - width - 6;
+
+		final int y =
+				graphics.guiHeight() - 22;
+
+		// Main background.
+		graphics.fill(
+				x,
+				y,
+				x + width,
+				y + height,
+				0xB0101014
+		);
+
+		// Top highlight.
+		graphics.fill(
+				x,
+				y,
+				x + width,
+				y + 1,
+				0xFF8C4650
+		);
+
+		// Bottom shadow.
+		graphics.fill(
+				x,
+				y + height - 1,
+				x + width,
+				y + height,
+				0xFF35191E
+		);
+
+		// Cooldown / ready accent.
+		graphics.fill(
+				x, y + 1, x + 2, y + height - 1,
+				cooldownTicks > 0 ? 0xFF9E434C : 0xFF6FA57A
+		);
+
+		graphics.drawString(
+				font, spellName, x + padding, y + 5,
+				0xFFE8D8DC, true
+		);
+
+		final int statusX = x + width - padding - font.width(status);
+
+		graphics.drawString(
+				font, status, statusX, y + 5,
+				cooldownTicks > 0 ? 0xFFE38A91 : 0xFFA8D6AF, true
+		);
+	}
+
+
 }

@@ -119,7 +119,7 @@ public final class VitalEvents {
 			Holder<Attribute> attribute,
 			ResourceLocation addId,
 			ResourceLocation mulBaseId,
-			ResourceLocation mulTotalId) {} {}
+			ResourceLocation mulTotalId) {}
 
 	@FunctionalInterface
 	private interface TickAction {
