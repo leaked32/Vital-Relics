@@ -217,6 +217,11 @@
   "message.vitalrelics.enchantment_book_required": "Hold an enchanted book in your main hand.",
   "message.vitalrelics.item_not_enchanted": "The held item is not enchanted.",
   "message.vitalrelics.enchantments_at_maximum": "Every enchantment is already at its maximum level.",
-  "message.vitalrelics.nothing_to_purify": "The held item has no curse or anvil penalty to purify."
+  "message.vitalrelics.nothing_to_purify": "The held item has no curse or anvil penalty to purify.",
+
+  "item.vitalrelics.temporal_guard_ring": "Ring of Temporal Guard",
+  "tooltip.vitalrelics.temporal_guard_ring": "A ring that preserves a brief moment of protection after each blow.",
+  "item.vitalrelics.celestial_aegis": "Halo of the Celestial Aegis",
+  "tooltip.vitalrelics.celestial_aegis": "A sacred halo that shelters its wearer beneath a celestial ward."
 
 }

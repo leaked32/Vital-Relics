@@ -217,5 +217,10 @@
   "message.vitalrelics.enchantment_book_required": "请在主手持有一本附魔书。",
   "message.vitalrelics.item_not_enchanted": "主手物品未附魔。",
   "message.vitalrelics.enchantments_at_maximum": "所有附魔均已达到最高等级。",
-  "message.vitalrelics.nothing_to_purify": "主手物品没有可净化的诅咒或铁砧惩罚。"
+  "message.vitalrelics.nothing_to_purify": "主手物品没有可净化的诅咒或铁砧惩罚。",
+
+  "item.vitalrelics.temporal_guard_ring": "时护之戒",
+  "tooltip.vitalrelics.temporal_guard_ring": "在每次受到打击后，为佩戴者保留片刻的防护时间。",
+  "item.vitalrelics.celestial_aegis": "天界庇护光环",
+  "tooltip.vitalrelics.celestial_aegis": "以天界守护庇护佩戴者的神圣光环。"
 }
