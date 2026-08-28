@@ -51,7 +51,7 @@ public class VitalRelics {
 
 	public static RegistryObject<CreativeModeTab> RELICS_TAB;
 
-	public final static RelicLoader loader = null;
+	public final static RelicLoader loader = RelicLoader.INSTANCE;
 
 	public static final List<RegistryObject<Item>> RELIC_ITEMS = new ArrayList<>();
 
@@ -90,7 +90,7 @@ public class VitalRelics {
 		RelicAcquisitionLoader.INSTANCE.load(recipeConfig);
 		RelicTranslations.INSTANCE.load(FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang"));
 
-		for (final var relic : loader.relics_) {
+		for (final var relic : RelicLoader.INSTANCE.relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {
 				case "uncommon" -> Rarity.UNCOMMON;
 				case "rare" -> Rarity.RARE;
