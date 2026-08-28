@@ -67,7 +67,7 @@
   "item.vitalrelics.celestial_wings": "天界之翼",
   "item.vitalrelics.cherry_cross": "樱桃十字",
   "item.vitalrelics.cursed_crimson_rune": "诅咒猩红符文",
-  "item.vitalrelics.reality_piercing": "现实穿刺光环（仅创造模式）",
+  "item.vitalrelics.halo_reality_piercing": "现实穿刺光环（仅创造模式）",
   "tooltip.vitalrelics.swiftness_ring": "令每一步都轻盈如风的戒指。",
   "tooltip.vitalrelics.night_sight_ring": "黑暗再也无法遮蔽前方的道路。",
   "tooltip.vitalrelics.regeneration_ring": "温暖的生命脉动流经佩戴者。",
@@ -92,7 +92,7 @@
   "tooltip.vitalrelics.totemic_heart": "拒绝消散的图腾生命碎片。",
   "tooltip.vitalrelics.cherry_cross": "樱桃树所蕴含的纯粹力量。",
   "tooltip.vitalrelics.cursed_crimson_rune": "一枚涌动着撕裂现实之力的禁忌符文。",
-  "tooltip.vitalrelics.reality_piercing": "创造模式遗物（生存模式中无法获得）。",
+  "tooltip.vitalrelics.halo_reality_piercing": "创造模式遗物（生存模式中无法获得）。",
 
   "relic.vitalrelics.passive_skill.flight": "飞行",
   "relic.vitalrelics.passive_skill.metal_mending": "金属修复",

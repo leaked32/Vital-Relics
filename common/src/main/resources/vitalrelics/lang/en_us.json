@@ -69,7 +69,7 @@
   "item.vitalrelics.celestial_wings": "Celestial Wings",
   "item.vitalrelics.cherry_cross": "Cherry Cross",
   "item.vitalrelics.cursed_crimson_rune": "Cursed Crimson Rune",
-  "item.vitalrelics.reality_piercing": "Halo of Reality Piercing (Creative Mode Only)",
+  "item.vitalrelics.halo_reality_piercing": "Halo of Reality Piercing (Creative Mode Only)",
   "tooltip.vitalrelics.swiftness_ring": "A ring that lightens every step.",
   "tooltip.vitalrelics.night_sight_ring": "Darkness can no longer hide the path ahead.",
   "tooltip.vitalrelics.regeneration_ring": "A warm pulse of vitality runs through the wearer.",
@@ -94,7 +94,7 @@
   "tooltip.vitalrelics.totemic_heart": "A fragment of totemic vitality that refuses to fade.",
   "tooltip.vitalrelics.cherry_cross": "The pure power of cherry trees.",
   "tooltip.vitalrelics.cursed_crimson_rune": "A forbidden rune pulsing with power that tears at reality.",
-  "tooltip.vitalrelics.reality_piercing": "A creative-mode Relic (cannot be obtained in survival mode).",
+  "tooltip.vitalrelics.halo_reality_piercing": "A creative-mode Relic (cannot be obtained in survival mode).",
 
   "relic.vitalrelics.passive_skill.flight": "Flight",
   "relic.vitalrelics.passive_skill.metal_mending": "Metal Mending",

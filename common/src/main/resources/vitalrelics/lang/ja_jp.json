@@ -69,7 +69,7 @@
   "item.vitalrelics.celestial_wings": "天界の翼",
   "item.vitalrelics.cherry_cross": "桜の十字架",
   "item.vitalrelics.cursed_crimson_rune": "呪われた深紅のルーン",
-  "item.vitalrelics.reality_piercing": "現実穿孔の光輪（クリエイティブ限定）",
+  "item.vitalrelics.halo_reality_piercing": "現実穿孔の光輪（クリエイティブ限定）",
   "tooltip.vitalrelics.swiftness_ring": "足取りを風のように軽くする指輪。",
   "tooltip.vitalrelics.night_sight_ring": "闇はもう前方への道を隠せない。",
   "tooltip.vitalrelics.regeneration_ring": "温かな生命の脈動が装着者を巡る。",
@@ -94,7 +94,7 @@
   "tooltip.vitalrelics.totemic_heart": "消えることを拒むトーテムの生命の欠片。",
   "tooltip.vitalrelics.cherry_cross": "桜の木が持つ純粋な力。",
   "tooltip.vitalrelics.cursed_crimson_rune": "現実を引き裂く力を脈打たせる、禁断のルーン。",
-  "tooltip.vitalrelics.reality_piercing": "クリエイティブモードの遺物（サバイバルでは入手不可）。",
+  "tooltip.vitalrelics.halo_reality_piercing": "クリエイティブモードの遺物（サバイバルでは入手不可）。",
 
   "relic.vitalrelics.passive_skill.flight": "飛行",
   "relic.vitalrelics.passive_skill.metal_mending": "金属修復",
