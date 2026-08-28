@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
 
 public class GuidePage {
 	public final String id;
@@ -29,9 +30,14 @@ public class GuidePage {
 		this.description = description;
 	}
 
-	public static GuidePage from(final GuideBook.Entry entry) {
+	public static GuidePage from(
+			final GuideBook.Entry entry,
+			final Function<String, String> ingredientName) {
+
 		if (entry == null)
 			throw new IllegalArgumentException("entry cannot be null");
+		if (ingredientName == null)
+			throw new IllegalArgumentException("ingredientName cannot be null");
 
 		final Relic relic = entry.relic;
 
@@ -52,7 +58,7 @@ public class GuidePage {
 		addTicks(page, relic);
 		addCallbacks(page, relic);
 		addEnemySpawn(page, relic);
-		addAcquisition(page, entry);
+		addAcquisition(page, entry, ingredientName);
 
 		return page;
 	}
@@ -311,7 +317,10 @@ public class GuidePage {
 		page.sections.add(section);
 	}
 
-	private static void addAcquisition(final GuidePage page, final GuideBook.Entry entry) {
+	private static void addAcquisition(
+			final GuidePage page,
+			final GuideBook.Entry entry,
+			final Function<String, String> ingredientName) {
 		final Section section = new Section(
 				tr("guide.vitalrelics.section.acquisition", "Acquisition")
 		);
@@ -326,7 +335,7 @@ public class GuidePage {
 		}
 
 		if (entry.recipe != null)
-			addRecipe(section, entry.recipe);
+			addRecipe(section, entry.recipe, ingredientName);
 
 		for (final Acquisition.Loot loot : entry.loot) {
 			section.lines.add(trf(
@@ -346,7 +355,11 @@ public class GuidePage {
 		page.sections.add(section);
 	}
 
-	private static void addRecipe(final Section section, final Acquisition.Crafting recipe) {
+	private static void addRecipe(
+			final Section section,
+			final Acquisition.Crafting recipe,
+			final Function<String, String> ingredientName) {
+
 		section.lines.add(trf(
 				"guide.vitalrelics.acquisition.crafting", "Crafting: %s",
 				humanize(recipe.type)
@@ -359,12 +372,12 @@ public class GuidePage {
 			for (final var entry : recipe.key.entrySet()) {
 				section.lines.add(
 						"  " + entry.getKey() + " = " +
-								humanizeIdentifier(entry.getValue())
+								resolveIngredientName(entry.getValue(), ingredientName)
 				);
 			}
 		} else if ("shapeless".equals(recipe.type)) {
 			for (final String ingredient : recipe.ingredients)
-				section.lines.add("  " + humanizeIdentifier(ingredient));
+				section.lines.add("  " + resolveIngredientName(ingredient, ingredientName));
 		}
 
 		if (recipe.count != 1) {
@@ -373,6 +386,18 @@ public class GuidePage {
 					recipe.count
 			));
 		}
+	}
+
+	private static String resolveIngredientName(
+			final String id,
+			final Function<String, String> ingredientName) {
+
+		final String translated = ingredientName.apply(id);
+
+		if (translated == null || translated.isBlank())
+			return humanizeIdentifier(id);
+
+		return translated;
 	}
 
 	private static String translatedProperty(final String id) {

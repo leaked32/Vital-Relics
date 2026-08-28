@@ -4,9 +4,12 @@ import java.util.List;
 
 public class Manifest {
 	public static final String MODID = "vitalrelics";
-	// public static final String VERSION = "0.6.5";
+	public static final String VERSION = "0.7.1";
 
-	// Update them only when definitions have changed.
+	// Increase these versions only when the corresponding configuration format changes.
+	// Ordinary additions or edits to built-in definitions do not require a version bump.
+	// Configurations with "customized": false are updated automatically; configurations
+	// with "customized": true must never be overwritten automatically.
 	public static final String OPT_RELICS_VER = "0.6.7";
 	public static final String OPT_RECIPES_VER = "0.6.2";
 	public static final String OPT_LANG_VER = "0.6.2";

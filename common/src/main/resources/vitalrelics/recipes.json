@@ -535,6 +535,22 @@
         "N": "minecraft:nether_star"
       },
       "count": 1
+    },
+    "arcane_reforging_charm": {
+      "type": "shaped",
+      "pattern": [
+        "SLS",
+        "GNG",
+        "GAG"
+      ],
+      "key": {
+        "S": "minecraft:string",
+        "L": "minecraft:lapis_lazuli",
+        "G": "minecraft:gold_ingot",
+        "N": "minecraft:nether_star",
+        "A": "minecraft:anvil"
+      },
+      "count": 1
     }
   },
   "loot": {

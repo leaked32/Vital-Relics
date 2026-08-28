@@ -6,7 +6,9 @@ import com.example.vitalrelics.common.guide.GuidePage;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +49,18 @@ public class GuideBookScreen extends Screen {
 			throw new IllegalArgumentException("guideBook cannot be null");
 
 		for (final GuideBook.Entry entry : guideBook.entries())
-			pages.add(GuidePage.from(entry));
+			pages.add(GuidePage.from(entry, GuideBookScreen::translatedIngredientName));
 
 		visiblePages.addAll(pages);
+	}
+
+	private static String translatedIngredientName(final String id) {
+		final ResourceLocation location = ResourceLocation.tryParse(id);
+
+		if (location == null || !BuiltInRegistries.ITEM.containsKey(location))
+			return null;
+
+		return BuiltInRegistries.ITEM.get(location).getDescription().getString();
 	}
 
 	@Override
