@@ -301,6 +301,35 @@
       },
       "count": 1
     },
+    "enchanters_bracelet": {
+      "type": "shaped",
+      "pattern": [
+        " L ",
+        "GEG",
+        " G "
+      ],
+      "key": {
+        "L": "minecraft:lapis_lazuli",
+        "G": "minecraft:gold_ingot",
+        "E": "minecraft:enchanting_table"
+      },
+      "count": 1
+    },
+    "windward_bracelet": {
+      "type": "shaped",
+      "pattern": [
+        " A ",
+        "GSG",
+        " F "
+      ],
+      "key": {
+        "A": "minecraft:arrow",
+        "G": "minecraft:gold_ingot",
+        "S": "minecraft:shield",
+        "F": "minecraft:feather"
+      },
+      "count": 1
+    },
 
     "iron_heart": {
       "type": "shaped",
@@ -744,6 +773,26 @@
       },
       {
         "table": "minecraft:chests/ancient_city",
+        "chance": 0.025
+      }
+    ],
+    "enchanters_bracelet": [
+      {
+        "table": "minecraft:chests/stronghold_library",
+        "chance": 0.03
+      },
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.025
+      }
+    ],
+    "windward_bracelet": [
+      {
+        "table": "minecraft:chests/pillager_outpost",
+        "chance": 0.035
+      },
+      {
+        "table": "minecraft:chests/stronghold_corridor",
         "chance": 0.025
       }
     ],
