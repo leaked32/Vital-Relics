@@ -520,7 +520,7 @@
       "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "curio_slot": "necklace",
       "rarity": "epic",
-      "immune_to_effects": ["darkness", "wither", "blindness", "mining_fatigue"],
+      "immune_to_effects": ["darkness", "blindness", "wither", "mining_fatigue"],
       "granted_effects": { "night_vision": 1, "speed": 2 },
       "properties": {
         "max_health": {
@@ -539,8 +539,45 @@
       },
       "callbacks": {
         "damage_taken": {
-          "modifier": 0.9,
+          "modifier": 0.84,
           "ratio_maximum": 0.45
+        },
+        "invulnerable_time_taken": {
+          "flat": 5.0
+        }
+      }
+    },
+    {
+      "id": "celestial_aegis",
+      "display_name": "Halo of the Celestial Aegis",
+      "tooltip": "A sacred halo that shelters its wearer beneath a celestial ward.",
+      "texture": "celestial_aegis.png",
+      "effective_slots": ["in_inventory", "in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
+      "curio_slot": "head",
+      "rarity": "epic",
+      "immune_to_effects": ["wither", "poison", "weakness"],
+      "passive_skills": { "arrow_deflection": 1.5 },
+      "properties": {
+        "max_health": {
+          "add": 12.0
+        },
+        "armor": {
+          "add": 6.0
+        },
+        "armor_toughness": {
+          "add": 3.0
+        }
+      },
+      "ticks": {
+        "heal": {
+          "interval_ticks": 20,
+          "add": 1
+        }
+      },
+      "callbacks": {
+        "damage_taken": {
+          "modifier": 0.84,
+          "ratio_maximum": 0.4
         }
       }
     },

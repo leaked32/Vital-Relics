@@ -437,20 +437,20 @@ public final class VitalEvents {
 				10.0
 		);
 
-		// Only activate it when changes happen.
-		if (victim.invulnerableTime != invulnerable_time) {
-			if (!Scheduler.INSTANCE().acquireProtection(
-					victim.getUUID(),
-					victim_server.getTickCount(),
-					Math.round(invulnerable_time)
-			)) {
-				amount = 0.0F;
+		// Hard protection, enable it only when special passive skill exists
+		if (RelicLoader.levelOfSuchPassiveSkill(victimRelics, Relic.PASSIVE_SKILL_IRON_CURTAIN) > 0.0) {
+			// Only activate it when changes happen.
+			if (victim.invulnerableTime != invulnerable_time) {
+				if (!Scheduler.INSTANCE().acquireProtection(
+						victim.getUUID(), victim_server.getTickCount(), Math.round(invulnerable_time)
+				)) {
+					amount = 0.0F;
+				}
+				victim.invulnerableTime = Math.round(invulnerable_time);
 			}
-			victim.invulnerableTime = Math.round(invulnerable_time);
 		}
 
 		// Thorns
-
 		if (entity_criminal instanceof LivingEntity criminal && amount > 0.0F) {
 			final double thornsLevel = RelicLoader.levelOfSuchPassiveSkill(
 					victimRelics,

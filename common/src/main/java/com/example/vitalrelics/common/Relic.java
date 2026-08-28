@@ -36,6 +36,8 @@ public class Relic {
 	 * - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level
 	 * - `lifesteal`: Heals the bearer for damage dealt × level
 	 * - `thorns`: Reflects received damage × level; reflection is limited by a cooldown
+	 * - `fire_resistance`: Extinguish fire.
+	 * - `iron_curtain`: super invulnerable time
 	 */
 	public static final String PASSIVE_SKILL_RETARGET_ARROW = "retarget_arrow";
 	public static final String PASSIVE_SKILL_REALITY_SEVERANCE = "reality_severance";
@@ -45,6 +47,8 @@ public class Relic {
 	public static final String PASSIVE_SKILL_LIFESTEAL = "lifesteal";
 	public static final String PASSIVE_SKILL_THORNS = "thorns";
 	public static final String PASSIVE_SKILL_ARROW_DEFLECTION = "arrow_deflection";
+	public static final String PASSIVE_SKILL_FIRE_RESISTANCE = "fire_resistance";
+	public static final String PASSIVE_SKILL_IRON_CURTAIN = "iron_curtain";
 
 	public final Map<String, Double> passive_skills = new LinkedHashMap<>();
 

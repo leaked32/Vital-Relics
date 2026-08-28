@@ -551,6 +551,21 @@
         "A": "minecraft:anvil"
       },
       "count": 1
+    },
+    "celestial_aegis": {
+      "type": "shaped",
+      "pattern": [
+        "ENE",
+        "DSD",
+        "ENE"
+      ],
+      "key": {
+        "E": "minecraft:end_crystal",
+        "N": "minecraft:netherite_ingot",
+        "D": "minecraft:diamond",
+        "S": "minecraft:nether_star"
+      },
+      "count": 1
     }
   },
   "loot": {
