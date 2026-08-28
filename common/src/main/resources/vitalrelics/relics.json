@@ -556,7 +556,7 @@
       }
     },
     {
-      "id": "halo_reality_piercing",
+      "id": "reality_piercing",
       "display_name": "Halo of Reality Piercing (Creative Mode Only)",
       "tooltip": "A creative-mode Relic (cannot be obtained in survival mode). ",
       "texture": "halo_celestial_crystal.png",
