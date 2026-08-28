@@ -203,6 +203,11 @@
 
   "guide.vitalrelics.slot.charm": "Charm",
   "guide.vitalrelics.slot.ring": "Ring",
-  "guide.vitalrelics.slot.bracelet": "Bracelet"
+  "guide.vitalrelics.slot.bracelet": "Bracelet",
+
+  "guide.vitalrelics.search": "Search...",
+  "tooltip.vitalrelics.celestial_wings": "Grants its wearer the freedom of the skies.",
+  "item.vitalrelics.archers_emblem": "Archer's Emblem",
+  "tooltip.vitalrelics.archers_emblem": "Empowers arrows fired by its wearer."
 
 }

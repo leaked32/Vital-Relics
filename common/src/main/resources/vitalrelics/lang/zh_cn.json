@@ -202,5 +202,11 @@
 
   "guide.vitalrelics.slot.charm": "护符",
   "guide.vitalrelics.slot.ring": "戒指",
-  "guide.vitalrelics.slot.bracelet": "手镯"
+  "guide.vitalrelics.slot.bracelet": "手镯",
+
+
+  "guide.vitalrelics.search": "搜索...",
+  "tooltip.vitalrelics.celestial_wings": "赋予佩戴者翱翔天空的自由。",
+  "item.vitalrelics.archers_emblem": "弓手徽记",
+  "tooltip.vitalrelics.archers_emblem": "强化佩戴者射出的箭矢。"
 }

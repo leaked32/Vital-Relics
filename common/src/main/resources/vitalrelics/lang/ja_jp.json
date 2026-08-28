@@ -202,5 +202,10 @@
 
   "guide.vitalrelics.slot.charm": "チャーム",
   "guide.vitalrelics.slot.ring": "リング",
-  "guide.vitalrelics.slot.bracelet": "ブレスレット"
+  "guide.vitalrelics.slot.bracelet": "ブレスレット",
+
+  "guide.vitalrelics.search": "検索...",
+  "tooltip.vitalrelics.celestial_wings": "装着者に空を自由に翔ける力を与える。",
+  "item.vitalrelics.archers_emblem": "射手の紋章",
+  "tooltip.vitalrelics.archers_emblem": "装着者が放つ矢を強化する。"
 }
