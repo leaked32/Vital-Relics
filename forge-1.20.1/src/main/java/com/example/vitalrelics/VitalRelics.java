@@ -55,6 +55,9 @@ public class VitalRelics {
 
 	public static final List<RegistryObject<Item>> RELIC_ITEMS = new ArrayList<>();
 
+	public static final RegistryObject<Item> GUIDE_BOOK =
+						ITEMS.register("guide_book", GuideBookItem::new);
+
 	public final static RelicAcquisitionLoader acquisition = RelicAcquisitionLoader.INSTANCE;
 
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
@@ -119,6 +122,8 @@ public class VitalRelics {
 										.getDefaultInstance()
 						)
 						.displayItems((parameters, output) -> {
+							output.accept(GUIDE_BOOK.get());
+							
 							for (final RegistryObject<Item> relic : RELIC_ITEMS)
 								output.accept(relic.get());
 						})
