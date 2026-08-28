@@ -570,24 +570,24 @@ public final class VitalEvents {
 		event.setCanceled(true);
 	}
 
-	@SubscribeEvent
-	public static void onArrowLoose(final ArrowLooseEvent event) {
-		final Player player = event.getEntity();
-
-		if (player.level().isClientSide()) {
-			return;
-		}
-
-		final double level = RelicLoader.levelOfSuchPassiveSkill(
-				gatherRelics(player),
-				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
-		);
-
-		if (level <= 0.0)
-			return;
-
-		event.setCharge(Math.round((float) (event.getCharge() * level)));
-	}
+//	@SubscribeEvent
+//	public static void onArrowLoose(final ArrowLooseEvent event) {
+//		final Player player = event.getEntity();
+//
+//		if (player.level().isClientSide()) {
+//			return;
+//		}
+//
+//		final double level = RelicLoader.levelOfSuchPassiveSkill(
+//				gatherRelics(player),
+//				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
+//		);
+//
+//		if (level <= 0.0)
+//			return;
+//
+//		event.setCharge(Math.round((float) (event.getCharge() * level)));
+//	}
 
 
 	@SubscribeEvent

@@ -77,7 +77,7 @@
       "id": "fire_resistance_ring",
       "display_name": "Ring of Fire Resistance",
       "tooltip": "Flames can no longer harm the wearer.",
-      "texture": "ring_blue.png",
+      "texture": "ring_fire_resistance.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "granted_effects": {
@@ -158,6 +158,19 @@
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": { "metal_mending": 2.0 }
+    },
+    {
+      "id": "temporal_guard_ring",
+      "display_name": "Ring of Temporal Guard",
+      "tooltip": "A ring that preserves a brief moment of protection after each blow.",
+      "texture": "ring_temporal_guard.png",
+      "curio_slot": "ring",
+      "rarity": "rare",
+      "callbacks": {
+        "invulnerable_time_taken": {
+          "flat": 5.0
+        }
+      }
     },
 
     {
