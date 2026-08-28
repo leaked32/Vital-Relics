@@ -15,8 +15,10 @@
         "speed": 1
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.5,
-        "minecraft:creeper": 0.5
+        "minecraft:zombie": 0.05,
+        "minecraft:creeper": 0.03,
+        "minecraft:spider": 0.06,
+        "minecraft:cave_spider": 0.04
       }
     },
     {
@@ -42,7 +44,8 @@
         "regeneration": 1
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.25
+        "minecraft:zombie": 0.03,
+        "minecraft:drowned": 0.04
       }
     },
     {
@@ -56,7 +59,7 @@
         "strength": 1
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.5
+        "minecraft:zombie": 0.05
       }
     },
     {
@@ -90,6 +93,10 @@
       "rarity": "common",
       "granted_effects": {
         "jump_boost": 2
+      },
+      "enemy_spawn": {
+        "minecraft:spider": 0.06,
+        "minecraft:cave_spider": 0.04
       }
     },
     {
@@ -121,7 +128,8 @@
         }
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.5
+        "minecraft:zombie": 0.05,
+        "minecraft:husk": 0.06
       }
     },
 
@@ -137,8 +145,9 @@
         }
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.25,
-        "minecraft:creeper": 0.25
+        "minecraft:zombie": 0.04,
+        "minecraft:creeper": 0.03,
+        "minecraft:husk": 0.05
       }
     },
     {
@@ -203,6 +212,10 @@
       "rarity": "rare",
       "passive_skills": {
         "lifesteal": 0.1
+      },
+      "enemy_spawn": {
+        "minecraft:spider": 0.03,
+        "minecraft:cave_spider": 0.03
       }
     },
     {
@@ -346,7 +359,7 @@
         }
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.25
+        "minecraft:zombie": 0.03
       }
     },
     {
@@ -371,7 +384,7 @@
         }
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.25
+        "minecraft:zombie": 0.03
       }
     },
     {
@@ -385,7 +398,7 @@
         }
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.25
+        "minecraft:zombie": 0.03
       }
     },
     {
@@ -405,7 +418,7 @@
         }
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.25
+        "minecraft:zombie": 0.03
       }
     },
     {
@@ -417,6 +430,9 @@
         "knockback_resistance": {
           "add": 0.35
         }
+      },
+      "enemy_spawn": {
+        "minecraft:drowned": 0.05
       }
     },
     {
@@ -445,6 +461,9 @@
         "attack_speed": {
           "mul_total": 1.15
         }
+      },
+      "enemy_spawn": {
+        "minecraft:wither_skeleton": 0.04
       }
     },
     {
@@ -457,6 +476,9 @@
         "attack_damage": {
           "add": 4.0
         }
+      },
+      "enemy_spawn": {
+        "minecraft:wither_skeleton": 0.04
       }
     },
     {
@@ -476,14 +498,14 @@
         }
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.25
+        "minecraft:zombie": 0.03
       }
     },
     {
       "id": "celestial_wings",
       "texture": "celestial_wings.png",
       "rarity": "epic",
-      "passive_skills": { "flight": 0.6 },
+      "passive_skills": { "flight": 1.0 },
       "available_spells": {
         "teleport": {
           "range": 50,
@@ -552,7 +574,7 @@
       "texture": "icy_feathered_arrow.png",
       "rarity": "epic",
       "passive_skills": {
-        "empowered_arrows": 1.25,
+        "empowered_arrows": 1.5,
         "arrow_deflection": 2.0
       }
     },
@@ -566,11 +588,11 @@
       "available_spells": {
         "enchantment_ascension": {
           "experience_cost": 15,
-          "recovery": 0.25
+          "recovery": 0.5
         },
         "purify_penalty": {
           "experience_cost": 15,
-          "recovery": 0.25
+          "recovery": 0.5
         }
       }
     },

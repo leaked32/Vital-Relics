@@ -139,7 +139,9 @@ public final class VitalEvents {
 
 			if (grantedByVitalRelics) {
 				player.getAbilities().mayfly = true;
-				player.getAbilities().setFlyingSpeed((float) (0.05 * flightLevel));
+				if (Math.abs(flightLevel - 1.0) > 1.0E-9) {
+					player.getAbilities().setFlyingSpeed((float) (0.05 * flightLevel));
+				}
 				player.onUpdateAbilities();
 			}
 

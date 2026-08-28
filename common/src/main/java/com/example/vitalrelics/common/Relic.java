@@ -31,7 +31,8 @@ public class Relic {
 	 * - `reality_severance`: level% attack-damage contribution, level-block radius,
 	 *      roughly level/4 debuff strength
 	 * - `metal_mending`: Repairs up to level durability every 4 seconds
-	 * - `flight`: Any level > 0 grants flight; flight speed = vanilla flight speed × level
+	 * - `flight`: Any level > 0 grants flight; flight speed = vanilla flight speed × level,
+	 *     does not change the speed if the level is 1.0
 	 * - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level
 	 * - `lifesteal`: Heals the bearer for damage dealt × level
 	 * - `thorns`: Reflects received damage × level; reflection is limited by a cooldown
