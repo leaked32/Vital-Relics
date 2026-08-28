@@ -1,7 +1,7 @@
 package com.example.vitalrelics.client.compat;
 
-import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Acquisition;
+import com.example.vitalrelics.common.RelicAcquisitionLoader;
 import com.example.vitalrelics.common.Manifest;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -38,7 +38,7 @@ public final class VitalJeiPlugin implements IModPlugin {
 		final List<RecipeHolder<CraftingRecipe>> recipes = new ArrayList<>();
 
 		for (final Map.Entry<String, Acquisition.Crafting> entry :
-				VitalRelics.acquisition.data.recipes.entrySet()) {
+				RelicAcquisitionLoader.INSTANCE.data.recipes.entrySet()) {
 
 			final ResourceLocation id =
 					ResourceLocation.fromNamespaceAndPath(Manifest.MODID, entry.getKey());

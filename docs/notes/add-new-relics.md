@@ -1,7 +1,5 @@
 # add-new-relics
 
-### Acquisition invariant
-
 Every default player-facing relic must have at least one legitimate survival acquisition route:
 
 * crafting recipe, or
@@ -31,3 +29,38 @@ Cross-check in both files:
 
 * Every recipe references an existing relic.
 * Every relic intended to be craftable has a recipe.
+
+
+### Loot Integrity
+
+For every configured loot acquisition:
+
+* Relic ID exists.
+* Loot-table ID is valid.
+* Chance is within the accepted range.
+* The loot table is reachable in normal gameplay.
+
+Cross-check:
+
+* No loot entry references a removed relic.
+* Relics intended to be loot-exclusive actually have loot entries.
+
+
+### Relic Integrity
+
+For **every relic defined in `relics.json`**, verify:
+
+* `id` is present.
+* `id` is unique.
+* Texture exists.
+* Rarity is valid.
+* Curio slot, when specified, is valid.
+* All properties are recognized.
+* All granted effects are recognized.
+* All immunity effect IDs are valid.
+* All callback IDs are implemented.
+* All tick-action IDs are implemented.
+* All passive-skill IDs are implemented.
+* All spell IDs are implemented.
+* Enemy-spawn entity IDs are valid.
+

@@ -151,5 +151,56 @@
 
   "item.vitalrelics.windward_bracelet": "風護りの腕輪",
   "tooltip.vitalrelics.windward_bracelet": "飛来する矢を一度そらし、その後短いクールダウンに入る。",
-  "relic.vitalrelics.passive_skill.arrow_deflection": "矢そらし"
+  "relic.vitalrelics.passive_skill.arrow_deflection": "矢そらし",
+
+  "guide.vitalrelics.section.effective_slots": "有効スロット",
+  "guide.vitalrelics.section.properties": "属性",
+  "guide.vitalrelics.section.granted_effects": "付与効果",
+  "guide.vitalrelics.section.immunities": "無効化効果",
+  "guide.vitalrelics.section.passive_skills": "パッシブスキル",
+  "guide.vitalrelics.section.spells": "スペル",
+  "guide.vitalrelics.section.periodic_effects": "周期効果",
+  "guide.vitalrelics.section.callbacks": "コールバック",
+  "guide.vitalrelics.section.enemy_spawn": "敵対Mobへの出現",
+  "guide.vitalrelics.section.acquisition": "入手方法",
+
+  "guide.vitalrelics.property.add": "%s：+%s",
+  "guide.vitalrelics.property.mul_base": "%s 基礎値：×%s",
+  "guide.vitalrelics.property.mul_total": "%s 合計：×%s",
+
+  "guide.vitalrelics.effect.granted": "%s %s",
+  "guide.vitalrelics.passive_skill": "%s：%s",
+  "guide.vitalrelics.parameter": "  %s：%s",
+
+  "guide.vitalrelics.tick.interval": "  間隔：%s",
+  "guide.vitalrelics.tick.add": "  加算：%s",
+  "guide.vitalrelics.tick.ratio": "  割合：%s",
+
+  "guide.vitalrelics.callback.modifier": "  倍率：×%s",
+  "guide.vitalrelics.callback.flat": "  固定値：%s",
+  "guide.vitalrelics.callback.minimum": "  最小値：%s",
+  "guide.vitalrelics.callback.ratio_minimum": "  最小割合：%s",
+  "guide.vitalrelics.callback.maximum": "  最大値：%s",
+  "guide.vitalrelics.callback.ratio_maximum": "  最大割合：%s",
+
+  "guide.vitalrelics.enemy_spawn": "%s：%s",
+
+  "guide.vitalrelics.acquisition.unavailable": "通常のサバイバルでは入手できません",
+  "guide.vitalrelics.acquisition.none": "入手方法が設定されていません",
+  "guide.vitalrelics.acquisition.loot": "戦利品：%s（%s）",
+  "guide.vitalrelics.acquisition.crafting": "クラフト：%s",
+  "guide.vitalrelics.acquisition.output": "  作成数：%s",
+
+  "guide.vitalrelics.title": "Vital Relics",
+  "guide.vitalrelics.empty": "レリックが読み込まれていません。",
+  "guide.vitalrelics.rarity_slot": "%s · %s",
+
+  "guide.vitalrelics.rarity.common": "コモン",
+  "guide.vitalrelics.rarity.uncommon": "アンコモン",
+  "guide.vitalrelics.rarity.rare": "レア",
+  "guide.vitalrelics.rarity.epic": "エピック",
+
+  "guide.vitalrelics.slot.charm": "チャーム",
+  "guide.vitalrelics.slot.ring": "リング",
+  "guide.vitalrelics.slot.bracelet": "ブレスレット"
 }

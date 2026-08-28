@@ -152,6 +152,57 @@
 
   "item.vitalrelics.windward_bracelet": "Windward Bracelet",
   "tooltip.vitalrelics.windward_bracelet": "Deflects an incoming arrow, then enters a short cooldown.",
-  "relic.vitalrelics.passive_skill.arrow_deflection": "Arrow Deflection"
+  "relic.vitalrelics.passive_skill.arrow_deflection": "Arrow Deflection",
+
+  "guide.vitalrelics.section.effective_slots": "Effective Slots",
+  "guide.vitalrelics.section.properties": "Properties",
+  "guide.vitalrelics.section.granted_effects": "Granted Effects",
+  "guide.vitalrelics.section.immunities": "Immunities",
+  "guide.vitalrelics.section.passive_skills": "Passive Skills",
+  "guide.vitalrelics.section.spells": "Spells",
+  "guide.vitalrelics.section.periodic_effects": "Periodic Effects",
+  "guide.vitalrelics.section.callbacks": "Callbacks",
+  "guide.vitalrelics.section.enemy_spawn": "Enemy Spawn",
+  "guide.vitalrelics.section.acquisition": "Acquisition",
+
+  "guide.vitalrelics.property.add": "%s: +%s",
+  "guide.vitalrelics.property.mul_base": "%s base: ×%s",
+  "guide.vitalrelics.property.mul_total": "%s total: ×%s",
+
+  "guide.vitalrelics.effect.granted": "%s %s",
+  "guide.vitalrelics.passive_skill": "%s: %s",
+  "guide.vitalrelics.parameter": "  %s: %s",
+
+  "guide.vitalrelics.tick.interval": "  Interval: %s",
+  "guide.vitalrelics.tick.add": "  Add: %s",
+  "guide.vitalrelics.tick.ratio": "  Ratio: %s",
+
+  "guide.vitalrelics.callback.modifier": "  Modifier: ×%s",
+  "guide.vitalrelics.callback.flat": "  Flat: %s",
+  "guide.vitalrelics.callback.minimum": "  Minimum: %s",
+  "guide.vitalrelics.callback.ratio_minimum": "  Ratio minimum: %s",
+  "guide.vitalrelics.callback.maximum": "  Maximum: %s",
+  "guide.vitalrelics.callback.ratio_maximum": "  Ratio maximum: %s",
+
+  "guide.vitalrelics.enemy_spawn": "%s: %s",
+
+  "guide.vitalrelics.acquisition.unavailable": "Not available through normal survival acquisition",
+  "guide.vitalrelics.acquisition.none": "No configured acquisition method",
+  "guide.vitalrelics.acquisition.loot": "Loot: %s (%s)",
+  "guide.vitalrelics.acquisition.crafting": "Crafting: %s",
+  "guide.vitalrelics.acquisition.output": "  Output: %s",
+
+  "guide.vitalrelics.title": "Vital Relics",
+  "guide.vitalrelics.empty": "No relics loaded.",
+  "guide.vitalrelics.rarity_slot": "%s · %s",
+
+  "guide.vitalrelics.rarity.common": "Common",
+  "guide.vitalrelics.rarity.uncommon": "Uncommon",
+  "guide.vitalrelics.rarity.rare": "Rare",
+  "guide.vitalrelics.rarity.epic": "Epic",
+
+  "guide.vitalrelics.slot.charm": "Charm",
+  "guide.vitalrelics.slot.ring": "Ring",
+  "guide.vitalrelics.slot.bracelet": "Bracelet"
 
 }

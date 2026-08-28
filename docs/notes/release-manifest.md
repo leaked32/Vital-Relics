@@ -25,72 +25,11 @@ For every file:
 
 ---
 
-## 3. Relic Integrity
-
-For **every relic defined in `relics.json`**, verify:
-
-* `id` is present.
-* `id` is unique.
-* Texture exists.
-* Rarity is valid.
-* Curio slot, when specified, is valid.
-* All properties are recognized.
-* All granted effects are recognized.
-* All immunity effect IDs are valid.
-* All callback IDs are implemented.
-* All tick-action IDs are implemented.
-* All passive-skill IDs are implemented.
-* All spell IDs are implemented.
-* Enemy-spawn entity IDs are valid.
-
-### Acquisition invariant
-
-Every default player-facing relic must have at least one legitimate survival acquisition route:
-
-* crafting recipe, or
-* loot-table acquisition, or
-* another explicitly documented acquisition mechanism.
-
-A relic intentionally unavailable in normal survival must be explicitly marked/documented as such.
-
-No default relic may accidentally exist only in the creative inventory.
+If new relics appear, read:
+[add-new-relics.md](add-new-relics.md)
 
 ---
 
-## 4. Recipe Integrity
-
-For every entry in `recipes.json`:
-
-* Recipe target refers to an existing relic.
-* Recipe type is supported.
-* Shaped recipe patterns are valid.
-* Every pattern symbol has a corresponding key.
-* No unused key symbols remain.
-* Ingredient item IDs are valid.
-* Output count is positive.
-
-Cross-check in both directions:
-
-* Every recipe references an existing relic.
-* Every relic intended to be craftable has a recipe.
-
----
-
-## 5. Loot Integrity
-
-For every configured loot acquisition:
-
-* Relic ID exists.
-* Loot-table ID is valid.
-* Chance is within the accepted range.
-* The loot table is reachable in normal gameplay.
-
-Cross-check:
-
-* No loot entry references a removed relic.
-* Relics intended to be loot-exclusive actually have loot entries.
-
----
 
 ## 6. Texture and Model Integrity
 

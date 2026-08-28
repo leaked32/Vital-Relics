@@ -53,9 +53,11 @@ public class VitalRelics
 
 	public static DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = null;
 
-	public static RelicLoader loader = null;
-	public static AcquisitionLoader acquisition = null;
+	// public final static RelicLoader loader  = RelicLoader.INSTANCE;
+	// public final static AcquisitionLoader acquisition = AcquisitionLoader.INSTANCE;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
+
+	public static final DeferredItem<Item> GUIDE_BOOK = ITEMS.register("guide_book", GuideBookItem::new);
 
 	public VitalRelics(
 			final IEventBus modEventBus,
@@ -78,14 +80,11 @@ public class VitalRelics
 		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
 		final Path recipeConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
 		final Path translationConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang");
-		loader = new RelicLoader();
-		acquisition = new AcquisitionLoader();
-		loader.load(config);
-		acquisition.load(recipeConfig);
-
+		RelicLoader.INSTANCE.load(config);
+		RelicAcquisitionLoader.INSTANCE.load(recipeConfig);
 		RelicTranslations.INSTANCE.load(translationConfig);
 
-		for (final var relic : loader.relics_) {
+		for (final var relic : RelicLoader.INSTANCE.relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {
 				case "uncommon" -> Rarity.UNCOMMON;
 				case "rare" -> Rarity.RARE;
@@ -103,6 +102,8 @@ public class VitalRelics
 				.withTabsBefore(CreativeModeTabs.COMBAT)
 				.icon(() -> RELIC_ITEMS.get(0).get().getDefaultInstance())
 				.displayItems((parameters, output) -> {
+					output.accept(GUIDE_BOOK.get());
+
 					for (final var relic : RELIC_ITEMS)
 						output.accept(relic.get());
 				})
@@ -126,7 +127,7 @@ public class VitalRelics
 			if (!itemId.getNamespace().equals(Manifest.MODID))
 				return false;
 
-			final Relic relic = loader.find(itemId.getPath());
+			final Relic relic = RelicLoader.INSTANCE.find(itemId.getPath());
 
 			return relic != null && relic.curio_slot.equals(result.slotContext().identifier());
 		});
@@ -144,7 +145,7 @@ public class VitalRelics
 						final ResourceLocation id =
 								BuiltInRegistries.ITEM.getKey(stack.getItem());
 
-						final Relic relic = loader.find(id.getPath());
+						final Relic relic = RelicLoader.INSTANCE.find(id.getPath());
 
 						return relic != null &&
 								relic.curio_slot.equals(context.identifier());

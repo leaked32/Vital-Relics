@@ -13,6 +13,8 @@ import static com.example.vitalrelics.common.utils.ConfigurationFiles.load_exter
 public class RelicLoader {
 	public final List<Relic> relics_ = new ArrayList<>();
 
+	private RelicLoader() {}
+
 	public static void add_list(final List<String> target, final Object rawValue) {
 		if (!(rawValue instanceof List<?> values))
 			return;
@@ -84,6 +86,9 @@ public class RelicLoader {
 			target.put(key, number);
 		}
 	}
+
+	public static final RelicLoader INSTANCE =
+			new RelicLoader();
 
 	public void load(final Path externalPath) {
 		if (externalPath == null) {

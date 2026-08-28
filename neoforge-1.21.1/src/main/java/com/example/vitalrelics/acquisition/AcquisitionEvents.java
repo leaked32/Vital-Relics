@@ -1,7 +1,7 @@
 package com.example.vitalrelics.acquisition;
 
-import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Acquisition;
+import com.example.vitalrelics.common.RelicAcquisitionLoader;
 import com.example.vitalrelics.common.Manifest;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -11,7 +11,6 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 
 public final class AcquisitionEvents {
@@ -21,7 +20,7 @@ public final class AcquisitionEvents {
 	public static void onLootTableLoad(final LootTableLoadEvent event) {
 		final String table = event.getName().toString();
 
-		for (final var entry : VitalRelics.acquisition.data.loot.entrySet()) {
+		for (final var entry : RelicAcquisitionLoader.INSTANCE.data.loot.entrySet()) {
 			final ResourceLocation id =
 					ResourceLocation.fromNamespaceAndPath(Manifest.MODID, entry.getKey());
 

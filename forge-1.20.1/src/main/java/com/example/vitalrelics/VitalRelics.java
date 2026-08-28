@@ -51,11 +51,11 @@ public class VitalRelics {
 
 	public static RegistryObject<CreativeModeTab> RELICS_TAB;
 
-	public static RelicLoader loader = null;
+	public final static RelicLoader loader = null;
 
-	public static final List<RegistryObject<Item>> RELIC_ITEMS =
-			new ArrayList<>();
-	public static AcquisitionLoader acquisition;
+	public static final List<RegistryObject<Item>> RELIC_ITEMS = new ArrayList<>();
+
+	public final static RelicAcquisitionLoader acquisition = RelicAcquisitionLoader.INSTANCE;
 
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
 			DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Manifest.MODID);
@@ -86,14 +86,9 @@ public class VitalRelics {
 
 		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
 		final Path recipeConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
-		loader = new RelicLoader();
-		acquisition = new AcquisitionLoader();
-		loader.load(config);
-		acquisition.load(recipeConfig);
-
-		RelicTranslations.INSTANCE.load(
-				FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang")
-		);
+		RelicLoader.INSTANCE.load(config);
+		RelicAcquisitionLoader.INSTANCE.load(recipeConfig);
+		RelicTranslations.INSTANCE.load(FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang"));
 
 		for (final var relic : loader.relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {

@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.example.vitalrelics.VitalRelics.loader;
 import static com.example.vitalrelics.compat.TouhouMaidCompat.gatherMaidRelics;
 
 public class Utils {
@@ -83,7 +82,7 @@ public class Utils {
 		if (!id.getNamespace().equals(Manifest.MODID))
 			return;
 
-		final Relic relic = loader.find(id.getPath());
+		final Relic relic = RelicLoader.INSTANCE.find(id.getPath());
 		if (relic == null)
 			return;
 
@@ -329,7 +328,7 @@ public class Utils {
 		);
 
 		for (int i = 0; i < list.size(); ++i) {
-			final Relic relic = loader.find(list.getString(i));
+			final Relic relic = RelicLoader.INSTANCE.find(list.getString(i));
 
 			if (relic != null)
 				out.add(relic);

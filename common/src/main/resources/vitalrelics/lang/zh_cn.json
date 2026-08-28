@@ -151,5 +151,56 @@
 
   "item.vitalrelics.windward_bracelet": "御风手环",
   "tooltip.vitalrelics.windward_bracelet": "偏转一次来袭的箭矢，随后进入短暂冷却。",
-  "relic.vitalrelics.passive_skill.arrow_deflection": "箭矢偏转"
+  "relic.vitalrelics.passive_skill.arrow_deflection": "箭矢偏转",
+
+  "guide.vitalrelics.section.effective_slots": "生效栏位",
+  "guide.vitalrelics.section.properties": "属性",
+  "guide.vitalrelics.section.granted_effects": "持续效果",
+  "guide.vitalrelics.section.immunities": "免疫效果",
+  "guide.vitalrelics.section.passive_skills": "被动能力",
+  "guide.vitalrelics.section.spells": "法术",
+  "guide.vitalrelics.section.periodic_effects": "周期效果",
+  "guide.vitalrelics.section.callbacks": "触发效果",
+  "guide.vitalrelics.section.enemy_spawn": "敌对生物生成",
+  "guide.vitalrelics.section.acquisition": "获取方式",
+
+  "guide.vitalrelics.property.add": "%s：+%s",
+  "guide.vitalrelics.property.mul_base": "%s基础值：×%s",
+  "guide.vitalrelics.property.mul_total": "%s总值：×%s",
+
+  "guide.vitalrelics.effect.granted": "%s %s",
+  "guide.vitalrelics.passive_skill": "%s：%s",
+  "guide.vitalrelics.parameter": "  %s：%s",
+
+  "guide.vitalrelics.tick.interval": "  间隔：%s",
+  "guide.vitalrelics.tick.add": "  增加：%s",
+  "guide.vitalrelics.tick.ratio": "  比例：%s",
+
+  "guide.vitalrelics.callback.modifier": "  倍率：×%s",
+  "guide.vitalrelics.callback.flat": "  固定值：%s",
+  "guide.vitalrelics.callback.minimum": "  最低值：%s",
+  "guide.vitalrelics.callback.ratio_minimum": "  最低比例：%s",
+  "guide.vitalrelics.callback.maximum": "  最高值：%s",
+  "guide.vitalrelics.callback.ratio_maximum": "  最高比例：%s",
+
+  "guide.vitalrelics.enemy_spawn": "%s：%s",
+
+  "guide.vitalrelics.acquisition.unavailable": "无法通过正常生存模式获取",
+  "guide.vitalrelics.acquisition.none": "未配置获取方式",
+  "guide.vitalrelics.acquisition.loot": "战利品：%s（%s）",
+  "guide.vitalrelics.acquisition.crafting": "合成：%s",
+  "guide.vitalrelics.acquisition.output": "  产物数量：%s",
+
+  "guide.vitalrelics.title": "生命遗物",
+  "guide.vitalrelics.empty": "没有已加载的遗物。",
+  "guide.vitalrelics.rarity_slot": "%s · %s",
+
+  "guide.vitalrelics.rarity.common": "普通",
+  "guide.vitalrelics.rarity.uncommon": "优秀",
+  "guide.vitalrelics.rarity.rare": "稀有",
+  "guide.vitalrelics.rarity.epic": "史诗",
+
+  "guide.vitalrelics.slot.charm": "护符",
+  "guide.vitalrelics.slot.ring": "戒指",
+  "guide.vitalrelics.slot.bracelet": "手镯"
 }

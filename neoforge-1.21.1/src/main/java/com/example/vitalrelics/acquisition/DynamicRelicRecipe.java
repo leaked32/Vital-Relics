@@ -2,6 +2,7 @@ package com.example.vitalrelics.acquisition;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Acquisition;
+import com.example.vitalrelics.common.RelicAcquisitionLoader;
 import com.example.vitalrelics.common.Manifest;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -62,7 +63,7 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 	}
 
 	private static Match findMatch(final CraftingInput input) {
-		for (final var entry : VitalRelics.acquisition.data.recipes.entrySet()) {
+		for (final var entry : RelicAcquisitionLoader.INSTANCE.data.recipes.entrySet()) {
 			final Acquisition.Crafting recipe = entry.getValue();
 
 			if ("shaped".equals(recipe.type) && matchesShaped(input, recipe))

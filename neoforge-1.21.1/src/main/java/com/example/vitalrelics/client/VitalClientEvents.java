@@ -1,10 +1,7 @@
 package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.VitalRelics;
-import com.example.vitalrelics.common.Manifest;
-import com.example.vitalrelics.common.MySpellSystem;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicTranslations;
+import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.network.NeoNetwork;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
@@ -139,7 +136,7 @@ public final class VitalClientEvents {
 					"Vital Relics shared flat model was not baked"
 			);
 
-		for (final Relic relic : VitalRelics.loader.relics_) {
+		for (final Relic relic : RelicLoader.INSTANCE.relics_) {
 			final ResourceLocation id =
 					ResourceLocation.fromNamespaceAndPath(
 							Manifest.MODID,

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:book",
+    "minecraft:paper"
+  ],
+  "result": {
+    "id": "vitalrelics:guide_book",
+    "count": 1
+  }
+}

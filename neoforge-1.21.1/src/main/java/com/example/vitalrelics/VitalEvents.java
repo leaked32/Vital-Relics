@@ -616,7 +616,7 @@ public final class VitalEvents {
 			return;
 
 		final List<Relic> relics =
-				VitalRelics.loader.rollEnemyRelics(entityId.toString());
+				RelicLoader.INSTANCE.rollEnemyRelics(entityId.toString());
 
 		if (relics.isEmpty())
 			return;

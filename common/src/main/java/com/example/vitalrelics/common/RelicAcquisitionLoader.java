@@ -7,7 +7,10 @@ import java.util.Map;
 
 import static com.example.vitalrelics.common.utils.ConfigurationFiles.load_external_file;
 
-public class AcquisitionLoader {
+public class RelicAcquisitionLoader {
+	private RelicAcquisitionLoader() {}
+
+	public final static RelicAcquisitionLoader INSTANCE = new RelicAcquisitionLoader();
 	public final Acquisition data = new Acquisition();
 
 	public void load(final Path external_path) {
