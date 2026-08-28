@@ -461,25 +461,46 @@ public final class MySpellSystem {
 			return true;
 		});
 
+		/*
+		Util Spells: Enchantment
+		 */
 		register(Relic.SPELL_UPGRADE_ENCHANTED_BOOK, (caster, spell, runtime) -> {
-			final int experienceCost = Math.max(
-					0,
-					(int) Math.round(
-							RelicSpells.numberParameter(
-									spell,
-									"experience_cost",
-									0.0
-							)
-					)
-			);
+			final int experienceCost = Math.max(0, (int) Math.round(
+					RelicSpells.numberParameter(spell, "experience_cost", 0.0)
+			));
 
-			if (!runtime.upgradeFirstStoredEnchantment(
-					caster,
-					experienceCost
+			if (!runtime.upgradeFirstEnchantment(
+					caster, experienceCost, MyRuntimeUtils.EnchantmentFilter.ENCHANTMENT_BOOK_ONLY
 			))
 				return false;
 
 			caster.playSound(MySound.ENCHANTMENT_TABLE_USE);
+			return true;
+		});
+
+		register(Relic.SPELL_ENCHANTMENT_ASCENSION, (caster, spell, runtime) -> {
+			final int experienceCost = Math.max(0, (int) Math.round(
+					RelicSpells.numberParameter(spell, "experience_cost", 0.0)
+			));
+
+			if (!runtime.upgradeFirstEnchantment(
+					caster, experienceCost, MyRuntimeUtils.EnchantmentFilter.ALL_ENCHANTED_ITEMS)) {
+				return false;
+			}
+
+			caster.playSound(MySound.ENCHANTMENT_TABLE_USE);
+			return true;
+		});
+
+		register(Relic.SPELL_PURIFY_PENALTY, (caster, spell, runtime) -> {
+			final int experienceCost = Math.max(0, (int) Math.round(
+					RelicSpells.numberParameter(spell, "experience_cost", 0.0)
+			));
+
+			if (!runtime.removeCurseOrResetRepairCost(caster, experienceCost))
+				return false;
+
+			caster.playSound(MySound.AMETHYST_CHIME);
 			return true;
 		});
 	}

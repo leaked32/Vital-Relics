@@ -317,7 +317,7 @@
       "rarity": "rare",
       "available_spells": {
         "upgrade_enchanted_book": {
-          "experience_cost": 10,
+          "experience_cost": 15,
           "recovery": 0.5
         }
       }
@@ -552,7 +552,26 @@
       "texture": "icy_feathered_arrow.png",
       "rarity": "epic",
       "passive_skills": {
-        "empowered_arrows": 1.25
+        "empowered_arrows": 1.25,
+        "arrow_deflection": 2.0
+      }
+    },
+    {
+      "id": "arcane_reforging_charm",
+      "display_name": "Charm of Arcane Reforging",
+      "tooltip": "Refines enchanted equipment, strengthening its magic or cleansing its accumulated burden.",
+      "texture": "arcane_reforging_charm.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "available_spells": {
+        "enchantment_ascension": {
+          "experience_cost": 15,
+          "recovery": 0.25
+        },
+        "purify_penalty": {
+          "experience_cost": 15,
+          "recovery": 0.25
+        }
       }
     },
     {

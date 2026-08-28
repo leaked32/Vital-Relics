@@ -11,6 +11,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
@@ -399,60 +400,189 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 	}
 
 	@Override
-	public boolean upgradeFirstStoredEnchantment(
+	public boolean upgradeFirstEnchantment(
 			final MyLivingEntity abstractEntity,
-			final int experienceCost) {
+			final int experienceCost,
+			final EnchantmentFilter option) {
 
-		final LivingEntity entity =
-				nativeEntity(abstractEntity);
+		final LivingEntity entity = nativeEntity(abstractEntity);
 
 		if (!(entity instanceof ServerPlayer player))
 			return false;
 
-		final ItemStack stack =
-				player.getMainHandItem();
+		final ItemStack stack = player.getMainHandItem();
 
-		if (!stack.is(Items.ENCHANTED_BOOK))
-			return false;
+		if (option == EnchantmentFilter.ENCHANTMENT_BOOK_ONLY &&
+				!stack.is(Items.ENCHANTED_BOOK)) {
 
-		if (!player.isCreative() &&
-				player.experienceLevel < experienceCost) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchantment_book_required",
+							"Hold an enchanted book in your main hand."
+					),
+					true
+			);
+
 			return false;
 		}
 
+		final var component = stack.is(Items.ENCHANTED_BOOK)
+				? DataComponents.STORED_ENCHANTMENTS
+				: DataComponents.ENCHANTMENTS;
+
 		final ItemEnchantments enchantments =
-				stack.getOrDefault(
-						DataComponents.STORED_ENCHANTMENTS,
-						ItemEnchantments.EMPTY
-				);
+				stack.getOrDefault(component, ItemEnchantments.EMPTY);
+
+		if (enchantments.isEmpty()) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.item_not_enchanted",
+							"The held item is not enchanted."
+					),
+					true
+			);
+
+			return false;
+		}
 
 		final ItemEnchantments.Mutable mutable =
 				new ItemEnchantments.Mutable(enchantments);
 
 		boolean upgraded = false;
+		int upgradedLevel = 0;
 
 		for (final var enchantment : enchantments.keySet()) {
-			final int level =
-					enchantments.getLevel(enchantment);
-
-			final int maximum =
-					enchantment.value().getMaxLevel();
+			final int level = enchantments.getLevel(enchantment);
+			final int maximum = enchantment.value().getMaxLevel();
 
 			if (level >= maximum)
 				continue;
 
-			mutable.set(enchantment, level + 1);
+			upgradedLevel = level + 1;
+			mutable.set(enchantment, upgradedLevel);
 			upgraded = true;
 			break;
 		}
 
-		if (!upgraded)
+		if (!upgraded) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchantments_at_maximum",
+							"Every enchantment is already at its maximum level."
+					),
+					true
+			);
+
+			return false;
+		}
+
+		if (!player.isCreative() &&
+				player.experienceLevel < experienceCost) {
+
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchant_upgrade_insufficient_experience",
+							"Not enough experience. Required level: %s",
+							experienceCost
+					),
+					true
+			);
+
+			return false;
+		}
+
+		stack.set(component, mutable.toImmutable());
+
+		if (!player.isCreative())
+			player.giveExperienceLevels(-experienceCost);
+
+		player.displayClientMessage(
+				message(
+						"message.vitalrelics.enchant_upgrade_success",
+						"Enchantment upgraded to level %s.",
+						upgradedLevel
+				),
+				true
+		);
+
+		return true;
+	}
+
+	@Override
+	public boolean removeCurseOrResetRepairCost(
+			final MyLivingEntity abstractEntity,
+			final int experienceCost) {
+
+		final LivingEntity entity = nativeEntity(abstractEntity);
+
+		if (!(entity instanceof ServerPlayer player))
 			return false;
 
-		stack.set(
-				DataComponents.STORED_ENCHANTMENTS,
-				mutable.toImmutable()
-		);
+		final ItemStack stack = player.getMainHandItem();
+
+		final var component = stack.is(Items.ENCHANTED_BOOK)
+				? DataComponents.STORED_ENCHANTMENTS
+				: DataComponents.ENCHANTMENTS;
+
+		final ItemEnchantments enchantments =
+				stack.getOrDefault(component, ItemEnchantments.EMPTY);
+
+		if (enchantments.isEmpty()) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.item_not_enchanted",
+							"The held item is not enchanted."
+					),
+					true
+			);
+
+			return false;
+		}
+
+		final var curse = enchantments.keySet().stream()
+				.filter(enchantment -> enchantment.is(EnchantmentTags.CURSE))
+				.findFirst()
+				.orElse(null);
+
+		final int repairCost =
+				stack.getOrDefault(DataComponents.REPAIR_COST, 0);
+
+		if (curse == null && repairCost <= 0) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.nothing_to_purify",
+							"The held item has no curse or anvil penalty to purify."
+					),
+					true
+			);
+
+			return false;
+		}
+
+		if (!player.isCreative() &&
+				player.experienceLevel < experienceCost) {
+
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchant_upgrade_insufficient_experience",
+							"Not enough experience. Required level: %s",
+							experienceCost
+					),
+					true
+			);
+
+			return false;
+		}
+
+		if (curse != null) {
+			final ItemEnchantments.Mutable mutable =
+					new ItemEnchantments.Mutable(enchantments);
+
+			mutable.set(curse, 0);
+			stack.set(component, mutable.toImmutable());
+		} else {
+			stack.remove(DataComponents.REPAIR_COST);
+		}
 
 		if (!player.isCreative())
 			player.giveExperienceLevels(-experienceCost);

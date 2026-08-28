@@ -69,7 +69,7 @@
   "item.vitalrelics.celestial_wings": "天界の翼",
   "item.vitalrelics.cherry_cross": "桜の十字架",
   "item.vitalrelics.cursed_crimson_rune": "呪われた深紅のルーン",
-  "item.vitalrelics.halo_reality_piercing": "現実穿孔の光輪（クリエイティブ限定）",
+  "item.vitalrelics.reality_piercing": "現実穿孔の光輪（クリエイティブ限定）",
   "tooltip.vitalrelics.swiftness_ring": "足取りを風のように軽くする指輪。",
   "tooltip.vitalrelics.night_sight_ring": "闇はもう前方への道を隠せない。",
   "tooltip.vitalrelics.regeneration_ring": "温かな生命の脈動が装着者を巡る。",
@@ -207,5 +207,14 @@
   "guide.vitalrelics.search": "検索...",
   "tooltip.vitalrelics.celestial_wings": "装着者に空を自由に翔ける力を与える。",
   "item.vitalrelics.archers_emblem": "射手の紋章",
-  "tooltip.vitalrelics.archers_emblem": "装着者が放つ矢を強化する。"
+  "tooltip.vitalrelics.archers_emblem": "装着者が放つ矢を強化する。",
+
+  "relic.vitalrelics.spell.enchantment_ascension": "エンチャント昇華",
+  "relic.vitalrelics.spell.purify_penalty": "ペナルティ浄化",
+  "item.vitalrelics.arcane_reforging_charm": "秘術再鍛造の護符",
+  "tooltip.vitalrelics.arcane_reforging_charm": "エンチャント装備を精錬し、その魔力を高めるか、金床作業で蓄積した負担を浄化する。",
+  "message.vitalrelics.enchantment_book_required": "メインハンドにエンチャント本を持ってください。",
+  "message.vitalrelics.item_not_enchanted": "手に持っているアイテムにはエンチャントがありません。",
+  "message.vitalrelics.enchantments_at_maximum": "すべてのエンチャントが最大レベルです。",
+  "message.vitalrelics.nothing_to_purify": "手に持っているアイテムには、浄化できる呪いも金床ペナルティもありません。"
 }

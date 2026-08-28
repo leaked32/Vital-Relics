@@ -68,7 +68,7 @@
   "item.vitalrelics.celestial_wings": "天界之翼",
   "item.vitalrelics.cherry_cross": "櫻桃十字",
   "item.vitalrelics.cursed_crimson_rune": "詛咒猩紅符文",
-  "item.vitalrelics.halo_reality_piercing": "現實穿刺光環（僅創造模式）",
+  "item.vitalrelics.reality_piercing": "現實穿刺光環（僅創造模式）",
   "tooltip.vitalrelics.swiftness_ring": "令每一步都輕盈如風的戒指。",
   "tooltip.vitalrelics.night_sight_ring": "黑暗再也無法遮蔽前方的道路。",
   "tooltip.vitalrelics.regeneration_ring": "溫暖的生命脈動流經佩戴者。",
@@ -206,5 +206,14 @@
   "guide.vitalrelics.search": "搜尋...",
   "tooltip.vitalrelics.celestial_wings": "賦予佩戴者翱翔天空的自由。",
   "item.vitalrelics.archers_emblem": "弓手徽記",
-  "tooltip.vitalrelics.archers_emblem": "強化佩戴者射出的箭矢。"
+  "tooltip.vitalrelics.archers_emblem": "強化佩戴者射出的箭矢。",
+
+  "relic.vitalrelics.spell.enchantment_ascension": "附魔昇華",
+  "relic.vitalrelics.spell.purify_penalty": "淨化懲罰",
+  "item.vitalrelics.arcane_reforging_charm": "奧術重鑄護符",
+  "tooltip.vitalrelics.arcane_reforging_charm": "精煉附魔裝備，強化其魔力或淨化鐵砧作業累積的懲罰。",
+  "message.vitalrelics.enchantment_book_required": "請在主手持有一本附魔書。",
+  "message.vitalrelics.item_not_enchanted": "主手物品未附魔。",
+  "message.vitalrelics.enchantments_at_maximum": "所有附魔均已達到最高等級。",
+  "message.vitalrelics.nothing_to_purify": "主手物品沒有可淨化的詛咒或鐵砧懲罰。"
 }

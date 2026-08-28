@@ -401,11 +401,11 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 				.map(MyLivingEntity.class::cast)
 				.toList();
 	}
-
 	@Override
-	public boolean upgradeFirstStoredEnchantment(
+	public boolean upgradeFirstEnchantment(
 			final MyLivingEntity abstractEntity,
-			final int experienceCost) {
+			final int experienceCost,
+			final EnchantmentFilter option) {
 
 		final LivingEntity entity = nativeEntity(abstractEntity);
 
@@ -414,23 +414,34 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 
 		final ItemStack stack = player.getMainHandItem();
 
-		if (!stack.is(Items.ENCHANTED_BOOK))
-			return false;
+		if (option == EnchantmentFilter.ENCHANTMENT_BOOK_ONLY &&
+				!stack.is(Items.ENCHANTED_BOOK)) {
 
-		if (!player.isCreative() && player.experienceLevel < experienceCost) {
 			player.displayClientMessage(
 					message(
-							"message.vitalrelics.enchant_upgrade_insufficient_experience",
-							"Not enough experience. Required level: %s",
-							experienceCost
+							"message.vitalrelics.enchantment_book_required",
+							"Hold an enchanted book in your main hand."
 					),
 					true
 			);
+
 			return false;
 		}
 
 		final Map<Enchantment, Integer> enchantments =
 				EnchantmentHelper.getEnchantments(stack);
+
+		if (enchantments.isEmpty()) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.item_not_enchanted",
+							"The held item is not enchanted."
+					),
+					true
+			);
+
+			return false;
+		}
 
 		Enchantment selected = null;
 		int selectedLevel = 0;
@@ -447,10 +458,35 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 			break;
 		}
 
-		if (selected == null)
+		if (selected == null) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchantments_at_maximum",
+							"Every enchantment is already at its maximum level."
+					),
+					true
+			);
+
 			return false;
+		}
+
+		if (!player.isCreative() &&
+				player.experienceLevel < experienceCost) {
+
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchant_upgrade_insufficient_experience",
+							"Not enough experience. Required level: %s",
+							experienceCost
+					),
+					true
+			);
+
+			return false;
+		}
 
 		final int upgradedLevel = selectedLevel + 1;
+
 		enchantments.put(selected, upgradedLevel);
 		EnchantmentHelper.setEnchantments(enchantments, stack);
 
@@ -465,6 +501,83 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 				),
 				true
 		);
+
+		return true;
+	}
+
+	@Override
+	public boolean removeCurseOrResetRepairCost(
+			final MyLivingEntity abstractEntity,
+			final int experienceCost) {
+
+		final LivingEntity entity = nativeEntity(abstractEntity);
+
+		if (!(entity instanceof ServerPlayer player))
+			return false;
+
+		final ItemStack stack = player.getMainHandItem();
+
+		final Map<Enchantment, Integer> enchantments =
+				EnchantmentHelper.getEnchantments(stack);
+
+		if (enchantments.isEmpty()) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.item_not_enchanted",
+							"The held item is not enchanted."
+					),
+					true
+			);
+
+			return false;
+		}
+
+		Enchantment curse = null;
+
+		for (final Enchantment enchantment : enchantments.keySet()) {
+			if (!enchantment.isCurse())
+				continue;
+
+			curse = enchantment;
+			break;
+		}
+
+		if (curse == null && stack.getBaseRepairCost() <= 0) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.nothing_to_purify",
+							"The held item has no curse or anvil penalty to purify."
+					),
+					true
+			);
+
+			return false;
+		}
+
+		if (!player.isCreative() &&
+				player.experienceLevel < experienceCost) {
+
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchant_upgrade_insufficient_experience",
+							"Not enough experience. Required level: %s",
+							experienceCost
+					),
+					true
+			);
+
+			return false;
+		}
+
+		if (curse != null) {
+			enchantments.remove(curse);
+			EnchantmentHelper.setEnchantments(enchantments, stack);
+		} else {
+			stack.setRepairCost(0);
+		}
+
+		if (!player.isCreative())
+			player.giveExperienceLevels(-experienceCost);
 
 		return true;
 	}

@@ -69,7 +69,7 @@
   "item.vitalrelics.celestial_wings": "Celestial Wings",
   "item.vitalrelics.cherry_cross": "Cherry Cross",
   "item.vitalrelics.cursed_crimson_rune": "Cursed Crimson Rune",
-  "item.vitalrelics.halo_reality_piercing": "Halo of Reality Piercing (Creative Mode Only)",
+  "item.vitalrelics.reality_piercing": "Halo of Reality Piercing (Creative Mode Only)",
   "tooltip.vitalrelics.swiftness_ring": "A ring that lightens every step.",
   "tooltip.vitalrelics.night_sight_ring": "Darkness can no longer hide the path ahead.",
   "tooltip.vitalrelics.regeneration_ring": "A warm pulse of vitality runs through the wearer.",
@@ -208,6 +208,15 @@
   "guide.vitalrelics.search": "Search...",
   "tooltip.vitalrelics.celestial_wings": "Grants its wearer the freedom of the skies.",
   "item.vitalrelics.archers_emblem": "Archer's Emblem",
-  "tooltip.vitalrelics.archers_emblem": "Empowers arrows fired by its wearer."
+  "tooltip.vitalrelics.archers_emblem": "Empowers arrows fired by its wearer.",
+
+  "relic.vitalrelics.spell.enchantment_ascension": "Enchantment Ascension",
+  "relic.vitalrelics.spell.purify_penalty": "Purify Penalty",
+  "item.vitalrelics.arcane_reforging_charm": "Charm of Arcane Reforging",
+  "tooltip.vitalrelics.arcane_reforging_charm": "Refines enchanted equipment, strengthening its magic or cleansing its accumulated anvil burden.",
+  "message.vitalrelics.enchantment_book_required": "Hold an enchanted book in your main hand.",
+  "message.vitalrelics.item_not_enchanted": "The held item is not enchanted.",
+  "message.vitalrelics.enchantments_at_maximum": "Every enchantment is already at its maximum level.",
+  "message.vitalrelics.nothing_to_purify": "The held item has no curse or anvil penalty to purify."
 
 }

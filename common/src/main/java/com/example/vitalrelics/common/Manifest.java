@@ -14,12 +14,8 @@ public class Manifest {
 	public static final String INTERNAL_PATH_TO_RELICS = "vitalrelics/relics.json";
 	public static final String INTERNAL_PATH_TO_RECIPES = "vitalrelics/recipes.json";
 
-
 	public static final List<String> DEFAULT_LOCALES = List.of(
-			"en_us",
-			"zh_cn",
-			"zh_tw",
-			"ja_jp"
+			"en_us", "zh_cn", "zh_tw", "ja_jp"
 	);
 
 	public static String INTERNAL_PATH_TO_LANG(final String locale) {

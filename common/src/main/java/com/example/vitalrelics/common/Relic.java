@@ -66,10 +66,7 @@ public class Relic {
 
 	/*
 	 * - `teleport`:
-	 *     BLOCK hit
-	 *     -> try center for thin blocks
-	 *     -> otherwise try above
-	 *     -> if blocked, try before the hit face
+	 *     BLOCK hit: center for thin blocks; try above, if blocked, try before the hit face
 	 *     MISS / sky -> teleport as far along look direction as possible
 	 *
 	 * - `curse`: Calls `directAttack` with the pointed living entity
@@ -86,6 +83,9 @@ public class Relic {
 	 * - `shadow_exchange`: Swaps positions with the pointed hostile living entity within `range`
 	 * - `phantom_step`: Instantly moves forward up to `range` blocks and damages hostile
 	 *      living entities crossed for `intensity`% attack damage
+	 * - `upgrade_enchanted_book`: ...
+	 * - `enchantment_ascension`: ...
+	 * - `purify_penalty`: ...
 	 */
 	public static final String SPELL_TELEPORT = "teleport";
 	public static final String SPELL_CURSE = "curse";
@@ -99,6 +99,8 @@ public class Relic {
 	public static final String SPELL_SHADOW_EXCHANGE = "shadow_exchange";
 	public static final String SPELL_PHANTOM_STEP = "phantom_step";
 	public static final String SPELL_UPGRADE_ENCHANTED_BOOK = "upgrade_enchanted_book";
+	public static final String SPELL_ENCHANTMENT_ASCENSION = "enchantment_ascension";
+	public static final String SPELL_PURIFY_PENALTY = "purify_penalty";
 
 	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
 

@@ -29,10 +29,10 @@ public interface MyRuntimeUtils {
 			double inflate
 	);
 
-	boolean upgradeFirstStoredEnchantment(
-			MyLivingEntity entity,
-			int experienceCost
-	);
+//	boolean upgradeFirstStoredEnchantment(
+//			MyLivingEntity entity,
+//			int experienceCost
+//	);
 
 	void syncSpellHud(
 			MyLivingEntity caster,
@@ -53,4 +53,11 @@ public interface MyRuntimeUtils {
 	void showCurseRequiresTarget(MyLivingEntity caster);
 
 	void summonVisualLightning(MyLivingEntity target);
+
+	enum EnchantmentFilter {
+		ENCHANTMENT_BOOK_ONLY, ALL_ENCHANTED_ITEMS
+	}
+	boolean upgradeFirstEnchantment(MyLivingEntity entity, int experienceCost, EnchantmentFilter option);
+
+	boolean removeCurseOrResetRepairCost(MyLivingEntity entity, int experienceCost);
 }

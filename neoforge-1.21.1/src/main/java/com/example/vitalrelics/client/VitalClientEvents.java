@@ -50,7 +50,7 @@ public final class VitalClientEvents {
 	public static final KeyMapping ACTIVE_SKILL_KEY =
 			new KeyMapping(
 					"key.vitalrelics.cast_spell", KeyConflictContext.IN_GAME,
-					InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Q, "key.categories.vitalrelics"
+					InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, "key.categories.vitalrelics"
 			);
 
 	public static final KeyMapping SWITCH_SKILL_KEY =
