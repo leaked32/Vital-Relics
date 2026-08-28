@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Manifest {
 	public static final String MODID = "vitalrelics";
-	public static final String VERSION = "0.7.1";
+	public static final String VERSION = "0.7.2";
 
 	// Increase these versions only when the corresponding configuration format changes.
 	// Ordinary additions or edits to built-in definitions do not require a version bump.

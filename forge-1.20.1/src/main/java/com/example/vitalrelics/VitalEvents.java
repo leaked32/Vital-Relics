@@ -32,6 +32,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -40,6 +41,7 @@ import java.util.function.Function;
 import static com.example.vitalrelics.Utils.*;
 
 public final class VitalEvents {
+
 	private static UUID modifierId(final String name) {
 		return UUID.nameUUIDFromBytes((Manifest.MODID + ":" + name).getBytes(StandardCharsets.UTF_8));
 	}
@@ -119,6 +121,47 @@ public final class VitalEvents {
 	);
 
 	private VitalEvents() {}
+
+	private record FlightState(boolean grantedByVitalRelics) {}
+
+	private static final Map<UUID, FlightState> FLIGHT_STATES = new HashMap<>();
+
+	private static void updateFlight(
+			final ServerPlayer player,
+			final double flightLevel) {
+
+		final UUID playerId = player.getUUID();
+		final FlightState previous = FLIGHT_STATES.get(playerId);
+		final boolean hasFlightRelic = flightLevel > 0.0;
+
+		if (previous == null && hasFlightRelic) {
+			final boolean grantedByVitalRelics = !player.getAbilities().mayfly;
+
+			if (grantedByVitalRelics) {
+				player.getAbilities().mayfly = true;
+				player.getAbilities().setFlyingSpeed((float) (0.05 * flightLevel));
+				player.onUpdateAbilities();
+			}
+
+			FLIGHT_STATES.put(playerId, new FlightState(grantedByVitalRelics));
+			return;
+		}
+
+		if (previous == null || hasFlightRelic)
+			return;
+
+		FLIGHT_STATES.remove(playerId);
+
+		final GameType gameType = player.gameMode.getGameModeForPlayer();
+		if (!previous.grantedByVitalRelics() || gameType == GameType.CREATIVE ||
+				gameType == GameType.SPECTATOR)
+			return;
+
+		player.getAbilities().mayfly = false;
+		player.getAbilities().flying = false;
+		player.getAbilities().setFlyingSpeed(0.05F);
+		player.onUpdateAbilities();
+	}
 
 	@SubscribeEvent
 	public static void onServerTick(final TickEvent.ServerTickEvent event) {
@@ -215,21 +258,7 @@ public final class VitalEvents {
 				final double flight_level = RelicLoader.levelOfSuchPassiveSkill(
 						relics, Relic.PASSIVE_SKILL_FLIGHT
 				);
-				if (flight_level > 0) {
-					if (!player.getAbilities().mayfly) {
-						player.getAbilities().mayfly = true;
-						player.getAbilities().setFlyingSpeed((float) (0.05 * flight_level));
-						player.onUpdateAbilities();
-					}
-				} else {
-					GameType gameType = player.gameMode.getGameModeForPlayer();
-					if (gameType != GameType.CREATIVE) {
-						player.getAbilities().mayfly = false;
-						player.getAbilities().flying = false;
-						player.getAbilities().setFlyingSpeed(0.05F);
-						player.onUpdateAbilities();
-					}
-				}
+				updateFlight(player, flight_level);
 			}
 
 			// Passive Skill: reality_severance
