@@ -71,6 +71,7 @@
   "item.vitalrelics.cherry_cross": "Cherry Cross",
   "item.vitalrelics.cursed_crimson_rune": "Cursed Crimson Rune",
   "item.vitalrelics.reality_piercing": "Halo of Reality Piercing (Creative Mode Only)",
+  "item.vitalrelics.celestial_aegis": "Halo of the Celestial Aegis",
   "tooltip.vitalrelics.swiftness_ring": "A ring that lightens every step.",
   "tooltip.vitalrelics.night_sight_ring": "Darkness can no longer hide the path ahead.",
   "tooltip.vitalrelics.regeneration_ring": "A warm pulse of vitality runs through the wearer.",
@@ -97,6 +98,7 @@
   "tooltip.vitalrelics.cherry_cross": "The pure power of cherry trees.",
   "tooltip.vitalrelics.cursed_crimson_rune": "A forbidden rune pulsing with power that tears at reality.",
   "tooltip.vitalrelics.reality_piercing": "A creative-mode Relic (cannot be obtained in survival mode).",
+  "tooltip.vitalrelics.celestial_aegis": "A sacred halo that shelters its wearer beneath a celestial ward.",
 
   "relic.vitalrelics.passive_skill.flight": "Flight",
   "relic.vitalrelics.passive_skill.metal_mending": "Metal Mending",
