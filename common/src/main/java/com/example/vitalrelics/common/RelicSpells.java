@@ -10,12 +10,8 @@ import java.util.UUID;
 
 public final class RelicSpells {
 	private RelicSpells() {}
-
-	public static final MyMap<Map<String, Relic.Spells.Info>>
-			LIVING_ENTITY_SPELLS = new MyMap<>(0);
-
 	/*
-	 * The default score keeps the old teleport behaviour: intensity times
+	 * The default score keeps the old teleport behavior: intensity times
 	 * recovery. Other spell types may supply a numeric "priority" parameter
 	 * without requiring a new Java field.
 	 */
@@ -48,13 +44,21 @@ public final class RelicSpells {
 				: fallback;
 	}
 
+	private static final int MAX_COOLDOWN_TICKS = 20 * 60;
+
 	public static int cooldownTicks(final Relic.Spells.Info spell) {
-		final double recovery = numberParameter(spell, "recovery", 0.0);
+		final double recovery =
+				numberParameter(spell, "recovery", Double.NaN);
 
-		if (recovery <= 0.0)
-			return Integer.MAX_VALUE;
+		if (!Double.isFinite(recovery) || recovery <= 0.0) {
+			throw new IllegalArgumentException(
+					"Spell recovery must be finite and positive: " + recovery
+			);
+		}
 
-		return Math.max(1, Math.round(20.0F / (float) recovery));
+		final double calculatedTicks = 20.0 / recovery;
+
+		return (int) Math.max(1L, Math.min(Math.round(calculatedTicks), MAX_COOLDOWN_TICKS));
 	}
 
 	public static Map<String, Relic.Spells.Info> gatherSpells(
@@ -75,14 +79,4 @@ public final class RelicSpells {
 		return result;
 	}
 
-	public static class CurrentState {
-		public Map<String, Relic.Spells.Info> spells = Map.of();
-	}
-
-	public static void updateForLivingEntity(
-			final UUID uuid,
-			final List<Relic> relics) {
-
-		LIVING_ENTITY_SPELLS.put(uuid, 0, gatherSpells(relics));
-	}
 }
