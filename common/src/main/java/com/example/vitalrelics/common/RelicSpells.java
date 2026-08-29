@@ -1,12 +1,10 @@
 package com.example.vitalrelics.common;
 
 import com.example.vitalrelics.common.relics.Relic;
-import com.example.vitalrelics.common.utils.MyMap;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public final class RelicSpells {
 	private RelicSpells() {}
@@ -46,6 +44,10 @@ public final class RelicSpells {
 
 	private static final int MAX_COOLDOWN_TICKS = 20 * 60;
 
+	/*
+	 * There are potential issues if ticks are unstable on large-scale modpacks.
+	 * Therefore, the ticks should be stablized.
+	 */
 	public static int cooldownTicks(final Relic.Spells.Info spell) {
 		final double recovery =
 				numberParameter(spell, "recovery", Double.NaN);
