@@ -225,5 +225,9 @@
   "guide.vitalrelics.introduction.stacking.title": "重複時のルール",
   "guide.vitalrelics.introduction.stacking.callbacks": "同じレリックを異なるスロットに装備した場合、コールバックとプロパティの効果は重複します。同じスロットに複数装備しても重複として扱われません。",
   "guide.vitalrelics.introduction.stacking.passive_skills": "複数の装備中のレリックが同じパッシブスキルを持つ場合、最も高いレベルの効果のみが適用されます。",
-  "guide.vitalrelics.introduction.stacking.spells": "各スペルはそれぞれ固有のレリックに属しているため、スペルの重複を気にする必要はありません。"
+  "guide.vitalrelics.introduction.stacking.spells": "各スペルはそれぞれ固有のレリックに属しているため、スペルの重複を気にする必要はありません。",
+
+  "message.vitalrelics.disenchantment_book_required": "オフハンドに本を持ってください。",
+  "message.vitalrelics.disenchantment_no_removable_enchantment": "手に持っているアイテムには解除可能なエンチャントがありません。",
+  "message.vitalrelics.disenchantment_success": "エンチャントを本に移しました。"
 }

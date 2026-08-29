@@ -643,6 +643,10 @@
         "purify_penalty": {
           "experience_cost": 15,
           "recovery": 0.5
+        },
+        "disenchantment": {
+          "experience_cost": 15,
+          "recovery": 0.5
         }
       }
     },

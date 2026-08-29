@@ -504,6 +504,18 @@ public final class MySpellSystem {
 			caster.playSound(MySound.AMETHYST_CHIME);
 			return true;
 		});
+
+		register(Relic.SPELL_DISENCHANTMENT, (caster, spell) -> {
+			final int experienceCost = Math.max(0, (int) Math.round(
+					RelicSpells.numberParameter(spell, "experience_cost", 0.0)
+			));
+
+			if (!runtime.disenchantToOffhandBook(caster, experienceCost))
+				return false;
+
+			caster.playSound(MySound.ENCHANTMENT_TABLE_USE);
+			return true;
+		});
 	}
 
 	private void register(final String abilityId, final Handler handler) {

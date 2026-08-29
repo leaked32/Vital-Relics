@@ -8,6 +8,7 @@ import com.example.vitalrelics.common.platform.MyVec3;
 import com.example.vitalrelics.network.NeoNetwork;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Blocks;
@@ -703,5 +705,121 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		);
 
 		level.addFreshEntity(lightning);
+	}
+
+	@Override
+	public boolean disenchantToOffhandBook(
+			final MyLivingEntity abstractEntity,
+			final int experienceCost) {
+
+		final LivingEntity entity = nativeEntity(abstractEntity);
+
+		if (!(entity instanceof ServerPlayer player))
+			return false;
+
+		final ItemStack stack = player.getMainHandItem();
+		final ItemStack offhand = player.getOffhandItem();
+
+		if (!offhand.is(Items.BOOK)) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.disenchantment_book_required",
+							"Hold a book in your off hand."
+					),
+					true
+			);
+			return false;
+		}
+
+		final var component = stack.is(Items.ENCHANTED_BOOK)
+				? DataComponents.STORED_ENCHANTMENTS
+				: DataComponents.ENCHANTMENTS;
+
+		final ItemEnchantments enchantments =
+				stack.getOrDefault(component, ItemEnchantments.EMPTY);
+
+		if (enchantments.isEmpty()) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.item_not_enchanted",
+							"The held item is not enchanted."
+					),
+					true
+			);
+			return false;
+		}
+
+		Holder<Enchantment> selected = null;
+		int selectedLevel = 0;
+
+		for (final Holder<Enchantment> enchantment : enchantments.keySet()) {
+			if (enchantment.is(EnchantmentTags.CURSE))
+				continue;
+
+			selected = enchantment;
+			selectedLevel = enchantments.getLevel(enchantment);
+			break;
+		}
+
+		if (selected == null) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.disenchantment_no_removable_enchantment",
+							"The held item has no removable enchantment."
+					),
+					true
+			);
+			return false;
+		}
+
+		if (!player.isCreative() &&
+				player.experienceLevel < experienceCost) {
+
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchant_upgrade_insufficient_experience",
+							"Not enough experience. Required level: %s",
+							experienceCost
+					),
+					true
+			);
+			return false;
+		}
+
+		final ItemEnchantments.Mutable remaining =
+				new ItemEnchantments.Mutable(enchantments);
+
+		remaining.set(selected, 0);
+		stack.set(component, remaining.toImmutable());
+
+		final ItemEnchantments.Mutable extracted =
+				new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+
+		extracted.set(selected, selectedLevel);
+
+		final ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+		book.set(
+				DataComponents.STORED_ENCHANTMENTS,
+				extracted.toImmutable()
+		);
+
+		if (!player.isCreative())
+			offhand.shrink(1);
+
+		if (!player.getInventory().add(book))
+			player.drop(book, false);
+
+		if (!player.isCreative())
+			player.giveExperienceLevels(-experienceCost);
+
+		player.displayClientMessage(
+				message(
+						"message.vitalrelics.disenchantment_success",
+						"Enchantment transferred to the book."
+				),
+				true
+		);
+
+		return true;
 	}
 }

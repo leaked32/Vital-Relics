@@ -1,7 +1,7 @@
 # TODO
 
 ## Discovered Bugs
-- The effects in the guide book are not translated. They should be translated by minecraft default measures.
+
 
 ## Upgradable
 - Update all (bracelet, ring) textures with only duplicated colored ones.
@@ -20,9 +20,14 @@
       but the fire is still there (`fire_resistance_ring`).
   - Lava Swimmer: player can swim happily in lava with clear sight (`fire_resistance_ring`).
 - Plausible playable spells can be added:
-  - Disenchantment: disenchant an enchantment to the book holding on the left hand (`arcane_reforging_charm`).
   - Cruel Cleanse: maybe there's a better name, remove all positive effects on the pointed target, 
       it should have longer cooldown.
+
+## Completed
+- Added spells:
+    - Disenchantment: disenchant an enchantment to the book holding on the left hand (`arcane_reforging_charm`).
+- Fix guide-book effect translations. It’s a discovered bug, likely small, and immediately removes visible roughness.
+- Document relic stacking rules in the guide book. Very high value because players otherwise cannot reason about builds.
 - Explain the stacking rules of the relic in guide book:
   - Callbacks and Properties can be stacked by equipped the same relic into different slots.
       Stacking them in the same slot does not count.

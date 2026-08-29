@@ -690,4 +690,107 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 
 		level.addFreshEntity(lightning);
 	}
+
+	@Override
+	public boolean disenchantToOffhandBook(
+			final MyLivingEntity abstractEntity,
+			final int experienceCost) {
+
+		final LivingEntity entity = nativeEntity(abstractEntity);
+
+		if (!(entity instanceof ServerPlayer player))
+			return false;
+
+		final ItemStack stack = player.getMainHandItem();
+		final ItemStack offhand = player.getOffhandItem();
+
+		if (!offhand.is(Items.BOOK)) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.disenchantment_book_required",
+							"Hold a book in your off hand."
+					),
+					true
+			);
+			return false;
+		}
+
+		final Map<Enchantment, Integer> enchantments =
+				EnchantmentHelper.getEnchantments(stack);
+
+		if (enchantments.isEmpty()) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.item_not_enchanted",
+							"The held item is not enchanted."
+					),
+					true
+			);
+			return false;
+		}
+
+		Enchantment selected = null;
+		int selectedLevel = 0;
+
+		for (final var entry : enchantments.entrySet()) {
+			final Enchantment enchantment = entry.getKey();
+
+			if (enchantment.isCurse())
+				continue;
+
+			selected = enchantment;
+			selectedLevel = entry.getValue();
+			break;
+		}
+
+		if (selected == null) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.disenchantment_no_removable_enchantment",
+							"The held item has no removable enchantment."
+					),
+					true
+			);
+			return false;
+		}
+
+		if (!player.isCreative() &&
+				player.experienceLevel < experienceCost) {
+
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchant_upgrade_insufficient_experience",
+							"Not enough experience. Required level: %s",
+							experienceCost
+					),
+					true
+			);
+			return false;
+		}
+
+		enchantments.remove(selected);
+		EnchantmentHelper.setEnchantments(enchantments, stack);
+
+		final ItemStack book = new ItemStack(Items.ENCHANTED_BOOK);
+		book.enchant(selected, selectedLevel);
+
+		if (!player.isCreative())
+			offhand.shrink(1);
+
+		if (!player.getInventory().add(book))
+			player.drop(book, false);
+
+		if (!player.isCreative())
+			player.giveExperienceLevels(-experienceCost);
+
+		player.displayClientMessage(
+				message(
+						"message.vitalrelics.disenchantment_success",
+						"Enchantment transferred to the book."
+				),
+				true
+		);
+
+		return true;
+	}
 }

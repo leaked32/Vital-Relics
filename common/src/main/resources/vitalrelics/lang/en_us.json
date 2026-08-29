@@ -226,6 +226,9 @@
   "guide.vitalrelics.introduction.stacking.title": "Stacking Rules",
   "guide.vitalrelics.introduction.stacking.callbacks": "Callbacks and Properties can stack when copies of the same relic are equipped in different slots. Equipping multiple copies in the same slot does not count.",
   "guide.vitalrelics.introduction.stacking.passive_skills": "If the same Passive Skill is provided by multiple equipped relics, only the highest level takes effect.",
-  "guide.vitalrelics.introduction.stacking.spells": "Each Spell is unique to its relic, so Spells do not have stacking concerns."
+  "guide.vitalrelics.introduction.stacking.spells": "Each Spell is unique to its relic, so Spells do not have stacking concerns.",
 
+  "message.vitalrelics.disenchantment_book_required": "Hold a book in your off hand.",
+  "message.vitalrelics.disenchantment_no_removable_enchantment": "The held item has no removable enchantment.",
+  "message.vitalrelics.disenchantment_success": "Enchantment transferred to the book."
 }
