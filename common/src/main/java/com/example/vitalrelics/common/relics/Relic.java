@@ -47,7 +47,7 @@ public class Relic {
 	public static final String PASSIVE_SKILL_LIFESTEAL = "lifesteal";
 	public static final String PASSIVE_SKILL_THORNS = "thorns";
 	public static final String PASSIVE_SKILL_ARROW_DEFLECTION = "arrow_deflection";
-	public static final String PASSIVE_SKILL_FIRE_RESISTANCE = "fire_resistance";
+	// public static final String PASSIVE_SKILL_FIRE_RESISTANCE = "fire_resistance";
 	public static final String PASSIVE_SKILL_IRON_CURTAIN = "iron_curtain";
 
 	public final Map<String, Double> passive_skills = new LinkedHashMap<>();

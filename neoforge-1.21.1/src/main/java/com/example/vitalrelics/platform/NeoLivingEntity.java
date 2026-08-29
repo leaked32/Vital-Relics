@@ -215,6 +215,14 @@ public final class NeoLivingEntity implements MyLivingEntity {
 	}
 
 	@Override
+	public boolean isServerPlayer() {
+		if (entity instanceof ServerPlayer) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean is(final MyLivingEntity other) {
 		return other instanceof NeoLivingEntity neo &&
 				entity.is(neo.entity);

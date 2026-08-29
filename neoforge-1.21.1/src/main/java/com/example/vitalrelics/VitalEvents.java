@@ -263,16 +263,8 @@ public final class VitalEvents {
 			spawnEnemyRelicParticles(livingEntity, relics, currentTickCount);
 		}
 
-		// Scheduled to update on each half seconds
-		// Scheduled to update on each half seconds
-		if (currentTickCount % 10 == 0) {
-			final MyLivingEntity entity =
-					new NeoLivingEntity(livingEntity);
-
-			MyUtils.removeImmuneEffects(entity, relics, MyLivingEntity.MyEffectCategory.ALL);
-
-			MyUtils.applyRelicEffects(entity, relics);
-		}
+		final MyLivingEntity entity = new NeoLivingEntity(livingEntity);
+		MyEvents.onLivingEntityTick(entity, currentTickCount, relics);
 
 		// Scheduled to update on each second
 		if (currentTickCount % 20 == 0) {
@@ -308,31 +300,6 @@ public final class VitalEvents {
 				updateFlight(player, flight_level);
 			}
 
-			// Passive Skill: reality_severance
-
-			final double reality_severance_level =
-					Loader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_REALITY_SEVERANCE);
-
-			if (reality_severance_level > 0.0) {
-				final float ratioDamage = (float) (reality_severance_level / 100.0);
-				final float rangeDamage =
-						ratioDamage *
-								(float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-
-				MyDamageInfo.directRangedAttack(
-						new NeoLivingEntity(livingEntity),
-						rangeDamage,
-						Math.round((float) reality_severance_level),
-						1,
-						Math.round((float) (reality_severance_level / 4.0))
-				);
-			}
-
-			// Client HUD
-
-			if (livingEntity instanceof ServerPlayer player) {
-				MySpellSystem.INSTANCE.syncSpellHud(new NeoLivingEntity(player));
-			}
 		}
 
 		// Scheduled to update on each 4 seconds

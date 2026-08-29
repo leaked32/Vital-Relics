@@ -42,6 +42,8 @@ public interface MyLivingEntity {
 
 	boolean isClientSide();
 
+	boolean isServerPlayer();
+
 	boolean is(MyLivingEntity other);
 
 	boolean isAllied(MyLivingEntity other);

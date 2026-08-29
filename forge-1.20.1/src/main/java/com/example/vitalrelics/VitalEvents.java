@@ -219,17 +219,8 @@ public final class VitalEvents {
 			spawnEnemyRelicParticles(livingEntity, relics, currentTickCount);
 		}
 
-		if (currentTickCount % 10 == 0) {
-			final MyLivingEntity entity = new ForgeLivingEntity(livingEntity);
-
-			MyUtils.removeImmuneEffects(
-					entity,
-					relics,
-					MyLivingEntity.MyEffectCategory.ALL
-			);
-
-			MyUtils.applyRelicEffects(entity, relics);
-		}
+		final MyLivingEntity entity = new ForgeLivingEntity(livingEntity);
+		MyEvents.onLivingEntityTick(entity, currentTickCount, relics);
 
 		if (currentTickCount % 20 == 0) {
 			// Properties
@@ -264,25 +255,6 @@ public final class VitalEvents {
 				updateFlight(player, flight_level);
 			}
 
-			// Passive Skill: reality_severance
-
-			final double reality_severance_level =
-					Loader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_REALITY_SEVERANCE);
-
-			if (reality_severance_level > 0.0) {
-				final float ratioDamage = (float) (reality_severance_level / 100.0);
-				final float rangeDamage =
-						ratioDamage *
-								(float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
-
-				MyDamageInfo.directRangedAttack(
-						new ForgeLivingEntity(livingEntity),
-						rangeDamage,
-						Math.round((float) reality_severance_level),
-						1,
-						Math.round((float) (reality_severance_level / 4.0))
-				);
-			}
 		}
 
 		if (currentTickCount % 80 == 0) {
@@ -313,9 +285,7 @@ public final class VitalEvents {
 	}
 
 	private static void replaceModifier(
-			final AttributeInstance attr,
-			final UUID id,
-			final double amount,
+			final AttributeInstance attr, final UUID id, final double amount,
 			final AttributeModifier.Operation operation) {
 
 		attr.removeModifier(id);
