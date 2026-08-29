@@ -388,12 +388,14 @@ public final class VitalEvents {
 				arrow.getDeltaMovement().scale(level)
 		);
 
-		final double leastDamage =
-				level * owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		arrow.setBaseDamage(arrow.getBaseDamage() * level);
 
-		arrow.setBaseDamage(
-				Math.max(arrow.getBaseDamage() * level, leastDamage)
-		);
+//		final double leastDamage =
+//				level * owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+//
+//		arrow.setBaseDamage(
+//				Math.max(arrow.getBaseDamage() * level, leastDamage)
+//		);
 	}
 
 	@SubscribeEvent

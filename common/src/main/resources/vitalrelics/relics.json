@@ -154,7 +154,7 @@
       "id": "metal_mending_ring",
       "display_name": "Ring of Metal Mending",
       "tooltip": "Slowly repairs the equipment worn by its bearer.",
-      "texture": "ring_aqua_saturated.png",
+      "texture": "ring_metal_mending.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": { "metal_mending": 2.0 }
@@ -569,7 +569,7 @@
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": ["wither", "poison", "weakness"],
-      "passive_skills": { "arrow_deflection": 1.5 },
+      "passive_skills": { "arrow_deflection": 2.0 },
       "properties": {
         "max_health": {
           "add": 12.0
@@ -623,7 +623,7 @@
       "tooltip": "Empowers arrows with greater force.",
       "texture": "icy_feathered_arrow.png",
       "rarity": "epic",
-      "passive_skills": { "empowered_arrows": 1.5, "arrow_deflection": 2.0 }
+      "passive_skills": { "empowered_arrows": 1.5 }
     },
     {
       "id": "arcane_reforging_charm",

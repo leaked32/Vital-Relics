@@ -24,7 +24,11 @@ public class Relic {
 	public final Map<String, Integer> granted_effects = new LinkedHashMap<>();
 
 	/*
-	 * Passive skills:
+	 * Passive skills
+	 * - Passive skills activates automatically on condition.
+	 * - Passive skill level cannot be stacked or summed, only the highest level counts.
+	 *
+	 * Available Passive skills:
 	 * - `retarget_arrow`: Reflected arrow minimum damage = ATTACK_DAMAGE × level
 	 * - `arrow_deflection`: Reflects one incoming arrow; reflected damage and speed are
 	 *      multiplied by level, and cooldown is 5 / level seconds
@@ -70,6 +74,7 @@ public class Relic {
 	public final Map<String, Double> enemy_spawn = new LinkedHashMap<>();
 
 	/*
+	 * Available Spells:
 	 * - `teleport`:
 	 *     BLOCK hit: center for thin blocks; try above, if blocked, try before the hit face
 	 *     MISS / sky -> teleport as far along look direction as possible

@@ -378,10 +378,7 @@ public final class VitalEvents {
 		final List<Relic> relics = gatherRelics(victim);
 
 		final double retargetLevel =
-				Loader.levelOfSuchPassiveSkill(
-						relics,
-						Relic.PASSIVE_SKILL_RETARGET_ARROW
-				);
+				Loader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_RETARGET_ARROW);
 
 		if (retargetLevel > 0.0) {
 			retargetArrow(arrow, victim, 1.0, 1.0, retargetLevel);
@@ -405,9 +402,7 @@ public final class VitalEvents {
 				Math.max(1, (int) Math.round(100.0 / deflectionLevel));
 
 		if (!Scheduler.INSTANCE().acquireArrowDeflection(
-				victim.getUUID(),
-				server.getTickCount(),
-				cooldownTicks
+				victim.getUUID(), server.getTickCount(), cooldownTicks
 		))
 			return;
 
@@ -444,12 +439,14 @@ public final class VitalEvents {
 				arrow.getDeltaMovement().scale(level)
 		);
 
-		final double leastDamage =
-				level * owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		arrow.setBaseDamage(arrow.getBaseDamage() * level);
 
-		arrow.setBaseDamage(
-				Math.max(arrow.getBaseDamage() * level, leastDamage)
-		);
+//		final double leastDamage =
+//				level * owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
+//
+//		arrow.setBaseDamage(
+//				Math.max(arrow.getBaseDamage() * level, leastDamage)
+//		);
 	}
 
 	@SubscribeEvent
