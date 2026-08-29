@@ -18,7 +18,6 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.EntityHitResult;
@@ -127,11 +126,6 @@ public final class VitalEvents {
 			ResourceLocation mulBaseId,
 			ResourceLocation mulTotalId) {}
 
-	@FunctionalInterface
-	private interface TickAction {
-		void apply(LivingEntity entity, Relic.Ticks.Info value);
-	}
-
 	private static final Map<String, PropertyTarget> PROPERTY_TARGETS = Map.of(
 			"attack_damage", new PropertyTarget(Attributes.ATTACK_DAMAGE,
 					ATTACK_DAMAGE_ADD_ID, ATTACK_DAMAGE_MUL_ID, ATTACK_DAMAGE_MUL_TOTAL_ID),
@@ -149,18 +143,6 @@ public final class VitalEvents {
 					BLOCK_INTERACTION_RANGE_ADD_ID, BLOCK_INTERACTION_RANGE_MUL_ID, BLOCK_INTERACTION_RANGE_MUL_TOTAL_ID),
 			"entity_interaction_range", new PropertyTarget(Attributes.ENTITY_INTERACTION_RANGE,
 					ENTITY_INTERACTION_RANGE_ADD_ID, ENTITY_INTERACTION_RANGE_MUL_ID, ENTITY_INTERACTION_RANGE_MUL_TOTAL_ID)
-	);
-
-	private static final Map<String, TickAction> TICK_ACTIONS = Map.of(
-			"heal", (entity, value) -> entity.heal((float) (
-					value.add + entity.getMaxHealth() * value.ratio_add)),
-			"feed", (entity, value) -> {
-				if (entity instanceof Player player) {
-					final float feed = (float) (
-							value.add + player.getMaxHealth() * value.ratio_add);
-					player.getFoodData().eat(Math.round(feed), 1.0F);
-				}
-			}
 	);
 
 	private static void updateFlight(
@@ -249,22 +231,9 @@ public final class VitalEvents {
 		final var relics = gatherRelics(livingEntity);
 		final int currentTickCount = server.getTickCount();
 
-		// Calls on each tick
-		{
-			final Map<String, Relic.Ticks.Info> ticks =
-					Loader.computeTicks(relics, currentTickCount);
-
-			for (final var entry : ticks.entrySet()) {
-				final TickAction action = TICK_ACTIONS.get(entry.getKey());
-				if (action != null)
-					action.apply(livingEntity, entry.getValue());
-			}
-
-			spawnEnemyRelicParticles(livingEntity, relics, currentTickCount);
-		}
-
 		final MyLivingEntity entity = new NeoLivingEntity(livingEntity);
 		MyEvents.onLivingEntityTick(entity, currentTickCount, relics);
+		spawnEnemyRelicParticles(livingEntity, relics, currentTickCount);
 
 		// Scheduled to update on each second
 		if (currentTickCount % 20 == 0) {
@@ -302,18 +271,6 @@ public final class VitalEvents {
 
 		}
 
-		// Scheduled to update on each 4 seconds
-		if (currentTickCount % 80 == 0) {
-			// Passive Skill: metal_mending
-
-			final double metalMendingLevel =
-					Loader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_METAL_MENDING);
-
-			if (metalMendingLevel > 0.0) {
-				Utils.metalMending(livingEntity, Math.max(1, (int) Math.round(metalMendingLevel)));
-			}
-		}
-
 	}
 
 	private static void applyProperty(
@@ -346,104 +303,23 @@ public final class VitalEvents {
 	@SubscribeEvent
 	public static void onLivingDamage(final LivingDamageEvent.Pre event) {
 		final LivingEntity victim = event.getEntity();
-		final Entity entity_criminal = event.getSource().getEntity();
 
-		if (victim.level().isClientSide()) {
+		if (victim.level().isClientSide())
 			return;
-		}
 
-		MinecraftServer victim_server = victim.getServer();
-		if (victim_server == null) {
+		final MinecraftServer server = victim.getServer();
+		if (server == null)
 			return;
-		}
 
-		/*
-		Attack
-		 */
-		if (entity_criminal instanceof LivingEntity criminal) {
-			final var attackerRelics = gatherRelics(criminal);
-			final float amount = (float) Loader.applyCallback(
-					attackerRelics,
-					"damage_dealt",
-					event.getNewDamage(),
-					victim.getMaxHealth()
-			);
-			final double invulnerableTime = Loader.applyCallback(
-					attackerRelics,
-					"invulnerable_time_dealt",
-					victim.invulnerableTime,
-					10.0
-			);
+		final Entity source = event.getSource().getEntity();
+		final MyLivingEntity attacker = source instanceof LivingEntity livingSource
+				? new NeoLivingEntity(livingSource)
+				: null;
 
-			victim.invulnerableTime = Math.round((float) invulnerableTime);
-			event.setNewDamage(amount);
-
-			// Lifesteal
-			final double lifestealLevel = Loader.levelOfSuchPassiveSkill(
-					attackerRelics,
-					Relic.PASSIVE_SKILL_LIFESTEAL
-			);
-
-			if (lifestealLevel > 0.0 && amount > 0.0F) {
-				criminal.heal((float) (amount * lifestealLevel));
-			}
-		}
-
-		/*
-		Protection
-		 */
-		final var victimRelics = gatherRelics(victim);
-		float amount = (float) Loader.applyCallback(
-				victimRelics,
-				"damage_taken",
-				event.getNewDamage(),
-				victim.getMaxHealth()
-		);
-
-		final float invulnerable_time = (float) Loader.applyCallback(
-				victimRelics,
-				"invulnerable_time_taken",
-				victim.invulnerableTime,
-				10.0
-		);
-
-		// Only activate it when changes happen.
-		if (victim.invulnerableTime != invulnerable_time) {
-			if (!Scheduler.INSTANCE().acquireProtection(
-					victim.getUUID(),
-					victim_server.getTickCount(),
-					Math.round(invulnerable_time)
-			)) {
-				amount = 0.0F;
-			}
-			victim.invulnerableTime = Math.round(invulnerable_time);
-		}
-
-		// Thorns
-
-		if (entity_criminal instanceof LivingEntity criminal && amount > 0.0F) {
-			final double thornsLevel = Loader.levelOfSuchPassiveSkill(
-					victimRelics,
-					Relic.PASSIVE_SKILL_THORNS
-			);
-
-			if (thornsLevel > 0.0 &&
-					Scheduler.INSTANCE().acquireThorns(
-							victim.getUUID(),
-							victim_server.getTickCount(),
-							10
-					)) {
-
-				criminal.hurt(
-						victim.damageSources().thorns(victim),
-						(float) (amount * thornsLevel)
-				);
-			}
-		}
-
-		event.setNewDamage(amount);
-
-		// inspect DamageSource / attacker / victim relics here
+		event.setNewDamage(MyEvents.onLivingDamage(
+				new NeoLivingEntity(victim), attacker,
+				event.getNewDamage(), server.getTickCount()
+		));
 	}
 
 

@@ -9,8 +9,11 @@ public interface MyLivingEntity {
 	void playSound(MySound sound);
 
 	boolean hurt(MyDamageSource source, float amount);
+	boolean hurtThorns(MyLivingEntity source, float amount);
 
 	void resetInvulnerableTime();
+	int invulnerableTime();
+	void setInvulnerableTime(int ticks);
 
 	float health();
 
@@ -19,6 +22,8 @@ public interface MyLivingEntity {
 	float attackDamage();
 
 	void heal(float amount);
+	void feed(int nutrition, float saturation);
+	void mendEquipment(int level);
 
 	double x();
 

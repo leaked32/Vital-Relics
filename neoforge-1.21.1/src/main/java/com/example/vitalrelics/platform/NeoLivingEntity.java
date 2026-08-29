@@ -20,6 +20,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.List;
@@ -156,8 +157,26 @@ public final class NeoLivingEntity implements MyLivingEntity {
 	}
 
 	@Override
+	public boolean hurtThorns(final MyLivingEntity source, final float amount) {
+		if (!(source instanceof NeoLivingEntity neoSource))
+			throw new IllegalArgumentException("Expected NeoLivingEntity source");
+
+		return entity.hurt(entity.damageSources().thorns(neoSource.entity), amount);
+	}
+
+	@Override
 	public void resetInvulnerableTime() {
 		entity.invulnerableTime = 0;
+	}
+
+	@Override
+	public int invulnerableTime() {
+		return entity.invulnerableTime;
+	}
+
+	@Override
+	public void setInvulnerableTime(final int ticks) {
+		entity.invulnerableTime = ticks;
 	}
 
 	@Override
@@ -303,6 +322,17 @@ public final class NeoLivingEntity implements MyLivingEntity {
 	@Override
 	public void heal(final float amount) {
 		entity.heal(amount);
+	}
+
+	@Override
+	public void feed(final int nutrition, final float saturation) {
+		if (entity instanceof Player player)
+			player.getFoodData().eat(nutrition, saturation);
+	}
+
+	@Override
+	public void mendEquipment(final int level) {
+		Utils.metalMending(entity, level);
 	}
 
 
