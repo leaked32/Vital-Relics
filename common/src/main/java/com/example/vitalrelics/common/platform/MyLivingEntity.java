@@ -16,9 +16,7 @@ public interface MyLivingEntity {
 	void setInvulnerableTime(int ticks);
 
 	float health();
-
 	float maxHealth();
-
 	float attackDamage();
 
 	void heal(float amount);
@@ -26,34 +24,23 @@ public interface MyLivingEntity {
 	void mendEquipment(int level);
 
 	double x();
-
 	double y();
-
 	double z();
 
 	double horizontalLookX();
-
 	double horizontalLookZ();
 
 	void setVelocity(double x, double y, double z);
-
 	void push(double x, double y, double z);
-
 	void markMovementChanged();
 
 	boolean isDeadOrDying();
-
 	boolean isLoaded();
-
 	boolean isClientSide();
-
 	boolean isServerPlayer();
-
 	boolean is(MyLivingEntity other);
-
 	boolean isAllied(MyLivingEntity other);
-
-	boolean hostileTargeted(MyLivingEntity other);
+	boolean isHostileTargeted(MyLivingEntity other);
 
 	List<MyLivingEntity> livingEntitiesInRange(double radius);
 
@@ -65,7 +52,6 @@ public interface MyLivingEntity {
 
 	int serverTick();
 
-	void logInfo(String message);
 	double width();
 
 	enum MyEffectCategory {

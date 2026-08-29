@@ -254,7 +254,7 @@ public class MyDamageInfo
 					continue;
 
 				case hostileTargeted:
-					if (!attacker.hostileTargeted(nearby_target)) {
+					if (!attacker.isHostileTargeted(nearby_target)) {
 						continue;
 					}
 					if (target != null && nearby_target.is(target)) {
@@ -320,10 +320,10 @@ public class MyDamageInfo
 				boolean suc = target.hurt(new_source, amount_to_apply);
 
 				if (!suc) {
-					attacker.logInfo(
-							"RealityPiercer deal_extra_damage unsuccessful hurt, " +
-							"try 'reality_piercer_penetrate'"
-					);
+//					attacker.logInfo(
+//							"RealityPiercer deal_extra_damage unsuccessful hurt, " +
+//							"try 'reality_piercer_penetrate'"
+//					);
 					realityPiercerPenetrate(
 							target,
 							new_source,

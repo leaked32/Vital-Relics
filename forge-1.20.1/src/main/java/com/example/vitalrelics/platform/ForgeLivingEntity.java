@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.example.vitalrelics.VitalRelics.LOGGER;
-
 public final class ForgeLivingEntity implements MyLivingEntity {
 	final LivingEntity entity;
 
@@ -296,7 +294,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 	}
 
 	@Override
-	public boolean hostileTargeted(final MyLivingEntity other) {
+	public boolean isHostileTargeted(final MyLivingEntity other) {
 		if (!(other instanceof ForgeLivingEntity forge))
 			return false;
 
@@ -369,11 +367,6 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 	public int serverTick() {
 		final var server = entity.getServer();
 		return server == null ? -1 : server.getTickCount();
-	}
-
-	@Override
-	public void logInfo(final String message) {
-		LOGGER.info(message);
 	}
 
 	@Override

@@ -265,7 +265,7 @@ public final class MySpellSystem {
 			for (final MyLivingEntity target :
 					MyDamageInfo.getLivingEntitiesInRange(caster, range)) {
 
-				if (!caster.hostileTargeted(target))
+				if (!caster.isHostileTargeted(target))
 					continue;
 
 				final double dx = target.x() - caster.x();
@@ -355,7 +355,7 @@ public final class MySpellSystem {
 			for (final MyLivingEntity target :
 					MyDamageInfo.getLivingEntitiesInRange(caster, range)) {
 
-				if (!caster.hostileTargeted(target))
+				if (!caster.isHostileTargeted(target))
 					continue;
 
 				target.push(0.0, strength, 0.0);
@@ -441,7 +441,7 @@ public final class MySpellSystem {
 							caster.width() * 0.5
 					)) {
 
-				if (!caster.hostileTargeted(target))
+				if (!caster.isHostileTargeted(target))
 					continue;
 
 				MyDamageInfo.directAttack(
