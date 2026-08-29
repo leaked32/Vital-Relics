@@ -77,6 +77,7 @@ public class RelicItem extends Item {
 				text.translationKey(), text.fallback()
 		);
 
+
 		final MutableComponent result = Component.literal("");
 		int start = 0;
 		int argumentIndex = 0;

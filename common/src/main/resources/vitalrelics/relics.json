@@ -625,7 +625,7 @@
       "display_name": "Archer's Emblem",
       "tooltip": "Empowers arrows with greater force.",
       "texture": "icy_feathered_arrow.png",
-      "rarity": "epic"
+      "rarity": "epic",
       "passive_skills": { "empowered_arrows": 1.5 }
     },
     {

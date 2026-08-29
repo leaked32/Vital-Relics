@@ -149,6 +149,20 @@
       },
       "count": 1
     },
+    "temporal_guard_ring": {
+      "type": "shaped",
+      "pattern": [
+        "GAG",
+        "ACA",
+        "GAG"
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "A": "minecraft:amethyst_shard",
+        "C": "minecraft:clock"
+      },
+      "count": 1
+    },
 
     "healing_bracelet": {
       "type": "shaped",
@@ -694,6 +708,16 @@
       {
         "table": "minecraft:chests/simple_dungeon",
         "chance": 0.04
+      }
+    ],
+    "temporal_guard_ring": [
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.035
+      },
+      {
+        "table": "minecraft:chests/stronghold_library",
+        "chance": 0.025
       }
     ],
 
