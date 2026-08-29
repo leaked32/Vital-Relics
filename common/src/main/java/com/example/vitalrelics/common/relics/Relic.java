@@ -93,9 +93,15 @@ public class Relic {
 	 * - `shadow_exchange`: Swaps positions with the pointed hostile living entity within `range`
 	 * - `phantom_step`: Instantly moves forward up to `range` blocks and damages hostile
 	 *      living entities crossed for `intensity`% attack damage
-	 * - `upgrade_enchanted_book`: ...
-	 * - `enchantment_ascension`: ...
-	 * - `purify_penalty`: ...
+	 * - `upgrade_enchanted_book`: Upgrades the first non-max-level enchantment
+	 *      on the enchanted book held in the main hand by one level,
+	 *      consuming experience_cost experience levels. Creative players do not pay the cost.
+	 * - `enchantment_ascension`: Upgrades the first non-max-level enchantment
+	 *      on any enchanted item held in the main hand by one level,
+	 *      consuming experience_cost experience levels. Creative players do not pay the cost.
+	 * - `purify_penalty`:Removes the first curse from the item held in the main hand;
+	 *      if no curse exists, resets its anvil repair-cost penalty to zero instead.
+	 *      Consumes experience_cost experience levels; creative players do not pay the cost.
 	 */
 	public static final String SPELL_TELEPORT = "teleport";
 	public static final String SPELL_CURSE = "curse";

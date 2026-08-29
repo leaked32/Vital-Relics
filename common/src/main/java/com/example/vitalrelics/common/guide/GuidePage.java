@@ -327,7 +327,7 @@ public class GuidePage {
 
 		if (entry.acquisitionUndefined) {
 			section.lines.add(tr(
-					"guide.RelicAcquisitionLoader.get().unavailable",
+					"guide.vitalrelics.acquisition.unavailable",
 					"Not available through normal survival acquisition"
 			));
 			page.sections.add(section);
@@ -339,7 +339,7 @@ public class GuidePage {
 
 		for (final Acquisition.Data.Loot loot : entry.loot) {
 			section.lines.add(trf(
-					"guide.RelicAcquisitionLoader.get().loot", "Loot: %s (%s)",
+					"guide.vitalrelics.acquisition.loot", "Loot: %s (%s)",
 					humanizeIdentifier(loot.table),
 					formatPercent(loot.chance)
 			));
@@ -347,7 +347,7 @@ public class GuidePage {
 
 		if (section.lines.isEmpty()) {
 			section.lines.add(tr(
-					"guide.RelicAcquisitionLoader.get().none",
+					"guide.vitalrelics.acquisition.none",
 					"No configured acquisition method"
 			));
 		}
@@ -361,7 +361,7 @@ public class GuidePage {
 			final Function<String, String> ingredientName) {
 
 		section.lines.add(trf(
-				"guide.RelicAcquisitionLoader.get().crafting", "Crafting: %s",
+				"guide.vitalrelics.acquisition.crafting", "Crafting: %s",
 				humanize(recipe.type)
 		));
 
@@ -382,7 +382,7 @@ public class GuidePage {
 
 		if (recipe.count != 1) {
 			section.lines.add(trf(
-					"guide.RelicAcquisitionLoader.get().output", "  Output: %s",
+					"guide.vitalrelics.acquisition.output", "  Output: %s",
 					recipe.count
 			));
 		}

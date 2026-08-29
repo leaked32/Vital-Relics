@@ -190,11 +190,11 @@
 
   "guide.vitalrelics.enemy_spawn": "%s: %s",
 
-  "guide.RelicAcquisitionLoader.get().unavailable": "Not available through normal survival acquisition",
-  "guide.RelicAcquisitionLoader.get().none": "No configured acquisition method",
-  "guide.RelicAcquisitionLoader.get().loot": "Loot: %s (%s)",
-  "guide.RelicAcquisitionLoader.get().crafting": "Crafting: %s",
-  "guide.RelicAcquisitionLoader.get().output": "  Output: %s",
+  "guide.vitalrelics.acquisition.unavailable": "Not available through normal survival acquisition",
+  "guide.vitalrelics.acquisition.none": "No configured acquisition method",
+  "guide.vitalrelics.acquisition.loot": "Loot: %s (%s)",
+  "guide.vitalrelics.acquisition.crafting": "Crafting: %s",
+  "guide.vitalrelics.acquisition.output": "  Output: %s",
 
   "guide.vitalrelics.title": "Vital Relics",
   "guide.vitalrelics.empty": "No relics loaded.",
@@ -217,15 +217,10 @@
   "relic.vitalrelics.spell.enchantment_ascension": "Enchantment Ascension",
   "relic.vitalrelics.spell.purify_penalty": "Purify Penalty",
   "item.vitalrelics.arcane_reforging_charm": "Charm of Arcane Reforging",
-  "tooltip.vitalrelics.arcane_reforging_charm": "Refines enchanted equipment, strengthening its magic or cleansing its accumulated anvil burden.",
+  "tooltip.vitalrelics.arcane_reforging_charm": "Refines enchanted equipment or enchanted book, strengthening its magic or cleansing its accumulated anvil burden.",
   "message.vitalrelics.enchantment_book_required": "Hold an enchanted book in your main hand.",
   "message.vitalrelics.item_not_enchanted": "The held item is not enchanted.",
   "message.vitalrelics.enchantments_at_maximum": "Every enchantment is already at its maximum level.",
-  "message.vitalrelics.nothing_to_purify": "The held item has no curse or anvil penalty to purify.",
-
-  "item.vitalrelics.temporal_guard_ring": "Ring of Temporal Guard",
-  "tooltip.vitalrelics.temporal_guard_ring": "A ring that preserves a brief moment of protection after each blow.",
-  "item.vitalrelics.celestial_aegis": "Halo of the Celestial Aegis",
-  "tooltip.vitalrelics.celestial_aegis": "A sacred halo that shelters its wearer beneath a celestial ward."
+  "message.vitalrelics.nothing_to_purify": "The held item has no curse or anvil penalty to purify."
 
 }

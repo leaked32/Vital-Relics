@@ -64,7 +64,7 @@ public class VitalRelics {
 	public static final RegistryObject<Item> GUIDE_BOOK =
 						ITEMS.register("guide_book", GuideBookItem::new);
 
-	// public final static RelicAcquisitionLoader acquisition = RelicAcquisitionLoader.get();
+	// public final static RelicAcquisitionLoader acquisition = vitalrelics.acquisition;
 
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
 			DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Manifest.MODID);

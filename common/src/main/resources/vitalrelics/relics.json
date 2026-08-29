@@ -568,6 +568,9 @@
       "effective_slots": ["in_inventory", "in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "curio_slot": "head",
       "rarity": "epic",
+      "granted_effects": {
+        "jump_boost": 2
+      },
       "immune_to_effects": ["wither", "poison", "weakness"],
       "passive_skills": { "arrow_deflection": 2.0 },
       "properties": {
@@ -622,7 +625,7 @@
       "display_name": "Archer's Emblem",
       "tooltip": "Empowers arrows with greater force.",
       "texture": "icy_feathered_arrow.png",
-      "rarity": "epic",
+      "rarity": "epic"
       "passive_skills": { "empowered_arrows": 1.5 }
     },
     {
