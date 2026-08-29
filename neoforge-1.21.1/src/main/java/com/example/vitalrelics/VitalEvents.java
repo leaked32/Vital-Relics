@@ -258,13 +258,10 @@ public final class VitalEvents {
 		}
 
 		// Scheduled to update on each half seconds
-		// Scheduled to update on each half seconds
 		if (currentTickCount % 10 == 0) {
-			final MyLivingEntity entity =
-					new NeoLivingEntity(livingEntity);
+			final MyLivingEntity entity = new NeoLivingEntity(livingEntity);
 
 			MyUtils.removeImmuneEffects(entity, relics, MyLivingEntity.MyEffectCategory.ALL);
-
 			MyUtils.applyRelicEffects(entity, relics);
 		}
 
