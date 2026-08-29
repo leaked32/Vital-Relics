@@ -1,5 +1,6 @@
 package com.example.vitalrelics.common;
 
+import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.utils.MyMap;
 
 import java.util.LinkedHashMap;

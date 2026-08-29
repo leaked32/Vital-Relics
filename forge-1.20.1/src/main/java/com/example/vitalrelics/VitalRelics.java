@@ -4,7 +4,11 @@ import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
 import com.example.vitalrelics.client.VitalClientEvents;
 import com.example.vitalrelics.common.*;
-import com.example.vitalrelics.common.platform.MyRuntime;
+import com.example.vitalrelics.common.MyRuntime;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Acquisition;
+import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.ForgeNetwork;
 import com.example.vitalrelics.platform.ForgeRuntimeUtils;
 import com.mojang.logging.LogUtils;
@@ -53,14 +57,14 @@ public class VitalRelics {
 
 	public static RegistryObject<CreativeModeTab> RELICS_TAB;
 
-	public final static RelicLoader loader = RelicLoader.INSTANCE;
+	public final static Loader loader = Loader.get();
 
 	public static final List<RegistryObject<Item>> RELIC_ITEMS = new ArrayList<>();
 
 	public static final RegistryObject<Item> GUIDE_BOOK =
 						ITEMS.register("guide_book", GuideBookItem::new);
 
-	public final static RelicAcquisitionLoader acquisition = RelicAcquisitionLoader.INSTANCE;
+	// public final static RelicAcquisitionLoader acquisition = RelicAcquisitionLoader.get();
 
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
 			DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Manifest.MODID);
@@ -93,11 +97,11 @@ public class VitalRelics {
 
 		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
 		final Path recipeConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
-		RelicLoader.INSTANCE.load(config);
-		RelicAcquisitionLoader.INSTANCE.load(recipeConfig);
-		RelicTranslations.INSTANCE.load(FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang"));
+		Loader.load(config);
+		Acquisition.load(recipeConfig);
+		Translations.get().load(FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang"));
 
-		for (final var relic : RelicLoader.INSTANCE.relics_) {
+		for (final var relic : Loader.get().relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {
 				case "uncommon" -> Rarity.UNCOMMON;
 				case "rare" -> Rarity.RARE;

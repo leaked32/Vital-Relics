@@ -189,11 +189,11 @@
 
   "guide.vitalrelics.enemy_spawn": "%s：%s",
 
-  "guide.vitalrelics.acquisition.unavailable": "通常のサバイバルでは入手できません",
-  "guide.vitalrelics.acquisition.none": "入手方法が設定されていません",
-  "guide.vitalrelics.acquisition.loot": "戦利品：%s（%s）",
-  "guide.vitalrelics.acquisition.crafting": "クラフト：%s",
-  "guide.vitalrelics.acquisition.output": "  作成数：%s",
+  "guide.RelicAcquisitionLoader.get().unavailable": "通常のサバイバルでは入手できません",
+  "guide.RelicAcquisitionLoader.get().none": "入手方法が設定されていません",
+  "guide.RelicAcquisitionLoader.get().loot": "戦利品：%s（%s）",
+  "guide.RelicAcquisitionLoader.get().crafting": "クラフト：%s",
+  "guide.RelicAcquisitionLoader.get().output": "  作成数：%s",
 
   "guide.vitalrelics.title": "Vital Relics",
   "guide.vitalrelics.empty": "レリックが読み込まれていません。",

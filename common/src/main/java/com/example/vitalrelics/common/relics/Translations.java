@@ -1,5 +1,6 @@
-package com.example.vitalrelics.common;
+package com.example.vitalrelics.common.relics;
 
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.utils.ConfigurationFiles;
 import com.example.vitalrelics.common.utils.Json;
 
@@ -11,18 +12,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public final class RelicTranslations {
-	public static final RelicTranslations INSTANCE =
-			new RelicTranslations();
+public final class Translations {
+	private static Translations translations = null;
 
-	private volatile Map<String, Map<String, String>> tables =
-			Map.of();
+	Translations() {}
 
-	private volatile String selectedLocale = "en_us";
+	public static void load(final Path directory) {
+		translations = new Translations();
 
-	private RelicTranslations() {}
-
-	public void load(final Path directory) {
 		final Map<String, Map<String, String>> loaded = new LinkedHashMap<>();
 
 		for (final String locale : Manifest.DEFAULT_LOCALES) {
@@ -59,8 +56,24 @@ public final class RelicTranslations {
 			);
 		}
 
-		tables = Map.copyOf(loaded);
+		translations.tables = Map.copyOf(loaded);
 	}
+
+
+
+	public static Translations get() {
+		if (translations == null) {
+			throw new RuntimeException("RelicTranslations has not been initialized yet. ");
+		}
+
+		return translations;
+	}
+
+	private volatile Map<String, Map<String, String>> tables =
+			Map.of();
+
+	private volatile String selectedLocale = "en_us";
+
 
 	public void setSelectedLocale(final String locale) {
 		selectedLocale = normalize(locale);
@@ -87,7 +100,7 @@ public final class RelicTranslations {
 		return fallback;
 	}
 
-	private static Map<String, String> readTable(
+	public static Map<String, String> readTable(
 			final Map<String, Object> root,
 			final Path path) {
 
@@ -117,7 +130,7 @@ public final class RelicTranslations {
 		return Map.copyOf(result);
 	}
 
-	private static String localeFrom(final Path path) {
+	public static String localeFrom(final Path path) {
 		final String fileName = path.getFileName().toString();
 
 		return normalize(fileName.substring(
@@ -126,7 +139,7 @@ public final class RelicTranslations {
 		));
 	}
 
-	private static String normalize(final String locale) {
+	public static String normalize(final String locale) {
 		return locale.toLowerCase(Locale.ROOT).replace('-', '_');
 	}
 }

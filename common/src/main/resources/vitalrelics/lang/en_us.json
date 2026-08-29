@@ -190,11 +190,11 @@
 
   "guide.vitalrelics.enemy_spawn": "%s: %s",
 
-  "guide.vitalrelics.acquisition.unavailable": "Not available through normal survival acquisition",
-  "guide.vitalrelics.acquisition.none": "No configured acquisition method",
-  "guide.vitalrelics.acquisition.loot": "Loot: %s (%s)",
-  "guide.vitalrelics.acquisition.crafting": "Crafting: %s",
-  "guide.vitalrelics.acquisition.output": "  Output: %s",
+  "guide.RelicAcquisitionLoader.get().unavailable": "Not available through normal survival acquisition",
+  "guide.RelicAcquisitionLoader.get().none": "No configured acquisition method",
+  "guide.RelicAcquisitionLoader.get().loot": "Loot: %s (%s)",
+  "guide.RelicAcquisitionLoader.get().crafting": "Crafting: %s",
+  "guide.RelicAcquisitionLoader.get().output": "  Output: %s",
 
   "guide.vitalrelics.title": "Vital Relics",
   "guide.vitalrelics.empty": "No relics loaded.",

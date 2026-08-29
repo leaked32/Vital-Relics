@@ -1,19 +1,37 @@
-package com.example.vitalrelics.common;
+package com.example.vitalrelics.common.relics;
+
+import com.example.vitalrelics.common.Manifest;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.example.vitalrelics.common.utils.ConfigurationFiles.load_external_file;
 
-public class RelicAcquisitionLoader {
-	private RelicAcquisitionLoader() {}
+public class Acquisition {
+	private Acquisition() {}
 
-	public final static RelicAcquisitionLoader INSTANCE = new RelicAcquisitionLoader();
-	public final Acquisition data = new Acquisition();
+	private static Acquisition instance = null;
 
-	public void load(final Path external_path) {
+
+	public final Data data = new Data();
+
+	public static Acquisition get() {
+		if (instance == null) {
+			throw new RuntimeException("RelicAcquisitionLoader has not been initialized. ");
+		}
+
+		return instance;
+	}
+
+	public static void load(final Path external_path) {
+		if (instance != null) {
+			throw new RuntimeException("RelicAcquisitionLoader has already been initialized. ");
+		}
+		instance = new Acquisition();
+
 		if (external_path == null) {
 			throw new RuntimeException("RelicLoader#load `external_path` cannot be null");
 		}
@@ -24,13 +42,13 @@ public class RelicAcquisitionLoader {
 				Manifest.OPT_RECIPES_VER
 		);
 
-		data.recipes.clear();
-		data.loot.clear();
-		data.undefined.clear();
+		instance.data.recipes.clear();
+		instance.data.loot.clear();
+		instance.data.undefined.clear();
 
-		parseRecipes(root.get("recipes"));
-		parseLoot(root.get("loot"));
-		parseUndefined(root.get("undefined"));
+		instance.parseRecipes(root.get("recipes"));
+		instance.parseLoot(root.get("loot"));
+		instance.parseUndefined(root.get("undefined"));
 	}
 
 	private void parseRecipes(final Object raw) {
@@ -47,7 +65,7 @@ public class RelicAcquisitionLoader {
 			if (!(entry.getValue() instanceof Map<?, ?> map))
 				throw new IllegalArgumentException("Recipe '" + relicId + "' must be an object");
 
-			final Acquisition.Crafting recipe = new Acquisition.Crafting();
+			final Data.Crafting recipe = new Data.Crafting();
 
 			if (!(map.get("type") instanceof String type))
 				throw new IllegalArgumentException("Recipe '" + relicId + "' requires type");
@@ -101,7 +119,7 @@ public class RelicAcquisitionLoader {
 			if (!(entry.getValue() instanceof List<?> rules))
 				throw new IllegalArgumentException("Loot '" + relicId + "' must be an array");
 
-			final List<Acquisition.Loot> out = new ArrayList<>();
+			final List<Data.Loot> out = new ArrayList<>();
 
 			for (final Object rawRule : rules) {
 				if (!(rawRule instanceof Map<?, ?> map))
@@ -113,7 +131,7 @@ public class RelicAcquisitionLoader {
 				if (!(map.get("chance") instanceof Number chance))
 					throw new IllegalArgumentException("Loot rule requires chance");
 
-				final Acquisition.Loot rule = new Acquisition.Loot();
+				final Data.Loot rule = new Data.Loot();
 				rule.table = table;
 				rule.chance = chance.doubleValue();
 
@@ -175,6 +193,25 @@ public class RelicAcquisitionLoader {
 			final String row = pattern.get(i);
 			final String padded = row + " ".repeat(Math.max(0, right + 1 - row.length()));
 			pattern.set(i, padded.substring(left, right + 1));
+		}
+	}
+
+	public static class Data {
+		public final Map<String, Crafting> recipes = new LinkedHashMap<>();
+		public final Map<String, List<Loot>> loot = new LinkedHashMap<>();
+		public final List<String> undefined = new ArrayList<>();
+
+		public static class Crafting {
+			public String type;
+			public List<String> pattern = new ArrayList<>();
+			public Map<String, String> key = new LinkedHashMap<>();
+			public List<String> ingredients = new ArrayList<>();
+			public int count = 1;
+		}
+
+		public static class Loot {
+			public String table;
+			public double chance;
 		}
 	}
 }

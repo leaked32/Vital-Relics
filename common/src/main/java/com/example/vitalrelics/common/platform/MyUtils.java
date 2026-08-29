@@ -1,7 +1,7 @@
 package com.example.vitalrelics.common.platform;
 
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Loader;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class MyUtils {
 			final boolean negative =
 					effect.category() == MyLivingEntity.MyEffectCategory.NEGATIVE;
 
-			if (RelicLoader.isImmuneToEffect(
+			if (Loader.isImmuneToEffect(
 					relics,
 					effect.id(),
 					negative

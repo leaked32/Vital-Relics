@@ -187,11 +187,11 @@
 
   "guide.vitalrelics.enemy_spawn": "%s：%s",
 
-  "guide.vitalrelics.acquisition.unavailable": "无法通过正常生存模式获取",
-  "guide.vitalrelics.acquisition.none": "未配置获取方式",
-  "guide.vitalrelics.acquisition.loot": "战利品：%s（%s）",
-  "guide.vitalrelics.acquisition.crafting": "合成：%s",
-  "guide.vitalrelics.acquisition.output": "  产物数量：%s",
+  "guide.RelicAcquisitionLoader.get().unavailable": "无法通过正常生存模式获取",
+  "guide.RelicAcquisitionLoader.get().none": "未配置获取方式",
+  "guide.RelicAcquisitionLoader.get().loot": "战利品：%s（%s）",
+  "guide.RelicAcquisitionLoader.get().crafting": "合成：%s",
+  "guide.RelicAcquisitionLoader.get().output": "  产物数量：%s",
 
   "guide.vitalrelics.title": "生命遗物",
   "guide.vitalrelics.empty": "没有已加载的遗物。",

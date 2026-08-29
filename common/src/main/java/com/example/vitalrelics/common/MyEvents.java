@@ -2,6 +2,7 @@ package com.example.vitalrelics.common;
 
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyUtils;
+import com.example.vitalrelics.common.relics.Relic;
 
 import java.util.List;
 

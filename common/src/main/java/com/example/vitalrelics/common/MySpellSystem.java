@@ -1,6 +1,7 @@
 package com.example.vitalrelics.common;
 
 import com.example.vitalrelics.common.platform.*;
+import com.example.vitalrelics.common.relics.Relic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public final class MySpellSystem {
 
 	public static final MySpellSystem INSTANCE = new MySpellSystem();
 
-	private final MyRuntimeUtils runtime = MyRuntime.get();
+	private final MyRuntimeUtils runtime = MyRuntime.getRuntimeUtils();
 	private final Map<String, Handler> handlers = new HashMap<>();
 
 	private MySpellSystem() {

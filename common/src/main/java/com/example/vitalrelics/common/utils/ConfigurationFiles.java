@@ -1,6 +1,6 @@
 package com.example.vitalrelics.common.utils;
 
-import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.common.relics.Loader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +25,7 @@ public class ConfigurationFiles {
 				Files.createDirectories(parent);
 
 			try (InputStream in =
-						 RelicLoader.class.getClassLoader()
+						 Loader.class.getClassLoader()
 								 .getResourceAsStream(internal)) {
 
 				if (in == null)

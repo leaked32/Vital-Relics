@@ -1,4 +1,6 @@
-package com.example.vitalrelics.common;
+package com.example.vitalrelics.common.relics;
+
+import com.example.vitalrelics.common.Manifest;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -10,11 +12,55 @@ import java.util.function.Function;
 
 import static com.example.vitalrelics.common.utils.ConfigurationFiles.load_external_file;
 
-public class RelicLoader {
-	public final List<Relic> relics_ = new ArrayList<>();
-	public static final RelicLoader INSTANCE = new RelicLoader();
+public class Loader {
 
-	private RelicLoader() {}
+	public final List<Relic> relics_ = new ArrayList<>();
+	private static Loader instance = null;
+
+
+	public static void load(final Path externalPath) {
+		if (instance != null) {
+			throw new RuntimeException("RelicLoader has already been initialized. ");
+		}
+
+		instance = new Loader();
+
+		if (externalPath == null) {
+			throw new IllegalArgumentException(
+					"RelicLoader#load externalPath cannot be null"
+			);
+		}
+
+		final Map<String, Object> root = load_external_file(
+				Manifest.INTERNAL_PATH_TO_RELICS,
+				externalPath,
+				Manifest.OPT_RELICS_VER
+		);
+
+		if (!(root.get("relics") instanceof List<?> entries))
+			throw new IllegalArgumentException("'relics' must be a JSON array");
+
+		instance.relics_.clear();
+
+		for (final Object entry : entries) {
+			if (!(entry instanceof Map<?, ?> rawRelic))
+				throw new IllegalArgumentException(
+						"Each relic must be a JSON object"
+				);
+
+			instance.relics_.add(loadRelic(rawRelic));
+		}
+	}
+
+
+	public static Loader get() {
+		if (instance == null) {
+			throw new RuntimeException("RelicLoader has not been initialized yet. ");
+		}
+		return instance;
+	}
+
+	private Loader() {}
 
 	public static void add_list(final List<String> target, final Object rawValue) {
 		if (!(rawValue instanceof List<?> values))
@@ -89,34 +135,6 @@ public class RelicLoader {
 	}
 
 
-	public void load(final Path externalPath) {
-		if (externalPath == null) {
-			throw new IllegalArgumentException(
-					"RelicLoader#load externalPath cannot be null"
-			);
-		}
-
-		final Map<String, Object> root = load_external_file(
-				Manifest.INTERNAL_PATH_TO_RELICS,
-				externalPath,
-				Manifest.OPT_RELICS_VER
-		);
-
-		if (!(root.get("relics") instanceof List<?> entries))
-			throw new IllegalArgumentException("'relics' must be a JSON array");
-
-		relics_.clear();
-
-		for (final Object entry : entries) {
-			if (!(entry instanceof Map<?, ?> rawRelic))
-				throw new IllegalArgumentException(
-						"Each relic must be a JSON object"
-				);
-
-			relics_.add(loadRelic(rawRelic));
-		}
-	}
-
 	private static Relic loadRelic(final Map<?, ?> rawRelic) {
 		final Relic relic = new Relic();
 
@@ -151,28 +169,28 @@ public class RelicLoader {
 		addStructuredMap(
 				relic.properties,
 				rawRelic.get("properties"),
-				RelicLoader::property,
+				Loader::property,
 				"properties"
 		);
 
 		addStructuredMap(
 				relic.ticks,
 				rawRelic.get("ticks"),
-				RelicLoader::tick,
+				Loader::tick,
 				"ticks"
 		);
 
 		addStructuredMap(
 				relic.callbacks,
 				rawRelic.get("callbacks"),
-				RelicLoader::callback,
+				Loader::callback,
 				"callbacks"
 		);
 
 		addStructuredMap(
 				relic.available_spells,
 				rawRelic.get("available_spells"),
-				RelicLoader::spell,
+				Loader::spell,
 				"available_spells"
 		);
 

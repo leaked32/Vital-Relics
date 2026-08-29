@@ -1,10 +1,10 @@
 # add-new-relics
 
-Every default player-facing relic must have at least one legitimate survival acquisition route:
+Every default player-facing relic must have at least one legitimate survival data route:
 
 * crafting recipe, or
-* loot-table acquisition, or
-* another explicitly documented acquisition mechanism.
+* loot-table data, or
+* another explicitly documented data mechanism.
 
 A relic intentionally unavailable in normal survival must be explicitly marked/documented as such.
 
@@ -33,7 +33,7 @@ Cross-check in both files:
 
 ### Loot Integrity
 
-For every configured loot acquisition:
+For every configured loot data:
 
 * Relic ID exists.
 * Loot-table ID is valid.

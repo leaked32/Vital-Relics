@@ -30,7 +30,7 @@ Vital Relics supports:
 -   Curios API integration
 -   Optional Touhou Little Maid integration
 -   Configurable relic definitions
--   Configurable acquisition methods
+-   Configurable data methods
 
 ## Screenshots
 

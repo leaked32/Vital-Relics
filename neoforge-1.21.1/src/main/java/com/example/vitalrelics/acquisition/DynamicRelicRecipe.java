@@ -1,8 +1,7 @@
 package com.example.vitalrelics.acquisition;
 
 import com.example.vitalrelics.VitalRelics;
-import com.example.vitalrelics.common.Acquisition;
-import com.example.vitalrelics.common.RelicAcquisitionLoader;
+import com.example.vitalrelics.common.relics.Acquisition;
 import com.example.vitalrelics.common.Manifest;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -63,8 +62,8 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 	}
 
 	private static Match findMatch(final CraftingInput input) {
-		for (final var entry : RelicAcquisitionLoader.INSTANCE.data.recipes.entrySet()) {
-			final Acquisition.Crafting recipe = entry.getValue();
+		for (final var entry : Acquisition.get().data.recipes.entrySet()) {
+			final Acquisition.Data.Crafting recipe = entry.getValue();
 
 			if ("shaped".equals(recipe.type) && matchesShaped(input, recipe))
 				return new Match(entry.getKey(), recipe);
@@ -78,7 +77,7 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 
 	private static boolean matchesShapeless(
 			final CraftingInput input,
-			final Acquisition.Crafting recipe) {
+			final Acquisition.Data.Crafting recipe) {
 
 		final Map<String, Integer> actual = new HashMap<>();
 		final Map<String, Integer> expected = new HashMap<>();
@@ -97,7 +96,7 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 
 	private static boolean matchesShaped(
 			final CraftingInput input,
-			final Acquisition.Crafting recipe) {
+			final Acquisition.Data.Crafting recipe) {
 
 		final Grid grid = trim(input);
 
@@ -110,7 +109,7 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 
 	private static boolean matches(
 			final Grid grid,
-			final Acquisition.Crafting recipe,
+			final Acquisition.Data.Crafting recipe,
 			final boolean mirror) {
 
 		for (int y = 0; y < grid.height; ++y) {
@@ -176,7 +175,7 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 		return BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
 	}
 
-	private record Match(String id, Acquisition.Crafting recipe) {}
+	private record Match(String id, Acquisition.Data.Crafting recipe) {}
 	private record Grid(int width, int height, List<ItemStack> items) {}
 }
 

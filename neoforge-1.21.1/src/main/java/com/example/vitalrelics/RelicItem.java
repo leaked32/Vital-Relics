@@ -1,7 +1,7 @@
 package com.example.vitalrelics;
 
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicTranslations;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Translations;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -11,8 +11,6 @@ import net.minecraft.world.item.TooltipFlag;
 import com.example.vitalrelics.common.RelicText;
 
 import java.util.List;
-
-import static com.example.vitalrelics.common.Relic.itemDisplayName;
 
 public class RelicItem extends Item {
 	private final Relic relic;
@@ -75,7 +73,7 @@ public class RelicItem extends Item {
 
 
 	private static Component externalComponent(final RelicText.Text text) {
-		final String pattern = RelicTranslations.INSTANCE.translate(
+		final String pattern = Translations.get().translate(
 				text.translationKey(), text.fallback()
 		);
 

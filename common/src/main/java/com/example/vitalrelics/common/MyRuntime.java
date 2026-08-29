@@ -1,4 +1,6 @@
-package com.example.vitalrelics.common.platform;
+package com.example.vitalrelics.common;
+
+import com.example.vitalrelics.common.platform.MyRuntimeUtils;
 
 public final class MyRuntime {
 	private static MyRuntimeUtils instance;
@@ -13,7 +15,7 @@ public final class MyRuntime {
 		instance = runtime;
 	}
 
-	public static MyRuntimeUtils get() {
+	public static MyRuntimeUtils getRuntimeUtils() {
 		if (instance == null)
 			throw new IllegalStateException("MyRuntime has not been initialized");
 

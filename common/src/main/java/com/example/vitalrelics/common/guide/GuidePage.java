@@ -1,8 +1,8 @@
 package com.example.vitalrelics.common.guide;
 
-import com.example.vitalrelics.common.Acquisition;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicTranslations;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Acquisition;
+import com.example.vitalrelics.common.relics.Translations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -327,7 +327,7 @@ public class GuidePage {
 
 		if (entry.acquisitionUndefined) {
 			section.lines.add(tr(
-					"guide.vitalrelics.acquisition.unavailable",
+					"guide.RelicAcquisitionLoader.get().unavailable",
 					"Not available through normal survival acquisition"
 			));
 			page.sections.add(section);
@@ -337,9 +337,9 @@ public class GuidePage {
 		if (entry.recipe != null)
 			addRecipe(section, entry.recipe, ingredientName);
 
-		for (final Acquisition.Loot loot : entry.loot) {
+		for (final Acquisition.Data.Loot loot : entry.loot) {
 			section.lines.add(trf(
-					"guide.vitalrelics.acquisition.loot", "Loot: %s (%s)",
+					"guide.RelicAcquisitionLoader.get().loot", "Loot: %s (%s)",
 					humanizeIdentifier(loot.table),
 					formatPercent(loot.chance)
 			));
@@ -347,7 +347,7 @@ public class GuidePage {
 
 		if (section.lines.isEmpty()) {
 			section.lines.add(tr(
-					"guide.vitalrelics.acquisition.none",
+					"guide.RelicAcquisitionLoader.get().none",
 					"No configured acquisition method"
 			));
 		}
@@ -357,11 +357,11 @@ public class GuidePage {
 
 	private static void addRecipe(
 			final Section section,
-			final Acquisition.Crafting recipe,
+			final Acquisition.Data.Crafting recipe,
 			final Function<String, String> ingredientName) {
 
 		section.lines.add(trf(
-				"guide.vitalrelics.acquisition.crafting", "Crafting: %s",
+				"guide.RelicAcquisitionLoader.get().crafting", "Crafting: %s",
 				humanize(recipe.type)
 		));
 
@@ -382,7 +382,7 @@ public class GuidePage {
 
 		if (recipe.count != 1) {
 			section.lines.add(trf(
-					"guide.vitalrelics.acquisition.output", "  Output: %s",
+					"guide.RelicAcquisitionLoader.get().output", "  Output: %s",
 					recipe.count
 			));
 		}
@@ -413,7 +413,7 @@ public class GuidePage {
 	}
 
 	private static String tr(final String key, final String fallback) {
-		return RelicTranslations.INSTANCE.translate(key, fallback);
+		return Translations.get().translate(key, fallback);
 	}
 
 	private static String trf(

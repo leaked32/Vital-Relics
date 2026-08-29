@@ -4,7 +4,11 @@ import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
 import com.example.vitalrelics.client.VitalClientEvents;
 import com.example.vitalrelics.common.*;
-import com.example.vitalrelics.common.platform.MyRuntime;
+import com.example.vitalrelics.common.MyRuntime;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Acquisition;
+import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.NeoNetwork;
 import com.example.vitalrelics.platform.NeoRuntimeUtils;
 import com.mojang.logging.LogUtils;
@@ -55,7 +59,7 @@ public class VitalRelics
 
 	public static DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = null;
 
-	// public final static RelicLoader loader  = RelicLoader.INSTANCE;
+	// public final static RelicLoader loader  = RelicLoader.get();
 	// public final static AcquisitionLoader acquisition = AcquisitionLoader.INSTANCE;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
 
@@ -83,11 +87,11 @@ public class VitalRelics
 		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
 		final Path recipeConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
 		final Path translationConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang");
-		RelicLoader.INSTANCE.load(config);
-		RelicAcquisitionLoader.INSTANCE.load(recipeConfig);
-		RelicTranslations.INSTANCE.load(translationConfig);
+		Loader.load(config);
+		Acquisition.load(recipeConfig);
+		Translations.load(translationConfig);
 
-		for (final var relic : RelicLoader.INSTANCE.relics_) {
+		for (final var relic : Loader.get().relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {
 				case "uncommon" -> Rarity.UNCOMMON;
 				case "rare" -> Rarity.RARE;
@@ -130,7 +134,7 @@ public class VitalRelics
 			if (!itemId.getNamespace().equals(Manifest.MODID))
 				return false;
 
-			final Relic relic = RelicLoader.INSTANCE.find(itemId.getPath());
+			final Relic relic = Loader.get().find(itemId.getPath());
 
 			return relic != null && relic.curio_slot.equals(result.slotContext().identifier());
 		});
@@ -148,7 +152,7 @@ public class VitalRelics
 						final ResourceLocation id =
 								BuiltInRegistries.ITEM.getKey(stack.getItem());
 
-						final Relic relic = RelicLoader.INSTANCE.find(id.getPath());
+						final Relic relic = Loader.get().find(id.getPath());
 
 						return relic != null &&
 								relic.curio_slot.equals(context.identifier());

@@ -1,7 +1,7 @@
 package com.example.vitalrelics.platform;
 
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicTranslations;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyRuntimeUtils;
 import com.example.vitalrelics.common.platform.MyVec3;
@@ -63,7 +63,7 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 	}
 
 	private static String spellName(final String id) {
-		return RelicTranslations.INSTANCE.translate(
+		return Translations.get().translate(
 				"relic.vitalrelics.spell." + id,
 				Relic.itemDisplayName(id)
 		);

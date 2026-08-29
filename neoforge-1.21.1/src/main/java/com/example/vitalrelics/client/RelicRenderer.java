@@ -1,9 +1,8 @@
 package com.example.vitalrelics.client;
 
-import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Manifest;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Loader;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -39,7 +38,7 @@ public final class RelicRenderer extends BlockEntityWithoutLevelRenderer {
 		if (!itemId.getNamespace().equals(Manifest.MODID))
 			return;
 
-		final Relic relic = RelicLoader.INSTANCE.find(itemId.getPath());
+		final Relic relic = Loader.get().find(itemId.getPath());
 
 		if (relic == null || relic.texture == null)
 			return;

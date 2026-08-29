@@ -1,8 +1,8 @@
 package com.example.vitalrelics.compat;
 
 import com.example.vitalrelics.VitalRelics;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Loader;
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IMaidBauble;
@@ -25,7 +25,7 @@ public final class TouhouMaidCompat implements ILittleMaid {
 		for (final var holder : VitalRelics.RELIC_ITEMS) {
 			final var item = holder.get();
 			final var id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item);
-			final var relic = RelicLoader.INSTANCE.find(id.getPath());
+			final var relic = Loader.get().find(id.getPath());
 
 			if (relic == null)
 				continue;

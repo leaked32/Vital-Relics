@@ -1,5 +1,8 @@
 package com.example.vitalrelics.common;
 
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Translations;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -390,7 +393,7 @@ public final class RelicText {
 
 		final String pattern = text.translationKey() == null
 				? text.fallback()
-				: RelicTranslations.INSTANCE.translate(
+				: Translations.get().translate(
 				text.translationKey(),
 				text.fallback()
 		);

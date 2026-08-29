@@ -1,8 +1,7 @@
 package com.example.vitalrelics.acquisition;
 
-import com.example.vitalrelics.VitalRelics;
-import com.example.vitalrelics.common.Acquisition;
 import com.example.vitalrelics.common.Manifest;
+import com.example.vitalrelics.common.relics.Acquisition;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -20,7 +19,7 @@ public final class AcquisitionEvents {
 	public static void onLootTableLoad(final LootTableLoadEvent event) {
 		final String table = event.getName().toString();
 
-		for (final var entry : VitalRelics.acquisition.data.loot.entrySet()) {
+		for (final var entry : Acquisition.get().data.loot.entrySet()) {
 			final ResourceLocation id =
 					new ResourceLocation(Manifest.MODID, entry.getKey());
 
@@ -29,7 +28,7 @@ public final class AcquisitionEvents {
 
 			final Item item = BuiltInRegistries.ITEM.get(id);
 
-			for (final Acquisition.Loot rule : entry.getValue()) {
+			for (final Acquisition.Data.Loot rule : entry.getValue()) {
 				if (!rule.table.equals(table))
 					continue;
 

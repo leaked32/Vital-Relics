@@ -1,9 +1,8 @@
 package com.example.vitalrelics.common.guide;
 
-import com.example.vitalrelics.common.Acquisition;
-import com.example.vitalrelics.common.RelicAcquisitionLoader;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.common.relics.Acquisition;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Loader;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,43 +15,43 @@ public class GuideBook {
 	private final Map<String, Entry> entriesById = new LinkedHashMap<>();
 
 	public GuideBook(
-			final RelicLoader relicLoader,
-			final RelicAcquisitionLoader relicAcquisitionLoader) {
+			final Loader loader,
+			final Acquisition acquisition) {
 
-		if (relicLoader == null)
+		if (loader == null)
 			throw new IllegalArgumentException("relicLoader cannot be null");
-		if (relicAcquisitionLoader == null)
+		if (acquisition == null)
 			throw new IllegalArgumentException("acquisitionLoader cannot be null");
 
-		rebuild(relicLoader, relicAcquisitionLoader);
+		rebuild(loader, acquisition);
 	}
 
 	public void rebuild(
-			final RelicLoader relicLoader,
-			final RelicAcquisitionLoader relicAcquisitionLoader) {
+			final Loader loader,
+			final Acquisition acquisition) {
 
-		if (relicLoader == null)
+		if (loader == null)
 			throw new IllegalArgumentException("relicLoader cannot be null");
-		if (relicAcquisitionLoader == null)
+		if (acquisition == null)
 			throw new IllegalArgumentException("acquisitionLoader cannot be null");
 
 		entries.clear();
 		entriesById.clear();
 
-		final Acquisition acquisition = relicAcquisitionLoader.data;
+		final Acquisition.Data data = acquisition.data;
 
-		for (final Relic relic : relicLoader.relics_) {
-			final Acquisition.Crafting recipe =
-					acquisition.recipes.get(relic.id);
+		for (final Relic relic : loader.relics_) {
+			final Acquisition.Data.Crafting recipe =
+					data.recipes.get(relic.id);
 
-			final List<Acquisition.Loot> loot =
-					acquisition.loot.getOrDefault(relic.id, List.of());
+			final List<Acquisition.Data.Loot> loot =
+					data.loot.getOrDefault(relic.id, List.of());
 
 			final Entry entry = new Entry(
 					relic,
 					recipe,
 					List.copyOf(loot),
-					acquisition.undefined.contains(relic.id)
+					data.undefined.contains(relic.id)
 			);
 
 			entries.add(entry);
@@ -70,14 +69,14 @@ public class GuideBook {
 
 	public static class Entry {
 		public final Relic relic;
-		public final Acquisition.Crafting recipe;
-		public final List<Acquisition.Loot> loot;
+		public final Acquisition.Data.Crafting recipe;
+		public final List<Acquisition.Data.Loot> loot;
 		public final boolean acquisitionUndefined;
 
 		private Entry(
 				final Relic relic,
-				final Acquisition.Crafting recipe,
-				final List<Acquisition.Loot> loot,
+				final Acquisition.Data.Crafting recipe,
+				final List<Acquisition.Data.Loot> loot,
 				final boolean acquisitionUndefined) {
 
 			this.relic = relic;

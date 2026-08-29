@@ -235,7 +235,7 @@ Example verification table:
 | ------------------- | ------ | ------ | ----- | ------ |
 | `windward_bracelet` | Yes/No | Yes/No | —     | Yes/No |
 
-A new relic must not be marked complete until this row has an intentional acquisition route.
+A new relic must not be marked complete until this row has an intentional data route.
 
 ---
 
@@ -270,7 +270,7 @@ For every newly added relic:
 * definition
 * texture
 * localization
-* acquisition
+* data
 * behavior implementation
 
 For every newly added spell/passive skill:

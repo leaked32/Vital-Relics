@@ -1,7 +1,6 @@
 package com.example.vitalrelics.client.compat;
 
-import com.example.vitalrelics.common.Acquisition;
-import com.example.vitalrelics.common.RelicAcquisitionLoader;
+import com.example.vitalrelics.common.relics.Acquisition;
 import com.example.vitalrelics.common.Manifest;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -37,8 +36,8 @@ public final class VitalJeiPlugin implements IModPlugin {
 	public void registerRecipes(final IRecipeRegistration registration) {
 		final List<RecipeHolder<CraftingRecipe>> recipes = new ArrayList<>();
 
-		for (final Map.Entry<String, Acquisition.Crafting> entry :
-				RelicAcquisitionLoader.INSTANCE.data.recipes.entrySet()) {
+		for (final Map.Entry<String, Acquisition.Data.Crafting> entry :
+				Acquisition.get().data.recipes.entrySet()) {
 
 			final ResourceLocation id =
 					ResourceLocation.fromNamespaceAndPath(Manifest.MODID, entry.getKey());
@@ -63,7 +62,7 @@ public final class VitalJeiPlugin implements IModPlugin {
 
 	private static CraftingRecipe shaped(
 			final IRecipeRegistration registration,
-			final Acquisition.Crafting definition,
+			final Acquisition.Data.Crafting definition,
 			final ItemStack output) {
 
 		final IJeiShapedRecipeBuilder builder = registration
@@ -80,7 +79,7 @@ public final class VitalJeiPlugin implements IModPlugin {
 	}
 
 	private static CraftingRecipe shapeless(
-			final Acquisition.Crafting definition,
+			final Acquisition.Data.Crafting definition,
 			final ItemStack output) {
 
 		final List<Ingredient> ingredients = definition.ingredients.stream()

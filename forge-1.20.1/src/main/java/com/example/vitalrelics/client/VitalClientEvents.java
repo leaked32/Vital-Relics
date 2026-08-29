@@ -3,8 +3,8 @@ package com.example.vitalrelics.client;
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.MySpellSystem;
-import com.example.vitalrelics.common.Relic;
-import com.example.vitalrelics.common.RelicTranslations;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.ForgeNetwork;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
@@ -76,7 +76,7 @@ public final class VitalClientEvents {
 			ForgeNetwork.sendToServer(MySpellSystem.CAST_SPELL);
 		}
 
-		RelicTranslations.INSTANCE.setSelectedLocale(
+		Translations.get().setSelectedLocale(
 				Minecraft.getInstance().getLanguageManager().getSelected()
 		);
 	}
@@ -166,7 +166,7 @@ public final class VitalClientEvents {
 			return;
 
 		final String spellName =
-				RelicTranslations.INSTANCE.translate(
+				Translations.get().translate(
 						"relic.vitalrelics.spell." + spellId,
 						Relic.itemDisplayName(spellId)
 				);

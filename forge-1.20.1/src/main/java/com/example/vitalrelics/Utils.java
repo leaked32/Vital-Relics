@@ -1,11 +1,12 @@
 package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Translations;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -282,7 +283,7 @@ public class Utils {
 			final Object... arguments) {
 
 		final String pattern =
-				RelicTranslations.INSTANCE.translate(key, fallback);
+				Translations.get().translate(key, fallback);
 
 		return Component.literal(
 				String.format(Locale.ROOT, pattern, arguments)

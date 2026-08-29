@@ -1,4 +1,4 @@
-package com.example.vitalrelics.common;
+package com.example.vitalrelics.common.relics;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

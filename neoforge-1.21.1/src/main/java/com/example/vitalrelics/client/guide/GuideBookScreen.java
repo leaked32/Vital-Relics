@@ -1,6 +1,6 @@
 package com.example.vitalrelics.client.guide;
 
-import com.example.vitalrelics.common.RelicTranslations;
+import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.guide.GuideBook;
 import com.example.vitalrelics.common.guide.GuidePage;
 import net.minecraft.client.gui.GuiGraphics;
@@ -441,7 +441,7 @@ public class GuideBookScreen extends Screen {
 	}
 
 	private static String tr(final String key, final String fallback) {
-		return RelicTranslations.INSTANCE.translate(key, fallback);
+		return Translations.get().translate(key, fallback);
 	}
 
 	private static String trf(

@@ -2,6 +2,9 @@ package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.NeoNetwork;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
@@ -74,7 +77,7 @@ public final class VitalClientEvents {
 			);
 		}
 
-		RelicTranslations.INSTANCE.setSelectedLocale(
+		Translations.get().setSelectedLocale(
 				Minecraft.getInstance().getLanguageManager().getSelected()
 		);
 	}
@@ -136,7 +139,7 @@ public final class VitalClientEvents {
 					"Vital Relics shared flat model was not baked"
 			);
 
-		for (final Relic relic : RelicLoader.INSTANCE.relics_) {
+		for (final Relic relic : Loader.get().relics_) {
 			final ResourceLocation id =
 					ResourceLocation.fromNamespaceAndPath(
 							Manifest.MODID,
@@ -188,7 +191,7 @@ public final class VitalClientEvents {
 			return;
 
 		final String spellName =
-				RelicTranslations.INSTANCE.translate(
+				Translations.get().translate(
 						"relic.vitalrelics.spell." + spellId,
 						Relic.itemDisplayName(spellId)
 				);

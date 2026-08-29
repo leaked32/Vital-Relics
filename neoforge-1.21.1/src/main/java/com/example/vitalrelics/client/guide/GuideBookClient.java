@@ -1,8 +1,7 @@
 package com.example.vitalrelics.client.guide;
 
-import com.example.vitalrelics.VitalRelics;
-import com.example.vitalrelics.common.RelicAcquisitionLoader;
-import com.example.vitalrelics.common.RelicLoader;
+import com.example.vitalrelics.common.relics.Acquisition;
+import com.example.vitalrelics.common.relics.Loader;
 import com.example.vitalrelics.common.guide.GuideBook;
 import net.minecraft.client.Minecraft;
 
@@ -11,8 +10,8 @@ public final class GuideBookClient {
 
 	public static void open() {
 		final GuideBook guideBook = new GuideBook(
-				RelicLoader.INSTANCE,
-				RelicAcquisitionLoader.INSTANCE
+				Loader.get(),
+				Acquisition.get()
 		);
 
 		Minecraft.getInstance().setScreen(

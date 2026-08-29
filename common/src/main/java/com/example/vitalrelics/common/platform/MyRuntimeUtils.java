@@ -1,6 +1,6 @@
 package com.example.vitalrelics.common.platform;
 
-import com.example.vitalrelics.common.Relic;
+import com.example.vitalrelics.common.relics.Relic;
 
 import java.util.List;
 

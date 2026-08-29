@@ -3,6 +3,8 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyUtils;
+import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.relics.Loader;
 import com.example.vitalrelics.platform.ForgeLivingEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +28,6 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -207,7 +208,7 @@ public final class VitalEvents {
 
 		{
 			final Map<String, Relic.Ticks.Info> ticks =
-					RelicLoader.computeTicks(relics, currentTickCount);
+					Loader.computeTicks(relics, currentTickCount);
 
 			for (final var entry : ticks.entrySet()) {
 				final TickAction action = TICK_ACTIONS.get(entry.getKey());
@@ -234,7 +235,7 @@ public final class VitalEvents {
 			// Properties
 
 			final Map<String, Relic.Properties.Info> properties =
-					RelicLoader.computeProperties(relics);
+					Loader.computeProperties(relics);
 
 			for (final var entry : PROPERTY_TARGETS.entrySet()) {
 				final PropertyTarget target = entry.getValue();
@@ -257,7 +258,7 @@ public final class VitalEvents {
 			// Passive Skill: Flight
 
 			if (livingEntity instanceof ServerPlayer player) {
-				final double flight_level = RelicLoader.levelOfSuchPassiveSkill(
+				final double flight_level = Loader.levelOfSuchPassiveSkill(
 						relics, Relic.PASSIVE_SKILL_FLIGHT
 				);
 				updateFlight(player, flight_level);
@@ -266,7 +267,7 @@ public final class VitalEvents {
 			// Passive Skill: reality_severance
 
 			final double reality_severance_level =
-					RelicLoader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_REALITY_SEVERANCE);
+					Loader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_REALITY_SEVERANCE);
 
 			if (reality_severance_level > 0.0) {
 				final float ratioDamage = (float) (reality_severance_level / 100.0);
@@ -286,7 +287,7 @@ public final class VitalEvents {
 
 		if (currentTickCount % 80 == 0) {
 			final double metalMendingLevel =
-					RelicLoader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_METAL_MENDING);
+					Loader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_METAL_MENDING);
 
 			if (metalMendingLevel > 0.0) {
 				Utils.metalMending(livingEntity, Math.max(1, (int) Math.round(metalMendingLevel)));
@@ -344,15 +345,15 @@ public final class VitalEvents {
 		 */
 		if (entity_criminal instanceof LivingEntity criminal) {
 			final List<Relic> attackerRelics = gatherRelics(criminal);
-			amount = (float) RelicLoader.applyCallback(
+			amount = (float) Loader.applyCallback(
 					attackerRelics, "damage_dealt", amount, victim.getMaxHealth());
 
-			final double invulnerableTime = RelicLoader.applyCallback(
+			final double invulnerableTime = Loader.applyCallback(
 					attackerRelics, "invulnerable_time_dealt", victim.invulnerableTime, 10.0);
 			victim.invulnerableTime = Math.round((float) invulnerableTime);
 
 			// Lifesteal
-			final double lifestealLevel = RelicLoader.levelOfSuchPassiveSkill(
+			final double lifestealLevel = Loader.levelOfSuchPassiveSkill(
 					attackerRelics,
 					Relic.PASSIVE_SKILL_LIFESTEAL
 			);
@@ -367,13 +368,13 @@ public final class VitalEvents {
 		 */
 
 		final List<Relic> victimRelics = gatherRelics(victim);
-		amount = (float) RelicLoader.applyCallback(
+		amount = (float) Loader.applyCallback(
 				victimRelics, "damage_taken", amount, victim.getMaxHealth());
-		final float invulnerable_time = (float) RelicLoader.applyCallback(
+		final float invulnerable_time = (float) Loader.applyCallback(
 				victimRelics, "invulnerable_time_taken", victim.invulnerableTime, 10.0);
 
 		// Hard protection, enable it only when special passive skill exists
-		if (RelicLoader.levelOfSuchPassiveSkill(victimRelics, Relic.PASSIVE_SKILL_IRON_CURTAIN) > 0) {
+		if (Loader.levelOfSuchPassiveSkill(victimRelics, Relic.PASSIVE_SKILL_IRON_CURTAIN) > 0) {
 			// Only activate it when changes happen.
 			if (victim.invulnerableTime != invulnerable_time) {
 				if (!Scheduler.INSTANCE().acquireProtection(
@@ -387,7 +388,7 @@ public final class VitalEvents {
 
 		// Thorns
 		if (entity_criminal instanceof LivingEntity criminal && amount > 0.0F) {
-			final double thornsLevel = RelicLoader.levelOfSuchPassiveSkill(
+			final double thornsLevel = Loader.levelOfSuchPassiveSkill(
 					victimRelics, Relic.PASSIVE_SKILL_THORNS
 			);
 
@@ -416,7 +417,7 @@ public final class VitalEvents {
 
 		final boolean negative = effect.getCategory() == MobEffectCategory.HARMFUL;
 
-		if (RelicLoader.isImmuneToEffect(gatherRelics(entity), id.getPath(), negative))
+		if (Loader.isImmuneToEffect(gatherRelics(entity), id.getPath(), negative))
 			event.setResult(Event.Result.DENY);
 	}
 
@@ -431,7 +432,7 @@ public final class VitalEvents {
 		final List<Relic> relics = gatherRelics(victim);
 
 		final double retargetLevel =
-				RelicLoader.levelOfSuchPassiveSkill(
+				Loader.levelOfSuchPassiveSkill(
 						relics,
 						Relic.PASSIVE_SKILL_RETARGET_ARROW
 				);
@@ -444,7 +445,7 @@ public final class VitalEvents {
 		}
 
 		final double deflectionLevel =
-				RelicLoader.levelOfSuchPassiveSkill(
+				Loader.levelOfSuchPassiveSkill(
 						relics,
 						Relic.PASSIVE_SKILL_ARROW_DEFLECTION
 				);
@@ -500,7 +501,7 @@ public final class VitalEvents {
 			return;
 		}
 
-		final double level = RelicLoader.levelOfSuchPassiveSkill(
+		final double level = Loader.levelOfSuchPassiveSkill(
 				gatherRelics(owner),
 				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
 		);
