@@ -74,7 +74,7 @@ jobs:
           echo "Forge JAR: $FORGE_JAR"
 
           jar tf "$FORGE_JAR" \
-            | grep "com/example/vitalrelics/common/RelicLoader.class"
+            | grep "com/example/vitalrelics/common/relics/Loader.class"
 
       - name: Verify NeoForge JAR
         shell: bash
@@ -92,7 +92,7 @@ jobs:
           echo "NeoForge JAR: $NEOFORGE_JAR"
 
           jar tf "$NEOFORGE_JAR" \
-            | grep "com/example/vitalrelics/common/RelicLoader.class"
+            | grep "com/example/vitalrelics/common/relics/Loader.class"
 
       # ------------------------------
       # Prepare release artifacts
