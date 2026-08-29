@@ -1,6 +1,7 @@
 package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.relics.Loader;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.example.vitalrelics.Loader.get();
 import static com.example.vitalrelics.compat.TouhouMaidCompat.gatherMaidRelics;
 
 public class Utils {
@@ -82,7 +82,7 @@ public class Utils {
 		if (!id.getNamespace().equals(Manifest.MODID))
 			return;
 
-		final Relic relic = loader.find(id.getPath());
+		final Relic relic = Loader.get().find(id.getPath());
 		if (relic == null)
 			return;
 
@@ -322,7 +322,7 @@ public class Utils {
 		);
 
 		for (int i = 0; i < list.size(); ++i) {
-			final Relic relic = loader.find(list.getString(i));
+			final Relic relic = Loader.get().find(list.getString(i));
 
 			if (relic != null)
 				out.add(relic);

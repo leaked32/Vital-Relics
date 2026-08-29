@@ -1,6 +1,7 @@
 package com.example.vitalrelics.compat;
 
 import com.example.vitalrelics.VitalRelics;
+import com.example.vitalrelics.common.relics.Loader;
 import com.example.vitalrelics.common.relics.Relic;
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;

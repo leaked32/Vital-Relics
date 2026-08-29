@@ -3,6 +3,7 @@ package com.example.vitalrelics.client;
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.MySpellSystem;
+import com.example.vitalrelics.common.relics.Loader;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.ForgeNetwork;
