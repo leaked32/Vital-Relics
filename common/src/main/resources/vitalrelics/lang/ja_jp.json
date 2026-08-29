@@ -220,5 +220,10 @@
   "message.vitalrelics.enchantment_book_required": "メインハンドにエンチャント本を持ってください。",
   "message.vitalrelics.item_not_enchanted": "手に持っているアイテムにはエンチャントがありません。",
   "message.vitalrelics.enchantments_at_maximum": "すべてのエンチャントが最大レベルです。",
-  "message.vitalrelics.nothing_to_purify": "手に持っているアイテムには、浄化できる呪いも金床ペナルティもありません。"
+  "message.vitalrelics.nothing_to_purify": "手に持っているアイテムには、浄化できる呪いも金床ペナルティもありません。",
+
+  "guide.vitalrelics.introduction.stacking.title": "重複時のルール",
+  "guide.vitalrelics.introduction.stacking.callbacks": "同じレリックを異なるスロットに装備した場合、コールバックとプロパティの効果は重複します。同じスロットに複数装備しても重複として扱われません。",
+  "guide.vitalrelics.introduction.stacking.passive_skills": "複数の装備中のレリックが同じパッシブスキルを持つ場合、最も高いレベルの効果のみが適用されます。",
+  "guide.vitalrelics.introduction.stacking.spells": "各スペルはそれぞれ固有のレリックに属しているため、スペルの重複を気にする必要はありません。"
 }

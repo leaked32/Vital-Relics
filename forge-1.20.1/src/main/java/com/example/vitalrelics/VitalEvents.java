@@ -30,6 +30,7 @@ import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -431,5 +432,29 @@ public final class VitalEvents {
 
 		setEnemyRelics(livingEntity, relics);
 		// updateEnemyRelicName(livingEntity, relics);
+	}
+
+	/*
+	Give the player the guide-book for the first time.
+	 */
+
+	private static final String GUIDE_BOOK_GIVEN = Manifest.MODID + ":guide_book_given";
+
+	@SubscribeEvent
+	public static void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event) {
+		if (!(event.getEntity() instanceof ServerPlayer player))
+			return;
+
+		final var data = player.getPersistentData();
+
+		if (data.getBoolean(GUIDE_BOOK_GIVEN))
+			return;
+
+		final var book = VitalRelics.GUIDE_BOOK.get().getDefaultInstance();
+
+		if (!player.getInventory().add(book))
+			player.drop(book, false);
+
+		data.putBoolean(GUIDE_BOOK_GIVEN, true);
 	}
 }

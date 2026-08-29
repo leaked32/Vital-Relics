@@ -221,6 +221,11 @@
   "message.vitalrelics.enchantment_book_required": "Hold an enchanted book in your main hand.",
   "message.vitalrelics.item_not_enchanted": "The held item is not enchanted.",
   "message.vitalrelics.enchantments_at_maximum": "Every enchantment is already at its maximum level.",
-  "message.vitalrelics.nothing_to_purify": "The held item has no curse or anvil penalty to purify."
+  "message.vitalrelics.nothing_to_purify": "The held item has no curse or anvil penalty to purify.",
+
+  "guide.vitalrelics.introduction.stacking.title": "Stacking Rules",
+  "guide.vitalrelics.introduction.stacking.callbacks": "Callbacks and Properties can stack when copies of the same relic are equipped in different slots. Equipping multiple copies in the same slot does not count.",
+  "guide.vitalrelics.introduction.stacking.passive_skills": "If the same Passive Skill is provided by multiple equipped relics, only the highest level takes effect.",
+  "guide.vitalrelics.introduction.stacking.spells": "Each Spell is unique to its relic, so Spells do not have stacking concerns."
 
 }

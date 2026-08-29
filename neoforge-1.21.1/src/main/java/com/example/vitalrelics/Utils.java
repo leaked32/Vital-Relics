@@ -9,6 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -298,6 +299,16 @@ public class Utils {
 		);
 	}
 
+
+	public static String effectName(final String id) {
+		final ResourceLocation location = ResourceLocation.parse(id);
+		final MobEffect effect = BuiltInRegistries.MOB_EFFECT.get(location);
+
+		if (effect == null)
+			return null;
+
+		return Component.translatable(effect.getDescriptionId()).getString();
+	}
 
 	/*
 	Make relics used by enemies as well.

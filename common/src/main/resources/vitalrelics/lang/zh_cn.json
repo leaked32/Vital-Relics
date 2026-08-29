@@ -222,5 +222,10 @@
   "message.vitalrelics.nothing_to_purify": "主手物品没有可净化的诅咒或铁砧惩罚。",
 
   "item.vitalrelics.celestial_aegis": "天界庇护光环",
-  "tooltip.vitalrelics.celestial_aegis": "以天界守护庇护佩戴者的神圣光环。"
+  "tooltip.vitalrelics.celestial_aegis": "以天界守护庇护佩戴者的神圣光环。",
+
+  "guide.vitalrelics.introduction.stacking.title": "叠加规则",
+  "guide.vitalrelics.introduction.stacking.callbacks": "当同一种遗物装备在不同槽位时，其回调与属性可以叠加。装备在同一槽位中的多个相同遗物不会重复计算。",
+  "guide.vitalrelics.introduction.stacking.passive_skills": "如果多个已装备的遗物提供相同的被动技能，则只有其中最高等级的效果会生效。",
+  "guide.vitalrelics.introduction.stacking.spells": "每个法术都属于其独有的遗物，因此无需考虑法术叠加问题。"
 }

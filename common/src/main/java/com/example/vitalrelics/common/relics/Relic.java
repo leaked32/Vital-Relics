@@ -57,6 +57,10 @@ public class Relic {
 	public final Map<String, Double> passive_skills = new LinkedHashMap<>();
 
 	/*
+	 * Properties
+	 * - can be stacked by equipped the same relic into different slots.
+	 * - stacking them in the same slot does not count.
+	 *
 	 * Each map is intentionally open-ended. Adding a new configuration entry
 	 * no longer requires adding a field to this class or a parser branch.
 	 */
@@ -64,6 +68,10 @@ public class Relic {
 	public final Map<String, Ticks.Info> ticks = new LinkedHashMap<>();
 
 	/*
+	 * Callbacks
+	 * - can be stacked by equipped the same relic into different slots.
+	 * - stacking them in the same slot does not count.
+	 *
 	 * - `damage_dealt`
 	 * - `damage_taken`
 	 * - `invulnerable_time_taken`
@@ -74,7 +82,10 @@ public class Relic {
 	public final Map<String, Double> enemy_spawn = new LinkedHashMap<>();
 
 	/*
-	 * Available Spells:
+	 * Spells
+	 * - Each spell is unique for its unique relic, so there's nothing to worry about it.
+	 *
+	 *  Available Spells:
 	 * - `teleport`:
 	 *     BLOCK hit: center for thin blocks; try above, if blocked, try before the hit face
 	 *     MISS / sky -> teleport as far along look direction as possible

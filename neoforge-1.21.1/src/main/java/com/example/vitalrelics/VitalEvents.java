@@ -26,6 +26,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
@@ -481,5 +482,31 @@ public final class VitalEvents {
 			return;
 
 		setEnemyRelics(livingEntity, relics);
+	}
+
+
+	/*
+	Give the player the guide-book for the first time.
+	 */
+
+	private static final String GUIDE_BOOK_GIVEN =
+			Manifest.MODID + ":guide_book_given";
+
+	@SubscribeEvent
+	public static void onPlayerLogin(final PlayerEvent.PlayerLoggedInEvent event) {
+		if (!(event.getEntity() instanceof ServerPlayer player))
+			return;
+
+		final var data = player.getPersistentData();
+
+		if (data.getBoolean(GUIDE_BOOK_GIVEN))
+			return;
+
+		final var book = VitalRelics.GUIDE_BOOK.get().getDefaultInstance();
+
+		if (!player.getInventory().add(book))
+			player.drop(book, false);
+
+		data.putBoolean(GUIDE_BOOK_GIVEN, true);
 	}
 }

@@ -329,6 +329,18 @@ public class Utils {
 		}
 	}
 
+
+	public static String effectName(final String id) {
+		final ResourceLocation location = ResourceLocation.parse(id);
+		final MobEffect effect = BuiltInRegistries.MOB_EFFECT.get(location);
+
+		if (effect == null)
+			return null;
+
+		return Component.translatable(effect.getDescriptionId()).getString();
+	}
+
+
 	public static boolean enemyRelicsRolled(final LivingEntity entity) {
 		return entity.getPersistentData()
 				.getBoolean(Manifest.ENEMY_RELICS_ROLLED_TAG);

@@ -1,5 +1,6 @@
 package com.example.vitalrelics.client.guide;
 
+import com.example.vitalrelics.Utils;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.guide.GuideBook;
 import com.example.vitalrelics.common.guide.GuidePage;
@@ -48,8 +49,10 @@ public class GuideBookScreen extends Screen {
 		if (guideBook == null)
 			throw new IllegalArgumentException("guideBook cannot be null");
 
+		pages.add(GuidePage.introduction());
+
 		for (final GuideBook.Entry entry : guideBook.entries())
-			pages.add(GuidePage.from(entry, GuideBookScreen::translatedIngredientName));
+			pages.add(GuidePage.from(entry, GuideBookScreen::translatedIngredientName, Utils::effectName));
 
 		visiblePages.addAll(pages);
 	}

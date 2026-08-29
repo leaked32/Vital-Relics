@@ -32,12 +32,15 @@ public class GuidePage {
 
 	public static GuidePage from(
 			final GuideBook.Entry entry,
-			final Function<String, String> ingredientName) {
+			final Function<String, String> ingredientName,
+			final Function<String, String> effectName) {
 
 		if (entry == null)
 			throw new IllegalArgumentException("entry cannot be null");
 		if (ingredientName == null)
 			throw new IllegalArgumentException("ingredientName cannot be null");
+		if (effectName == null)
+			throw new IllegalArgumentException("effectName cannot be null");
 
 		final Relic relic = entry.relic;
 
@@ -51,8 +54,8 @@ public class GuidePage {
 
 		addEffectiveSlots(page, relic);
 		addProperties(page, relic);
-		addGrantedEffects(page, relic);
-		addImmunities(page, relic);
+		addGrantedEffects(page, relic, effectName);
+		addImmunities(page, relic, effectName);
 		addPassiveSkills(page, relic);
 		addSpells(page, relic);
 		addTicks(page, relic);
@@ -122,7 +125,11 @@ public class GuidePage {
 			page.sections.add(section);
 	}
 
-	private static void addGrantedEffects(final GuidePage page, final Relic relic) {
+	private static void addGrantedEffects(
+			final GuidePage page,
+			final Relic relic,
+			final Function<String, String> effectName) {
+
 		if (relic.granted_effects.isEmpty())
 			return;
 
@@ -133,7 +140,7 @@ public class GuidePage {
 		for (final var entry : relic.granted_effects.entrySet()) {
 			section.lines.add(trf(
 					"guide.vitalrelics.effect.granted", "%s %s",
-					humanizeIdentifier(entry.getKey()),
+					resolveEffectName(entry.getKey(), effectName),
 					romanNumeral(entry.getValue() + 1)
 			));
 		}
@@ -141,7 +148,11 @@ public class GuidePage {
 		page.sections.add(section);
 	}
 
-	private static void addImmunities(final GuidePage page, final Relic relic) {
+	private static void addImmunities(
+			final GuidePage page,
+			final Relic relic,
+			final Function<String, String> effectName) {
+
 		if (relic.immune_to_effects.isEmpty())
 			return;
 
@@ -150,9 +161,21 @@ public class GuidePage {
 		);
 
 		for (final String effect : relic.immune_to_effects)
-			section.lines.add(humanizeIdentifier(effect));
+			section.lines.add(resolveEffectName(effect, effectName));
 
 		page.sections.add(section);
+	}
+
+	private static String resolveEffectName(
+			final String id,
+			final Function<String, String> effectName) {
+
+		final String translated = effectName.apply(id);
+
+		if (translated == null || translated.isBlank())
+			return humanizeIdentifier(id);
+
+		return translated;
 	}
 
 	private static void addPassiveSkills(final GuidePage page, final Relic relic) {
@@ -514,5 +537,40 @@ public class GuidePage {
 		public Section(final String title) {
 			this.title = title;
 		}
+	}
+
+	public static GuidePage introduction() {
+		final GuidePage page = new GuidePage(
+				"introduction",
+				tr("guide.vitalrelics.introduction.title", "Getting Started"),
+				"",
+				"",
+				tr(
+						"guide.vitalrelics.introduction.description",
+						"Relics provide different kinds of abilities when equipped."
+				)
+		);
+
+		final Section stacking = new Section(
+				tr("guide.vitalrelics.introduction.stacking.title", "Stacking Rules")
+		);
+
+		stacking.lines.add(tr(
+				"guide.vitalrelics.introduction.stacking.callbacks",
+				"Callbacks and Properties stack when duplicate relics are equipped in different slots."
+		));
+
+		stacking.lines.add(tr(
+				"guide.vitalrelics.introduction.stacking.passive_skills",
+				"When multiple equipped relics provide the same Passive Skill, only the highest level takes effect."
+		));
+
+		stacking.lines.add(tr(
+				"guide.vitalrelics.introduction.stacking.spells",
+				"Each Spell belongs to its relic and does not need stacking."
+		));
+
+		page.sections.add(stacking);
+		return page;
 	}
 }

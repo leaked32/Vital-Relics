@@ -219,5 +219,10 @@
   "message.vitalrelics.enchantment_book_required": "請在主手持有一本附魔書。",
   "message.vitalrelics.item_not_enchanted": "主手物品未附魔。",
   "message.vitalrelics.enchantments_at_maximum": "所有附魔均已達到最高等級。",
-  "message.vitalrelics.nothing_to_purify": "主手物品沒有可淨化的詛咒或鐵砧懲罰。"
+  "message.vitalrelics.nothing_to_purify": "主手物品沒有可淨化的詛咒或鐵砧懲罰。",
+
+  "guide.vitalrelics.introduction.stacking.title": "疊加規則",
+  "guide.vitalrelics.introduction.stacking.callbacks": "當同一種遺物裝備在不同欄位時，其回呼與屬性可以疊加。裝備在同一欄位中的多個相同遺物不會重複計算。",
+  "guide.vitalrelics.introduction.stacking.passive_skills": "如果多個已裝備的遺物提供相同的被動技能，則只有其中最高等級的效果會生效。",
+  "guide.vitalrelics.introduction.stacking.spells": "每個法術都屬於其獨有的遺物，因此無需考慮法術疊加問題。"
 }

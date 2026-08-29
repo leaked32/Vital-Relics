@@ -1,5 +1,6 @@
 package com.example.vitalrelics.client.guide;
 
+import com.example.vitalrelics.Utils;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.guide.GuideBook;
 import com.example.vitalrelics.common.guide.GuidePage;
@@ -9,6 +10,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +50,10 @@ public class GuideBookScreen extends Screen {
 		if (guideBook == null)
 			throw new IllegalArgumentException("guideBook cannot be null");
 
+		pages.add(GuidePage.introduction());
+
 		for (final GuideBook.Entry entry : guideBook.entries())
-			pages.add(GuidePage.from(entry, GuideBookScreen::translatedIngredientName));
+			pages.add(GuidePage.from(entry, GuideBookScreen::translatedIngredientName, Utils::effectName));
 
 		visiblePages.addAll(pages);
 	}

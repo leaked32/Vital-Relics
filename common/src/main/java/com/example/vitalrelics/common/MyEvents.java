@@ -31,13 +31,15 @@ public final class MyEvents {
 		}
 
 		// Scheduled to update on each half seconds
-		if (currentTick % 10 == 0) {
+//		if (currentTick % 10 == 0) {
+//		}
+
+		// Scheduled to update on each second
+		if (currentTick % 20 == 0) {
+			// Effects
 			MyUtils.removeImmuneEffects(myLivingEntity, relics, MyLivingEntity.MyEffectCategory.ALL);
 			MyUtils.applyRelicEffects(myLivingEntity, relics);
-		}
 
-
-		if (currentTick % 20 == 0) {
 			// Passive Skill: reality_severance
 
 			final double reality_severance_level =
@@ -83,6 +85,10 @@ public final class MyEvents {
 			float amount,
 			final int currentTick) {
 
+		/*
+		Offensive Attack
+		 */
+
 		if (attacker != null) {
 			final List<Relic> attackerRelics =
 					MyRuntime.getRuntimeUtils().gatherRelics(attacker);
@@ -103,6 +109,10 @@ public final class MyEvents {
 			if (lifestealLevel > 0.0 && amount > 0.0F)
 				attacker.heal((float) (amount * lifestealLevel));
 		}
+
+		/*
+		Protection
+		 */
 
 		final List<Relic> victimRelics =
 				MyRuntime.getRuntimeUtils().gatherRelics(victim);
@@ -126,6 +136,11 @@ public final class MyEvents {
 			victim.setInvulnerableTime(invulnerableTime);
 		}
 
+		/*
+		Footer
+		 */
+
+		// Thorns
 		if (attacker != null && amount > 0.0F) {
 			final double thornsLevel = Loader.levelOfSuchPassiveSkill(
 					victimRelics, Relic.PASSIVE_SKILL_THORNS
