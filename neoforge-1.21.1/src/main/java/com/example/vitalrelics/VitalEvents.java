@@ -4,7 +4,6 @@ import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyUtils;
 import com.example.vitalrelics.platform.NeoLivingEntity;
-import com.example.vitalrelics.platform.NeoRuntimeUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +25,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
@@ -41,6 +39,10 @@ import java.util.function.Function;
 import static com.example.vitalrelics.Utils.*;
 
 public final class VitalEvents {
+	private record FlightState(boolean grantedByVitalRelics, double level) {}
+
+	private static final Map<UUID, FlightState> FLIGHT_STATES = new HashMap<>();
+
 	/*
 	Properties
 	 */
@@ -159,10 +161,6 @@ public final class VitalEvents {
 			}
 	);
 
-	private record FlightState(boolean grantedByVitalRelics) {}
-
-	private static final Map<UUID, FlightState> FLIGHT_STATES = new HashMap<>();
-
 	private static void updateFlight(
 			final ServerPlayer player,
 			final double flightLevel) {
@@ -176,18 +174,24 @@ public final class VitalEvents {
 
 			if (grantedByVitalRelics) {
 				player.getAbilities().mayfly = true;
-
-				if (Math.abs(flightLevel - 1.0) > 1.0E-9) {
-					player.getAbilities().setFlyingSpeed((float) (0.05 * flightLevel));
-				}
+				player.getAbilities().setFlyingSpeed((float) (0.05 * flightLevel));
 				player.onUpdateAbilities();
 			}
 
-			FLIGHT_STATES.put(playerId, new FlightState(grantedByVitalRelics));
+			FLIGHT_STATES.put(playerId, new FlightState(grantedByVitalRelics, flightLevel));
 			return;
 		}
 
-		if (previous == null || hasFlightRelic)
+		if (previous != null && hasFlightRelic) {
+			if (previous.grantedByVitalRelics() && Double.compare(previous.level(), flightLevel) != 0) {
+				player.getAbilities().setFlyingSpeed((float) (0.05 * flightLevel));
+				player.onUpdateAbilities();
+				FLIGHT_STATES.put(playerId, new FlightState(true, flightLevel));
+			}
+			return;
+		}
+
+		if (previous == null)
 			return;
 
 		FLIGHT_STATES.remove(playerId);
@@ -258,10 +262,13 @@ public final class VitalEvents {
 		}
 
 		// Scheduled to update on each half seconds
+		// Scheduled to update on each half seconds
 		if (currentTickCount % 10 == 0) {
-			final MyLivingEntity entity = new NeoLivingEntity(livingEntity);
+			final MyLivingEntity entity =
+					new NeoLivingEntity(livingEntity);
 
 			MyUtils.removeImmuneEffects(entity, relics, MyLivingEntity.MyEffectCategory.ALL);
+
 			MyUtils.applyRelicEffects(entity, relics);
 		}
 
@@ -322,10 +329,7 @@ public final class VitalEvents {
 			// Client HUD
 
 			if (livingEntity instanceof ServerPlayer player) {
-				MySpellSystem.INSTANCE.syncSpellHud(
-						new NeoLivingEntity(player),
-						NeoRuntimeUtils.INSTANCE
-				);
+				MySpellSystem.INSTANCE.syncSpellHud(new NeoLivingEntity(player));
 			}
 		}
 
@@ -434,20 +438,20 @@ public final class VitalEvents {
 				10.0
 		);
 
-		// Hard protection, enable it only when special passive skill exists
-		if (RelicLoader.levelOfSuchPassiveSkill(victimRelics, Relic.PASSIVE_SKILL_IRON_CURTAIN) > 0.0) {
-			// Only activate it when changes happen.
-			if (victim.invulnerableTime != invulnerable_time) {
-				if (!Scheduler.INSTANCE().acquireProtection(
-						victim.getUUID(), victim_server.getTickCount(), Math.round(invulnerable_time)
-				)) {
-					amount = 0.0F;
-				}
-				victim.invulnerableTime = Math.round(invulnerable_time);
+		// Only activate it when changes happen.
+		if (victim.invulnerableTime != invulnerable_time) {
+			if (!Scheduler.INSTANCE().acquireProtection(
+					victim.getUUID(),
+					victim_server.getTickCount(),
+					Math.round(invulnerable_time)
+			)) {
+				amount = 0.0F;
 			}
+			victim.invulnerableTime = Math.round(invulnerable_time);
 		}
 
 		// Thorns
+
 		if (entity_criminal instanceof LivingEntity criminal && amount > 0.0F) {
 			final double thornsLevel = RelicLoader.levelOfSuchPassiveSkill(
 					victimRelics,
@@ -567,26 +571,6 @@ public final class VitalEvents {
 		event.setCanceled(true);
 	}
 
-//	@SubscribeEvent
-//	public static void onArrowLoose(final ArrowLooseEvent event) {
-//		final Player player = event.getEntity();
-//
-//		if (player.level().isClientSide()) {
-//			return;
-//		}
-//
-//		final double level = RelicLoader.levelOfSuchPassiveSkill(
-//				gatherRelics(player),
-//				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
-//		);
-//
-//		if (level <= 0.0)
-//			return;
-//
-//		event.setCharge(Math.round((float) (event.getCharge() * level)));
-//	}
-
-
 	@SubscribeEvent
 	public static void onArrowShot(final EntityJoinLevelEvent event) {
 		if (!(event.getEntity() instanceof AbstractArrow arrow) ||
@@ -598,6 +582,9 @@ public final class VitalEvents {
 			return;
 		}
 
+		if (arrow.getPersistentData().getBoolean("vitalrelics_empowered"))
+			return;
+
 		final double level = RelicLoader.levelOfSuchPassiveSkill(
 				gatherRelics(owner),
 				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
@@ -605,6 +592,8 @@ public final class VitalEvents {
 
 		if (level <= 0.0)
 			return;
+
+		arrow.getPersistentData().putBoolean("vitalrelics_empowered", true);
 
 		arrow.setDeltaMovement(
 				arrow.getDeltaMovement().scale(level)

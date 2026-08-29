@@ -4,7 +4,9 @@ import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
 import com.example.vitalrelics.client.VitalClientEvents;
 import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.platform.MyRuntime;
 import com.example.vitalrelics.network.NeoNetwork;
+import com.example.vitalrelics.platform.NeoRuntimeUtils;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -62,6 +64,7 @@ public class VitalRelics
 	public VitalRelics(
 			final IEventBus modEventBus,
 			final Dist dist) {
+		MyRuntime.initialize(NeoRuntimeUtils.INSTANCE);
 
 		if (dist == Dist.CLIENT) {
 			VitalClientEvents.registerListeners(modEventBus);

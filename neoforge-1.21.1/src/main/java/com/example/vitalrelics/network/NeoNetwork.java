@@ -2,7 +2,6 @@ package com.example.vitalrelics.network;
 
 import com.example.vitalrelics.common.MySpellSystem;
 import com.example.vitalrelics.platform.NeoLivingEntity;
-import com.example.vitalrelics.platform.NeoRuntimeUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
@@ -33,8 +32,7 @@ public final class NeoNetwork {
 						if (context.player() instanceof ServerPlayer player) {
 							MySpellSystem.INSTANCE.activate(
 									new NeoLivingEntity(player),
-									payload.abilityId(),
-									NeoRuntimeUtils.INSTANCE);
+									payload.abilityId());
 						}
 					});
 				}

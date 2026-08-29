@@ -12,6 +12,7 @@ import static com.example.vitalrelics.common.utils.ConfigurationFiles.load_exter
 
 public class RelicLoader {
 	public final List<Relic> relics_ = new ArrayList<>();
+	public static final RelicLoader INSTANCE = new RelicLoader();
 
 	private RelicLoader() {}
 
@@ -87,8 +88,6 @@ public class RelicLoader {
 		}
 	}
 
-	public static final RelicLoader INSTANCE =
-			new RelicLoader();
 
 	public void load(final Path externalPath) {
 		if (externalPath == null) {

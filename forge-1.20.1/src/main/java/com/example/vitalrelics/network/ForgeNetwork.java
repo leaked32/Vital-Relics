@@ -3,7 +3,6 @@ package com.example.vitalrelics.network;
 import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.MySpellSystem;
 import com.example.vitalrelics.platform.ForgeLivingEntity;
-import com.example.vitalrelics.platform.ForgeRuntimeUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;
@@ -98,17 +97,13 @@ public final class ForgeNetwork {
 				if (player != null) {
 					MySpellSystem.INSTANCE.activate(
 							new ForgeLivingEntity(player),
-							packet.abilityId(),
-							ForgeRuntimeUtils.INSTANCE
+							packet.abilityId()
 					);
 					/*
 					 * SpellSystem may have changed the selected spell or started
 					 * a cooldown, so synchronize the final authoritative state.
 					 */
-					MySpellSystem.INSTANCE.syncSpellHud(
-							new ForgeLivingEntity(player),
-							ForgeRuntimeUtils.INSTANCE
-					);
+					MySpellSystem.INSTANCE.syncSpellHud(new ForgeLivingEntity(player));
 				}
 			});
 

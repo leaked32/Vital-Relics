@@ -12,8 +12,7 @@ public final class MySpellSystem {
 	public interface Handler {
 		boolean activate(
 				MyLivingEntity caster,
-				Relic.Spells.Info spell,
-				MyRuntimeUtils runtime
+				Relic.Spells.Info spell
 		);
 	}
 
@@ -23,6 +22,7 @@ public final class MySpellSystem {
 
 	public static final MySpellSystem INSTANCE = new MySpellSystem();
 
+	private final MyRuntimeUtils runtime = MyRuntime.get();
 	private final Map<String, Handler> handlers = new HashMap<>();
 
 	private MySpellSystem() {
@@ -35,7 +35,7 @@ public final class MySpellSystem {
 		MISS / sky
 			-> teleport as far along look direction as possible
 		*/
-		register(Relic.SPELL_TELEPORT, (caster, spell, runtime) -> {
+		register(Relic.SPELL_TELEPORT, (caster, spell) -> {
 			final double distance = Math.min(
 					Math.max(
 							RelicSpells.numberParameter(spell, "range", 0.0),
@@ -63,7 +63,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_CURSE, (caster, spell, runtime) -> {
+		register(Relic.SPELL_CURSE, (caster, spell) -> {
 			final float intensity = (float) RelicSpells.numberParameter(
 					spell, "intensity", 0.0
 			);
@@ -101,7 +101,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_HEAL, (caster, spell, runtime) -> {
+		register(Relic.SPELL_HEAL, (caster, spell) -> {
 			final float amount = (float) Math.max(
 					0.0,
 					RelicSpells.numberParameter(spell, "amount", 0.0)
@@ -123,7 +123,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_CLEANSE, (caster, spell, runtime) -> {
+		register(Relic.SPELL_CLEANSE, (caster, spell) -> {
 			if (!MyUtils.cleanseEffects(
 					caster,
 					MyLivingEntity.MyEffectCategory.NEGATIVE
@@ -134,7 +134,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_DASH, (caster, spell, runtime) -> {
+		register(Relic.SPELL_DASH, (caster, spell) -> {
 			final double strength = Math.max(
 					0.0,
 					RelicSpells.numberParameter(spell, "strength", 0.0)
@@ -169,7 +169,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_ARC_BURST, (caster, spell, runtime) -> {
+		register(Relic.SPELL_ARC_BURST, (caster, spell) -> {
 			final float intensity = (float) Math.max(
 					0.0,
 					RelicSpells.numberParameter(spell, "intensity", 0.0)
@@ -237,7 +237,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_REPULSE, (caster, spell, runtime) -> {
+		register(Relic.SPELL_REPULSE, (caster, spell) -> {
 			final double range = Math.min(
 					64.0,
 					Math.max(
@@ -293,7 +293,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_ABSORPTION, (caster, spell, runtime) -> {
+		register(Relic.SPELL_ABSORPTION, (caster, spell) -> {
 			final int durationTicks = (int) Math.min(
 					20 * 60 * 10,
 					Math.max(
@@ -332,7 +332,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_SKY_LAUNCH, (caster, spell, runtime) -> {
+		register(Relic.SPELL_SKY_LAUNCH, (caster, spell) -> {
 			final double range = Math.min(
 					64.0,
 					Math.max(
@@ -369,7 +369,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_SHADOW_EXCHANGE, (caster, spell, runtime) -> {
+		register(Relic.SPELL_SHADOW_EXCHANGE, (caster, spell) -> {
 			final double range = Math.min(
 					64.0,
 					Math.max(
@@ -403,7 +403,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_PHANTOM_STEP, (caster, spell, runtime) -> {
+		register(Relic.SPELL_PHANTOM_STEP, (caster, spell) -> {
 			final double range = Math.min(
 					32.0,
 					Math.max(
@@ -464,7 +464,7 @@ public final class MySpellSystem {
 		/*
 		Util Spells: Enchantment
 		 */
-		register(Relic.SPELL_UPGRADE_ENCHANTED_BOOK, (caster, spell, runtime) -> {
+		register(Relic.SPELL_UPGRADE_ENCHANTED_BOOK, (caster, spell) -> {
 			final int experienceCost = Math.max(0, (int) Math.round(
 					RelicSpells.numberParameter(spell, "experience_cost", 0.0)
 			));
@@ -478,7 +478,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_ENCHANTMENT_ASCENSION, (caster, spell, runtime) -> {
+		register(Relic.SPELL_ENCHANTMENT_ASCENSION, (caster, spell) -> {
 			final int experienceCost = Math.max(0, (int) Math.round(
 					RelicSpells.numberParameter(spell, "experience_cost", 0.0)
 			));
@@ -492,7 +492,7 @@ public final class MySpellSystem {
 			return true;
 		});
 
-		register(Relic.SPELL_PURIFY_PENALTY, (caster, spell, runtime) -> {
+		register(Relic.SPELL_PURIFY_PENALTY, (caster, spell) -> {
 			final int experienceCost = Math.max(0, (int) Math.round(
 					RelicSpells.numberParameter(spell, "experience_cost", 0.0)
 			));
@@ -513,10 +513,7 @@ public final class MySpellSystem {
 		}
 	}
 
-	public void syncSpellHud(
-			final MyLivingEntity caster,
-			final MyRuntimeUtils runtime) {
-
+	public void syncSpellHud(final MyLivingEntity caster) {
 		final int tick = caster.serverTick();
 		if (tick < 0)
 			return;
@@ -538,14 +535,13 @@ public final class MySpellSystem {
 			return;
 		}
 
-		syncSpellHud(caster, selected, tick, runtime);
+		syncSpellHud(caster, selected, tick);
 	}
 
 	private void syncSpellHud(
 			final MyLivingEntity caster,
 			final String spellId,
-			final int tick,
-			final MyRuntimeUtils runtime) {
+			final int tick) {
 
 		final int cooldownTicks =
 				Scheduler.INSTANCE().getSpellCooldownRemaining(
@@ -557,9 +553,7 @@ public final class MySpellSystem {
 
 	public void activate(
 			final MyLivingEntity caster,
-			String abilityId,
-			final MyRuntimeUtils runtime) {
-
+			String abilityId) {
 		if (caster.isClientSide() ||
 				!abilityId.matches("[a-z0-9_./-]{1,64}")) {
 			return;
@@ -588,7 +582,7 @@ public final class MySpellSystem {
 			);
 
 			if (selected != null) {
-				syncSpellHud(caster, selected, tick, runtime);
+				syncSpellHud(caster, selected, tick);
 				runtime.showSelectedSpell(caster, selected);
 			}
 			return;
@@ -627,7 +621,7 @@ public final class MySpellSystem {
 
 		final Handler handler = handlers.get(abilityId);
 
-		if (handler != null && handler.activate(caster, spell, runtime)) {
+		if (handler != null && handler.activate(caster, spell)) {
 			Scheduler.INSTANCE().setSpellCooldown(
 					caster.uuid(),
 					abilityId,
@@ -635,7 +629,7 @@ public final class MySpellSystem {
 					RelicSpells.cooldownTicks(spell)
 			);
 
-			syncSpellHud(caster, abilityId, tick, runtime);
+			syncSpellHud(caster, abilityId, tick);
 		}
 	}
 }

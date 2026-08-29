@@ -4,7 +4,9 @@ import com.example.vitalrelics.acquisition.AcquisitionEvents;
 import com.example.vitalrelics.acquisition.DynamicRelicRecipe;
 import com.example.vitalrelics.client.VitalClientEvents;
 import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.platform.MyRuntime;
 import com.example.vitalrelics.network.ForgeNetwork;
+import com.example.vitalrelics.platform.ForgeRuntimeUtils;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -71,6 +73,8 @@ public class VitalRelics {
 			);
 
 	public VitalRelics() {
+		MyRuntime.initialize(ForgeRuntimeUtils.INSTANCE);
+
 		@SuppressWarnings("removal")
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
