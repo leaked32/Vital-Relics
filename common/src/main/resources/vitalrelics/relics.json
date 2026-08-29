@@ -640,6 +640,10 @@
           "experience_cost": 15,
           "recovery": 0.5
         },
+        "purify_curse": {
+          "experience_cost": 15,
+          "recovery": 0.5
+        },
         "purify_penalty": {
           "experience_cost": 15,
           "recovery": 0.5

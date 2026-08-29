@@ -215,7 +215,6 @@
   "tooltip.vitalrelics.archers_emblem": "Empowers arrows fired by its wearer.",
 
   "relic.vitalrelics.spell.enchantment_ascension": "Enchantment Ascension",
-  "relic.vitalrelics.spell.purify_penalty": "Purify Penalty",
   "item.vitalrelics.arcane_reforging_charm": "Charm of Arcane Reforging",
   "tooltip.vitalrelics.arcane_reforging_charm": "Refines enchanted equipment or enchanted book, strengthening its magic or cleansing its accumulated anvil burden.",
   "message.vitalrelics.enchantment_book_required": "Hold an enchanted book in your main hand.",
@@ -230,5 +229,13 @@
 
   "message.vitalrelics.disenchantment_book_required": "Hold a book in your off hand.",
   "message.vitalrelics.disenchantment_no_removable_enchantment": "The held item has no removable enchantment.",
-  "message.vitalrelics.disenchantment_success": "Enchantment transferred to the book."
+  "message.vitalrelics.disenchantment_success": "Enchantment transferred to the book.",
+
+  "relic.vitalrelics.spell.purify_curse": "Purify Curse",
+  "relic.vitalrelics.spell.purify_penalty": "Purify Anvil Penalty",
+  "relic.vitalrelics.spell.disenchantment": "Disenchantment",
+
+  "message.vitalrelics.no_curse": "The held item has no curse to remove.",
+  "message.vitalrelics.no_anvil_penalty": "The held item has no anvil penalty to remove."
+
 }

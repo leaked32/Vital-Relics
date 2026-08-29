@@ -110,8 +110,8 @@ public class Relic {
 	 * - `enchantment_ascension`: Upgrades the first non-max-level enchantment
 	 *      on any enchanted item held in the main hand by one level,
 	 *      consuming experience_cost experience levels. Creative players do not pay the cost.
-	 * - `purify_penalty`:Removes the first curse from the item held in the main hand;
-	 *      if no curse exists, resets its anvil repair-cost penalty to zero instead.
+	 * - `purify_curse`: Removes the first curse from the item held in the main hand;
+	 * - `purify_penalty`: Resets its anvil repair-cost penalty to zero instead.
 	 *      Consumes experience_cost experience levels; creative players do not pay the cost.
 	 * - `disenchantment`: Removes the first enchantment from the item held in the
 	 *      main hand and transfers it at the same level to a book held in the off hand.
@@ -129,6 +129,7 @@ public class Relic {
 	public static final String SPELL_PHANTOM_STEP = "phantom_step";
 	public static final String SPELL_UPGRADE_ENCHANTED_BOOK = "upgrade_enchanted_book";
 	public static final String SPELL_ENCHANTMENT_ASCENSION = "enchantment_ascension";
+	public static final String SPELL_PURIFY_CURSE = "purify_curse";
 	public static final String SPELL_PURIFY_PENALTY = "purify_penalty";
 	public static final String SPELL_DISENCHANTMENT = "disenchantment";
 

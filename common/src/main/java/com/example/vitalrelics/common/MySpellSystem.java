@@ -493,12 +493,24 @@ public final class MySpellSystem {
 			return true;
 		});
 
+		register(Relic.SPELL_PURIFY_CURSE, (caster, spell) -> {
+			final int experienceCost = Math.max(0, (int) Math.round(
+					RelicSpells.numberParameter(spell, "experience_cost", 0.0)
+			));
+
+			if (!runtime.removeCurse(caster, experienceCost))
+				return false;
+
+			caster.playSound(MySound.AMETHYST_CHIME);
+			return true;
+		});
+
 		register(Relic.SPELL_PURIFY_PENALTY, (caster, spell) -> {
 			final int experienceCost = Math.max(0, (int) Math.round(
 					RelicSpells.numberParameter(spell, "experience_cost", 0.0)
 			));
 
-			if (!runtime.removeCurseOrResetRepairCost(caster, experienceCost))
+			if (!runtime.resetRepairCost(caster, experienceCost))
 				return false;
 
 			caster.playSound(MySound.AMETHYST_CHIME);

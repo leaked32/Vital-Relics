@@ -214,7 +214,6 @@
   "tooltip.vitalrelics.archers_emblem": "装着者が放つ矢を強化する。",
 
   "relic.vitalrelics.spell.enchantment_ascension": "エンチャント昇華",
-  "relic.vitalrelics.spell.purify_penalty": "ペナルティ浄化",
   "item.vitalrelics.arcane_reforging_charm": "秘術再鍛造の護符",
   "tooltip.vitalrelics.arcane_reforging_charm": "エンチャント装備を精錬し、その魔力を高めるか、金床作業で蓄積した負担を浄化する。",
   "message.vitalrelics.enchantment_book_required": "メインハンドにエンチャント本を持ってください。",
@@ -229,5 +228,13 @@
 
   "message.vitalrelics.disenchantment_book_required": "オフハンドに本を持ってください。",
   "message.vitalrelics.disenchantment_no_removable_enchantment": "手に持っているアイテムには解除可能なエンチャントがありません。",
-  "message.vitalrelics.disenchantment_success": "エンチャントを本に移しました。"
+  "message.vitalrelics.disenchantment_success": "エンチャントを本に移しました。",
+
+  "relic.vitalrelics.spell.purify_curse": "呪いの浄化",
+  "relic.vitalrelics.spell.purify_penalty": "金床ペナルティの浄化",
+  "relic.vitalrelics.spell.disenchantment": "解呪",
+
+  "message.vitalrelics.no_curse": "手に持っているアイテムには解除できる呪いがありません。",
+  "message.vitalrelics.no_anvil_penalty": "手に持っているアイテムには解除できる金床ペナルティがありません。"
+
 }

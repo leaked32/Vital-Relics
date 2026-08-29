@@ -506,7 +506,7 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 	}
 
 	@Override
-	public boolean removeCurseOrResetRepairCost(
+	public boolean removeCurse(
 			final MyLivingEntity abstractEntity,
 			final int experienceCost) {
 
@@ -520,33 +520,20 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 		final Map<Enchantment, Integer> enchantments =
 				EnchantmentHelper.getEnchantments(stack);
 
-		if (enchantments.isEmpty()) {
-			player.displayClientMessage(
-					message(
-							"message.vitalrelics.item_not_enchanted",
-							"The held item is not enchanted."
-					),
-					true
-			);
-
-			return false;
-		}
-
 		Enchantment curse = null;
 
 		for (final Enchantment enchantment : enchantments.keySet()) {
-			if (!enchantment.isCurse())
-				continue;
-
-			curse = enchantment;
-			break;
+			if (enchantment.isCurse()) {
+				curse = enchantment;
+				break;
+			}
 		}
 
-		if (curse == null && stack.getBaseRepairCost() <= 0) {
+		if (curse == null) {
 			player.displayClientMessage(
 					message(
-							"message.vitalrelics.nothing_to_purify",
-							"The held item has no curse or anvil penalty to purify."
+							"message.vitalrelics.no_curse",
+							"The held item has no curse to remove."
 					),
 					true
 			);
@@ -569,12 +556,55 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 			return false;
 		}
 
-		if (curse != null) {
-			enchantments.remove(curse);
-			EnchantmentHelper.setEnchantments(enchantments, stack);
-		} else {
-			stack.setRepairCost(0);
+		enchantments.remove(curse);
+		EnchantmentHelper.setEnchantments(enchantments, stack);
+
+		if (!player.isCreative())
+			player.giveExperienceLevels(-experienceCost);
+
+		return true;
+	}
+
+	@Override
+	public boolean resetRepairCost(
+			final MyLivingEntity abstractEntity,
+			final int experienceCost) {
+
+		final LivingEntity entity = nativeEntity(abstractEntity);
+
+		if (!(entity instanceof ServerPlayer player))
+			return false;
+
+		final ItemStack stack = player.getMainHandItem();
+
+		if (stack.getBaseRepairCost() <= 0) {
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.no_anvil_penalty",
+							"The held item has no anvil penalty to remove."
+					),
+					true
+			);
+
+			return false;
 		}
+
+		if (!player.isCreative() &&
+				player.experienceLevel < experienceCost) {
+
+			player.displayClientMessage(
+					message(
+							"message.vitalrelics.enchant_upgrade_insufficient_experience",
+							"Not enough experience. Required level: %s",
+							experienceCost
+					),
+					true
+			);
+
+			return false;
+		}
+
+		stack.setRepairCost(0);
 
 		if (!player.isCreative())
 			player.giveExperienceLevels(-experienceCost);

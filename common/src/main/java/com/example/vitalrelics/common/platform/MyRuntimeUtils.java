@@ -30,9 +30,10 @@ public interface MyRuntimeUtils {
 	enum EnchantmentFilter {
 		ENCHANTMENT_BOOK_ONLY, ALL_ENCHANTED_ITEMS
 	}
+
+	// Enchantments
 	boolean upgradeFirstEnchantment(MyLivingEntity entity, int experienceCost, EnchantmentFilter option);
-
-	boolean removeCurseOrResetRepairCost(MyLivingEntity entity, int experienceCost);
-
+	boolean removeCurse(MyLivingEntity entity, int experienceCost);
+	boolean resetRepairCost(MyLivingEntity entity, int experienceCost);
 	boolean disenchantToOffhandBook(MyLivingEntity entity, int experienceCost);
 }

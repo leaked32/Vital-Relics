@@ -213,7 +213,6 @@
   "tooltip.vitalrelics.archers_emblem": "强化佩戴者射出的箭矢。",
 
   "relic.vitalrelics.spell.enchantment_ascension": "附魔升华",
-  "relic.vitalrelics.spell.purify_penalty": "净化惩罚",
   "item.vitalrelics.arcane_reforging_charm": "奥术重铸护符",
   "tooltip.vitalrelics.arcane_reforging_charm": "精炼附魔装备，强化其魔力或净化铁砧作业累积的惩罚。",
   "message.vitalrelics.enchantment_book_required": "请在主手持有一本附魔书。",
@@ -231,5 +230,13 @@
 
   "message.vitalrelics.disenchantment_book_required": "请在副手持有一本书。",
   "message.vitalrelics.disenchantment_no_removable_enchantment": "手持物品上没有可移除的附魔。",
-  "message.vitalrelics.disenchantment_success": "附魔已转移至书中。"
+  "message.vitalrelics.disenchantment_success": "附魔已转移至书中。",
+
+  "relic.vitalrelics.spell.purify_curse": "净化诅咒",
+  "relic.vitalrelics.spell.purify_penalty": "净化铁砧惩罚",
+  "relic.vitalrelics.spell.disenchantment": "祛魔",
+
+  "message.vitalrelics.no_curse": "手持物品没有可移除的诅咒。",
+  "message.vitalrelics.no_anvil_penalty": "手持物品没有可移除的铁砧惩罚。"
+
 }
