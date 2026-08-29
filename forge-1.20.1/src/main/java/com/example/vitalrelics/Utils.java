@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.example.vitalrelics.VitalRelics.loader;
+import static com.example.vitalrelics.Loader.get();
 import static com.example.vitalrelics.compat.TouhouMaidCompat.gatherMaidRelics;
 
 public class Utils {

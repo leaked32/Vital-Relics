@@ -57,7 +57,7 @@ public class VitalRelics {
 
 	public static RegistryObject<CreativeModeTab> RELICS_TAB;
 
-	public final static Loader loader = Loader.get();
+	// public final static Loader loader = Loader.get();
 
 	public static final List<RegistryObject<Item>> RELIC_ITEMS = new ArrayList<>();
 
@@ -99,7 +99,7 @@ public class VitalRelics {
 		final Path recipeConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
 		Loader.load(config);
 		Acquisition.load(recipeConfig);
-		Translations.get().load(FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang"));
+		Translations.load(FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang"));
 
 		for (final var relic : Loader.get().relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {
@@ -158,7 +158,7 @@ public class VitalRelics {
 			if (!itemId.getNamespace().equals(Manifest.MODID))
 				return false;
 
-			final Relic relic = loader.find(itemId.getPath());
+			final Relic relic = Loader.get().find(itemId.getPath());
 
 			return relic != null && relic.curio_slot.equals(result.slotContext().identifier());
 		});
@@ -176,7 +176,7 @@ public class VitalRelics {
 						final ResourceLocation id = ForgeRegistries.ITEMS.getKey(stack.getItem());
 						assert id != null;
 
-						final Relic relic = loader.find(id.getPath());
+						final Relic relic = Loader.get().find(id.getPath());
 
 						return relic != null &&
 								relic.curio_slot.equals(context.identifier());

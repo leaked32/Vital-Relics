@@ -120,7 +120,7 @@ public final class VitalClientEvents {
 			);
 		}
 
-		for (final Relic relic : VitalRelics.loader.relics_) {
+		for (final Relic relic : Loader.get().relics_) {
 			final ModelResourceLocation itemModel =
 					new ModelResourceLocation(
 							Manifest.MODID,

@@ -38,7 +38,7 @@ public final class RelicRenderer extends BlockEntityWithoutLevelRenderer {
 		if (!itemId.getNamespace().equals(Manifest.MODID))
 			return;
 
-		final Relic relic = VitalRelics.loader.find(itemId.getPath());
+		final Relic relic = Loader.get().find(itemId.getPath());
 
 		if (relic == null || relic.texture == null)
 			return;

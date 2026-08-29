@@ -241,6 +241,16 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 		return entity.level().isClientSide();
 	}
 
+
+	@Override
+	public boolean isServerPlayer() {
+		if (entity instanceof ServerPlayer) {
+			return true;
+		}
+		return false;
+	}
+
+
 	@Override
 	public boolean is(final MyLivingEntity other) {
 		return other instanceof ForgeLivingEntity forge &&

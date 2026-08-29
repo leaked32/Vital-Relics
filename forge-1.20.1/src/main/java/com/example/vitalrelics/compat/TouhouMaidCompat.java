@@ -22,7 +22,7 @@ public final class TouhouMaidCompat implements ILittleMaid {
 	public void bindMaidBauble(final BaubleManager manager) {
 		for (int i = 0; i < VitalRelics.RELIC_ITEMS.size(); ++i) {
 			final var item = VitalRelics.RELIC_ITEMS.get(i).get();
-			final var relic = VitalRelics.loader.relics_.get(i);
+			final var relic = Loader.get().relics_.get(i);
 
 			if (relic.effective_slots.isEmpty() ||
 					relic.effective_slots.contains("in_touhou_little_maid_curios_slots")) {
