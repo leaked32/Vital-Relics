@@ -161,3 +161,42 @@ jobs:
           files: |
             release/vitalrelics-forge-1.20.1-${{ env.VERSION }}.jar
             release/vitalrelics-neoforge-1.21.1-${{ env.VERSION }}.jar
+
+      # ------------------------------
+      # Forge / NeoForge update checker
+      # ------------------------------
+
+      - name: Update version checker
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git fetch origin main
+          git checkout main
+          git pull --ff-only origin main
+
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          path = Path("update.json")
+          version = os.environ["VERSION"]
+          data = json.loads(path.read_text())
+
+          for minecraft in ("1.20.1", "1.21.1"):
+              data.setdefault(minecraft, {})[version] = f"Vital Relics v{version}"
+              data.setdefault("promos", {})[f"{minecraft}-latest"] = version
+              data["promos"][f"{minecraft}-recommended"] = version
+
+          path.write_text(json.dumps(data, indent=2) + "\n")
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add update.json
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Update version checker for ${TAG}"
+            git push origin main
+          fi
