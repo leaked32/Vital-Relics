@@ -245,11 +245,7 @@ public class Scheduler {
 		if (state == null)
 			return 0;
 
-		return Math.max(
-				0,
-				state.cooldownEndTicks.getOrDefault(spellId, 0) -
-						currentTickCount
-		);
+		return Math.max(0, state.cooldownEndTicks.getOrDefault(spellId, 0) - currentTickCount);
 	}
 
 	public void setSpellCooldown(
@@ -296,6 +292,7 @@ public class Scheduler {
 	/*
 	Healing Prevention
 	 */
+
 	public float addHealingPrevention(
 			final UUID uuid,
 			final int currentTick,
