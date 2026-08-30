@@ -54,7 +54,12 @@ public class Relic {
 	 * - `thorns`: Reflects received damage × level; reflection is limited by a cooldown
 	 * - `fire_resistance`: Extinguish fire.
 	 * - `iron_curtain`: super invulnerable time
-	 * - `lingering_wound`: when dealing extra level% damage is accumulated as true damage.
+	 * - `lingering_wound`: Accumulates a portion of damage dealt as a temporary wound that
+	 *      reduces the target's effective maximum health,
+	 *      preventing healing above the remaining health limit.
+	 *      Extra damage can accumulate the wound twice,
+	 *      allowing it to receive both the original attack's accumulation
+	 *      and an additional accumulation from the extra damage.
 	 */
 	public static final String PASSIVE_SKILL_RETARGET_ARROW = "retarget_arrow";
 	public static final String PASSIVE_SKILL_REALITY_SEVERANCE = "reality_severance";

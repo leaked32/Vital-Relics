@@ -81,10 +81,7 @@ public final class MyEvents {
 	}
 
 	public static float onLivingDamage(
-			final MyLivingEntity victim,
-			final MyLivingEntity attacker,
-			float amount,
-			final int currentTick) {
+			final MyLivingEntity victim, final MyLivingEntity attacker, float amount, final int currentTick) {
 
 		/*
 		Offensive Attack
@@ -147,10 +144,11 @@ public final class MyEvents {
 		}
 
 		if (attacker != null && lingeringWoundLevel > 0.0 && amount > 0.0F) {
-			applyLingeringWound(
-					attacker, victim, amount,
-					lingeringWoundLevel, currentTick
+			accumulateLingeringWound(
+					victim, amount, lingeringWoundLevel, currentTick
 			);
+
+			applyLingeringWound(attacker, victim);
 		}
 
 		/*
@@ -173,35 +171,35 @@ public final class MyEvents {
 		return amount;
 	}
 
-	// Accumulated damage
-	private static void applyLingeringWound(
-			final MyLivingEntity attacker,
-			final MyLivingEntity target,
-			final float amount,
-			final double lingeringWoundLevel,
-			final int currentTick) {
+	/*
+	Lingering Wound
+	 */
+	public static void accumulateLingeringWound(
+			final MyLivingEntity target, final float amount, final double level, final int currentTick) {
 
-		if (lingeringWoundLevel <= 0.0) {
+		if (level <= 0.0)
 			return;
-		}
 
-		final float addedDamage =
-				(float) (amount * lingeringWoundLevel);
+		Scheduler.INSTANCE().addHealingPrevention(
+				target.uuid(), currentTick, (float) (amount * level)
+		);
+	}
+
+	public static void applyLingeringWound(
+			final MyLivingEntity attacker,
+			final MyLivingEntity target) {
 
 		final float accumulatedDamage =
-				Scheduler.INSTANCE().addHealingPrevention(
-						target.uuid(), currentTick, addedDamage
-				);
+				Scheduler.INSTANCE().healingPrevention(target.uuid());
 
 		final float allowedHealth =
 				target.maxHealth() - accumulatedDamage;
-		final float healthAfterDamage = target.health() - amount;
 
-		if (healthAfterDamage > allowedHealth) {
+		if (target.health() > allowedHealth) {
 			MyUtils.trueHurt(
 					attacker,
 					target,
-					healthAfterDamage - allowedHealth
+					target.health() - allowedHealth
 			);
 		}
 	}

@@ -398,7 +398,7 @@
       "rarity": "common",
       "properties": {
         "entity_interaction_range": {
-          "add": 1.0
+          "add": 0.5
         }
       },
       "enemy_spawn": {
@@ -648,6 +648,9 @@
         },
         "attack_speed": {
           "mul_total": 1.15
+        },
+        "entity_interaction_range": {
+          "add": 0.75
         }
       }
     },
@@ -658,6 +661,7 @@
       "texture": "arcane_reforging_charm.png",
       "curio_slot": "charm",
       "rarity": "epic",
+      "passive_skills": { "metal_mending": 7.0 },
       "available_spells": {
         "enchantment_ascension": {
           "experience_cost": 15,

@@ -267,14 +267,10 @@ public final class VitalEvents {
 		if (id == null)
 			return;
 
-		final boolean negative =
-				effect.getCategory() == MobEffectCategory.HARMFUL;
+		final boolean negative = effect.getCategory() == MobEffectCategory.HARMFUL;
 
 		if (Loader.isImmuneToEffect(
-				relics,
-				id.getPath(),
-				negative
-		)) {
+				relics, id.getPath(), negative)) {
 			event.setResult(
 					MobEffectEvent.Applicable.Result.DO_NOT_APPLY
 			);

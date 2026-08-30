@@ -1,6 +1,8 @@
 package com.example.vitalrelics.common;
 
 import com.example.vitalrelics.common.platform.*;
+import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.relics.Relic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -273,5 +275,27 @@ public class MyDamageInfo
 
 
 		target.hurt(new_source, amount_to_apply);
+
+		{
+			/*
+			Extra damage can apply twice, but if `hurt` fails, then only once.
+			Since the second one happens in onLivingDamage.
+			This one is fully original damage.
+			Directly punish the target if it fails.
+			 */
+			final var attackerRelics = MyRuntime.getRuntimeUtils().gatherRelics(attacker);
+
+			final double lingeringWoundLevel = Loader.levelOfSuchPassiveSkill(
+					attackerRelics, Relic.PASSIVE_SKILL_LINGERING_WOUND
+			);
+
+			if (lingeringWoundLevel != 0.0) {
+				MyEvents.accumulateLingeringWound(
+						target, amount_to_apply, lingeringWoundLevel, attacker.serverTick()
+				);
+
+				MyEvents.applyLingeringWound(attacker, target);
+			}
+		}
 	}
 }

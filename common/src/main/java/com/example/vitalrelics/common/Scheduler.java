@@ -305,6 +305,10 @@ public class Scheduler {
 		return total;
 	}
 
+	public float healingPrevention(final UUID uuid) {
+		return HEAL_PREVENTION_LIST.getOrDefault(uuid, 0.0F);
+	}
+
 	/*
 	Protection
 	 */
