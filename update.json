@@ -1,0 +1,15 @@
+{
+  "homepage": "https://www.curseforge.com/minecraft/mc-mods/vital-relics",
+  "1.20.1": {
+    "0.7.6": "Vital Relics v0.7.6"
+  },
+  "1.21.1": {
+    "0.7.6": "Vital Relics v0.7.6"
+  },
+  "promos": {
+    "1.20.1-latest": "0.7.6",
+    "1.20.1-recommended": "0.7.6",
+    "1.21.1-latest": "0.7.6",
+    "1.21.1-recommended": "0.7.6"
+  }
+}
