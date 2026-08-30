@@ -210,7 +210,6 @@ public final class MyEvents {
 	Clean Up
 	 */
 
-
 	public static void onPlayerLoggedOut(final UUID uuid) {
 		Scheduler.INSTANCE().clearEntity(uuid);
 	}

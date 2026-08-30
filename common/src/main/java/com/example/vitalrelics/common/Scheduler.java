@@ -144,6 +144,7 @@ public class Scheduler {
 			PROTECTED_PLAYER_LIST.cleanUp(currentTickCount, isEntityValid);
 			THORNS_COOLDOWN_LIST.cleanUp(currentTickCount, isEntityValid);
 			ARROW_DEFLECTION_COOLDOWN_LIST.cleanUp(currentTickCount, isEntityValid);
+			FLIGHT_STATE_LIST.cleanUp(currentTickCount, isEntityValid);
 
 		}
 	}
@@ -400,9 +401,7 @@ public class Scheduler {
 
 		if (hasFlight) {
 			final boolean grantedByVitalRelics =
-					previous != null
-							? previous.grantedByVitalRelics
-							: !mayFly;
+					previous != null ? previous.grantedByVitalRelics : !mayFly;
 
 			FLIGHT_STATE_LIST.put(
 					uuid,
@@ -411,42 +410,24 @@ public class Scheduler {
 			);
 
 			if (!mayFly)
-				return new FlightUpdate(
-						FlightAction.GRANT,
-						flightLevel
-				);
+				return new FlightUpdate(FlightAction.GRANT, flightLevel);
 
 			if (previous != null &&
 					previous.grantedByVitalRelics &&
 					Double.compare(previous.level, flightLevel) != 0)
-				return new FlightUpdate(
-						FlightAction.UPDATE,
-						flightLevel
-				);
+				return new FlightUpdate(FlightAction.UPDATE, flightLevel);
 
-			return new FlightUpdate(
-					FlightAction.NONE,
-					flightLevel
-			);
+			return new FlightUpdate(FlightAction.NONE, flightLevel);
 		}
 
 		if (previous == null)
-			return new FlightUpdate(
-					FlightAction.NONE,
-					0.0
-			);
+			return new FlightUpdate(FlightAction.NONE, 0.0);
 
 		FLIGHT_STATE_LIST.remove(uuid);
 
 		if (previous.grantedByVitalRelics)
-			return new FlightUpdate(
-					FlightAction.REMOVE,
-					previous.level
-			);
+			return new FlightUpdate(FlightAction.REMOVE, previous.level);
 
-		return new FlightUpdate(
-				FlightAction.NONE,
-				0.0
-		);
+		return new FlightUpdate(FlightAction.NONE, 0.0);
 	}
 }
