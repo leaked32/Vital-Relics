@@ -40,6 +40,9 @@ authors = "${mod_authors}" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description = '''${mod_description}'''
+
+displayURL="https://www.curseforge.com/minecraft/mc-mods/vital-relics"
+
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies."${mod_id}"]] #optional
 # the modid of the dependency
@@ -61,3 +64,25 @@ mandatory = true
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
+
+
+[[dependencies."${mod_id}"]]
+modId="curios"
+mandatory=true
+versionRange="[5.0,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies."${mod_id}"]]
+modId="jei"
+mandatory=false
+versionRange="[15,)"
+ordering="AFTER"
+side="CLIENT"
+
+[[dependencies."${mod_id}"]]
+modId="touhou_little_maid"
+mandatory=false
+versionRange="[1.0,)"
+ordering="AFTER"
+side="BOTH"
