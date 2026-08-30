@@ -246,21 +246,23 @@ public class GuideBookScreen extends Screen {
 
 		y = drawLine(graphics, page.title, left, y, 0xFFFFFF);
 
-		y = drawLine(
-				graphics,
-				trf(
-						"guide.vitalrelics.rarity_slot", "%s · %s",
-						tr(
-								"guide.vitalrelics.rarity." + page.rarity,
-								humanize(page.rarity)
-						),
-						tr(
-								"guide.vitalrelics.slot." + page.slot,
-								humanize(page.slot)
-						)
-				),
-				left, y, 0xAAAAAA
-		);
+		if (!page.rarity.isBlank() || !page.slot.isBlank()) {
+			y = drawLine(
+					graphics,
+					trf(
+							"guide.vitalrelics.rarity_slot", "%s · %s",
+							tr(
+									"guide.vitalrelics.rarity." + page.rarity,
+									humanize(page.rarity)
+							),
+							tr(
+									"guide.vitalrelics.slot." + page.slot,
+									humanize(page.slot)
+							)
+					),
+					left, y, 0xAAAAAA
+			);
+		}
 
 		y += 3;
 
