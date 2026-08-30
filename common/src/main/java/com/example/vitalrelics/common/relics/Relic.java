@@ -9,7 +9,19 @@ import static com.example.vitalrelics.common.RelicText.displayName;
 
 public class Relic {
 	/*
-	Do not remove my comments.
+	 * Do not remove my comments.
+	 *
+	 * Design Strength Table
+	 *                  Common   Uncommon   Rare   Epic
+	 * Ring              1.0       1.5      2.2     3.2
+	 * Bracelet          1.2       1.8      2.6     3.7
+	 * Charm/Pendant     1.3       2.0      3.0     8.5
+	 * Necklace          1.5       2.3      3.4     10.0
+	 * Head              1.5       2.3      3.4     10.0
+	 *
+	 * So, we'll add new relics for necklace and head later right?
+	 *   it shouldn't be halos for head relics if they are not epic.
+	 *
 	 */
 
 	public String id;
@@ -42,6 +54,7 @@ public class Relic {
 	 * - `thorns`: Reflects received damage × level; reflection is limited by a cooldown
 	 * - `fire_resistance`: Extinguish fire.
 	 * - `iron_curtain`: super invulnerable time
+	 * - `lingering_wound`: when dealing extra level% damage is accumulated as true damage.
 	 */
 	public static final String PASSIVE_SKILL_RETARGET_ARROW = "retarget_arrow";
 	public static final String PASSIVE_SKILL_REALITY_SEVERANCE = "reality_severance";
@@ -53,6 +66,7 @@ public class Relic {
 	public static final String PASSIVE_SKILL_ARROW_DEFLECTION = "arrow_deflection";
 	// public static final String PASSIVE_SKILL_FIRE_RESISTANCE = "fire_resistance";
 	public static final String PASSIVE_SKILL_IRON_CURTAIN = "iron_curtain";
+	public static final String PASSIVE_SKILL_LINGERING_WOUND = "lingering_wound";
 
 	public final Map<String, Double> passive_skills = new LinkedHashMap<>();
 

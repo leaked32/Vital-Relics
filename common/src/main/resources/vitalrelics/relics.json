@@ -182,7 +182,7 @@
       "rarity": "uncommon",
       "available_spells": {
         "heal": {
-          "amount": 6,
+          "amount": 4,
           "ratio": 0.1,
           "recovery": 0.2
         }
@@ -251,7 +251,7 @@
       "rarity": "rare",
       "available_spells": {
         "arc_burst": {
-          "intensity": 1.05,
+          "intensity": 0.65,
           "range": 12,
           "count": 3,
           "weaken": 0,
@@ -663,7 +663,7 @@
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",
-      "passive_skills": { "retarget_arrow": 2.0, "reality_severance": 32.0, "iron_curtain": 2.1 },
+      "passive_skills": { "retarget_arrow": 2.0, "reality_severance": 32.0, "iron_curtain": 2.1, "lingering_wound": 47.0 },
       "properties": {
         "attack_damage": {
           "add": 9.0,

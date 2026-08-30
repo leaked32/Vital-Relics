@@ -392,9 +392,7 @@ public class Utils {
 	}
 
 	public static void spawnEnemyRelicParticles(
-			final LivingEntity entity,
-			final List<Relic> relics,
-			final int currentTick) {
+			final LivingEntity entity, final List<Relic> relics, final int currentTick) {
 
 		if (!hasEnemyRelics(entity) || relics.isEmpty())
 			return;

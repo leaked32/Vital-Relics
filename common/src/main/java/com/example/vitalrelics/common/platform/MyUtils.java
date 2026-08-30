@@ -51,8 +51,7 @@ public class MyUtils {
 	}
 
 	public static void applyRelicEffects(
-			final MyLivingEntity entity,
-			final List<Relic> relics) {
+			final MyLivingEntity entity, final List<Relic> relics) {
 
 		for (final Relic relic : relics) {
 			for (final var entry : relic.granted_effects.entrySet()) {
@@ -68,5 +67,17 @@ public class MyUtils {
 				);
 			}
 		}
+	}
+
+	public static void trueHurt(
+			final MyLivingEntity attacker, final MyLivingEntity victim, final float amount) {
+		float health = victim.health();
+		health = health - amount;
+
+		final MyDamageSource new_source =
+				new MyDamageSource(attacker, MyDamageKind.EXTRA_DAMAGE);
+		victim.setHealth(health);
+		victim.setHurtMark(new_source);
+		// myLivingEntity.mark
 	}
 }

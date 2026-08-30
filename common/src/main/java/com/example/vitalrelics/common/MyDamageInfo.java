@@ -1,9 +1,6 @@
 package com.example.vitalrelics.common;
 
-import com.example.vitalrelics.common.platform.MyDamageKind;
-import com.example.vitalrelics.common.platform.MyDamageSource;
-import com.example.vitalrelics.common.platform.MyEffect;
-import com.example.vitalrelics.common.platform.MyLivingEntity;
+import com.example.vitalrelics.common.platform.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +12,7 @@ public class MyDamageInfo
 	 */
 	public static void directRangedAttack(
 			final MyLivingEntity attacker,
-			final float amount,
-			final int range,
-			final int count,
-			final int neg_leve) {
+			final float amount, final int range, final int count, final int neg_leve) {
 
 		if (count <= 0) {
 			return;
@@ -214,10 +208,10 @@ public class MyDamageInfo
 	{
 		if (target != null) {
 			dealToLivingEntity(target);
-			_deal_to_range(target);
+			dealToRange(target);
 		}
 		else if (range_filter != MyRangeFilter.none)  {
-			_deal_to_range(attacker);
+			dealToRange(attacker);
 		}
 		else {
 			throw new RuntimeException(
@@ -226,7 +220,7 @@ public class MyDamageInfo
 		}
 	}
 
-	private void _deal_to_range(final MyLivingEntity centralized) {
+	private void dealToRange(final MyLivingEntity centralized) {
 		if (range_filter == MyRangeFilter.none) {
 			return;
 		}
@@ -324,33 +318,16 @@ public class MyDamageInfo
 //							"RealityPiercer deal_extra_damage unsuccessful hurt, " +
 //							"try 'reality_piercer_penetrate'"
 //					);
-					realityPiercerPenetrate(
-							target,
-							new_source,
-							amount_to_apply * 2.f,
-							true
-					);
+					realityPiercerPenetrate(target, new_source, amount_to_apply * 2.f, true);
 				}
 			}
 			break;
 
 			case my_penetrate: {
-				realityPiercerPenetrate(
-						target,
-						new_source,
-						amount_to_apply,
-						true
-				);
+				realityPiercerPenetrate(target, new_source, amount_to_apply, true);
 			}
 			break;
 		}
-	}
-
-	public static List<MyLivingEntity> getLivingEntitiesInRange(
-			final MyLivingEntity center,
-			final double radius) {
-
-		return center.livingEntitiesInRange(radius);
 	}
 
 	// Accumulated damage
@@ -379,12 +356,7 @@ public class MyDamageInfo
 			if (target.health() > allowed_max_health) {
 				// Excessive Health
 				// LOGGER.warn("`add_prevent_heal` abnormal health, target: {}, allowed_max_health: {}", target.toString(), allowed_max_health);
-				myPenetrate(
-						target,
-						source,
-						target.health() - allowed_max_health,
-						allow_remove
-				);
+				myPenetrate(target, source, target.health() - allowed_max_health, allow_remove);
 			} else {
 				// LOGGER.debug("common case, target: {}, allowed_max_health: {}", target.toString(), allowed_max_health);
 				myPenetrate(target, source, amount, allow_remove);
@@ -403,10 +375,10 @@ public class MyDamageInfo
 			final float amount,
 			final boolean allow_remove) {
 
-		float decided_amount = 0.f;
+		// float decided_amount = 0.f;
 		target.resetInvulnerableTime();
 
-		target.hurt(source, amount);
+		MyUtils.trueHurt(source.attacker(), target, amount);
 
 		//		if (target instanceof IMyMixinUnique my_mixin_entity) {
 		//			decided_amount = my_mixin_entity.my_mixin_penetrate(source, amount, allow_remove);

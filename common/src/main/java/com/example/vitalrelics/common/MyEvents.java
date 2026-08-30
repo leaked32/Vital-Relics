@@ -126,14 +126,19 @@ public final class MyEvents {
 				victim.invulnerableTime(), 10.0
 		));
 
-		if (victim.invulnerableTime() != invulnerableTime) {
-			if (!Scheduler.INSTANCE().acquireProtection(
-					victim.uuid(), currentTick, invulnerableTime
-			)) {
-				amount = 0.0F;
-			}
+		final double ironCurtainLevel =  Loader.levelOfSuchPassiveSkill(
+				victimRelics, Relic.PASSIVE_SKILL_IRON_CURTAIN
+		);
+		if (ironCurtainLevel != 0.0) {
+			if (victim.invulnerableTime() != invulnerableTime) {
+				if (!Scheduler.INSTANCE().acquireProtection(
+						victim.uuid(), currentTick, invulnerableTime
+				)) {
+					amount = 0.0F;
+				}
 
-			victim.setInvulnerableTime(invulnerableTime);
+				victim.setInvulnerableTime(invulnerableTime);
+			}
 		}
 
 		/*

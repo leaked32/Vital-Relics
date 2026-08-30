@@ -262,8 +262,7 @@ public final class MySpellSystem {
 
 			boolean affected = false;
 
-			for (final MyLivingEntity target :
-					MyDamageInfo.getLivingEntitiesInRange(caster, range)) {
+			for (final MyLivingEntity target : caster.livingEntitiesInRange(range)) {
 
 				if (!caster.isHostileTargeted(target))
 					continue;
@@ -353,7 +352,7 @@ public final class MySpellSystem {
 			boolean affected = false;
 
 			for (final MyLivingEntity target :
-					MyDamageInfo.getLivingEntitiesInRange(caster, range)) {
+					caster.livingEntitiesInRange(range)) {
 
 				if (!caster.isHostileTargeted(target))
 					continue;

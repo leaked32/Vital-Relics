@@ -22,6 +22,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.gameevent.GameEvent;
 
 import java.util.List;
 import java.util.Objects;
@@ -175,6 +176,43 @@ public final class NeoLivingEntity implements MyLivingEntity {
 	@Override
 	public void setInvulnerableTime(final int ticks) {
 		entity.invulnerableTime = ticks;
+	}
+
+	@Override
+	public void setHealth(float health) {
+		if (entity.isDeadOrDying()) {
+			return;
+		}
+		if (!entity.isAlive()) {
+			return;
+		}
+		entity.setHealth(health);
+	}
+
+	@Override
+	public void setHurtMark(MyDamageSource source) {
+		if (!(source.attacker() instanceof NeoLivingEntity neoAttacker)) {
+			throw new IllegalArgumentException(
+					"Expected NeoLivingEntity attacker"
+			);
+		}
+
+		if (entity.isDeadOrDying()) {
+			return;
+		}
+		if (!entity.isAlive()) {
+			return;
+		}
+
+		DamageSource damageSource = _extraDamageSource(neoAttacker.entity);
+		entity.hurtDuration = 10;
+		entity.hurtTime = 10;
+		entity.hurtMarked = true;
+		entity.gameEvent(GameEvent.ENTITY_DAMAGE);
+		entity.playSound(SoundEvents.PLAYER_HURT, 1.f, entity.getVoicePitch());
+		if (entity.getHealth() <= 0.0) {
+			entity.die(damageSource);
+		}
 	}
 
 	@Override

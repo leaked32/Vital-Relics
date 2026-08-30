@@ -15,6 +15,8 @@ public interface MyLivingEntity {
 	int invulnerableTime();
 	void setInvulnerableTime(int ticks);
 
+	void setHealth(float health);
+	void setHurtMark(MyDamageSource source);
 	float health();
 	float maxHealth();
 	float attackDamage();
