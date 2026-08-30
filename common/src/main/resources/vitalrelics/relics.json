@@ -185,6 +185,11 @@
           "amount": 4,
           "ratio": 0.1,
           "recovery": 0.2
+        },
+        "healing_ray": {
+          "intensity": 1.0,
+          "range": 16,
+          "recovery": 0.2
         }
       }
     },

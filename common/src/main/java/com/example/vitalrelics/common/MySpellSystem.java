@@ -124,6 +124,39 @@ public final class MySpellSystem {
 			return true;
 		});
 
+		register(Relic.SPELL_HEALING_RAY, (caster, spell) -> {
+			final float intensity = (float) Math.max(
+					0.0,
+					RelicSpells.numberParameter(spell, "intensity", 0.0)
+			);
+
+			final double range = Math.min(
+					64.0,
+					Math.max(
+							0.0,
+							RelicSpells.numberParameter(spell, "range", 0.0)
+					)
+			);
+
+			if (intensity <= 0.0F || range <= 0.0)
+				return false;
+
+			final MyLivingEntity target =
+					runtime.pointedLivingEntity(caster, range);
+
+			if (target == null || target.health() >= target.maxHealth())
+				return false;
+
+			final float healing = intensity * caster.attackDamage();
+
+			if (healing <= 0.0F)
+				return false;
+
+			target.heal(healing);
+			target.playSound(MySound.BEACON_ACTIVATE);
+			return true;
+		});
+
 		register(Relic.SPELL_CLEANSE, (caster, spell) -> {
 			if (!MyUtils.cleanseEffects(
 					caster,

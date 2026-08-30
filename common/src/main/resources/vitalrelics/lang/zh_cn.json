@@ -244,5 +244,6 @@
   "item.vitalrelics.bleeding_sigil": "流血刻印",
   "tooltip.vitalrelics.bleeding_sigil": "由它撕开的每一道伤口都久久无法愈合。",
   "relic.vitalrelics.passive_skill.lingering_wound": "不愈之伤",
-  "relic.vitalrelics.passive_skill.iron_curtain": "钢铁帷幕"
+  "relic.vitalrelics.passive_skill.iron_curtain": "钢铁帷幕",
+  "relic.vitalrelics.spell.healing_ray": "治愈射线"
 }

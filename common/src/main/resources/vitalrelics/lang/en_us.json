@@ -243,5 +243,6 @@
   "item.vitalrelics.bleeding_sigil": "Bleeding Sigil",
   "tooltip.vitalrelics.bleeding_sigil": "Every wound it opens refuses to fully close.",
   "relic.vitalrelics.passive_skill.lingering_wound": "Lingering Wound",
-  "relic.vitalrelics.passive_skill.iron_curtain": "Iron Curtain"
+  "relic.vitalrelics.passive_skill.iron_curtain": "Iron Curtain",
+  "relic.vitalrelics.spell.healing_ray": "Healing Ray"
 }

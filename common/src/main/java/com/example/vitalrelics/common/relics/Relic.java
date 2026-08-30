@@ -106,6 +106,8 @@ public class Relic {
 	 *
 	 * - `curse`: Calls `directAttack` with the pointed living entity
 	 * - `heal`: Restores `amount` health plus `ratio` of the caster's maximum health
+	 * - `healing_ray`: Heals the pointed living entity within `range`
+	 *      for `intensity` times the caster's attack damage
 	 * - `cleanse`: Removes all negative effects from the caster
 	 * - `dash`: Launches the caster forward by `strength`, with optional `vertical` velocity
 	 * - `arc_burst`: Repeatedly damages hostile targets within `range`;
@@ -133,6 +135,7 @@ public class Relic {
 	public static final String SPELL_TELEPORT = "teleport";
 	public static final String SPELL_CURSE = "curse";
 	public static final String SPELL_HEAL = "heal";
+	public static final String SPELL_HEALING_RAY = "healing_ray";
 	public static final String SPELL_CLEANSE = "cleanse";
 	public static final String SPELL_DASH = "dash";
 	public static final String SPELL_ARC_BURST = "arc_burst";

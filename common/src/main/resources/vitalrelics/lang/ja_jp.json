@@ -242,5 +242,6 @@
   "item.vitalrelics.bleeding_sigil": "流血の刻印",
   "tooltip.vitalrelics.bleeding_sigil": "これが刻んだ傷は、いつまでも完全には癒えない。",
   "relic.vitalrelics.passive_skill.lingering_wound": "癒えぬ傷",
-  "relic.vitalrelics.passive_skill.iron_curtain": "鉄のカーテン"
+  "relic.vitalrelics.passive_skill.iron_curtain": "鉄のカーテン",
+  "relic.vitalrelics.spell.healing_ray": "治癒の光線"
 }
