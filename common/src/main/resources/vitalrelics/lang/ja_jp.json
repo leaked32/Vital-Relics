@@ -235,6 +235,10 @@
   "relic.vitalrelics.spell.disenchantment": "解呪",
 
   "message.vitalrelics.no_curse": "手に持っているアイテムには解除できる呪いがありません。",
-  "message.vitalrelics.no_anvil_penalty": "手に持っているアイテムには解除できる金床ペナルティがありません。"
+  "message.vitalrelics.no_anvil_penalty": "手に持っているアイテムには解除できる金床ペナルティがありません。",
 
+  "item.vitalrelics.bleeding_sigil": "流血の刻印",
+  "tooltip.vitalrelics.bleeding_sigil": "これが刻んだ傷は、いつまでも完全には癒えない。",
+  "relic.vitalrelics.passive_skill.lingering_wound": "癒えぬ傷",
+  "relic.vitalrelics.passive_skill.iron_curtain": "鉄のカーテン"
 }

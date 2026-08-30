@@ -234,6 +234,11 @@
   "relic.vitalrelics.spell.disenchantment": "祛魔",
 
   "message.vitalrelics.no_curse": "手持物品沒有可移除的詛咒。",
-  "message.vitalrelics.no_anvil_penalty": "手持物品沒有可移除的鐵砧懲罰。"
+  "message.vitalrelics.no_anvil_penalty": "手持物品沒有可移除的鐵砧懲罰。",
+
+  "item.vitalrelics.bleeding_sigil": "流血刻印",
+  "tooltip.vitalrelics.bleeding_sigil": "由它撕開的每一道傷口都久久無法癒合。",
+  "relic.vitalrelics.passive_skill.lingering_wound": "不癒之傷",
+  "relic.vitalrelics.passive_skill.iron_curtain": "鋼鐵帷幕"
 
 }

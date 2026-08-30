@@ -550,6 +550,21 @@
       },
       "count": 1
     },
+    "bleeding_sigil": {
+      "type": "shaped",
+      "pattern": [
+        " S ",
+        "RNR",
+        " W "
+      ],
+      "key": {
+        "S": "minecraft:string",
+        "R": "minecraft:redstone_block",
+        "N": "minecraft:nether_star",
+        "W": "minecraft:wither_rose"
+      },
+      "count": 1
+    },
     "arcane_reforging_charm": {
       "type": "shaped",
       "pattern": [
