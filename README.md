@@ -88,13 +88,13 @@ Minecraft   Loader
 
 ## Screenshots
 
-`<img width="1920" height="1104" alt="Vital Relics gameplay screenshot" src="https://github.com/user-attachments/assets/a3e49454-14e9-4b9c-894c-727dfe9d1050" />`{=html}
+<img width="1920" height="1104" alt="Vital Relics gameplay screenshot" src="https://github.com/user-attachments/assets/a3e49454-14e9-4b9c-894c-727dfe9d1050" />
 
-`<img width="1920" height="1104" alt="Vital Relics gameplay screenshot" src="https://github.com/user-attachments/assets/aabf218f-aa11-4787-9083-5bf32bb71a3e" />`{=html}
+<img width="1920" height="1104" alt="Vital Relics gameplay screenshot" src="https://github.com/user-attachments/assets/aabf218f-aa11-4787-9083-5bf32bb71a3e" />
 
-`<img width="1920" height="1104" alt="Vital Relics gameplay screenshot" src="https://github.com/user-attachments/assets/c931d595-af92-4843-b82f-299709a0f4a0" />`{=html}
+<img width="1920" height="1104" alt="Vital Relics gameplay screenshot" src="https://github.com/user-attachments/assets/c931d595-af92-4843-b82f-299709a0f4a0" />
 
-`<img width="1920" height="1104" alt="Vital Relics gameplay screenshot" src="https://github.com/user-attachments/assets/5a2aa56e-6b22-4ba3-b82f-299709a0f4a0" />`{=html}
+<img width="1920" height="1104" alt="Vital Relics gameplay screenshot" src="https://github.com/user-attachments/assets/5a2aa56e-6b22-4ba3-b82f-299709a0f4a0" />
 
 ## For Modpack Authors
 
