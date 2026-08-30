@@ -72,16 +72,38 @@ public class Scheduler {
 				new HashMap<>();
 	}
 
+	public static final class FlightState {
+		public final boolean grantedByVitalRelics;
+		public final double level;
+
+		public FlightState(
+				final boolean grantedByVitalRelics,
+				final double level) {
+			this.grantedByVitalRelics = grantedByVitalRelics;
+			this.level = level;
+		}
+	}
+
+	public enum FlightAction {NONE, GRANT, UPDATE, REMOVE}
+
+	public record FlightUpdate(FlightAction action, double level) {}
+
 	private final MyMap<MyList<DelayTask>> DELAYED_TASK_LIST = new MyMap<>();
 	private final MyMap<Float> HEAL_PREVENTION_LIST = new MyMap<>(320);
 	private final MyMap<Integer> PROTECTED_PLAYER_LIST = new MyMap<>();
 
 	private final MyMap<SpellState> SPELL_STATE_LIST = new MyMap<>(0);
+	private final MyMap<FlightState> FLIGHT_STATE_LIST = new MyMap<>(0);
 	private final MyMap<Integer> THORNS_COOLDOWN_LIST = new MyMap<>();
 	private final MyMap<Integer> ARROW_DEFLECTION_COOLDOWN_LIST = new MyMap<>();
 
 	private static final int DELAYED_TASK_LIST_MAX = 12;
 
+	/*
+	Scheduler Management
+	 */
+
+	// Call it for all ticks
 	public void serverTick(
 			final int currentTickCount,
 			final Function<UUID, Boolean> isEntityValid) {
@@ -124,6 +146,29 @@ public class Scheduler {
 			ARROW_DEFLECTION_COOLDOWN_LIST.cleanUp(currentTickCount, isEntityValid);
 
 		}
+	}
+
+	// Entity Lifecycle
+	// Call it once the player exits.
+	public void clearEntity(final UUID uuid) {
+		DELAYED_TASK_LIST.remove(uuid);
+		HEAL_PREVENTION_LIST.remove(uuid);
+		PROTECTED_PLAYER_LIST.remove(uuid);
+		SPELL_STATE_LIST.remove(uuid);
+		THORNS_COOLDOWN_LIST.remove(uuid);
+		ARROW_DEFLECTION_COOLDOWN_LIST.remove(uuid);
+		FLIGHT_STATE_LIST.remove(uuid);
+	}
+
+	// Call it once the server ends.
+	public void clear() {
+		DELAYED_TASK_LIST.clear();
+		HEAL_PREVENTION_LIST.clear();
+		PROTECTED_PLAYER_LIST.clear();
+		SPELL_STATE_LIST.clear();
+		THORNS_COOLDOWN_LIST.clear();
+		ARROW_DEFLECTION_COOLDOWN_LIST.clear();
+		FLIGHT_STATE_LIST.clear();
 	}
 
 	/*
@@ -344,4 +389,67 @@ public class Scheduler {
 		return INSTANCE;
 	}
 
+	/*
+	Flight
+	 */
+	public FlightUpdate updateFlight(
+			final UUID uuid,
+			final int currentTick,
+			final double flightLevel,
+			final boolean mayFly) {
+
+		final FlightState previous = FLIGHT_STATE_LIST.get(uuid);
+		final boolean hasFlight = flightLevel > 0.0;
+
+		if (hasFlight) {
+			final boolean grantedByVitalRelics =
+					previous != null
+							? previous.grantedByVitalRelics
+							: !mayFly;
+
+			FLIGHT_STATE_LIST.put(
+					uuid,
+					currentTick,
+					new FlightState(grantedByVitalRelics, flightLevel)
+			);
+
+			if (!mayFly)
+				return new FlightUpdate(
+						FlightAction.GRANT,
+						flightLevel
+				);
+
+			if (previous != null &&
+					previous.grantedByVitalRelics &&
+					Double.compare(previous.level, flightLevel) != 0)
+				return new FlightUpdate(
+						FlightAction.UPDATE,
+						flightLevel
+				);
+
+			return new FlightUpdate(
+					FlightAction.NONE,
+					flightLevel
+			);
+		}
+
+		if (previous == null)
+			return new FlightUpdate(
+					FlightAction.NONE,
+					0.0
+			);
+
+		FLIGHT_STATE_LIST.remove(uuid);
+
+		if (previous.grantedByVitalRelics)
+			return new FlightUpdate(
+					FlightAction.REMOVE,
+					previous.level
+			);
+
+		return new FlightUpdate(
+				FlightAction.NONE,
+				0.0
+		);
+	}
 }

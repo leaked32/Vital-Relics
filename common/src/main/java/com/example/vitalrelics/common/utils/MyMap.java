@@ -38,6 +38,25 @@ public class MyMap<TValue> {
 			return map;
 		}
 	}*/
+
+	public void remove(final UUID key) {
+		try {
+			lock.lock();
+			map.remove(key);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public void clear() {
+		try {
+			lock.lock();
+			map.clear();
+		} finally {
+			lock.unlock();
+		}
+	}
+
 	public boolean containsKey(UUID key) {
 		try {
 			lock.lock();

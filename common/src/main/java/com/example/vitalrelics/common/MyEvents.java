@@ -7,6 +7,7 @@ import com.example.vitalrelics.common.relics.Relic;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public final class MyEvents {
 	private MyEvents() {}
@@ -205,4 +206,16 @@ public final class MyEvents {
 		}
 	}
 
+	/*
+	Clean Up
+	 */
+
+
+	public static void onPlayerLoggedOut(final UUID uuid) {
+		Scheduler.INSTANCE().clearEntity(uuid);
+	}
+
+	public static void onServerStopping() {
+		Scheduler.INSTANCE().clear();
+	}
 }

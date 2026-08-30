@@ -27,6 +27,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -106,49 +107,6 @@ public final class VitalEvents {
 
 	private VitalEvents() {}
 
-	private record FlightState(boolean grantedByVitalRelics) {}
-
-	private static final Map<UUID, FlightState> FLIGHT_STATES = new HashMap<>();
-
-	private static void updateFlight(
-			final ServerPlayer player,
-			final double flightLevel) {
-
-		final UUID playerId = player.getUUID();
-		final FlightState previous = FLIGHT_STATES.get(playerId);
-		final boolean hasFlightRelic = flightLevel > 0.0;
-
-		if (previous == null && hasFlightRelic) {
-			final boolean grantedByVitalRelics = !player.getAbilities().mayfly;
-
-			if (grantedByVitalRelics) {
-				player.getAbilities().mayfly = true;
-				if (Math.abs(flightLevel - 1.0) > 1.0E-9) {
-					player.getAbilities().setFlyingSpeed((float) (0.05 * flightLevel));
-				}
-				player.onUpdateAbilities();
-			}
-
-			FLIGHT_STATES.put(playerId, new FlightState(grantedByVitalRelics));
-			return;
-		}
-
-		if (previous == null || hasFlightRelic)
-			return;
-
-		FLIGHT_STATES.remove(playerId);
-
-		final GameType gameType = player.gameMode.getGameModeForPlayer();
-		if (!previous.grantedByVitalRelics() || gameType == GameType.CREATIVE ||
-				gameType == GameType.SPECTATOR)
-			return;
-
-		player.getAbilities().mayfly = false;
-		player.getAbilities().flying = false;
-		player.getAbilities().setFlyingSpeed(0.05F);
-		player.onUpdateAbilities();
-	}
-
 	@SubscribeEvent
 	public static void onServerTick(final TickEvent.ServerTickEvent event) {
 		if (event.phase != TickEvent.Phase.END)
@@ -220,10 +178,58 @@ public final class VitalEvents {
 			// Passive Skill: Flight
 
 			if (livingEntity instanceof ServerPlayer player) {
-				final double flight_level = Loader.levelOfSuchPassiveSkill(
+				final double flightLevel = Loader.levelOfSuchPassiveSkill(
 						relics, Relic.PASSIVE_SKILL_FLIGHT
 				);
-				updateFlight(player, flight_level);
+
+				final Scheduler.FlightUpdate update =
+						Scheduler.INSTANCE().updateFlight(
+								player.getUUID(),
+								currentTickCount,
+								flightLevel,
+								player.getAbilities().mayfly
+						);
+
+				switch (update.action()) {
+					case GRANT -> {
+						player.getAbilities().mayfly = true;
+
+						if (Math.abs(update.level() - 1.0) > 1.0E-9) {
+							player.getAbilities().setFlyingSpeed(
+									(float) (0.05 * update.level())
+							);
+						}
+
+						player.onUpdateAbilities();
+					}
+
+					case UPDATE -> {
+						if (Math.abs(update.level() - 1.0) > 1.0E-9) {
+							player.getAbilities().setFlyingSpeed(
+									(float) (0.05 * update.level())
+							);
+						} else {
+							player.getAbilities().setFlyingSpeed(0.05F);
+						}
+
+						player.onUpdateAbilities();
+					}
+
+					case REMOVE -> {
+						if (!player.isCreative() && !player.isSpectator()) {
+							player.getAbilities().mayfly = false;
+							player.getAbilities().flying = false;
+
+							if (Math.abs(update.level() - 1.0) > 1.0E-9) {
+								player.getAbilities().setFlyingSpeed(0.05F);
+							}
+
+							player.onUpdateAbilities();
+						}
+					}
+
+					case NONE -> {}
+				}
 			}
 
 		}
@@ -456,5 +462,28 @@ public final class VitalEvents {
 			player.drop(book, false);
 
 		data.putBoolean(GUIDE_BOOK_GIVEN, true);
+	}
+
+	/*
+	Clean Up
+	 */
+
+	@SubscribeEvent
+	public static void onPlayerLoggedOut(
+			final PlayerEvent.PlayerLoggedOutEvent event) {
+
+		if (event.getEntity().level().isClientSide())
+			return;
+
+		MyEvents.onPlayerLoggedOut(
+				event.getEntity().getUUID()
+		);
+	}
+
+	@SubscribeEvent
+	public static void onServerStopping(
+			final ServerStoppingEvent event) {
+
+		MyEvents.onServerStopping();
 	}
 }

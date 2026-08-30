@@ -27,6 +27,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
@@ -41,9 +42,6 @@ import java.util.function.Function;
 import static com.example.vitalrelics.Utils.*;
 
 public final class VitalEvents {
-	private record FlightState(boolean grantedByVitalRelics, double level) {}
-
-	private static final Map<UUID, FlightState> FLIGHT_STATES = new HashMap<>();
 
 	/*
 	Properties
@@ -146,52 +144,6 @@ public final class VitalEvents {
 					ENTITY_INTERACTION_RANGE_ADD_ID, ENTITY_INTERACTION_RANGE_MUL_ID, ENTITY_INTERACTION_RANGE_MUL_TOTAL_ID)
 	);
 
-	private static void updateFlight(
-			final ServerPlayer player,
-			final double flightLevel) {
-
-		final UUID playerId = player.getUUID();
-		final FlightState previous = FLIGHT_STATES.get(playerId);
-		final boolean hasFlightRelic = flightLevel > 0.0;
-
-		if (previous == null && hasFlightRelic) {
-			final boolean grantedByVitalRelics = !player.getAbilities().mayfly;
-
-			if (grantedByVitalRelics) {
-				player.getAbilities().mayfly = true;
-				player.getAbilities().setFlyingSpeed((float) (0.05 * flightLevel));
-				player.onUpdateAbilities();
-			}
-
-			FLIGHT_STATES.put(playerId, new FlightState(grantedByVitalRelics, flightLevel));
-			return;
-		}
-
-		if (previous != null && hasFlightRelic) {
-			if (previous.grantedByVitalRelics() && Double.compare(previous.level(), flightLevel) != 0) {
-				player.getAbilities().setFlyingSpeed((float) (0.05 * flightLevel));
-				player.onUpdateAbilities();
-				FLIGHT_STATES.put(playerId, new FlightState(true, flightLevel));
-			}
-			return;
-		}
-
-		if (previous == null)
-			return;
-
-		FLIGHT_STATES.remove(playerId);
-
-		final GameType gameType = player.gameMode.getGameModeForPlayer();
-		if (!previous.grantedByVitalRelics() || gameType == GameType.CREATIVE ||
-				gameType == GameType.SPECTATOR)
-			return;
-
-		player.getAbilities().mayfly = false;
-		player.getAbilities().flying = false;
-		player.getAbilities().setFlyingSpeed(0.05F);
-		player.onUpdateAbilities();
-	}
-
 	private VitalEvents() {}
 
 	@SubscribeEvent
@@ -264,10 +216,58 @@ public final class VitalEvents {
 			// Passive Skill: Flight
 
 			if (livingEntity instanceof ServerPlayer player) {
-				final double flight_level = Loader.levelOfSuchPassiveSkill(
+				final double flightLevel = Loader.levelOfSuchPassiveSkill(
 						relics, Relic.PASSIVE_SKILL_FLIGHT
 				);
-				updateFlight(player, flight_level);
+
+				final Scheduler.FlightUpdate update =
+						Scheduler.INSTANCE().updateFlight(
+								player.getUUID(),
+								currentTickCount,
+								flightLevel,
+								player.getAbilities().mayfly
+						);
+
+				switch (update.action()) {
+					case GRANT -> {
+						player.getAbilities().mayfly = true;
+
+						if (Math.abs(update.level() - 1.0) > 1.0E-9) {
+							player.getAbilities().setFlyingSpeed(
+									(float) (0.05 * update.level())
+							);
+						}
+
+						player.onUpdateAbilities();
+					}
+
+					case UPDATE -> {
+						if (Math.abs(update.level() - 1.0) > 1.0E-9) {
+							player.getAbilities().setFlyingSpeed(
+									(float) (0.05 * update.level())
+							);
+						} else {
+							player.getAbilities().setFlyingSpeed(0.05F);
+						}
+
+						player.onUpdateAbilities();
+					}
+
+					case REMOVE -> {
+						if (!player.isCreative() && !player.isSpectator()) {
+							player.getAbilities().mayfly = false;
+							player.getAbilities().flying = false;
+
+							if (Math.abs(update.level() - 1.0) > 1.0E-9) {
+								player.getAbilities().setFlyingSpeed(0.05F);
+							}
+
+							player.onUpdateAbilities();
+						}
+					}
+
+					case NONE -> {}
+				}
 			}
 
 		}
@@ -508,5 +508,29 @@ public final class VitalEvents {
 			player.drop(book, false);
 
 		data.putBoolean(GUIDE_BOOK_GIVEN, true);
+	}
+
+
+	/*
+	Clean Up
+	 */
+
+	@SubscribeEvent
+	public static void onPlayerLoggedOut(
+			final PlayerEvent.PlayerLoggedOutEvent event) {
+
+		if (event.getEntity().level().isClientSide())
+			return;
+
+		MyEvents.onPlayerLoggedOut(
+				event.getEntity().getUUID()
+		);
+	}
+
+	@SubscribeEvent
+	public static void onServerStopping(
+			final ServerStoppingEvent event) {
+
+		MyEvents.onServerStopping();
 	}
 }
