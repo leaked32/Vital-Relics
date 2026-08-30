@@ -73,7 +73,7 @@ public class Scheduler {
 	}
 
 	private final MyMap<MyList<DelayTask>> DELAYED_TASK_LIST = new MyMap<>();
-	private final MyMap<Float> HEAL_PREVENTION_LIST = new MyMap<>();
+	private final MyMap<Float> HEAL_PREVENTION_LIST = new MyMap<>(320);
 	private final MyMap<Integer> PROTECTED_PLAYER_LIST = new MyMap<>();
 
 	private final MyMap<SpellState> SPELL_STATE_LIST = new MyMap<>(0);
