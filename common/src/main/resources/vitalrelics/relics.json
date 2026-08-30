@@ -629,6 +629,21 @@
       "passive_skills": { "empowered_arrows": 1.5 }
     },
     {
+      "id": "bleeding_sigil",
+      "display_name": "Bleeding Sigil",
+      "tooltip": "Every wound it opens refuses to fully close.",
+      "texture": "bleeding_sigil.png",
+      "rarity": "epic",
+      "passive_skills": {
+        "lingering_wound": 0.2
+      },
+      "properties": {
+        "attack_damage": {
+          "add": 4.0
+        }
+      }
+    },
+    {
       "id": "arcane_reforging_charm",
       "display_name": "Charm of Arcane Reforging",
       "tooltip": "Refines enchanted equipment, strengthening its magic or cleansing its accumulated burden.",
@@ -663,7 +678,9 @@
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",
-      "passive_skills": { "retarget_arrow": 2.0, "reality_severance": 32.0, "iron_curtain": 2.1, "lingering_wound": 0.47 },
+      "passive_skills": {
+        "retarget_arrow": 2.0, "reality_severance": 32.0, "iron_curtain": 2.1, "lingering_wound": 1.0
+      },
       "properties": {
         "attack_damage": {
           "add": 9.0,

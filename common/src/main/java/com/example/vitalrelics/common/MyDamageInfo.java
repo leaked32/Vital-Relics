@@ -318,7 +318,7 @@ public class MyDamageInfo
 		}
 
 		final float addedDamage =
-				(float) (amount * lingeringWoundLevel / 100.0);
+				(float) (amount * lingeringWoundLevel);
 
 		final float accumulatedDamage =
 				Scheduler.INSTANCE().addHealingPrevention(
