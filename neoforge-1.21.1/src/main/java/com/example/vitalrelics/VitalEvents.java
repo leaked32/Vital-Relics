@@ -46,102 +46,43 @@ public final class VitalEvents {
 	/*
 	Properties
 	 */
-
-	private static final ResourceLocation ATTACK_DAMAGE_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_damage_add");
-
-	private static final ResourceLocation ATTACK_DAMAGE_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_damage_mul_base");
-
-	private static final ResourceLocation ATTACK_DAMAGE_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_damage_mul_total");
-
-	private static final ResourceLocation ATTACK_SPEED_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_speed_add");
-
-	private static final ResourceLocation ATTACK_SPEED_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_speed_mul_base");
-
-	private static final ResourceLocation ATTACK_SPEED_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "attack_speed_mul_total");
-
-	private static final ResourceLocation ARMOR_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_add");
-
-	private static final ResourceLocation ARMOR_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_mul_base");
-
-	private static final ResourceLocation ARMOR_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_mul_total");
-
-	private static final ResourceLocation ARMOR_TOUGHNESS_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_toughness_add");
-
-	private static final ResourceLocation ARMOR_TOUGHNESS_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_toughness_mul_base");
-
-	private static final ResourceLocation ARMOR_TOUGHNESS_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "armor_toughness_mul_total");
-
-	private static final ResourceLocation KNOCKBACK_RESISTANCE_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "knockback_resistance_add");
-
-	private static final ResourceLocation KNOCKBACK_RESISTANCE_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "knockback_resistance_mul_base");
-
-	private static final ResourceLocation KNOCKBACK_RESISTANCE_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "knockback_resistance_mul_total");
-
-	private static final ResourceLocation MAX_HEALTH_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "max_health_add");
-
-	private static final ResourceLocation MAX_HEALTH_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "max_health_mul_base");
-
-	private static final ResourceLocation MAX_HEALTH_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "max_health_mul_total");
-
-	private static final ResourceLocation BLOCK_INTERACTION_RANGE_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "block_interaction_range_add");
-
-	private static final ResourceLocation BLOCK_INTERACTION_RANGE_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "block_interaction_range_mul_base");
-
-	private static final ResourceLocation BLOCK_INTERACTION_RANGE_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "block_interaction_range_mul_total");
-
-	private static final ResourceLocation ENTITY_INTERACTION_RANGE_ADD_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "entity_interaction_range_add");
-
-	private static final ResourceLocation ENTITY_INTERACTION_RANGE_MUL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "entity_interaction_range_mul_base");
-
-	private static final ResourceLocation ENTITY_INTERACTION_RANGE_MUL_TOTAL_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "entity_interaction_range_mul_total");
+	private static ResourceLocation makePropertyId(final String propertyName) {
+		return ResourceLocation.fromNamespaceAndPath(Manifest.MODID, propertyName);
+	}
 
 	private record PropertyTarget(
 			Holder<Attribute> attribute,
 			ResourceLocation addId,
 			ResourceLocation mulBaseId,
-			ResourceLocation mulTotalId) {}
+			ResourceLocation mulTotalId) {
 
-	private static final Map<String, PropertyTarget> PROPERTY_TARGETS = Map.of(
-			"attack_damage", new PropertyTarget(Attributes.ATTACK_DAMAGE,
-					ATTACK_DAMAGE_ADD_ID, ATTACK_DAMAGE_MUL_ID, ATTACK_DAMAGE_MUL_TOTAL_ID),
-			"attack_speed", new PropertyTarget(Attributes.ATTACK_SPEED,
-					ATTACK_SPEED_ADD_ID, ATTACK_SPEED_MUL_ID, ATTACK_SPEED_MUL_TOTAL_ID),
-			"armor", new PropertyTarget(Attributes.ARMOR,
-					ARMOR_ADD_ID, ARMOR_MUL_ID, ARMOR_MUL_TOTAL_ID),
-			"armor_toughness", new PropertyTarget(Attributes.ARMOR_TOUGHNESS,
-					ARMOR_TOUGHNESS_ADD_ID, ARMOR_TOUGHNESS_MUL_ID, ARMOR_TOUGHNESS_MUL_TOTAL_ID),
-			"knockback_resistance", new PropertyTarget(Attributes.KNOCKBACK_RESISTANCE,
-					KNOCKBACK_RESISTANCE_ADD_ID, KNOCKBACK_RESISTANCE_MUL_ID, KNOCKBACK_RESISTANCE_MUL_TOTAL_ID),
-			"max_health", new PropertyTarget(Attributes.MAX_HEALTH,
-					MAX_HEALTH_ADD_ID, MAX_HEALTH_MUL_ID, MAX_HEALTH_MUL_TOTAL_ID),
-			"block_interaction_range", new PropertyTarget(Attributes.BLOCK_INTERACTION_RANGE,
-					BLOCK_INTERACTION_RANGE_ADD_ID, BLOCK_INTERACTION_RANGE_MUL_ID, BLOCK_INTERACTION_RANGE_MUL_TOTAL_ID),
-			"entity_interaction_range", new PropertyTarget(Attributes.ENTITY_INTERACTION_RANGE,
-					ENTITY_INTERACTION_RANGE_ADD_ID, ENTITY_INTERACTION_RANGE_MUL_ID, ENTITY_INTERACTION_RANGE_MUL_TOTAL_ID)
+		private static PropertyTarget of(
+				final String propertyName,
+				final Holder<Attribute> attribute) {
+			return new PropertyTarget(
+					attribute,
+					makePropertyId(propertyName + "_add"),
+					makePropertyId(propertyName + "_mul_base"),
+					makePropertyId(propertyName + "_mul_total")
+			);
+		}
+	}
+
+	private static Map.Entry<String, PropertyTarget> propertyTarget(
+			final String propertyName,
+			final Holder<Attribute> attribute) {
+		return Map.entry(propertyName, PropertyTarget.of(propertyName, attribute));
+	}
+
+	private static final Map<String, PropertyTarget> PROPERTY_TARGETS = Map.ofEntries(
+			propertyTarget("attack_damage", Attributes.ATTACK_DAMAGE),
+			propertyTarget("attack_speed", Attributes.ATTACK_SPEED),
+			propertyTarget("armor", Attributes.ARMOR),
+			propertyTarget("armor_toughness", Attributes.ARMOR_TOUGHNESS),
+			propertyTarget("knockback_resistance", Attributes.KNOCKBACK_RESISTANCE),
+			propertyTarget("max_health", Attributes.MAX_HEALTH),
+			propertyTarget("block_interaction_range", Attributes.BLOCK_INTERACTION_RANGE),
+			propertyTarget("entity_interaction_range", Attributes.ENTITY_INTERACTION_RANGE)
 	);
 
 	private VitalEvents() {}
