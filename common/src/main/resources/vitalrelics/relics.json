@@ -639,7 +639,10 @@
       },
       "properties": {
         "attack_damage": {
-          "add": 4.0
+          "add": 6.0
+        },
+        "attack_speed": {
+          "mul_total": 1.15
         }
       }
     },

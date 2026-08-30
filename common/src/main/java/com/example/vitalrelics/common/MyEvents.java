@@ -88,10 +88,14 @@ public final class MyEvents {
 		/*
 		Offensive Attack
 		 */
+		double lingeringWoundLevel = 0.0;
 
 		if (attacker != null) {
 			final List<Relic> attackerRelics =
 					MyRuntime.getRuntimeUtils().gatherRelics(attacker);
+			lingeringWoundLevel = Loader.levelOfSuchPassiveSkill(
+					attackerRelics, Relic.PASSIVE_SKILL_LINGERING_WOUND
+			);
 
 			amount = (float) Loader.applyCallback(
 					attackerRelics, "damage_dealt", amount, victim.maxHealth()
@@ -141,6 +145,13 @@ public final class MyEvents {
 			}
 		}
 
+		if (attacker != null && lingeringWoundLevel > 0.0 && amount > 0.0F) {
+			applyLingeringWound(
+					attacker, victim, amount,
+					lingeringWoundLevel, currentTick
+			);
+		}
+
 		/*
 		Footer
 		 */
@@ -159,6 +170,39 @@ public final class MyEvents {
 		}
 
 		return amount;
+	}
+
+	// Accumulated damage
+	private static void applyLingeringWound(
+			final MyLivingEntity attacker,
+			final MyLivingEntity target,
+			final float amount,
+			final double lingeringWoundLevel,
+			final int currentTick) {
+
+		if (lingeringWoundLevel <= 0.0) {
+			return;
+		}
+
+		final float addedDamage =
+				(float) (amount * lingeringWoundLevel);
+
+		final float accumulatedDamage =
+				Scheduler.INSTANCE().addHealingPrevention(
+						target.uuid(), currentTick, addedDamage
+				);
+
+		final float allowedHealth =
+				target.maxHealth() - accumulatedDamage;
+		final float healthAfterDamage = target.health() - amount;
+
+		if (healthAfterDamage > allowedHealth) {
+			MyUtils.trueHurt(
+					attacker,
+					target,
+					healthAfterDamage - allowedHealth
+			);
+		}
 	}
 
 }

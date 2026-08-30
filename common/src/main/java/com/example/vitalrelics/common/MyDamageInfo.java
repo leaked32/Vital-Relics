@@ -1,8 +1,6 @@
 package com.example.vitalrelics.common;
 
 import com.example.vitalrelics.common.platform.*;
-import com.example.vitalrelics.common.relics.Loader;
-import com.example.vitalrelics.common.relics.Relic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +18,13 @@ public class MyDamageInfo
 			return;
 		}
 
-		final double lingeringWoundLevel = lingeringWoundLevelOf(attacker);
-
 		final List<MyDamageInfo> damages = new ArrayList<>(count);
 
 		for (int i = 0; i < count; i += 1) {
 			damages.add(
 					new MyDamageInfo(
 							attacker, null, amount,
-							null, range, MyRangeFilter.hostileTargeted, 20, neg_leve,
-							lingeringWoundLevel
+							null, range, MyRangeFilter.hostileTargeted, 20, neg_leve
 					)
 			);
 		}
@@ -46,16 +41,13 @@ public class MyDamageInfo
 			return;
 		}
 
-		final double lingeringWoundLevel = lingeringWoundLevelOf(attacker);
-
 		final List<MyDamageInfo> damages = new ArrayList<>(count);
 
 		for (int i = 0; i < count; ++i) {
 			damages.add(
 					new MyDamageInfo(
 							attacker, victim, amount,
-							null, 0.f, MyRangeFilter.none, 20, 5,
-							lingeringWoundLevel
+							null, 0.f, MyRangeFilter.none, 20, 5
 					)
 			);
 		}
@@ -82,16 +74,13 @@ public class MyDamageInfo
 			return;
 		}
 
-		final double lingeringWoundLevel = lingeringWoundLevelOf(revenger);
-
 		final List<MyDamageInfo> damages = new ArrayList<>(count);
 
 		for (int i = 0; i < count; ++i) {
 			damages.add(
 					new MyDamageInfo(
 							revenger, target, extra_damage_amount,
-							0.02f, 2.f, MyRangeFilter.nonallied, 20, 5,
-							lingeringWoundLevel
+							0.02f, 2.f, MyRangeFilter.nonallied, 20, 5
 					)
 			);
 		}
@@ -100,8 +89,7 @@ public class MyDamageInfo
 	}
 
 	public static void someExtraDamages(
-			final MyLivingEntity attacker,
-			final List<MyDamageInfo> infos) {
+			final MyLivingEntity attacker, final List<MyDamageInfo> infos) {
 
 		final int tick = attacker.serverTick();
 		if (tick < 0) {
@@ -141,13 +129,6 @@ public class MyDamageInfo
 	/*
 	Non-static Members
 	 */
-
-//	public enum MyDamageType
-//	{
-//		normal,
-//		lingering_wound
-//	}
-
 	public enum MyRangeFilter
 	{
 		none,
@@ -157,8 +138,6 @@ public class MyDamageInfo
 	}
 
 	// private final MyDamageType type;
-	private final double lingeringWoundLevel;
-
 	private final Float amount;
 	private final Float ratioAmount;
 
@@ -179,13 +158,11 @@ public class MyDamageInfo
 			final MyLivingEntity attacker,
 			final MyLivingEntity target,
 			final Float amount,
-			// final MyDamageType type,
 			final Float ratioAmount,
 			final float range,
 			final MyRangeFilter range_filter,
 			final int dura,
-			final int strength,
-			final double lingeringWoundLevel) {
+			final int strength) {
 
 		if (attacker == null) {
 			throw new RuntimeException(
@@ -202,13 +179,11 @@ public class MyDamageInfo
 		this.target = target;
 		this.amount = amount;
 		this.ratioAmount = ratioAmount;
-		// this.type = type;
 		this.range = range;
 		this.range_filter = range_filter;
 
 		this.weakenDura = dura;
 		this.weakenStrength = strength;
-		this.lingeringWoundLevel = lingeringWoundLevel;
 	}
 
 	public void deal_damage()
@@ -298,51 +273,5 @@ public class MyDamageInfo
 
 
 		target.hurt(new_source, amount_to_apply);
-		if (lingeringWoundLevel  > 0.0) {
-			applyLingeringWound(target, amount_to_apply);
-		}
-	}
-
-	// Accumulated damage
-	private void applyLingeringWound(
-			final MyLivingEntity target,
-			final float amount) {
-
-		if (lingeringWoundLevel <= 0.0) {
-			return;
-		}
-
-		final int tick = target.serverTick();
-		if (tick < 0) {
-			return;
-		}
-
-		final float addedDamage =
-				(float) (amount * lingeringWoundLevel);
-
-		final float accumulatedDamage =
-				Scheduler.INSTANCE().addHealingPrevention(
-						target.uuid(), tick, addedDamage
-				);
-
-		final float allowedHealth =
-				target.maxHealth() - accumulatedDamage;
-
-		if (target.health() > allowedHealth) {
-			MyUtils.trueHurt(
-					attacker,
-					target,
-					target.health() - allowedHealth
-			);
-		}
-	}
-
-
-	private static double lingeringWoundLevelOf(final MyLivingEntity attacker) {
-		return Loader.levelOfSuchPassiveSkill(
-				MyRuntime.getRuntimeUtils().gatherRelics(attacker),
-				Relic.PASSIVE_SKILL_LINGERING_WOUND
-		);
 	}
 }
-
