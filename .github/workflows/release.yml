@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag, e.g. v0.3"
+        description: "Release tag, e.g. v0.7.5"
         required: true
         type: string
 
@@ -23,6 +23,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Resolve version
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
+          VERSION="${TAG#v}"
+
+          test -n "$VERSION"
+
+          echo "TAG=$TAG" >> "$GITHUB_ENV"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
       - name: Set up Gradle 8.8
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -39,7 +52,7 @@ jobs:
           java-version: "17"
 
       - name: Build Forge 1.20.1
-        run: gradle :forge-1.20.1:build
+        run: gradle :forge-1.20.1:build -Pmod_version="${VERSION}"
 
       # ------------------------------
       # NeoForge 1.21.1
@@ -52,7 +65,7 @@ jobs:
           java-version: "21"
 
       - name: Build NeoForge 1.21.1
-        run: gradle :neoforge-1.21.1:build
+        run: gradle :neoforge-1.21.1:build -Pmod_version="${VERSION}"
 
       # ------------------------------
       # Verify common classes are bundled
@@ -103,9 +116,6 @@ jobs:
         run: |
           set -euo pipefail
 
-          TAG="${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
-          VERSION="${TAG#v}"
-
           mkdir -p release
 
           FORGE_JAR=$(find forge-1.20.1/build/libs \
@@ -145,9 +155,9 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
-          tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+          tag_name: ${{ env.TAG }}
           generate_release_notes: true
           fail_on_unmatched_files: true
           files: |
-            release/vitalrelics-forge-1.20.1-*.jar
-            release/vitalrelics-neoforge-1.21.1-*.jar
+            release/vitalrelics-forge-1.20.1-${{ env.VERSION }}.jar
+            release/vitalrelics-neoforge-1.21.1-${{ env.VERSION }}.jar
