@@ -110,7 +110,7 @@ encounters instead of functioning only as player equipment.
 ## Documentation
 
 Detailed configuration and usage documentation is available in
-[the documentation index](docs/index.md).
+[the documentation index](https://github.com/leaked32/Vital-Relics/blob/main/docs/index.md).
 
 Topics include relic configuration, spells, Curios integration, recipes,
 loot, translations, and creating custom relics.
