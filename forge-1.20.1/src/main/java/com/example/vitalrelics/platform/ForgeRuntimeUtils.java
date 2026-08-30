@@ -8,6 +8,7 @@ import com.example.vitalrelics.common.platform.MyVec3;
 import com.example.vitalrelics.network.ForgeNetwork;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -30,10 +31,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.example.vitalrelics.Utils.message;
 
@@ -719,6 +722,25 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 		);
 
 		level.addFreshEntity(lightning);
+	}
+
+	@Override
+	public boolean isEntityValid(final UUID uuid) {
+		final MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+
+		if (server == null)
+			return false;
+
+		for (final ServerLevel level : server.getAllLevels()) {
+			final Entity entity = level.getEntity(uuid);
+
+			if (entity instanceof LivingEntity livingEntity &&
+					!livingEntity.isRemoved() &&
+					!livingEntity.isDeadOrDying())
+				return true;
+		}
+
+		return false;
 	}
 
 	@Override

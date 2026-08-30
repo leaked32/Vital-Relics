@@ -108,28 +108,15 @@ public final class VitalEvents {
 	private VitalEvents() {}
 
 	@SubscribeEvent
-	public static void onServerTick(final TickEvent.ServerTickEvent event) {
+	public static void onServerTick(
+			final TickEvent.ServerTickEvent event) {
+
 		if (event.phase != TickEvent.Phase.END)
 			return;
 
-		final MinecraftServer server = event.getServer();
-		final int currentTickCount = server.getTickCount();
-
-		final Function<UUID, Boolean> isEntityValid = uuid -> {
-			for (final ServerLevel level : server.getAllLevels()) {
-				final Entity entity = level.getEntity(uuid);
-
-				if (entity instanceof LivingEntity livingEntity &&
-						!livingEntity.isRemoved() &&
-						!livingEntity.isDeadOrDying()) {
-					return true;
-				}
-			}
-
-			return false;
-		};
-
-		Scheduler.INSTANCE().serverTick(currentTickCount, isEntityValid);
+		Scheduler.INSTANCE().serverTick(
+				event.getServer().getTickCount()
+		);
 	}
 
 	@SubscribeEvent

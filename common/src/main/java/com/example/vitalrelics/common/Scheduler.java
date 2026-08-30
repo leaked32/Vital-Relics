@@ -1,5 +1,6 @@
 package com.example.vitalrelics.common;
 
+import com.example.vitalrelics.common.platform.MyRuntimeUtils;
 import com.example.vitalrelics.common.utils.MyMap;
 
 import java.util.*;
@@ -104,9 +105,8 @@ public class Scheduler {
 	 */
 
 	// Call it for all ticks
-	public void serverTick(
-			final int currentTickCount,
-			final Function<UUID, Boolean> isEntityValid) {
+	public void serverTick(final int currentTickCount) {
+		final MyRuntimeUtils runtime = MyRuntime.getRuntimeUtils();
 
 		for (final UUID uuid : DELAYED_TASK_LIST.keySet()) {
 			final MyList<DelayTask> tasks = DELAYED_TASK_LIST.get(uuid);
@@ -139,13 +139,12 @@ public class Scheduler {
 		}
 
 		if (currentTickCount % 40 == 0) {
-			DELAYED_TASK_LIST.cleanUp(currentTickCount, isEntityValid);
-			HEAL_PREVENTION_LIST.cleanUp(currentTickCount, isEntityValid);
-			PROTECTED_PLAYER_LIST.cleanUp(currentTickCount, isEntityValid);
-			THORNS_COOLDOWN_LIST.cleanUp(currentTickCount, isEntityValid);
-			ARROW_DEFLECTION_COOLDOWN_LIST.cleanUp(currentTickCount, isEntityValid);
-			FLIGHT_STATE_LIST.cleanUp(currentTickCount, isEntityValid);
-
+			DELAYED_TASK_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
+			HEAL_PREVENTION_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
+			PROTECTED_PLAYER_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
+			THORNS_COOLDOWN_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
+			ARROW_DEFLECTION_COOLDOWN_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
+			FLIGHT_STATE_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
 		}
 	}
 
