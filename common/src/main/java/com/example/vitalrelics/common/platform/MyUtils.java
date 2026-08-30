@@ -69,15 +69,14 @@ public class MyUtils {
 		}
 	}
 
+	// MyUtils.java
 	public static void trueHurt(
 			final MyLivingEntity attacker, final MyLivingEntity victim, final float amount) {
-		float health = victim.health();
-		health = health - amount;
 
-		final MyDamageSource new_source =
+		final MyDamageSource source =
 				new MyDamageSource(attacker, MyDamageKind.EXTRA_DAMAGE);
-		victim.setHealth(health);
-		victim.setHurtMark(new_source);
-		// myLivingEntity.mark
+
+		victim.setHealth(victim.health() - amount);
+		victim.setHurtMark(source);
 	}
 }

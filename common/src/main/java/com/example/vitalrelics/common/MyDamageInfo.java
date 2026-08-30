@@ -1,6 +1,8 @@
 package com.example.vitalrelics.common;
 
 import com.example.vitalrelics.common.platform.*;
+import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.relics.Relic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +20,16 @@ public class MyDamageInfo
 			return;
 		}
 
+		final double lingeringWoundLevel = lingeringWoundLevelOf(attacker);
+
 		final List<MyDamageInfo> damages = new ArrayList<>(count);
 
 		for (int i = 0; i < count; i += 1) {
 			damages.add(
 					new MyDamageInfo(
-							attacker, null, amount, MyDamageType.normal,
-							null, range, MyRangeFilter.hostileTargeted, 20, neg_leve
+							attacker, null, amount,
+							null, range, MyRangeFilter.hostileTargeted, 20, neg_leve,
+							lingeringWoundLevel
 					)
 			);
 		}
@@ -33,23 +38,24 @@ public class MyDamageInfo
 	}
 
 	public static void directAttack(
-			final MyLivingEntity attacker,
-			final MyLivingEntity victim,
-			final float amount,
-			final int count) {
+			final MyLivingEntity attacker, final MyLivingEntity victim,
+			final float amount, final int count) {
 
 		// float attrDamage = (float)attacker.getAttributeValue(Attributes.ATTACK_DAMAGE);
 		if (count <= 0) {
 			return;
 		}
 
+		final double lingeringWoundLevel = lingeringWoundLevelOf(attacker);
+
 		final List<MyDamageInfo> damages = new ArrayList<>(count);
 
 		for (int i = 0; i < count; ++i) {
 			damages.add(
 					new MyDamageInfo(
-							attacker, victim, amount, MyDamageType.normal,
-							null, 0.f, MyRangeFilter.none, 20, 5
+							attacker, victim, amount,
+							null, 0.f, MyRangeFilter.none, 20, 5,
+							lingeringWoundLevel
 					)
 			);
 		}
@@ -58,9 +64,7 @@ public class MyDamageInfo
 	}
 
 	public static void counterStrike(
-			final MyDamageSource source,
-			final MyLivingEntity revenger,
-			final int count) {
+			final MyDamageSource source, final MyLivingEntity revenger, final int count) {
 
 		final MyLivingEntity target = source.attacker();
 		if (target == null)
@@ -78,13 +82,16 @@ public class MyDamageInfo
 			return;
 		}
 
+		final double lingeringWoundLevel = lingeringWoundLevelOf(revenger);
+
 		final List<MyDamageInfo> damages = new ArrayList<>(count);
 
 		for (int i = 0; i < count; ++i) {
 			damages.add(
 					new MyDamageInfo(
-							revenger, target, extra_damage_amount, MyDamageType.normal,
-							0.02f, 2.f, MyRangeFilter.nonallied, 20, 5
+							revenger, target, extra_damage_amount,
+							0.02f, 2.f, MyRangeFilter.nonallied, 20, 5,
+							lingeringWoundLevel
 					)
 			);
 		}
@@ -135,13 +142,11 @@ public class MyDamageInfo
 	Non-static Members
 	 */
 
-	public enum MyDamageType
-	{
-		normal,
-		real_damage,
-		my_penetrate,
-		my_penetrate_if_normal_failed
-	}
+//	public enum MyDamageType
+//	{
+//		normal,
+//		lingering_wound
+//	}
 
 	public enum MyRangeFilter
 	{
@@ -151,7 +156,8 @@ public class MyDamageInfo
 		hostileTargeted
 	}
 
-	private final MyDamageType type;
+	// private final MyDamageType type;
+	private final double lingeringWoundLevel;
 
 	private final Float amount;
 	private final Float ratioAmount;
@@ -167,19 +173,19 @@ public class MyDamageInfo
 
 	/**
 	 * @param amount Damage amount to apply
-	 * @param type MyDamageType
 	 * @param range All non-allied LivingEntity within range to apply. Specify null to disable ranged attack.
 	 */
 	public MyDamageInfo(
 			final MyLivingEntity attacker,
 			final MyLivingEntity target,
 			final Float amount,
-			final MyDamageType type,
+			// final MyDamageType type,
 			final Float ratioAmount,
 			final float range,
 			final MyRangeFilter range_filter,
 			final int dura,
-			final int strength) {
+			final int strength,
+			final double lingeringWoundLevel) {
 
 		if (attacker == null) {
 			throw new RuntimeException(
@@ -196,12 +202,13 @@ public class MyDamageInfo
 		this.target = target;
 		this.amount = amount;
 		this.ratioAmount = ratioAmount;
-		this.type = type;
+		// this.type = type;
 		this.range = range;
 		this.range_filter = range_filter;
 
 		this.weakenDura = dura;
 		this.weakenStrength = strength;
+		this.lingeringWoundLevel = lingeringWoundLevel;
 	}
 
 	public void deal_damage()
@@ -274,13 +281,6 @@ public class MyDamageInfo
 			return;
 		}
 
-		var dummy_type = type;
-		if (_excluded_target(target)) {
-			dummy_type = type == MyDamageType.my_penetrate
-					? MyDamageType.real_damage
-					: MyDamageType.normal;
-		}
-
 		final MyDamageSource new_source =
 				new MyDamageSource(attacker, MyDamageKind.EXTRA_DAMAGE);
 
@@ -296,115 +296,53 @@ public class MyDamageInfo
 			ascentWeaken(target, weakenDura, weakenStrength);
 		}
 
-		switch (dummy_type) {
-			case normal: {
-				target.hurt(new_source, amount_to_apply);
-			}
-			break;
 
-			case real_damage: {
-				boolean suc = target.hurt(new_source, amount_to_apply);
-				if (!suc) {
-					myPenetrate(target, new_source, amount_to_apply, false);
-				}
-			}
-			break;
-
-			case my_penetrate_if_normal_failed: {
-				boolean suc = target.hurt(new_source, amount_to_apply);
-
-				if (!suc) {
-//					attacker.logInfo(
-//							"RealityPiercer deal_extra_damage unsuccessful hurt, " +
-//							"try 'reality_piercer_penetrate'"
-//					);
-					realityPiercerPenetrate(target, new_source, amount_to_apply * 2.f, true);
-				}
-			}
-			break;
-
-			case my_penetrate: {
-				realityPiercerPenetrate(target, new_source, amount_to_apply, true);
-			}
-			break;
+		target.hurt(new_source, amount_to_apply);
+		if (lingeringWoundLevel  > 0.0) {
+			applyLingeringWound(target, amount_to_apply);
 		}
 	}
 
 	// Accumulated damage
-	private static void realityPiercerPenetrate(
+	private void applyLingeringWound(
 			final MyLivingEntity target,
-			final MyDamageSource source,
-			final float amount,
-			final boolean allow_remove) {
+			final float amount) {
+
+		if (lingeringWoundLevel <= 0.0) {
+			return;
+		}
 
 		final int tick = target.serverTick();
-		if (tick < 0)
+		if (tick < 0) {
 			return;
+		}
 
-		// LOGGER.info("Reality Piercer add_prevent_heal logging target: {}", target.toString());
-		final float least_damage =
+		final float addedDamage =
+				(float) (amount * lingeringWoundLevel / 100.0);
+
+		final float accumulatedDamage =
 				Scheduler.INSTANCE().addHealingPrevention(
-						target.uuid(),
-						tick,
-						amount
+						target.uuid(), tick, addedDamage
 				);
 
-		float allowed_max_health = target.maxHealth() - least_damage;
+		final float allowedHealth =
+				target.maxHealth() - accumulatedDamage;
 
-		if (allowed_max_health > 0.f) {
-			// float delta_health = target.getHealth() - allowed_max_health;
-			if (target.health() > allowed_max_health) {
-				// Excessive Health
-				// LOGGER.warn("`add_prevent_heal` abnormal health, target: {}, allowed_max_health: {}", target.toString(), allowed_max_health);
-				myPenetrate(target, source, target.health() - allowed_max_health, allow_remove);
-			} else {
-				// LOGGER.debug("common case, target: {}, allowed_max_health: {}", target.toString(), allowed_max_health);
-				myPenetrate(target, source, amount, allow_remove);
-			}
-		} else if (target.health() > 0.f && (!target.isDeadOrDying())) {
-			// Kill
-			// LOGGER.warn("`add_prevent_heal` it shall die: {}", target.toString());
-			myPenetrate(target, source, amount, allow_remove);
+		if (target.health() > allowedHealth) {
+			MyUtils.trueHurt(
+					attacker,
+					target,
+					target.health() - allowedHealth
+			);
 		}
 	}
 
-	// This function deals normal damage
-	private static void myPenetrate(
-			final MyLivingEntity target,
-			final MyDamageSource source,
-			final float amount,
-			final boolean allow_remove) {
 
-		// float decided_amount = 0.f;
-		target.resetInvulnerableTime();
-
-		MyUtils.trueHurt(source.attacker(), target, amount);
-
-		//		if (target instanceof IMyMixinUnique my_mixin_entity) {
-		//			decided_amount = my_mixin_entity.my_mixin_penetrate(source, amount, allow_remove);
-		//		}
-		//		if (!target.isDeadOrDying()) {
-		//			target.hurtDuration = 10;
-		//			target.hurtTime = 10;
-		//			target.hurtMarked = true;
-		//
-		//			target.gameEvent(GameEvent.ENTITY_DAMAGE);
-		//
-		//			// 3. Force the hurt sound ("cry")
-		//			target.playSound(SoundEvents.PLAYER_HURT, 1.f, target.getVoicePitch());
-		//		}
-		//		target.invulnerableTime = 0;
-	}
-
-	/*
-	Private static Utils
-	 */
-	private static final List<String> _penetration_excluded_entities = List.of(
-			"entity.goety.apostle",
-			"entity.dummmmmmy.target_dummy"
-	);
-
-	public static boolean _excluded_target(final MyLivingEntity target) {
-		return _penetration_excluded_entities.contains(target.typeId());
+	private static double lingeringWoundLevelOf(final MyLivingEntity attacker) {
+		return Loader.levelOfSuchPassiveSkill(
+				MyRuntime.getRuntimeUtils().gatherRelics(attacker),
+				Relic.PASSIVE_SKILL_LINGERING_WOUND
+		);
 	}
 }
+

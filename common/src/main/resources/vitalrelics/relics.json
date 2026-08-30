@@ -663,7 +663,7 @@
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",
-      "passive_skills": { "retarget_arrow": 2.0, "reality_severance": 32.0, "iron_curtain": 2.1, "lingering_wound": 47.0 },
+      "passive_skills": { "retarget_arrow": 2.0, "reality_severance": 32.0, "iron_curtain": 2.1, "lingering_wound": 0.47 },
       "properties": {
         "attack_damage": {
           "add": 9.0,

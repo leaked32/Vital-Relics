@@ -179,40 +179,34 @@ public final class NeoLivingEntity implements MyLivingEntity {
 	}
 
 	@Override
-	public void setHealth(float health) {
-		if (entity.isDeadOrDying()) {
-			return;
-		}
-		if (!entity.isAlive()) {
-			return;
-		}
+	public void setHealth(final float health) {
 		entity.setHealth(health);
 	}
 
 	@Override
-	public void setHurtMark(MyDamageSource source) {
+	public void setHurtMark(final MyDamageSource source) {
 		if (!(source.attacker() instanceof NeoLivingEntity neoAttacker)) {
 			throw new IllegalArgumentException(
 					"Expected NeoLivingEntity attacker"
 			);
 		}
 
-		if (entity.isDeadOrDying()) {
+		final DamageSource damageSource = _extraDamageSource(neoAttacker.entity);
+
+		if (entity.getHealth() <= 0.0F) {
+			entity.die(damageSource);
 			return;
 		}
+
 		if (!entity.isAlive()) {
 			return;
 		}
 
-		DamageSource damageSource = _extraDamageSource(neoAttacker.entity);
 		entity.hurtDuration = 10;
 		entity.hurtTime = 10;
 		entity.hurtMarked = true;
 		entity.gameEvent(GameEvent.ENTITY_DAMAGE);
-		entity.playSound(SoundEvents.PLAYER_HURT, 1.f, entity.getVoicePitch());
-		if (entity.getHealth() <= 0.0) {
-			entity.die(damageSource);
-		}
+		entity.playSound(SoundEvents.PLAYER_HURT, 1.0F, entity.getVoicePitch());
 	}
 
 	@Override
