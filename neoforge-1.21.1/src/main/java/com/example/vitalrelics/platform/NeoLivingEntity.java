@@ -132,27 +132,19 @@ public final class NeoLivingEntity implements MyLivingEntity {
 	}
 
 	@Override
+	public MyDamageSource extraDamageSource() {
+		return new NeoDamageSource(_extraDamageSource(entity));
+	}
+
+	@Override
 	public boolean hurt(
 			final MyDamageSource source,
 			final float amount) {
 
-		if (!(source.attacker() instanceof NeoLivingEntity neoAttacker)) {
-			throw new IllegalArgumentException(
-					"Expected NeoLivingEntity attacker"
-			);
-		}
+		if (!(source instanceof NeoDamageSource neoSource))
+			throw new IllegalArgumentException("Expected NeoDamageSource");
 
-		return switch (source.kind()) {
-			case EXTRA_DAMAGE ->
-					entity.hurt(
-							_extraDamageSource(neoAttacker.entity),
-							amount
-					);
-
-			case OTHER -> throw new IllegalArgumentException(
-					"OTHER damage cannot be created by MyDamageInfo"
-			);
-		};
+		return entity.hurt(neoSource.nativeSource(), amount);
 	}
 
 	@Override
@@ -185,13 +177,10 @@ public final class NeoLivingEntity implements MyLivingEntity {
 
 	@Override
 	public void setHurtMark(final MyDamageSource source) {
-		if (!(source.attacker() instanceof NeoLivingEntity neoAttacker)) {
-			throw new IllegalArgumentException(
-					"Expected NeoLivingEntity attacker"
-			);
-		}
+		if (!(source instanceof NeoDamageSource neoSource))
+			throw new IllegalArgumentException("Expected NeoDamageSource");
 
-		final DamageSource damageSource = _extraDamageSource(neoAttacker.entity);
+		final DamageSource damageSource = neoSource.nativeSource();
 
 		if (entity.getHealth() <= 0.0F) {
 			entity.die(damageSource);
