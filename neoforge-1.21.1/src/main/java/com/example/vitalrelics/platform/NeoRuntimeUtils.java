@@ -1,5 +1,6 @@
 package com.example.vitalrelics.platform;
 
+import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
@@ -47,6 +48,11 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 	public static final NeoRuntimeUtils INSTANCE = new NeoRuntimeUtils();
 
 	private NeoRuntimeUtils() {}
+
+	@Override
+	public void log(final String message) {
+		VitalRelics.LOGGER.info(message);
+	}
 
 	private static NeoLivingEntity neo(final MyLivingEntity entity) {
 		if (!(entity instanceof NeoLivingEntity neo))
