@@ -24,7 +24,9 @@ public interface MyRuntimeUtils {
 	boolean isEntityValid(UUID uuid);
 	void showCurseRequiresTarget(MyLivingEntity caster);
 	void summonVisualLightning(MyLivingEntity target);
-	MyDamageSource damageSource(MyLivingEntity attacker, MyDamageSource.MyDamageKind kind);
+	default MyDamageSource extraDamageSource(final MyLivingEntity attacker) {
+		return attacker.extraDamageSource();
+	}
 
 	// Enchantments
 	enum EnchantmentFilter {ENCHANTMENT_BOOK_ONLY, ALL_ENCHANTED_ITEMS}
