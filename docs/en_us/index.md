@@ -5,6 +5,7 @@ A Minecraft mod adding configurable relic items with unique abilities.
 ## Documentation
 
 - [Configure Relics and Curios](configure-curios.md)
+- [Configure Textures](configure-textures.md)
 - [Configure Recipes](configure-recipes.md)
 - [Configure Loot](configure-loot.md)
 - [Configure Spells](configure-spells.md)

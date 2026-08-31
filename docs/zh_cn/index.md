@@ -5,6 +5,7 @@
 ## 文档
 
 - [配置遗物与 Curios](configure-curios.md)
+- [配置纹理](configure-textures.md)
 - [配置配方](configure-recipes.md)
 - [配置战利品](configure-loot.md)
 - [配置法术](configure-spells.md)

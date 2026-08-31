@@ -5,6 +5,7 @@
 ## 文件
 
 - [設定遺物與 Curios](configure-curios.md)
+- [設定材質](configure-textures.md)
 - [設定配方](configure-recipes.md)
 - [設定戰利品](configure-loot.md)
 - [設定法術](configure-spells.md)
