@@ -7,7 +7,7 @@ import com.example.vitalrelics.common.relics.Relic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyDamageInfo
+public class MyExtraDamageInfo
 {
 	/*
 	Public convenient static functions
@@ -20,11 +20,11 @@ public class MyDamageInfo
 			return;
 		}
 
-		final List<MyDamageInfo> damages = new ArrayList<>(count);
+		final List<MyExtraDamageInfo> damages = new ArrayList<>(count);
 
 		for (int i = 0; i < count; i += 1) {
 			damages.add(
-					new MyDamageInfo(
+					new MyExtraDamageInfo(
 							attacker, null, amount,
 							null, range, MyRangeFilter.hostileTargeted, 20, neg_leve
 					)
@@ -43,11 +43,11 @@ public class MyDamageInfo
 			return;
 		}
 
-		final List<MyDamageInfo> damages = new ArrayList<>(count);
+		final List<MyExtraDamageInfo> damages = new ArrayList<>(count);
 
 		for (int i = 0; i < count; ++i) {
 			damages.add(
-					new MyDamageInfo(
+					new MyExtraDamageInfo(
 							attacker, victim, amount,
 							null, 0.f, MyRangeFilter.none, 20, 5
 					)
@@ -76,11 +76,11 @@ public class MyDamageInfo
 			return;
 		}
 
-		final List<MyDamageInfo> damages = new ArrayList<>(count);
+		final List<MyExtraDamageInfo> damages = new ArrayList<>(count);
 
 		for (int i = 0; i < count; ++i) {
 			damages.add(
-					new MyDamageInfo(
+					new MyExtraDamageInfo(
 							revenger, target, extra_damage_amount,
 							0.02f, 2.f, MyRangeFilter.nonallied, 20, 5
 					)
@@ -91,7 +91,7 @@ public class MyDamageInfo
 	}
 
 	public static void someExtraDamages(
-			final MyLivingEntity attacker, final List<MyDamageInfo> infos) {
+			final MyLivingEntity attacker, final List<MyExtraDamageInfo> infos) {
 
 		final int tick = attacker.serverTick();
 		if (tick < 0) {
@@ -156,7 +156,7 @@ public class MyDamageInfo
 	 * @param amount Damage amount to apply
 	 * @param range All non-allied LivingEntity within range to apply. Specify null to disable ranged attack.
 	 */
-	public MyDamageInfo(
+	public MyExtraDamageInfo(
 			final MyLivingEntity attacker,
 			final MyLivingEntity target,
 			final Float amount,
@@ -259,7 +259,7 @@ public class MyDamageInfo
 		}
 
 		final MyDamageSource new_source =
-				new MyDamageSource(attacker, MyDamageKind.EXTRA_DAMAGE);
+				new MyDamageSource(attacker, MyDamageSource.MyDamageKind.EXTRA_DAMAGE);
 
 		float amount_to_apply = 0.f;
 		if (amount != null) {
@@ -278,8 +278,7 @@ public class MyDamageInfo
 
 		{
 			/*
-			Extra damage can apply twice, but if `hurt` fails, then only once.
-			Since the second one happens in onLivingDamage.
+			Extra damage applies lingering wound here. `onLivingHurt` should skip it.
 			This one is fully original damage.
 			Directly punish the target if it fails.
 			 */

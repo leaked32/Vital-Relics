@@ -1,6 +1,7 @@
 package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.platform.MyDamageSource;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyUtils;
 import com.example.vitalrelics.common.relics.Relic;
@@ -265,6 +266,7 @@ public final class VitalEvents {
 				? new ForgeLivingEntity(livingSource)
 				: null;
 
+		MyDamageSource myDamageSource = new MyDamageSource(attacker, );
 		event.setAmount(MyEvents.onLivingDamage(
 				new ForgeLivingEntity(victim), attacker,
 				event.getAmount(), server.getTickCount()

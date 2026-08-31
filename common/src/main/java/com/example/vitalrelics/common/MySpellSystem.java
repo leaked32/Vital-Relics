@@ -96,7 +96,7 @@ public final class MySpellSystem {
 			if (damage <= 0.0F)
 				return false;
 
-			MyDamageInfo.directAttack(caster, target, damage, 1);
+			MyExtraDamageInfo.directAttack(caster, target, damage, 1);
 			runtime.summonVisualLightning(target);
 			caster.playSound(MySound.ILLUSIONER_CAST);
 			return true;
@@ -259,7 +259,7 @@ public final class MySpellSystem {
 			if (damage <= 0.0F)
 				return false;
 
-			MyDamageInfo.directRangedAttack(
+			MyExtraDamageInfo.directRangedAttack(
 					caster,
 					damage,
 					range,
@@ -476,7 +476,7 @@ public final class MySpellSystem {
 				if (!caster.isHostileTargeted(target))
 					continue;
 
-				MyDamageInfo.directAttack(
+				MyExtraDamageInfo.directAttack(
 						caster,
 						target,
 						damage,

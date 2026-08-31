@@ -661,7 +661,7 @@
       "texture": "arcane_reforging_charm.png",
       "curio_slot": "charm",
       "rarity": "epic",
-      "passive_skills": { "metal_mending": 7.0 },
+      "passive_skills": { "metal_mending": 16.0 },
       "available_spells": {
         "enchantment_ascension": {
           "experience_cost": 15,

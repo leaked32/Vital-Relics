@@ -7,4 +7,9 @@ public record MyDamageSource(
 	public boolean isExtraDamage() {
 		return kind == MyDamageKind.EXTRA_DAMAGE;
 	}
+
+	public enum MyDamageKind {
+		EXTRA_DAMAGE,
+		OTHER
+	}
 }

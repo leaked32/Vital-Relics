@@ -74,7 +74,7 @@ public class MyUtils {
 			final MyLivingEntity attacker, final MyLivingEntity victim, final float amount) {
 
 		final MyDamageSource source =
-				new MyDamageSource(attacker, MyDamageKind.EXTRA_DAMAGE);
+				new MyDamageSource(attacker, MyDamageSource.MyDamageKind.EXTRA_DAMAGE);
 
 		victim.setHealth(victim.health() - amount);
 		victim.setHurtMark(source);

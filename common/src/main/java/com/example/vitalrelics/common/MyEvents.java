@@ -1,5 +1,6 @@
 package com.example.vitalrelics.common;
 
+import com.example.vitalrelics.common.platform.MyDamageSource;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyUtils;
 import com.example.vitalrelics.common.relics.Loader;
@@ -50,7 +51,7 @@ public final class MyEvents {
 				final float ratioDamage = (float) (reality_severance_level / 100.0);
 				final float rangeDamage = ratioDamage * myLivingEntity.attackDamage();
 
-				MyDamageInfo.directRangedAttack(
+				MyExtraDamageInfo.directRangedAttack(
 						myLivingEntity,
 						rangeDamage,
 						Math.round((float) reality_severance_level),
@@ -81,8 +82,9 @@ public final class MyEvents {
 	}
 
 	public static float onLivingDamage(
-			final MyLivingEntity victim, final MyLivingEntity attacker, float amount, final int currentTick) {
+			final MyLivingEntity victim, final MyDamageSource source, float amount, final int currentTick) {
 
+		final MyLivingEntity attacker = source.attacker();
 		/*
 		Offensive Attack
 		 */
@@ -144,9 +146,11 @@ public final class MyEvents {
 		}
 
 		if (attacker != null && lingeringWoundLevel > 0.0 && amount > 0.0F) {
-			accumulateLingeringWound(
-					victim, amount, lingeringWoundLevel, currentTick
-			);
+			if (!source.isExtraDamage()) {
+				accumulateLingeringWound(
+						victim, amount, lingeringWoundLevel, currentTick
+				);
+			}
 
 			applyLingeringWound(attacker, victim);
 		}
