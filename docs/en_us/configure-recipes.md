@@ -4,7 +4,6 @@ Vital Relics supports dynamic relic crafting recipes and adding relic items to M
 
 **WARNING:** Set `customized` to `true` after editing generated JSON. While it is `false`, the file may be overwritten.
 
-
 ## Recipes
 
 Recipes are matched automatically during crafting.

@@ -2,6 +2,8 @@
 
 Vital Relics includes configurable translations for relic names, tooltips, spell names and system messages.
 
+**WARNING: after editing an automatically generated JSON file, set `customized` to `true`. While it is `false`, the file may be overwritten.**
+
 Translation files are stored in:
 
 ```text
@@ -9,19 +11,6 @@ config/vitalrelics/lang/
 ```
 
 Examples: `en_us.json`, `ja_jp.json`, `zh_cn.json`, `zh_tw.json`.
-
-## `customized`
-
-The `customized` field controls whether Vital Relics may replace the file with an updated default. Set it to `true` before making your own changes.
-
-```json
-{
-  "customized": true,
-  "translations": {
-    "relic.vitalrelics.spell.teleport": "Teleport"
-  }
-}
-```
 
 # Translation Keys
 
