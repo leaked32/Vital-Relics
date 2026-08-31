@@ -1,5 +1,6 @@
 package com.example.vitalrelics.platform;
 
+import com.example.vitalrelics.common.platform.MyDamageSource;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
@@ -722,6 +723,24 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 		);
 
 		level.addFreshEntity(lightning);
+	}
+
+	@Override
+	public MyDamageSource damageSource(
+			final MyLivingEntity attacker,
+			final MyDamageSource.MyDamageKind kind) {
+
+		return new MyDamageSource() {
+			@Override
+			public MyLivingEntity attacker() {
+				return attacker;
+			}
+
+			@Override
+			public MyDamageKind kind() {
+				return kind;
+			}
+		};
 	}
 
 	@Override
