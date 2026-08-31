@@ -96,17 +96,6 @@ If you encounter a reproducible bug, compatibility problem, or crash, please rep
 
 ![Vital Relics](https://github.com/user-attachments/assets/5a2aa56e-6b22-4ba3-9126-f28d97e0796d)
 
-## Documentation
-
-I'd keep `README.md` concise enough that a player understands what Vital Relics is
-within the first few sections.
-
-Detailed configuration and usage documentation is available in
-[the documentation index](https://github.com/leaked32/Vital-Relics/blob/main/docs/index.md).
-
-Topics include relic configuration, spells, Curios integration, recipes,
-loot, translations, and creating custom relics.
-
 ## License
 
 MIT

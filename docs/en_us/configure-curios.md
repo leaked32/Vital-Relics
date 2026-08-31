@@ -16,7 +16,7 @@ The configuration directory is `config/vitalrelics`. Files are generated automat
     If the file is missing or cannot be loaded,
     it automatically uses the bundled texture with the same filename.
     If neither texture exists, Minecraft displays its missing-texture placeholder.
-    For example
+    For example,
     `{ "id": "iron_heart", "texture": "my_iron_heart.png" }`
     Place the image at `config/vitalrelics/textures/my_iron_heart.png`.
     Subdirectories are supported.

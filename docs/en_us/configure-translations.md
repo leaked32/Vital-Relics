@@ -39,7 +39,7 @@ Spell names use `relic.vitalrelics.spell.<spell_id>`.
 Messages may contain `%s` placeholders. Keep required placeholders when translating formatted messages.
 
 ```json
-"message.vitalrelics.selected_spell": "Selected spell: %s"
+{ "message.vitalrelics.selected_spell": "Selected spell: %s" }
 ```
 
 # Relic Names and Tooltips

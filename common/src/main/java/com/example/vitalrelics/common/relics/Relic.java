@@ -35,6 +35,9 @@ public class Relic {
 	public final List<String> immune_to_effects = new ArrayList<>();
 	public final Map<String, Integer> granted_effects = new LinkedHashMap<>();
 
+	/*
+	Passive Skills
+	 */
 	public static final String PASSIVE_SKILL_RETARGET_ARROW = "retarget_arrow";
 	public static final String PASSIVE_SKILL_REALITY_SEVERANCE = "reality_severance";
 	public static final String PASSIVE_SKILL_METAL_MENDING = "metal_mending";
@@ -50,15 +53,9 @@ public class Relic {
 
 	public final Map<String, Double> passive_skills = new LinkedHashMap<>();
 
-
-	public final Map<String, Properties.Info> properties = new LinkedHashMap<>();
-	public final Map<String, Ticks.Info> ticks = new LinkedHashMap<>();
-
-
-	public final Map<String, Callbacks.Info> callbacks = new LinkedHashMap<>();
-
-	public final Map<String, Double> enemy_spawn = new LinkedHashMap<>();
-
+	/*
+	Spells
+	 */
 	public static final String SPELL_TELEPORT = "teleport";
 	public static final String SPELL_CURSE = "curse";
 	public static final String SPELL_HEAL = "heal";
@@ -78,6 +75,12 @@ public class Relic {
 	public static final String SPELL_DISENCHANTMENT = "disenchantment";
 
 	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
+
+
+	public final Map<String, Properties.Info> properties = new LinkedHashMap<>();
+	public final Map<String, Ticks.Info> ticks = new LinkedHashMap<>();
+	public final Map<String, Callbacks.Info> callbacks = new LinkedHashMap<>();
+	public final Map<String, Double> enemy_spawn = new LinkedHashMap<>();
 
 	public static class Properties {
 		public static class Info {
