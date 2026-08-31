@@ -9,6 +9,17 @@ Discover and equip relics ranging from useful accessories to powerful late-game 
 
 Most of Vital Relics is **data-driven**. The built-in relics are the default content—not a fixed limit on what the mod can do.
 
+
+## Built for Modpacks
+
+Vital Relics is intentionally designed to be changed.
+
+You can modify or remove built-in relics, create entirely new ones, configure their attributes and abilities, change recipes and loot sources, and control which enemies may spawn with them.
+
+The same systems used by the built-in relics are available to custom configurations, allowing modpacks to build their own progression, balance, relic sets, and enemy variants without modifying the mod's Java code.
+
+Configuration guides and examples are available in the [project documentation](https://github.com/leaked32/Vital-Relics/blob/main/docs/index.md).
+
 ## Features
 
 * A growing collection of equippable relics
@@ -56,16 +67,6 @@ Players are not the only ones who can use relics.
 Hostile mobs can naturally spawn carrying configured relics and receive their effects and passive abilities. Relic-bearing enemies are marked by distinctive particles orbiting around them.
 
 Which enemies can receive each relic—and how frequently they appear—can be configured individually, turning familiar encounters into occasional stronger variants.
-
-## Built for Modpacks
-
-Vital Relics is intentionally designed to be changed.
-
-You can modify or remove built-in relics, create entirely new ones, configure their attributes and abilities, change recipes and loot sources, and control which enemies may spawn with them.
-
-The same systems used by the built-in relics are available to custom configurations, allowing modpacks to build their own progression, balance, relic sets, and enemy variants without modifying the mod's Java code.
-
-Configuration guides and examples are available in the [project documentation](https://github.com/leaked32/Vital-Relics/blob/main/docs/index.md).
 
 ## Supported Versions
 
