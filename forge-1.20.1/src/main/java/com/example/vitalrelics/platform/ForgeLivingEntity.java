@@ -129,27 +129,19 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 	}
 
 	@Override
+	public MyDamageSource extraDamageSource() {
+		return new ForgeDamageSource(_extraDamageSource(entity));
+	}
+
+	@Override
 	public boolean hurt(
 			final MyDamageSource source,
 			final float amount) {
 
-		if (!(source.attacker() instanceof ForgeLivingEntity forgeAttacker)) {
-			throw new IllegalArgumentException(
-					"Expected ForgeLivingEntity attacker"
-			);
-		}
+		if (!(source instanceof ForgeDamageSource forgeSource))
+			throw new IllegalArgumentException("Expected ForgeDamageSource");
 
-		return switch (source.kind()) {
-			case EXTRA_DAMAGE ->
-					entity.hurt(
-							_extraDamageSource(forgeAttacker.entity),
-							amount
-					);
-
-			case OTHER -> throw new IllegalArgumentException(
-					"OTHER damage cannot be created by MyDamageInfo"
-			);
-		};
+		return entity.hurt(forgeSource.nativeSource(), amount);
 	}
 
 	@Override
@@ -183,13 +175,10 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 
 	@Override
 	public void setHurtMark(final MyDamageSource source) {
-		if (!(source.attacker() instanceof ForgeLivingEntity forgeAttacker)) {
-			throw new IllegalArgumentException(
-					"Expected ForgeLivingEntity attacker"
-			);
-		}
+		if (!(source instanceof ForgeDamageSource forgeSource))
+			throw new IllegalArgumentException("Expected ForgeDamageSource");
 
-		final DamageSource damageSource = _extraDamageSource(forgeAttacker.entity);
+		final DamageSource damageSource = forgeSource.nativeSource();
 
 		if (entity.getHealth() <= 0.0F) {
 			entity.die(damageSource);
