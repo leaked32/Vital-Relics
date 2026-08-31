@@ -1,15 +1,7 @@
 package com.example.vitalrelics.common.platform;
 
-public record MyDamageSource(
-		MyLivingEntity attacker,
-		MyDamageKind kind) {
+public interface MyDamageSource {
+	MyLivingEntity attacker();
 
-	public boolean isExtraDamage() {
-		return kind == MyDamageKind.EXTRA_DAMAGE;
-	}
-
-	public enum MyDamageKind {
-		EXTRA_DAMAGE,
-		OTHER
-	}
+	boolean isExtraDamage();
 }
