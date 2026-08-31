@@ -1,6 +1,7 @@
 package com.example.vitalrelics.common.platform;
 
 import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.utils.MyVec3;
 
 import java.util.List;
 import java.util.UUID;

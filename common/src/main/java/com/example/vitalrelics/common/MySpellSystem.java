@@ -2,6 +2,7 @@ package com.example.vitalrelics.common;
 
 import com.example.vitalrelics.common.platform.*;
 import com.example.vitalrelics.common.relics.Relic;
+import com.example.vitalrelics.common.utils.MyVec3;
 
 import java.util.ArrayList;
 import java.util.HashMap;

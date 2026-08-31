@@ -1,11 +1,10 @@
 package com.example.vitalrelics.platform;
 
-import com.example.vitalrelics.common.platform.MyDamageSource;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyRuntimeUtils;
-import com.example.vitalrelics.common.platform.MyVec3;
+import com.example.vitalrelics.common.utils.MyVec3;
 import com.example.vitalrelics.network.ForgeNetwork;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -725,23 +724,6 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 		level.addFreshEntity(lightning);
 	}
 
-	@Override
-	public MyDamageSource damageSource(
-			final MyLivingEntity attacker,
-			final MyDamageSource.MyDamageKind kind) {
-
-		return new MyDamageSource() {
-			@Override
-			public MyLivingEntity attacker() {
-				return attacker;
-			}
-
-			@Override
-			public MyDamageKind kind() {
-				return kind;
-			}
-		};
-	}
 
 	@Override
 	public boolean isEntityValid(final UUID uuid) {

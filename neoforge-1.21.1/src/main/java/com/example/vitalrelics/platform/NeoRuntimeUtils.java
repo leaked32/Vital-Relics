@@ -4,7 +4,7 @@ import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyRuntimeUtils;
-import com.example.vitalrelics.common.platform.MyVec3;
+import com.example.vitalrelics.common.utils.MyVec3;
 import com.example.vitalrelics.network.NeoNetwork;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

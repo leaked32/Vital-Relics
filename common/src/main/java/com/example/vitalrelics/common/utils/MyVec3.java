@@ -1,4 +1,4 @@
-package com.example.vitalrelics.common.platform;
+package com.example.vitalrelics.common.utils;
 
 public record MyVec3(
 		double x,
