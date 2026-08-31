@@ -21,6 +21,7 @@ public interface MyRuntimeUtils {
 	void showSpellCooldown(MyLivingEntity caster, String spellId, int remainingTicks);
 
 	// Utils
+	void log(String message);
 	List<Relic> gatherRelics(MyLivingEntity entity);
 	boolean isEntityValid(UUID uuid);
 	void showCurseRequiresTarget(MyLivingEntity caster);
