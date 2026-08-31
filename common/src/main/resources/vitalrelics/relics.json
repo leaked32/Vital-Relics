@@ -82,7 +82,8 @@
       "rarity": "rare",
       "granted_effects": {
         "fire_resistance": 1
-      }
+      },
+      "passive_skills": { "fire_resistance": 1, "lava_swimmer": 1 }
     },
     {
       "id": "jumping_ring",

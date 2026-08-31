@@ -492,4 +492,14 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 			}
 		};
 	}
+
+	@Override
+	public boolean isOnFire() {
+		return entity.isOnFire();
+	}
+
+	@Override
+	public void clearFire() {
+		entity.clearFire();
+	}
 }

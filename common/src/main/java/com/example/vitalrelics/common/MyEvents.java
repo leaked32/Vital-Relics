@@ -33,20 +33,14 @@ public final class MyEvents {
 		}
 
 		// Scheduled to update on each half seconds
-//		if (currentTick % 10 == 0) {
-//		}
-
-		// Scheduled to update on each second
-		if (currentTick % 20 == 0) {
+		if (currentTick % 10 == 0) {
 			// Effects
 			MyUtils.removeImmuneEffects(myLivingEntity, relics, MyLivingEntity.MyEffectCategory.ALL);
 			MyUtils.applyRelicEffects(myLivingEntity, relics);
 
-			// Passive Skill: reality_severance
-
+			// Passive Skill: Reality Severance
 			final double reality_severance_level =
 					Loader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_REALITY_SEVERANCE);
-
 			if (reality_severance_level > 0.0) {
 				final float ratioDamage = (float) (reality_severance_level / 100.0);
 				final float rangeDamage = ratioDamage * myLivingEntity.attackDamage();
@@ -60,6 +54,19 @@ public final class MyEvents {
 				);
 			}
 
+			// Passive Skill: Fire Resistance
+			final double fireResistanceLevel = Loader.levelOfSuchPassiveSkill(
+					relics, Relic.PASSIVE_SKILL_FIRE_RESISTANCE
+			);
+
+			if (fireResistanceLevel > 0.0 && myLivingEntity.isOnFire()) {
+				myLivingEntity.clearFire();
+			}
+
+		}
+
+		// Scheduled to update on each second
+		if (currentTick % 20 == 0) {
 			// Client HUD
 			if (myLivingEntity.isServerPlayer()) {
 				MySpellSystem.INSTANCE.syncSpellHud(myLivingEntity);
@@ -85,6 +92,7 @@ public final class MyEvents {
 			final MyLivingEntity victim, final MyDamageSource source, float amount, final int currentTick) {
 
 		final MyLivingEntity attacker = source.attacker();
+
 		/*
 		Offensive Attack
 		 */
@@ -145,6 +153,11 @@ public final class MyEvents {
 			}
 		}
 
+		/*
+		Footer
+		 */
+
+		// Passive Skill: Lingering Wound
 		if (attacker != null && lingeringWoundLevel > 0.0 && amount > 0.0F) {
 			if (!source.isExtraDamage()) {
 				accumulateLingeringWound(
@@ -155,11 +168,7 @@ public final class MyEvents {
 			applyLingeringWound(attacker, victim);
 		}
 
-		/*
-		Footer
-		 */
-
-		// Thorns
+		// Passive Skill: Thorns
 		if (attacker != null && amount > 0.0F) {
 			final double thornsLevel = Loader.levelOfSuchPassiveSkill(
 					victimRelics, Relic.PASSIVE_SKILL_THORNS

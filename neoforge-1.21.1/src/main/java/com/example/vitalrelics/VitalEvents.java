@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -25,6 +26,8 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.minecraft.tags.DamageTypeTags;
+
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -229,6 +232,7 @@ public final class VitalEvents {
 			attr.addTransientModifier(new AttributeModifier(id, amount, op));
 	}
 
+
 	@SubscribeEvent
 	public static void onLivingDamage(final LivingDamageEvent.Pre event) {
 		final LivingEntity victim = event.getEntity();
@@ -269,8 +273,9 @@ public final class VitalEvents {
 
 		final boolean negative = effect.getCategory() == MobEffectCategory.HARMFUL;
 
-		if (Loader.isImmuneToEffect(
-				relics, id.getPath(), negative)) {
+		if (
+				Loader.isImmuneToEffect(relics, id.getPath(), negative)
+		) {
 			event.setResult(
 					MobEffectEvent.Applicable.Result.DO_NOT_APPLY
 			);

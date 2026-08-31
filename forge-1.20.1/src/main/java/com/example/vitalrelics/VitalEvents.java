@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
@@ -250,6 +251,11 @@ public final class VitalEvents {
 		if (amount != 0.0)
 			attr.addTransientModifier(new AttributeModifier(id, Manifest.MODID, amount, operation));
 	}
+
+//	@SubscribeEvent
+//	public static void onLivingAttack(final LivingAttackEvent event) {
+//
+//	}
 
 	@SubscribeEvent
 	public static void onLivingDamage(final LivingDamageEvent event) {

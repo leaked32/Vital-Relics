@@ -21,6 +21,8 @@ public interface MyLivingEntity {
 	float health();
 	float maxHealth();
 	float attackDamage();
+	boolean isOnFire();
+	void clearFire();
 
 	void heal(float amount);
 	void feed(int nutrition, float saturation);
