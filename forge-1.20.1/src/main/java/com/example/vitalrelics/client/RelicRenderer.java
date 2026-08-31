@@ -44,11 +44,7 @@ public final class RelicRenderer extends BlockEntityWithoutLevelRenderer {
 		if (relic == null || relic.texture == null)
 			return;
 
-		final ResourceLocation texture =
-				new ResourceLocation(
-						Manifest.MODID,
-						"textures/item/" + relic.texture
-				);
+		final ResourceLocation texture = ExternalTextures.texture(relic.texture);
 
 		poseStack.pushPose();
 		poseStack.translate(0.5F, 0.5F, 0.5F);
