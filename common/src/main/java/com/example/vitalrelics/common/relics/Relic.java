@@ -35,32 +35,6 @@ public class Relic {
 	public final List<String> immune_to_effects = new ArrayList<>();
 	public final Map<String, Integer> granted_effects = new LinkedHashMap<>();
 
-	/*
-	 * Passive skills
-	 * - Passive skills activates automatically on condition.
-	 * - Passive skill level cannot be stacked or summed, only the highest level counts.
-	 *
-	 * Available Passive skills:
-	 * - `retarget_arrow`: Reflected arrow minimum damage = ATTACK_DAMAGE × level
-	 * - `arrow_deflection`: Reflects one incoming arrow; reflected damage and speed are
-	 *      multiplied by level, and cooldown is 5 / level seconds
-	 * - `reality_severance`: level% attack-damage contribution, level-block radius,
-	 *      roughly level/4 debuff strength
-	 * - `metal_mending`: Repairs up to level durability every 4 seconds
-	 * - `flight`: Any level > 0 grants flight; flight speed = vanilla flight speed × level,
-	 *      does not change the speed if the level is 1.0
-	 * - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level
-	 * - `lifesteal`: Heals the bearer for damage dealt × level
-	 * - `thorns`: Reflects received damage × level; reflection is limited by a cooldown
-	 * - `fire_resistance`: Extinguish fire.
-	 * - `iron_curtain`: super invulnerable time
-	 * - `lingering_wound`: Accumulates a portion of damage dealt as a temporary wound that
-	 *      reduces the target's effective maximum health,
-	 *      preventing healing above the remaining health limit.
-	 *      Extra damage can accumulate the wound twice,
-	 *      allowing it to receive both the original attack's accumulation
-	 *      and an additional accumulation from the extra damage.
-	 */
 	public static final String PASSIVE_SKILL_RETARGET_ARROW = "retarget_arrow";
 	public static final String PASSIVE_SKILL_REALITY_SEVERANCE = "reality_severance";
 	public static final String PASSIVE_SKILL_METAL_MENDING = "metal_mending";
@@ -76,76 +50,15 @@ public class Relic {
 
 	public final Map<String, Double> passive_skills = new LinkedHashMap<>();
 
-	/*
-	 * Properties
-	 * - can be stacked by equipped the same relic into different slots.
-	 * - stacking them in the same slot does not count.
-	 *
-	 * Each map is intentionally open-ended. Adding a new configuration entry
-	 * no longer requires adding a field to this class or a parser branch.
-	 * - `attack_damage`
-	 * - `attack_speed`
-	 * - `block_interaction_range`
-	 * - `entity_interaction_range`
-	 * - `knockback_resistance`
-	 * - `max_health`
-	 * - `armor`
-	 * - `armor_toughness`
-	 */
+
 	public final Map<String, Properties.Info> properties = new LinkedHashMap<>();
 	public final Map<String, Ticks.Info> ticks = new LinkedHashMap<>();
 
-	/*
-	 * Callbacks
-	 * - can be stacked by equipped the same relic into different slots.
-	 * - stacking them in the same slot does not count.
-	 *
-	 * - `damage_dealt`
-	 * - `damage_taken`
-	 * - `invulnerable_time_taken`
-	 * - `invulnerable_time_dealt`
-	 */
+
 	public final Map<String, Callbacks.Info> callbacks = new LinkedHashMap<>();
 
 	public final Map<String, Double> enemy_spawn = new LinkedHashMap<>();
 
-	/*
-	 * Spells
-	 * - Each spell is unique for its unique relic, so there's nothing to worry about it.
-	 *
-	 *  Available Spells:
-	 * - `teleport`:
-	 *     BLOCK hit: center for thin blocks; try above, if blocked, try before the hit face
-	 *     MISS / sky -> teleport as far along look direction as possible
-	 *
-	 * - `curse`: Calls `directAttack` with the pointed living entity
-	 * - `heal`: Restores `amount` health plus `ratio` of the caster's maximum health
-	 * - `healing_ray`: Heals the pointed living entity within `range`
-	 *      for `intensity` times the caster's attack damage
-	 * - `cleanse`: Removes all negative effects from the caster
-	 * - `dash`: Launches the caster forward by `strength`, with optional `vertical` velocity
-	 * - `arc_burst`: Repeatedly damages hostile targets within `range`;
-	 *      each hit deals `intensity`% attack damage, repeated `count` times,
-	 *      with optional `weaken` debuff strength
-	 * - `repulse`: Pushes hostile living entities within `range` away from the caster
-	 *      using `strength`, with optional `vertical` lift
-	 * - `absorption`: Grants Absorption for `duration_ticks` with the configured `amplifier`
-	 * - `sky_launch`: Launches hostile living entities within `range` upward by `strength`
-	 * - `shadow_exchange`: Swaps positions with the pointed hostile living entity within `range`
-	 * - `phantom_step`: Instantly moves forward up to `range` blocks and damages hostile
-	 *      living entities crossed for `intensity`% attack damage
-	 * - `upgrade_enchanted_book`: Upgrades the first non-max-level enchantment
-	 *      on the enchanted book held in the main hand by one level,
-	 *      consuming experience_cost experience levels. Creative players do not pay the cost.
-	 * - `enchantment_ascension`: Upgrades the first non-max-level enchantment
-	 *      on any enchanted item held in the main hand by one level,
-	 *      consuming experience_cost experience levels. Creative players do not pay the cost.
-	 * - `purify_curse`: Removes the first curse from the item held in the main hand;
-	 * - `purify_penalty`: Resets its anvil repair-cost penalty to zero instead.
-	 *      Consumes experience_cost experience levels; creative players do not pay the cost.
-	 * - `disenchantment`: Removes the first enchantment from the item held in the
-	 *      main hand and transfers it at the same level to a book held in the off hand.
-	 */
 	public static final String SPELL_TELEPORT = "teleport";
 	public static final String SPELL_CURSE = "curse";
 	public static final String SPELL_HEAL = "heal";
