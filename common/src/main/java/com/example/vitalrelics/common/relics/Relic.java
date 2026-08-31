@@ -83,6 +83,14 @@ public class Relic {
 	 *
 	 * Each map is intentionally open-ended. Adding a new configuration entry
 	 * no longer requires adding a field to this class or a parser branch.
+	 * - `attack_damage`
+	 * - `attack_speed`
+	 * - `block_interaction_range`
+	 * - `entity_interaction_range`
+	 * - `knockback_resistance`
+	 * - `max_health`
+	 * - `armor`
+	 * - `armor_toughness`
 	 */
 	public final Map<String, Properties.Info> properties = new LinkedHashMap<>();
 	public final Map<String, Ticks.Info> ticks = new LinkedHashMap<>();

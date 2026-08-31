@@ -82,6 +82,8 @@ block_interaction_range
 entity_interaction_range
 knockback_resistance
 max_health
+armor
+armor_toughness
 ```
 
 Each supports `add`, `mul_base`, and `mul_total`.
