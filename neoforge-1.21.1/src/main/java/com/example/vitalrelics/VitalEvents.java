@@ -1,6 +1,7 @@
 package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.common.platform.MyDamageSource;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyUtils;
 import com.example.vitalrelics.common.relics.Relic;
@@ -242,9 +243,20 @@ public final class VitalEvents {
 		final MyLivingEntity attacker = source instanceof LivingEntity livingSource
 				? new NeoLivingEntity(livingSource)
 				: null;
+		final MyDamageSource myDamageSource = new MyDamageSource() {
+			@Override
+			public MyLivingEntity attacker() {
+				return attacker;
+			}
+
+			@Override
+			public MyDamageSource.MyDamageKind kind() {
+				return MyDamageKind.OTHER;
+			}
+		};
 
 		event.setNewDamage(MyEvents.onLivingDamage(
-				new NeoLivingEntity(victim), attacker,
+				new NeoLivingEntity(victim), myDamageSource,
 				event.getNewDamage(), server.getTickCount()
 		));
 	}

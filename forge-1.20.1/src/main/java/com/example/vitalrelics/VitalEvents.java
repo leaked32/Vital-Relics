@@ -266,9 +266,20 @@ public final class VitalEvents {
 				? new ForgeLivingEntity(livingSource)
 				: null;
 
-		MyDamageSource myDamageSource = new MyDamageSource(attacker, );
+		final MyDamageSource myDamageSource = new MyDamageSource() {
+			@Override
+			public MyLivingEntity attacker() {
+				return attacker;
+			}
+
+			@Override
+			public MyDamageKind kind() {
+				return MyDamageKind.OTHER;
+			}
+		};
+
 		event.setAmount(MyEvents.onLivingDamage(
-				new ForgeLivingEntity(victim), attacker,
+				new ForgeLivingEntity(victim), myDamageSource,
 				event.getAmount(), server.getTickCount()
 		));
 	}
