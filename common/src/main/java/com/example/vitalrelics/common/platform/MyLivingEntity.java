@@ -8,6 +8,7 @@ public interface MyLivingEntity {
 
 	void playSound(MySound sound);
 
+	MyDamageSource extraDamageSource();
 	boolean hurt(MyDamageSource source, float amount);
 	boolean hurtThorns(MyLivingEntity source, float amount);
 
