@@ -1,5 +1,6 @@
 package com.example.vitalrelics.platform;
 
+import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
@@ -44,6 +45,11 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 	public static final ForgeRuntimeUtils INSTANCE = new ForgeRuntimeUtils();
 
 	private ForgeRuntimeUtils() {}
+
+	@Override
+	public void log(final String message) {
+		VitalRelics.LOGGER.info(message);
+	}
 
 	private static ForgeLivingEntity forge(final MyLivingEntity entity) {
 		if (!(entity instanceof ForgeLivingEntity forge))
