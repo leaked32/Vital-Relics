@@ -1,5 +1,6 @@
 package com.example.vitalrelics.common.platform;
 
+import com.example.vitalrelics.common.MyRuntime;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Loader;
 
@@ -74,7 +75,7 @@ public class MyUtils {
 			final MyLivingEntity attacker, final MyLivingEntity victim, final float amount) {
 
 		final MyDamageSource source =
-				new MyDamageSource(attacker, MyDamageSource.MyDamageKind.EXTRA_DAMAGE);
+				MyRuntime.getRuntimeUtils().extraDamageSource(attacker);
 
 		victim.setHealth(victim.health() - amount);
 		victim.setHurtMark(source);
