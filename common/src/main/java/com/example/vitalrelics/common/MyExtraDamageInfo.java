@@ -259,7 +259,7 @@ public class MyExtraDamageInfo
 		}
 
 		final MyDamageSource new_source =
-				new MyDamageSource(attacker, MyDamageSource.MyDamageKind.EXTRA_DAMAGE);
+				MyRuntime.getRuntimeUtils().extraDamageSource(attacker);
 
 		float amount_to_apply = 0.f;
 		if (amount != null) {
