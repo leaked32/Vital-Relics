@@ -6,6 +6,7 @@ import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyUtils;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.platform.ForgeDamageSource;
 import com.example.vitalrelics.platform.ForgeLivingEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -261,22 +262,8 @@ public final class VitalEvents {
 		if (server == null)
 			return;
 
-		final Entity source = event.getSource().getEntity();
-		final MyLivingEntity attacker = source instanceof LivingEntity livingSource
-				? new ForgeLivingEntity(livingSource)
-				: null;
-
-		final MyDamageSource myDamageSource = new MyDamageSource() {
-			@Override
-			public MyLivingEntity attacker() {
-				return attacker;
-			}
-
-			@Override
-			public MyDamageKind kind() {
-				return MyDamageKind.OTHER;
-			}
-		};
+		final MyDamageSource myDamageSource =
+				new ForgeDamageSource(event.getSource());
 
 		event.setAmount(MyEvents.onLivingDamage(
 				new ForgeLivingEntity(victim), myDamageSource,
