@@ -6,6 +6,7 @@ import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyUtils;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.platform.NeoDamageSource;
 import com.example.vitalrelics.platform.NeoLivingEntity;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -239,21 +240,8 @@ public final class VitalEvents {
 		if (server == null)
 			return;
 
-		final Entity source = event.getSource().getEntity();
-		final MyLivingEntity attacker = source instanceof LivingEntity livingSource
-				? new NeoLivingEntity(livingSource)
-				: null;
-		final MyDamageSource myDamageSource = new MyDamageSource() {
-			@Override
-			public MyLivingEntity attacker() {
-				return attacker;
-			}
-
-			@Override
-			public MyDamageSource.MyDamageKind kind() {
-				return MyDamageKind.OTHER;
-			}
-		};
+		final MyDamageSource myDamageSource =
+				new NeoDamageSource(event.getSource());
 
 		event.setNewDamage(MyEvents.onLivingDamage(
 				new NeoLivingEntity(victim), myDamageSource,
