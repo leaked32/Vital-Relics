@@ -1,11 +1,16 @@
-# 配置配方
+# 配置合成配方
 
-Vital Relics 支持动态遗物合成配方，并在合成时自动匹配。
+Vital Relics 支持动态的遗物（relic）合成配方，并允许将遗物物品添加到 Minecraft 的战利品表中。
 
-## 支持类型
+**警告：** 编辑生成的 JSON 文件后，请务必将 `customized` 设置为 `true`。若该项为 `false`，文件可能会被覆盖。
 
-- shaped（有序）
-- shapeless（无序）
+
+## 合成配方
+
+合成时会自动匹配配方。
+
+- 有序合成 (shaped)
+- 无序合成 (shapeless)
 
 ```json
 {
@@ -26,8 +31,20 @@ Vital Relics 支持动态遗物合成配方，并在合成时自动匹配。
 }
 ```
 
-无序配方不要求材料顺序。匹配成功后会创建配置的遗物。
+对于无序合成配方，材料的摆放顺序无关紧要。
 
-## 备注
+# 战利品表
 
-动态配方可正常合成，但 `recipes.json` 生成的配方目前不会显示在 JEI 中。
+战利品规则定义了通过战利品生成机制获取遗物的途径。规则包含目标战利品表和获取几率。
+
+示例
+```json
+{
+  "table": "minecraft:chests/simple_dungeon",
+  "chance": 0.05
+}
+```
+
+这将把配置好的遗物以 5% 的几率添加到地牢宝箱的战利品中。战利品表使用 Minecraft 资源定位符（Resource Location），例如 `minecraft:chests/stronghold_library` 和 `minecraft:entities/zombie`。
+
+当生成战利品时，Vital Relics 会检查配置的规则并添加匹配的遗物条目。

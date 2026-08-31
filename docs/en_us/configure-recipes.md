@@ -1,8 +1,13 @@
 # Configuring Recipes
 
-Vital Relics supports dynamic relic crafting recipes. Recipes are matched automatically during crafting.
+Vital Relics supports dynamic relic crafting recipes and adding relic items to Minecraft loot tables.
 
-## Supported Recipe Types
+**WARNING:** Set `customized` to `true` after editing generated JSON. While it is `false`, the file may be overwritten.
+
+
+## Recipes
+
+Recipes are matched automatically during crafting.
 
 - shaped
 - shapeless
@@ -26,22 +31,13 @@ Vital Relics supports dynamic relic crafting recipes. Recipes are matched automa
 }
 ```
 
-Ingredient order does not matter for shapeless recipes. When a recipe matches, the configured relic is created.
+Ingredient order does not matter for shapeless recipes.
 
-## Remarks
-
-Dynamic recipes work in-game, but recipes generated from `recipes.json` are not currently displayed in JEI. They can still be crafted normally.
-
-# Configuring Loot
-
-Vital Relics supports adding relic items to Minecraft loot tables.
-
-**WARNING:** Set `customized` to `true` after editing generated JSON. While it is `false`, the file may be overwritten.
-
-## Loot Rules
+# Loot-table
 
 A loot rule defines where a relic can be obtained through loot generation. A rule contains the target loot table and chance.
 
+Example
 ```json
 {
   "table": "minecraft:chests/simple_dungeon",
