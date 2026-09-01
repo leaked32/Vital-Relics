@@ -8,10 +8,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.phys.Vec3;
 
-public final class NeoAbstractArrow implements MyAbstractArrow {
+public final class NeoAbstractArrow extends NeoForgeEntity implements MyAbstractArrow {
 	private final AbstractArrow arrow;
 
 	public NeoAbstractArrow(final AbstractArrow arrow) {
+		super(arrow);
 		this.arrow = arrow;
 	}
 
@@ -21,21 +22,6 @@ public final class NeoAbstractArrow implements MyAbstractArrow {
 			return null;
 
 		return new NeoLivingEntity(owner);
-	}
-
-	@Override
-	public double x() {
-		return arrow.getX();
-	}
-
-	@Override
-	public double y() {
-		return arrow.getY();
-	}
-
-	@Override
-	public double z() {
-		return arrow.getZ();
 	}
 
 	@Override
@@ -51,16 +37,6 @@ public final class NeoAbstractArrow implements MyAbstractArrow {
 	@Override
 	public double velocityZ() {
 		return arrow.getDeltaMovement().z;
-	}
-
-	@Override
-	public void setVelocity(final double x, final double y, final double z) {
-		arrow.setDeltaMovement(x, y, z);
-	}
-
-	@Override
-	public void markMovementChanged() {
-		arrow.hasImpulse = true;
 	}
 
 	@Override
