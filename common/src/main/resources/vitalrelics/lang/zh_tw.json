@@ -247,6 +247,8 @@
   "relic.vitalrelics.passive_skill.grave_dominion": "墓域支配",
   "relic.vitalrelics.spell.grave_shift": "葬地位移",
   "item.vitalrelics.gravebound_bracelet": "墓縛手環",
-  "tooltip.vitalrelics.gravebound_bracelet": "將附近的生物拖入地下，也能直接埋葬選中的目標。"
+  "tooltip.vitalrelics.gravebound_bracelet": "將附近的生物拖入地下，也能直接埋葬選中的目標。",
 
+  "message.vitalrelics.grave_shift_invalid_range": "葬地位移無法施放：設定的範圍無效。",
+  "message.vitalrelics.grave_shift_requires_hostile_target": "葬地位移需要一個敵對目標。"
 }
