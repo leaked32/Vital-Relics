@@ -230,11 +230,23 @@ public final class MySpellSystem {
 		register(Relic.SPELL_GRAVE_SHIFT, (caster, spell) -> {
 			final double range = Math.min(256.0, Math.max(0.0,
 					RelicSpells.numberParameter(spell, "range", 0.0)));
-			if (range <= 0.0)
+			if (range <= 0.0) {
+				runtime.showMessage(
+						caster,
+						"message.vitalrelics.grave_shift_invalid_range",
+						"Grave Shift cannot be cast because its range is invalid."
+				);
 				return false;
+			}
 			final MyLivingEntity target = runtime.pointedLivingEntity(caster, range);
-			if (target == null || caster.isAllied(target))
+			if (target == null || caster.isAllied(target)) {
+				runtime.showMessage(
+						caster,
+						"message.vitalrelics.grave_shift_requires_hostile_target",
+						"Grave Shift requires a hostile target."
+				);
 				return false;
+			}
 			target.moveTo(target.x(), target.y() - Math.ceil(target.height()) - 1, target.z());
 			caster.playSound(MySound.EVOKER_CAST);
 			// target.playSound(MySound.ILLUSIONER_CAST);
