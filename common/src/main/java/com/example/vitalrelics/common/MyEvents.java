@@ -1,5 +1,6 @@
 package com.example.vitalrelics.common;
 
+import com.example.vitalrelics.common.platform.MyAbstractArrow;
 import com.example.vitalrelics.common.platform.MyDamageSource;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.platform.MyUtils;
@@ -199,8 +200,7 @@ public final class MyEvents {
 	}
 
 	public static void applyLingeringWound(
-			final MyLivingEntity attacker,
-			final MyLivingEntity target) {
+			final MyLivingEntity attacker, final MyLivingEntity target) {
 
 		final float accumulatedDamage =
 				Scheduler.INSTANCE().healingPrevention(target.uuid());
@@ -215,6 +215,52 @@ public final class MyEvents {
 					target.health() - allowedHealth
 			);
 		}
+	}
+
+	public static void onArrowShot(
+			final MyAbstractArrow arrow, final MyLivingEntity owner,
+			final List<Relic> relics) {
+
+		final double level = Loader.levelOfSuchPassiveSkill(
+				relics, Relic.PASSIVE_SKILL_EMPOWERED_ARROW);
+
+		if (level <= 0.0)
+			return;
+
+		arrow.setVelocity(
+				arrow.velocityX() * level,
+				arrow.velocityY() * level,
+				arrow.velocityZ() * level);
+
+		arrow.setBaseDamage(arrow.baseDamage() * level);
+	}
+
+	public static boolean onArrowImpact(
+			final MyAbstractArrow arrow, final MyLivingEntity victim,
+			final List<Relic> relics, final int currentTick) {
+
+		final double retargetLevel = Loader.levelOfSuchPassiveSkill(
+				relics, Relic.PASSIVE_SKILL_RETARGET_ARROW);
+
+		if (retargetLevel > 0.0) {
+			arrow.retarget(victim, 1.0, 1.0, retargetLevel);
+			return true;
+		}
+
+		final double deflectionLevel = Loader.levelOfSuchPassiveSkill(
+				relics, Relic.PASSIVE_SKILL_ARROW_DEFLECTION);
+
+		if (deflectionLevel <= 0.0)
+			return false;
+
+		final int cooldownTicks = Math.max(1, (int) Math.round(100.0 / deflectionLevel));
+
+		if (!Scheduler.INSTANCE().acquireArrowDeflection(
+				victim.uuid(), currentTick, cooldownTicks))
+			return false;
+
+		arrow.retarget(victim, deflectionLevel, deflectionLevel, 0.0);
+		return true;
 	}
 
 	/*

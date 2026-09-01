@@ -3,30 +3,24 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.common.platform.MyDamageSource;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
-import com.example.vitalrelics.common.platform.MyUtils;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.platform.NeoAbstractArrow;
 import com.example.vitalrelics.platform.NeoDamageSource;
 import com.example.vitalrelics.platform.NeoLivingEntity;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.minecraft.tags.DamageTypeTags;
 
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
@@ -38,11 +32,8 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-import java.util.function.Function;
 
 import static com.example.vitalrelics.Utils.*;
 
@@ -284,97 +275,42 @@ public final class VitalEvents {
 
 	@SubscribeEvent
 	public static void onArrowImpact(final ProjectileImpactEvent event) {
-		if (!(event.getEntity() instanceof AbstractArrow arrow)) {
+		if (!(event.getEntity() instanceof AbstractArrow arrow) ||
+				arrow.level().isClientSide() ||
+				!(event.getRayTraceResult() instanceof EntityHitResult hit) ||
+				!(hit.getEntity() instanceof LivingEntity victim))
 			return;
-		}
-
-		if (arrow.level().isClientSide()) {
-			return;
-		}
-
-		if (event.getRayTraceResult().getType() != HitResult.Type.ENTITY) {
-			return;
-		}
-
-		final EntityHitResult entityResult =
-				(EntityHitResult) event.getRayTraceResult();
-
-		if (!(entityResult.getEntity() instanceof LivingEntity victim)) {
-			return;
-		}
-
-		final List<Relic> relics = gatherRelics(victim);
-
-		final double retargetLevel =
-				Loader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_RETARGET_ARROW);
-
-		if (retargetLevel > 0.0) {
-			retargetArrow(arrow, victim, 1.0, 1.0, retargetLevel);
-
-			event.setCanceled(true);
-			return;
-		}
-
-		final double deflectionLevel =
-				Loader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_ARROW_DEFLECTION);
-
-		if (deflectionLevel <= 0.0) {
-			return;
-		}
 
 		final MinecraftServer server = victim.getServer();
 		if (server == null)
 			return;
 
-		final int cooldownTicks =
-				Math.max(1, (int) Math.round(100.0 / deflectionLevel));
-
-		if (!Scheduler.INSTANCE().acquireArrowDeflection(
-				victim.getUUID(), server.getTickCount(), cooldownTicks
-		))
-			return;
-
-		retargetArrow(arrow, victim, deflectionLevel, deflectionLevel, 0.0);
-
-		event.setCanceled(true);
+		if (MyEvents.onArrowImpact(
+				new NeoAbstractArrow(arrow),
+				new NeoLivingEntity(victim),
+				gatherRelics(victim),
+				server.getTickCount()))
+			event.setCanceled(true);
 	}
 
 	@SubscribeEvent
 	public static void onArrowShot(final EntityJoinLevelEvent event) {
 		if (!(event.getEntity() instanceof AbstractArrow arrow) ||
-				event.getLevel().isClientSide()) {
+				event.getLevel().isClientSide())
 			return;
-		}
 
-		if (!(arrow.getOwner() instanceof LivingEntity owner)) {
+		if (!(arrow.getOwner() instanceof LivingEntity owner))
 			return;
-		}
 
 		if (arrow.getPersistentData().getBoolean("vitalrelics_empowered"))
 			return;
 
-		final double level = Loader.levelOfSuchPassiveSkill(
-				gatherRelics(owner),
-				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
-		);
-
-		if (level <= 0.0)
-			return;
-
 		arrow.getPersistentData().putBoolean("vitalrelics_empowered", true);
 
-		arrow.setDeltaMovement(
-				arrow.getDeltaMovement().scale(level)
-		);
-
-		arrow.setBaseDamage(arrow.getBaseDamage() * level);
-
-//		final double leastDamage =
-//				level * owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
-//
-//		arrow.setBaseDamage(
-//				Math.max(arrow.getBaseDamage() * level, leastDamage)
-//		);
+		MyEvents.onArrowShot(
+				new NeoAbstractArrow(arrow),
+				new NeoLivingEntity(owner),
+				gatherRelics(owner));
 	}
 
 	@SubscribeEvent

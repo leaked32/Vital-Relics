@@ -3,27 +3,23 @@ package com.example.vitalrelics;
 import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.common.platform.MyDamageSource;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
-import com.example.vitalrelics.common.platform.MyUtils;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.platform.ForgeAbstractArrow;
 import com.example.vitalrelics.platform.ForgeDamageSource;
 import com.example.vitalrelics.platform.ForgeLivingEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.level.GameType;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.TickEvent;
@@ -37,11 +33,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
 
 import static com.example.vitalrelics.Utils.*;
 
@@ -304,98 +298,31 @@ public final class VitalEvents {
 				!(hit.getEntity() instanceof LivingEntity victim))
 			return;
 
-		final List<Relic> relics = gatherRelics(victim);
-
-		final double retargetLevel =
-				Loader.levelOfSuchPassiveSkill(
-						relics,
-						Relic.PASSIVE_SKILL_RETARGET_ARROW
-				);
-
-		if (retargetLevel > 0.0) {
-			retargetArrow(arrow, victim, 1.0, 1.0, retargetLevel);
-
-			event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
-			return;
-		}
-
-		final double deflectionLevel =
-				Loader.levelOfSuchPassiveSkill(
-						relics,
-						Relic.PASSIVE_SKILL_ARROW_DEFLECTION
-				);
-
-		if (deflectionLevel <= 0.0)
-			return;
-
 		final MinecraftServer server = victim.getServer();
 		if (server == null)
 			return;
 
-		final int cooldownTicks =
-				Math.max(1, (int) Math.round(100.0 / deflectionLevel));
-
-		if (!Scheduler.INSTANCE().acquireArrowDeflection(
-				victim.getUUID(), server.getTickCount(), cooldownTicks
-		)) {
-			return;
-		}
-
-		retargetArrow(arrow, victim, deflectionLevel, deflectionLevel, 0.0);
-
-		event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
+		if (MyEvents.onArrowImpact(
+				new ForgeAbstractArrow(arrow),
+				new ForgeLivingEntity(victim),
+				gatherRelics(victim),
+				server.getTickCount()))
+			event.setImpactResult(ProjectileImpactEvent.ImpactResult.SKIP_ENTITY);
 	}
-
-//	@SubscribeEvent
-//	public static void onArrowLoose(final ArrowLooseEvent event) {
-//		final Player player = event.getEntity();
-//
-//		if (player.level().isClientSide()) {
-//			return;
-//		}
-//
-//		final double level = RelicLoader.levelOfSuchPassiveSkill(
-//				gatherRelics(player),
-//				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
-//		);
-//
-//		if (level <= 0.0)
-//			return;
-//
-//		event.setCharge(Math.round((float) (event.getCharge() * level)));
-//	}
 
 	@SubscribeEvent
 	public static void onArrowShot(final EntityJoinLevelEvent event) {
 		if (!(event.getEntity() instanceof AbstractArrow arrow) ||
-				event.getLevel().isClientSide()) {
-			return;
-		}
-
-		if (!(arrow.getOwner() instanceof LivingEntity owner)) {
-			return;
-		}
-
-		final double level = Loader.levelOfSuchPassiveSkill(
-				gatherRelics(owner),
-				Relic.PASSIVE_SKILL_EMPOWERED_ARROW
-		);
-
-		if (level <= 0.0)
+				event.getLevel().isClientSide())
 			return;
 
-		arrow.setDeltaMovement(
-				arrow.getDeltaMovement().scale(level)
-		);
+		if (!(arrow.getOwner() instanceof LivingEntity owner))
+			return;
 
-		arrow.setBaseDamage(arrow.getBaseDamage() * level);
-
-//		final double leastDamage =
-//				level * owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
-//
-//		arrow.setBaseDamage(
-//				Math.max(arrow.getBaseDamage() * level, leastDamage)
-//		);
+		MyEvents.onArrowShot(
+				new ForgeAbstractArrow(arrow),
+				new ForgeLivingEntity(owner),
+				gatherRelics(owner));
 	}
 
 	@SubscribeEvent

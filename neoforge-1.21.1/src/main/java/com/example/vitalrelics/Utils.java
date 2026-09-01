@@ -10,15 +10,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import top.theillusivec4.curios.api.CuriosApi;
 
@@ -139,50 +134,6 @@ public class Utils {
 				remaining -= repairAmount;
 			}
 		}
-	}
-
-	public static void retargetArrow(
-			final AbstractArrow arrow,
-			final LivingEntity newOwner,
-			final double speedMultiplier,
-			final double damageMultiplier,
-			final double minimumDamageFromAttack) {
-
-		final Entity owner = arrow.getOwner();
-
-		final Vec3 currentPos = arrow.position();
-		final Vec3 direction;
-
-		if (owner != null) {
-			final double distance = currentPos.distanceTo(owner.position());
-
-			final double baseHeight = owner.getEyeHeight() * 0.9;
-			final double extraHeight = Math.min(distance * 0.02, 4.0);
-
-			final Vec3 ownerPos =
-					owner.position().add(0, baseHeight + extraHeight, 0);
-
-			direction = ownerPos.subtract(currentPos).normalize();
-		} else {
-			direction = arrow.getDeltaMovement().normalize().scale(-1.0);
-		}
-
-		final double originalSpeed = arrow.getDeltaMovement().length();
-		final double newSpeed = originalSpeed * speedMultiplier;
-
-		arrow.setDeltaMovement(direction.scale(newSpeed));
-		arrow.hasImpulse = true;
-
-		arrow.setOwner(newOwner);
-
-		final double multipliedDamage =
-				arrow.getBaseDamage() * damageMultiplier;
-
-		final double minimumDamage =
-				newOwner.getAttributeValue(Attributes.ATTACK_DAMAGE) *
-						minimumDamageFromAttack;
-
-		arrow.setBaseDamage(Math.max(multipliedDamage, minimumDamage));
 	}
 
 	/*
