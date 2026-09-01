@@ -11,6 +11,8 @@
   "message.vitalrelics.selected_spell": "選択中の呪文: %s",
   "message.vitalrelics.spell_cooldown": "%s のクールダウン: %s",
   "message.vitalrelics.curse_requires_target": "呪いには対象が必要です。",
+  "message.vitalrelics.grave_shift_invalid_range": "射程が無効なため、葬地位移を発動できません。",
+  "message.vitalrelics.grave_shift_requires_hostile_target": "葬地位移には敵対対象が必要です。",
   "tooltip.vitalrelics.property.add": "%s %s",
   "tooltip.vitalrelics.property.mul_base": "%s %s（基本値）",
   "tooltip.vitalrelics.property.mul_total": "合計 x%s %s",
