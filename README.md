@@ -1,16 +1,10 @@
 # Vital Relics
 
-[English](README.md) \| [日本語](https://github.com/leaked32/Vital-Relics/blob/main/docs/ja_jp/index.md) \|
-[简体中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_cn/index.md) \| [繁體中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_tw/index.md)
-
 **Vital Relics** is a highly configurable relic mod for Minecraft, built for both players and modpack creators.
 
 Discover and equip relics ranging from useful accessories to powerful late-game artifacts. Relics can grant attributes, passive abilities, active spells, unique combat mechanics, and more.
 
 Most of Vital Relics is **data-driven**. The built-in relics are the default content—not a fixed limit on what the mod can do.
-
-
-## Built for Modpacks
 
 Vital Relics is intentionally designed to be changed.
 
@@ -18,7 +12,12 @@ You can modify or remove built-in relics, create entirely new ones, configure th
 
 The same systems used by the built-in relics are available to custom configurations, allowing modpacks to build their own progression, balance, relic sets, and enemy variants without modifying the mod's Java code.
 
-Configuration guides and examples are available in the [project documentation](https://github.com/leaked32/Vital-Relics/blob/main/docs/index.md).
+Project Documentation
+
+[English](https://github.com/leaked32/Vital-Relics/blob/main/docs/en_us/README.md) \| [日本語](https://github.com/leaked32/Vital-Relics/blob/main/docs/ja_jp/index.md) \|
+[简体中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_cn/index.md) \| [繁體中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_tw/index.md)
+
+The documentation is very easy to use and understand, really.
 
 ## Features
 
