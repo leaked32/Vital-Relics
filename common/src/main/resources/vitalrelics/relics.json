@@ -641,7 +641,14 @@
       "texture": "bleeding_sigil.png",
       "rarity": "epic",
       "passive_skills": {
-        "lingering_wound": 0.2
+        "lingering_wound": 0.2,
+        "grave_dominion": 8.0
+      },
+      "available_spells": {
+        "grave_shift": {
+          "range": 16,
+          "recovery": 0.25
+        }
       },
       "properties": {
         "attack_damage": {
