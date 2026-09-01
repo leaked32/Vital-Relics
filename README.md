@@ -1,7 +1,7 @@
 # Vital Relics
 
-[English](README.md) \| [日本語](https://github.com/leaked32/Vital-Relics/blob/main/docs/ja_jp/README.md) \|
-[简体中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_cn/README.md) \| [繁體中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_tw/README.md)
+[English](README.md) \| [日本語](https://github.com/leaked32/Vital-Relics/blob/main/docs/ja_jp/index.md) \|
+[简体中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_cn/index.md) \| [繁體中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_tw/index.md)
 
 **Vital Relics** is a highly configurable relic mod for Minecraft, built for both players and modpack creators.
 
