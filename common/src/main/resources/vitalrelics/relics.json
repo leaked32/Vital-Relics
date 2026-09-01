@@ -366,18 +366,6 @@
       }
     },
     {
-      "id": "gravebound_bracelet",
-      "display_name": "Gravebound Bracelet",
-      "tooltip": "Drags nearby creatures beneath the earth and can bury a chosen target outright.",
-      "texture": "bracelet_purple_saturated.png",
-      "curio_slot": "bracelet",
-      "rarity": "rare",
-      "passive_skills": {
-        "grave_dominion": 2.0
-      }
-    },
-
-    {
       "id": "iron_heart",
       "display_name": "Metal Heart",
       "tooltip": "A small heart forged from stubborn iron.",
@@ -652,8 +640,7 @@
       "texture": "bleeding_sigil.png",
       "rarity": "epic",
       "passive_skills": {
-        "lingering_wound": 0.2,
-        "grave_dominion": 8.0
+        "lingering_wound": 0.2
       },
       "available_spells": {
         "grave_shift": {
@@ -710,7 +697,10 @@
       "rarity": "epic",
       "immune_to_effects": "all_negative",
       "passive_skills": {
-        "retarget_arrow": 2.0, "reality_severance": 32.0, "iron_curtain": 2.1, "lingering_wound": 1.0
+        "retarget_arrow": 2.0,
+        "reality_severance": 32.0,
+        "iron_curtain": 2.1,
+        "lingering_wound": 1.0
       },
       "properties": {
         "attack_damage": {

@@ -228,15 +228,16 @@ public final class MySpellSystem {
 		});
 
 		register(Relic.SPELL_GRAVE_SHIFT, (caster, spell) -> {
-			final double range = Math.min(64.0, Math.max(0.0,
+			final double range = Math.min(256.0, Math.max(0.0,
 					RelicSpells.numberParameter(spell, "range", 0.0)));
 			if (range <= 0.0)
 				return false;
 			final MyLivingEntity target = runtime.pointedLivingEntity(caster, range);
 			if (target == null || caster.isAllied(target))
 				return false;
-			target.moveTo(target.x(), target.y() - target.height(), target.z());
-			target.playSound(MySound.TELEPORT);
+			target.moveTo(target.x(), target.y() - Math.ceil(target.height()) - 1, target.z());
+			caster.playSound(MySound.EVOKER_CAST);
+			// target.playSound(MySound.ILLUSIONER_CAST);
 			return true;
 		});
 
