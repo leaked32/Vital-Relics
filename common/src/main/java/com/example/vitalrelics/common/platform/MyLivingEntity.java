@@ -1,9 +1,8 @@
 package com.example.vitalrelics.common.platform;
 
 import java.util.List;
-import java.util.UUID;
 
-public interface MyLivingEntity {
+public interface MyLivingEntity extends MyEntity {
 	void teleport(double x, double y, double z);
 
 	void playSound(MySound sound);
@@ -28,20 +27,12 @@ public interface MyLivingEntity {
 	void feed(int nutrition, float saturation);
 	void mendEquipment(int level);
 
-	double x();
-	double y();
-	double z();
-
 	double horizontalLookX();
 	double horizontalLookZ();
 
-	void setVelocity(double x, double y, double z);
 	void push(double x, double y, double z);
-	void markMovementChanged();
 
 	boolean isDeadOrDying();
-	boolean isLoaded();
-	boolean isClientSide();
 	boolean isServerPlayer();
 	boolean is(MyLivingEntity other);
 	boolean isAllied(MyLivingEntity other);
@@ -50,8 +41,6 @@ public interface MyLivingEntity {
 	List<MyLivingEntity> livingEntitiesInRange(double radius);
 
 	void addEffect(MyEffect effect, int duration, int amplifier);
-
-	UUID uuid();
 
 	String typeId();
 
