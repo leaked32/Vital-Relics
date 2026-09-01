@@ -302,11 +302,6 @@ public final class VitalEvents {
 		if (!(arrow.getOwner() instanceof LivingEntity owner))
 			return;
 
-		if (arrow.getPersistentData().getBoolean("vitalrelics_empowered"))
-			return;
-
-		arrow.getPersistentData().putBoolean("vitalrelics_empowered", true);
-
 		MyEvents.onArrowShot(
 				new NeoAbstractArrow(arrow),
 				new NeoLivingEntity(owner),
