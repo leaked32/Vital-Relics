@@ -11,6 +11,8 @@
   "message.vitalrelics.selected_spell": "Selected spell: %s",
   "message.vitalrelics.spell_cooldown": "%s cooldown: %s",
   "message.vitalrelics.curse_requires_target": "Curse requires a target.",
+  "message.vitalrelics.grave_shift_invalid_range": "Grave Shift cannot be cast because its range is invalid.",
+  "message.vitalrelics.grave_shift_requires_hostile_target": "Grave Shift requires a hostile target.",
   "tooltip.vitalrelics.property.add": "%s %s",
   "tooltip.vitalrelics.property.mul_base": "%s %s from base",
   "tooltip.vitalrelics.property.mul_total": "x%s total %s",
