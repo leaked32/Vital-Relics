@@ -54,17 +54,17 @@ public class ForgeEntity implements MyEntity {
 
 	@Override
 	public boolean isLoaded() {
-		return entity.level.isLoaded(entity.blockPosition());
+		return entity.level().isLoaded(entity.blockPosition());
 	}
 
 	@Override
 	public boolean isClientSide() {
-		return entity.level.isClientSide;
+		return entity.level().isClientSide();
 	}
 
 	@Override
 	public List<MyEntity> entitiesInRange(final double radius) {
-		return entity.level.getEntities(entity, entity.getBoundingBox().inflate(radius)).stream()
+		return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius)).stream()
 				.map(ForgeEntity::new)
 				.map(MyEntity.class::cast)
 				.toList();
