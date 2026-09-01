@@ -19,6 +19,7 @@ public interface MyRuntimeUtils {
 	void clearSpellHud(MyLivingEntity caster);
 	void showSelectedSpell(MyLivingEntity caster, String spellId);
 	void showSpellCooldown(MyLivingEntity caster, String spellId, int remainingTicks);
+	void showMessage(MyLivingEntity caster, String key, String fallback);
 
 	// Utils
 	void log(String message);
