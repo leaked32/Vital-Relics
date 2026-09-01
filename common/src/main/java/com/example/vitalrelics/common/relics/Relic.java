@@ -50,6 +50,7 @@ public class Relic {
 	public static final String PASSIVE_SKILL_LAVA_SWIMMER = "lava_swimmer";
 	public static final String PASSIVE_SKILL_IRON_CURTAIN = "iron_curtain";
 	public static final String PASSIVE_SKILL_LINGERING_WOUND = "lingering_wound";
+	public static final String PASSIVE_SKILL_GRAVE_DOMINION = "grave_dominion";
 
 	public final Map<String, Double> passive_skills = new LinkedHashMap<>();
 
@@ -95,7 +96,7 @@ public class Relic {
 				result.mul_total = 1.0;
 				return result;
 			}
-		}
+	}
 	}
 
 	public static class Ticks {
@@ -111,7 +112,7 @@ public class Relic {
 				result.ratio_add = 0.0;
 				return result;
 			}
-		}
+	}
 	}
 
 	public static class Callbacks {
@@ -179,7 +180,7 @@ public class Relic {
 				return minimum + range /
 						(1.0 + Math.exp(-4.0 * (value - center) / range));
 			}
-		}
+	}
 	}
 
 	public static class Spells {
