@@ -1,9 +1,11 @@
 package com.example.vitalrelics.client.guide;
 
 import com.example.vitalrelics.Utils;
-import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.guide.GuideBook;
 import com.example.vitalrelics.common.guide.GuidePage;
+import com.example.vitalrelics.common.guide.MarkdownPage;
+import com.example.vitalrelics.common.relics.Translations;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -11,6 +13,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -31,8 +36,8 @@ public class GuideBookScreen extends Screen {
 	private static final int SCROLLBAR_WIDTH = 3;
 	private static final int MIN_SCROLLBAR_HEIGHT = 12;
 
-	private final List<GuidePage> pages = new ArrayList<>();
-	private final List<GuidePage> visiblePages = new ArrayList<>();
+	private final List<Page> pages = new ArrayList<>();
+	private final List<Page> visiblePages = new ArrayList<>();
 
 	private EditBox searchBox;
 
@@ -49,12 +54,67 @@ public class GuideBookScreen extends Screen {
 		if (guideBook == null)
 			throw new IllegalArgumentException("guideBook cannot be null");
 
-		pages.add(GuidePage.introduction());
+		addPage(GuidePage.introduction());
+		addConfigurationPages();
 
-		for (final GuideBook.Entry entry : guideBook.entries())
-			pages.add(GuidePage.from(entry, GuideBookScreen::translatedIngredientName, Utils::effectName));
+		for (final GuideBook.Entry entry : guideBook.entries()) {
+			addPage(GuidePage.from(
+					entry,
+					GuideBookScreen::translatedIngredientName,
+					Utils::effectName
+			));
+		}
 
 		visiblePages.addAll(pages);
+	}
+
+	private void addPage(final GuidePage page) {
+		pages.add(new Page(page.id, page.title, page, null));
+	}
+
+	private void addPage(final MarkdownPage page) {
+		pages.add(new Page(page.id, page.title, null, page));
+	}
+
+	private void addConfigurationPages() {
+		final String locale = Minecraft.getInstance()
+				.getLanguageManager()
+				.getSelected();
+
+		addMarkdownPage("configure-curios", locale);
+		addMarkdownPage("configure-recipes", locale);
+		addMarkdownPage("configure-translations", locale);
+	}
+
+	private void addMarkdownPage(final String id, final String locale) {
+		String markdown = readMarkdown(locale, id);
+
+		if (markdown == null && !"en_us".equals(locale))
+			markdown = readMarkdown("en_us", id);
+
+		if (markdown != null)
+			addPage(MarkdownPage.parse(id, markdown));
+	}
+
+	private static String readMarkdown(final String locale, final String id) {
+		final String path =
+				"/vitalrelics/guide/" + locale + "/" + id + ".md";
+
+		try (InputStream stream =
+					 GuideBookScreen.class.getResourceAsStream(path)) {
+			if (stream == null)
+				return null;
+
+			return new String(
+					stream.readAllBytes(),
+					StandardCharsets.UTF_8
+			);
+		} catch (IOException exception) {
+			throw new RuntimeException(
+					"Failed to load guide page " + path,
+					exception
+			);
+		}
 	}
 
 	private static String translatedIngredientName(final String id) {
@@ -63,7 +123,10 @@ public class GuideBookScreen extends Screen {
 		if (location == null || !BuiltInRegistries.ITEM.containsKey(location))
 			return null;
 
-		return BuiltInRegistries.ITEM.get(location).getDescription().getString();
+		return BuiltInRegistries.ITEM
+				.get(location)
+				.getDescription()
+				.getString();
 	}
 
 	@Override
@@ -124,7 +187,7 @@ public class GuideBookScreen extends Screen {
 		return width - MARGIN - SCROLLBAR_WIDTH - 3;
 	}
 
-	private GuidePage selectedPage() {
+	private Page selectedPage() {
 		if (visiblePages.isEmpty())
 			return null;
 
@@ -137,7 +200,7 @@ public class GuideBookScreen extends Screen {
 	}
 
 	private void updateSearch(final String query) {
-		final GuidePage previous = selectedPage();
+		final Page previous = selectedPage();
 
 		final String normalized = query == null
 				? ""
@@ -145,7 +208,7 @@ public class GuideBookScreen extends Screen {
 
 		visiblePages.clear();
 
-		for (final GuidePage page : pages) {
+		for (final Page page : pages) {
 			if (matchesSearch(page, normalized))
 				visiblePages.add(page);
 		}
@@ -162,7 +225,10 @@ public class GuideBookScreen extends Screen {
 		selectedIndex = previousIndex >= 0 ? previousIndex : 0;
 	}
 
-	private static boolean matchesSearch(final GuidePage page, final String query) {
+	private static boolean matchesSearch(
+			final Page page,
+			final String query) {
+
 		if (query.isEmpty())
 			return true;
 
@@ -180,24 +246,29 @@ public class GuideBookScreen extends Screen {
 
 		graphics.drawString(font, title, MARGIN, MARGIN, 0xFFFFFF);
 
-		renderRelicList(graphics);
+		renderPageList(graphics);
 
-		final GuidePage page = selectedPage();
+		final Page page = selectedPage();
 
 		if (page == null) {
 			graphics.drawString(
 					font,
-					Component.literal(tr("guide.vitalrelics.empty", "No relics loaded.")),
+					Component.literal(tr(
+							"guide.vitalrelics.empty",
+							"No relics loaded."
+					)),
 					contentLeft(), contentTop(), 0xAAAAAA
 			);
+		} else if (page.markdown != null) {
+			renderMarkdownPage(graphics, page.markdown);
 		} else {
-			renderPage(graphics, page);
+			renderGuidePage(graphics, page.guide);
 		}
 
 		renderScrollbars(graphics);
 	}
 
-	private void renderRelicList(final GuiGraphics graphics) {
+	private void renderPageList(final GuiGraphics graphics) {
 		final int left = listLeft();
 		final int right = listTextRight();
 		final int top = listTop();
@@ -211,7 +282,7 @@ public class GuideBookScreen extends Screen {
 		int y = top - listScroll;
 
 		for (int i = 0; i < visiblePages.size(); ++i) {
-			final GuidePage page = visiblePages.get(i);
+			final Page page = visiblePages.get(i);
 			final boolean selected = i == selectedIndex;
 
 			if (selected)
@@ -232,7 +303,10 @@ public class GuideBookScreen extends Screen {
 		graphics.disableScissor();
 	}
 
-	private void renderPage(final GuiGraphics graphics, final GuidePage page) {
+	private void renderGuidePage(
+			final GuiGraphics graphics,
+			final GuidePage page) {
+
 		final int left = contentLeft();
 		final int right = contentTextRight();
 		final int top = contentTop();
@@ -296,9 +370,131 @@ public class GuideBookScreen extends Screen {
 		clampContentScroll();
 	}
 
+	private void renderMarkdownPage(
+			final GuiGraphics graphics,
+			final MarkdownPage page) {
+
+		final int left = contentLeft();
+		final int right = contentTextRight();
+		final int top = contentTop();
+		final int bottom = paneBottom();
+		final int textWidth = Math.max(80, right - left);
+
+		graphics.enableScissor(left, top, right, bottom);
+
+		int y = top - contentScroll;
+
+		y = drawLine(graphics, page.title, left, y, 0xFFFFFF);
+		y += 4;
+
+		for (final MarkdownPage.Block block : page.blocks) {
+			if (block instanceof MarkdownPage.Heading heading) {
+				y += heading.level() <= 2 ? 5 : 2;
+				y = drawLine(
+						graphics,
+						heading.text(),
+						left + Math.min(8, Math.max(0, heading.level() - 2) * 3),
+						y,
+						heading.level() <= 2 ? 0xFFFFFF : 0xE0E0E0
+				);
+				y += 2;
+				continue;
+			}
+
+			if (block instanceof MarkdownPage.Paragraph paragraph) {
+				y = drawWrapped(
+						graphics,
+						paragraph.text(),
+						left, y,
+						textWidth,
+						0xDDDDDD
+				);
+				y += 4;
+				continue;
+			}
+
+			if (block instanceof MarkdownPage.ListItem item) {
+				final int indent = Math.min(24, item.indent() * 2);
+				final String marker = item.ordered()
+						? item.marker() + ". "
+						: "• ";
+
+				y = drawWrapped(
+						graphics,
+						marker + item.text(),
+						left + 5 + indent, y,
+						Math.max(40, textWidth - 5 - indent),
+						0xCCCCCC
+				);
+				continue;
+			}
+
+			if (block instanceof MarkdownPage.CodeBlock code) {
+				if (!code.language().isBlank()) {
+					y = drawLine(
+							graphics,
+							code.language(),
+							left + 4, y,
+							0x999999
+					);
+				}
+
+				for (final String line : code.lines()) {
+					final int lineHeight = Math.max(
+							LINE_HEIGHT,
+							font.split(
+									Component.literal(line.isEmpty() ? " " : line),
+									Math.max(40, textWidth - 10)
+							).size() * LINE_HEIGHT
+					);
+
+					graphics.fill(
+							left,
+							y - 1,
+							right,
+							y + lineHeight,
+							0x50202020
+					);
+
+					y = drawWrapped(
+							graphics,
+							line.isEmpty() ? " " : line,
+							left + 5, y,
+							Math.max(40, textWidth - 10),
+							0xD0D0D0
+					);
+				}
+
+				y += 5;
+				continue;
+			}
+
+			if (block instanceof MarkdownPage.Table table) {
+				if (MarkdownPage.isTableSeparator(table))
+					continue;
+
+				y = drawWrapped(
+						graphics,
+						String.join("  |  ", table.cells()),
+						left + 4, y,
+						Math.max(40, textWidth - 8),
+						0xCCCCCC
+				);
+			}
+		}
+
+		graphics.disableScissor();
+
+		pageContentHeight = y - (top - contentScroll);
+		clampContentScroll();
+	}
+
 	private int drawLine(
 			final GuiGraphics graphics, final String text,
 			final int x, final int y, final int color) {
+
+		if (text == null || text.isBlank())
+			return y;
 
 		graphics.drawString(font, Component.literal(text), x, y, color);
 		return y + LINE_HEIGHT;
@@ -381,7 +577,8 @@ public class GuideBookScreen extends Screen {
 				listLeft(), listTop(),
 				listTextRight(), paneBottom()
 		)) {
-			final int index = ((int) mouseY - listTop() + listScroll) / ROW_HEIGHT;
+			final int index =
+					((int) mouseY - listTop() + listScroll) / ROW_HEIGHT;
 
 			if (index >= 0 && index < visiblePages.size()) {
 				selectedIndex = index;
@@ -426,7 +623,11 @@ public class GuideBookScreen extends Screen {
 	}
 
 	private void clampContentScroll() {
-		contentScroll = clampScroll(contentScroll, pageContentHeight, contentHeight());
+		contentScroll = clampScroll(
+				contentScroll,
+				pageContentHeight,
+				contentHeight()
+		);
 	}
 
 	private static int clampScroll(
@@ -483,5 +684,24 @@ public class GuideBookScreen extends Screen {
 	@Override
 	public boolean isPauseScreen() {
 		return false;
+	}
+
+	private static class Page {
+		private final String id;
+		private final String title;
+		private final GuidePage guide;
+		private final MarkdownPage markdown;
+
+		private Page(
+				final String id,
+				final String title,
+				final GuidePage guide,
+				final MarkdownPage markdown) {
+
+			this.id = id;
+			this.title = title;
+			this.guide = guide;
+			this.markdown = markdown;
+		}
 	}
 }
