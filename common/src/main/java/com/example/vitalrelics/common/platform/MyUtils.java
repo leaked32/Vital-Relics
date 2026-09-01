@@ -74,6 +74,8 @@ public class MyUtils {
 	public static void trueHurt(
 			final MyLivingEntity attacker, final MyLivingEntity victim, final float amount) {
 
+		victim.resetInvulnerable();
+
 		final MyDamageSource source =
 				MyRuntime.getRuntimeUtils().extraDamageSource(attacker);
 

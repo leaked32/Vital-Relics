@@ -152,6 +152,13 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 		return entity.hurt(entity.damageSources().thorns(forgeSource.entity), amount);
 	}
 
+	@Override
+	public void resetInvulnerable() {
+		if (entity.isInvulnerable()) {
+			entity.setInvulnerable(false);
+		}
+		resetInvulnerableTime();
+	}
 
 	@Override
 	public void resetInvulnerableTime() {
@@ -491,6 +498,26 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 				return "DamageSource (vitalrelics.extra_damage)";
 			}
 		};
+	}
+
+
+	@Override
+	public double height() {
+		return entity.getBbHeight();
+	}
+
+	@Override
+	public void moveTo(final double x, final double y, final double z) {
+		entity.setPos(x, y, z);
+	}
+
+
+	@Override
+	public List<MyEntity> entitiesInRange(final double radius) {
+		return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius)).stream()
+				.map(ForgeEntity::new)
+				.map(MyEntity.class::cast)
+				.toList();
 	}
 
 	@Override

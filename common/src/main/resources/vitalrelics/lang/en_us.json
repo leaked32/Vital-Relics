@@ -244,5 +244,10 @@
   "tooltip.vitalrelics.bleeding_sigil": "Every wound it opens refuses to fully close.",
   "relic.vitalrelics.passive_skill.lingering_wound": "Lingering Wound",
   "relic.vitalrelics.passive_skill.iron_curtain": "Iron Curtain",
-  "relic.vitalrelics.spell.healing_ray": "Healing Ray"
+  "relic.vitalrelics.spell.healing_ray": "Healing Ray",
+
+  "relic.vitalrelics.passive_skill.grave_dominion": "Grave Dominion",
+  "relic.vitalrelics.spell.grave_shift": "Grave Shift",
+  "item.vitalrelics.gravebound_bracelet": "Gravebound Bracelet",
+  "tooltip.vitalrelics.gravebound_bracelet": "Drags nearby creatures beneath the earth and can bury a chosen target outright."
 }

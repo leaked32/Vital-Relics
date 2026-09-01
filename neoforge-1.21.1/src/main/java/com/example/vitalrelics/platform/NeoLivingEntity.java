@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
@@ -68,7 +69,7 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 			case BEACON_ACTIVATE -> SoundEvents.BEACON_ACTIVATE;
 			case ENCHANTMENT_TABLE_USE -> SoundEvents.ENCHANTMENT_TABLE_USE;
 		};
-		level.playSound(null, x(), y(), z(), event, SoundSource.PLAYERS, 1.0F, 1.0F);
+		level.playSound(null, x(), y(), z(), (SoundEvent) event, SoundSource.PLAYERS, 1.0F, 1.0F);
 	}
 
 	@Override
@@ -90,6 +91,13 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 		return livingEntity.hurt(livingEntity.damageSources().thorns(neoSource.livingEntity), amount);
 	}
 
+	@Override
+	public void resetInvulnerable() {
+		if (entity.isInvulnerable()) {
+			entity.setInvulnerable(false);
+		}
+		resetInvulnerableTime();
+	}
 	@Override public void resetInvulnerableTime() { livingEntity.invulnerableTime = 0; }
 	@Override public int invulnerableTime() { return livingEntity.invulnerableTime; }
 	@Override public void setInvulnerableTime(final int ticks) { livingEntity.invulnerableTime = ticks; }

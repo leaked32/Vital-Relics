@@ -243,5 +243,10 @@
   "tooltip.vitalrelics.bleeding_sigil": "これが刻んだ傷は、いつまでも完全には癒えない。",
   "relic.vitalrelics.passive_skill.lingering_wound": "癒えぬ傷",
   "relic.vitalrelics.passive_skill.iron_curtain": "鉄のカーテン",
-  "relic.vitalrelics.spell.healing_ray": "治癒の光線"
+  "relic.vitalrelics.spell.healing_ray": "治癒の光線",
+
+  "relic.vitalrelics.passive_skill.grave_dominion": "墓域支配",
+  "relic.vitalrelics.spell.grave_shift": "葬地位移",
+  "item.vitalrelics.gravebound_bracelet": "墓缚手环",
+  "tooltip.vitalrelics.gravebound_bracelet": "将附近的生物拖入地下，也能直接埋葬选中的目标。"
 }

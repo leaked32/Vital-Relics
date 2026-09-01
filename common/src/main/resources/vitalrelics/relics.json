@@ -365,6 +365,17 @@
         "arrow_deflection": 1.0
       }
     },
+    {
+      "id": "gravebound_bracelet",
+      "display_name": "Gravebound Bracelet",
+      "tooltip": "Drags nearby creatures beneath the earth and can bury a chosen target outright.",
+      "texture": "bracelet_purple_saturated.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "passive_skills": {
+        "grave_dominion": 2.0
+      }
+    },
 
     {
       "id": "iron_heart",

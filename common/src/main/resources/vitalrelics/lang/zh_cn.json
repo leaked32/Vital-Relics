@@ -245,5 +245,10 @@
   "tooltip.vitalrelics.bleeding_sigil": "由它撕开的每一道伤口都久久无法愈合。",
   "relic.vitalrelics.passive_skill.lingering_wound": "不愈之伤",
   "relic.vitalrelics.passive_skill.iron_curtain": "钢铁帷幕",
-  "relic.vitalrelics.spell.healing_ray": "治愈射线"
+  "relic.vitalrelics.spell.healing_ray": "治愈射线",
+
+  "relic.vitalrelics.passive_skill.grave_dominion": "墓域支配",
+  "relic.vitalrelics.spell.grave_shift": "葬地位移",
+  "item.vitalrelics.gravebound_bracelet": "墓缚手环",
+  "tooltip.vitalrelics.gravebound_bracelet": "将附近的生物拖入地下，也能直接埋葬选中的目标。"
 }

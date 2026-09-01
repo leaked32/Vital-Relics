@@ -11,6 +11,8 @@ public interface MyLivingEntity extends MyEntity {
 	boolean hurt(MyDamageSource source, float amount);
 	boolean hurtThorns(MyLivingEntity source, float amount);
 
+	void resetInvulnerable();
+
 	void resetInvulnerableTime();
 	int invulnerableTime();
 	void setInvulnerableTime(int ticks);
