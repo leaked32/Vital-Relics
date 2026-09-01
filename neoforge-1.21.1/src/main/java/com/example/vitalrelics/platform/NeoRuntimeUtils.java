@@ -710,6 +710,20 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 	}
 
 	@Override
+	public void showMessage(
+			final MyLivingEntity caster,
+			final String key,
+			final String fallback) {
+
+		final ServerPlayer player = player(caster);
+
+		if (player == null)
+			return;
+
+		player.displayClientMessage(message(key, fallback), true);
+	}
+
+	@Override
 	public void showCurseRequiresTarget(final MyLivingEntity caster) {
 		final ServerPlayer player = player(caster);
 
