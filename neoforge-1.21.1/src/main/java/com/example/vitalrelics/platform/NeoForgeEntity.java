@@ -3,6 +3,7 @@ package com.example.vitalrelics.platform;
 import com.example.vitalrelics.common.platform.MyEntity;
 import net.minecraft.world.entity.Entity;
 
+import java.util.List;
 import java.util.UUID;
 
 public class NeoForgeEntity implements MyEntity {
@@ -32,6 +33,16 @@ public class NeoForgeEntity implements MyEntity {
 	}
 
 	@Override
+	public double height() {
+		return entity.getBbHeight();
+	}
+
+	@Override
+	public void moveTo(final double x, final double y, final double z) {
+		entity.setPos(x, y, z);
+	}
+
+	@Override
 	public void setVelocity(final double x, final double y, final double z) {
 		entity.setDeltaMovement(x, y, z);
 	}
@@ -49,6 +60,14 @@ public class NeoForgeEntity implements MyEntity {
 	@Override
 	public boolean isClientSide() {
 		return entity.level().isClientSide();
+	}
+
+	@Override
+	public List<MyEntity> entitiesInRange(final double radius) {
+		return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius)).stream()
+				.map(NeoForgeEntity::new)
+				.map(MyEntity.class::cast)
+				.toList();
 	}
 
 	@Override
