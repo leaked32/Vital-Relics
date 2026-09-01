@@ -68,6 +68,7 @@ public class Relic {
 	public static final String SPELL_ABSORPTION = "absorption";
 	public static final String SPELL_SKY_LAUNCH = "sky_launch";
 	public static final String SPELL_SHADOW_EXCHANGE = "shadow_exchange";
+	public static final String SPELL_GRAVE_SHIFT = "grave_shift";
 	public static final String SPELL_PHANTOM_STEP = "phantom_step";
 	public static final String SPELL_UPGRADE_ENCHANTED_BOOK = "upgrade_enchanted_book";
 	public static final String SPELL_ENCHANTMENT_ASCENSION = "enchantment_ascension";
@@ -96,7 +97,7 @@ public class Relic {
 				result.mul_total = 1.0;
 				return result;
 			}
-	}
+		}
 	}
 
 	public static class Ticks {
@@ -112,7 +113,7 @@ public class Relic {
 				result.ratio_add = 0.0;
 				return result;
 			}
-	}
+		}
 	}
 
 	public static class Callbacks {
@@ -180,7 +181,7 @@ public class Relic {
 				return minimum + range /
 						(1.0 + Math.exp(-4.0 * (value - center) / range));
 			}
-	}
+		}
 	}
 
 	public static class Spells {
