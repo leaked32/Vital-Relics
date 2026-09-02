@@ -1,7 +1,7 @@
 {
   "model": {
     "type": "minecraft:special",
-    "base": "minecraft:item/generated",
+    "base": "vitalrelics:item/flat",
     "model": {
       "type": "vitalrelics:relic"
     }

@@ -73,10 +73,10 @@ public final class RelicRenderer implements SpecialModelRenderer<ItemStack> {
 
 	@Override
 	public void getExtents(final Set<Vector3f> extents) {
-		extents.add(new Vector3f(-0.5F, -0.5F, 0.0F));
-		extents.add(new Vector3f( 0.5F, -0.5F, 0.0F));
-		extents.add(new Vector3f( 0.5F,  0.5F, 0.0F));
-		extents.add(new Vector3f(-0.5F,  0.5F, 0.0F));
+		extents.add(new Vector3f(0.0F, 0.0F, 0.5F));
+		extents.add(new Vector3f(1.0F, 0.0F, 0.5F));
+		extents.add(new Vector3f(1.0F, 1.0F, 0.5F));
+		extents.add(new Vector3f(0.0F, 1.0F, 0.5F));
 	}
 
 	private static void vertex(
