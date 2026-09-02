@@ -5,6 +5,8 @@ import com.example.vitalrelics.common.relics.Loader;
 import com.example.vitalrelics.common.relics.Relic;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
@@ -14,10 +16,8 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.joml.Vector3fc;
 
 import java.util.Set;
-import java.util.function.Consumer;
 
 public final class RelicRenderer implements SpecialModelRenderer<ItemStack> {
 	@Override
@@ -96,5 +96,20 @@ public final class RelicRenderer implements SpecialModelRenderer<ItemStack> {
 				.setOverlay(overlay)
 				.setLight(light)
 				.setNormal(0.0F, 0.0F, 1.0F);
+	}
+
+	public static final class Unbaked implements SpecialModelRenderer.Unbaked {
+		public static final MapCodec<Unbaked> MAP_CODEC =
+				MapCodec.unit(new Unbaked());
+
+		@Override
+		public MapCodec<Unbaked> type() {
+			return MAP_CODEC;
+		}
+
+		@Override
+		public SpecialModelRenderer<?> bake(final EntityModelSet modelSet) {
+			return new RelicRenderer();
+		}
 	}
 }
