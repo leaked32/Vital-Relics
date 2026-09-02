@@ -64,7 +64,7 @@ public class VitalRelics
 	// public final static AcquisitionLoader acquisition = AcquisitionLoader.INSTANCE;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
 
-	public static final DeferredItem<Item> GUIDE_BOOK = ITEMS.register("guide_book", GuideBookItem::new);
+	public static final DeferredItem<GuideBookItem> GUIDE_BOOK = ITEMS.registerItem("guide_book", GuideBookItem::new);
 
 	public VitalRelics(
 			final IEventBus modEventBus,

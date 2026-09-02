@@ -8,8 +8,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 public class GuideBookItem extends Item {
-	public GuideBookItem() {
-		super(new Item.Properties().stacksTo(1));
+	public GuideBookItem(final Item.Properties properties) {
+		super(properties.stacksTo(1));
 	}
 
 	@Override
