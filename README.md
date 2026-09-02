@@ -4,32 +4,31 @@
 
 Discover and equip relics ranging from useful accessories to powerful late-game artifacts. Relics can grant attributes, passive abilities, active spells, unique combat mechanics, and more.
 
-Most of Vital Relics is **data-driven**. The built-in relics are the default content—not a fixed limit on what the mod can do.
-
 Vital Relics is intentionally designed to be changed.
+
+Project Documentation
+
+[English](https://github.com/leaked32/Vital-Relics/blob/main/docs/en_us/README.md) | [日本語](https://github.com/leaked32/Vital-Relics/blob/main/docs/ja_jp/index.md) | [简体中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_cn/index.md) | [繁體中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_tw/index.md)
+
+The documentation is very easy to use and understand, really.
+
+Most of Vital Relics is **data-driven**. The built-in relics are the default content—not a fixed limit on what the mod can do.
 
 You can modify or remove built-in relics, create entirely new ones, configure their attributes and abilities, change recipes and loot sources, and control which enemies may spawn with them.
 
 The same systems used by the built-in relics are available to custom configurations, allowing modpacks to build their own progression, balance, relic sets, and enemy variants without modifying the mod's Java code.
 
-Project Documentation
-
-[English](https://github.com/leaked32/Vital-Relics/blob/main/docs/en_us/README.md) \| [日本語](https://github.com/leaked32/Vital-Relics/blob/main/docs/ja_jp/index.md) \|
-[简体中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_cn/index.md) \| [繁體中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_tw/index.md)
-
-The documentation is very easy to use and understand, really.
-
 ## Features
 
-* A growing collection of equippable relics
-* Active spells with spell selection and a cooldown HUD
-* Unique passive abilities and combat mechanics
-* Hostile mobs can spawn with relics and gain their abilities
-* Relic-bearing enemies are identifiable by orbiting particles
-* Configurable attributes, effects, spells, recipes, and loot
-* Support for creating custom relics without modifying Java code
-* Curios API and JEI integration
-* Optional Touhou Little Maid integration
+*   A growing collection of equippable relics
+*   Active spells with spell selection and a cooldown HUD
+*   Unique passive abilities and combat mechanics
+*   Hostile mobs can spawn with relics and gain their abilities
+*   Relic-bearing enemies are identifiable by orbiting particles
+*   Configurable attributes, effects, spells, recipes, and loot
+*   Support for creating custom relics without modifying Java code
+*   Curios API and JEI integration
+*   Optional Touhou Little Maid integration
 
 ## Relics
 
@@ -51,11 +50,11 @@ Available abilities include teleportation, healing, curses, movement abilities, 
 
 Some relics provide powerful tools for managing enchanted equipment:
 
-* **Upgrade Enchanted Books** by increasing an eligible enchantment level
-* **Ascend enchantments** directly on enchanted equipment
-* **Remove curses** from equipment
-* **Reset anvil repair penalties** on valuable equipment
-* **Disenchant equipment into books** to preserve useful enchantments
+*   **Upgrade Enchanted Books** by increasing an eligible enchantment level
+*   **Ascend enchantments** directly on enchanted equipment
+*   **Remove curses** from equipment
+*   **Reset anvil repair penalties** on valuable equipment
+*   **Disenchant equipment into books** to preserve useful enchantments
 
 These abilities can consume experience and provide new ways to develop and preserve valuable equipment beyond vanilla enchanting and anvils.
 
@@ -69,16 +68,16 @@ Which enemies can receive each relic—and how frequently they appear—can be c
 
 ## Supported Versions
 
-* **Minecraft 1.20.1 — Forge**
-* **Minecraft 1.21.1 — NeoForge**
+*   **Minecraft 1.20.1 — Forge**
+*   **Minecraft 1.21.1 — NeoForge**
 
 Both versions aim to provide the same relic behavior and features.
 
 ## Integrations
 
-* **Curios API** — relic equipment
-* **JEI** — recipe integration
-* **Touhou Little Maid** — optional integration
+*   **Curios API** — relic equipment
+*   **JEI** — recipe integration
+*   **Touhou Little Maid** — optional integration
 
 ## Feedback and Bug Reports
 
