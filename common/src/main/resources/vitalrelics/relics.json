@@ -686,59 +686,6 @@
           "recovery": 0.5
         }
       }
-    },
-    {
-      "id": "reality_piercing",
-      "display_name": "Halo of the Reality Piercing (Creative Mode Only)",
-      "tooltip": "A creative-mode Relic (cannot be obtained in survival mode). ",
-      "texture": "halo_celestial_crystal.png",
-      "effective_slots": ["in_inventory", "in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
-      "curio_slot": "head",
-      "rarity": "epic",
-      "immune_to_effects": "all_negative",
-      "passive_skills": {
-        "retarget_arrow": 2.0,
-        "reality_severance": 32.0,
-        "iron_curtain": 2.1,
-        "lingering_wound": 1.0
-      },
-      "properties": {
-        "attack_damage": {
-          "add": 9.0,
-          "mul_total": 2.0
-        },
-        "attack_speed": {
-          "add": 4.0
-        },
-        "entity_interaction_range": {
-          "add": 2.5
-        }
-      },
-      "ticks": {
-        "heal": {
-          "interval_ticks": 5,
-          "add": 4,
-          "ratio_add": 0.2
-        }
-      },
-      "callbacks": {
-        "damage_dealt": {
-          "modifier": 2.0,
-          "minimum": 20,
-          "ratio_minimum": 0.1
-        },
-        "damage_taken": {
-          "modifier": 0.1,
-          "maximum": 4,
-          "ratio_maximum": 0.1
-        },
-        "invulnerable_time_taken": {
-          "flat": 20.0
-        },
-        "invulnerable_time_dealt": {
-          "modifier": 0.0
-        }
-      }
     }
   ]
 
