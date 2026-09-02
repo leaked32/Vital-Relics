@@ -26,11 +26,11 @@ public class Manifest {
 	}
 
 
-	public static final String ENEMY_RELICS_TAG =
-			"VitalRelicsEnemyRelics";
+	public static final String ENEMY_RELICS_TAG = "VitalRelicsEnemyRelics";
+	public static final String ENEMY_RELICS_ROLLED_TAG = "VitalRelicsEnemyRelicsRolled";
 
-	public static final String ENEMY_RELICS_ROLLED_TAG =
-			"VitalRelicsEnemyRelicsRolled";
-
-
+	/*
+	Minecraft IDs
+	 */
+	public static final String EFFECT_ABSORPTION = "absorption";
 }

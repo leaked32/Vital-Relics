@@ -17,9 +17,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -153,17 +151,6 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 	}
 
 	@Override
-	public void addEffect(final MyEffect effect, final int duration, final int amplifier) {
-		final var nativeEffect = switch (effect) {
-			case MOVEMENT_SLOWDOWN -> MobEffects.MOVEMENT_SLOWDOWN;
-			case WITHER -> MobEffects.WITHER;
-			case DARKNESS -> MobEffects.DARKNESS;
-			case ABSORPTION -> MobEffects.ABSORPTION;
-		};
-		_addEffect(livingEntity, nativeEffect, duration, amplifier);
-	}
-
-	@Override
 	public String typeId() {
 		return BuiltInRegistries.ENTITY_TYPE.getKey(livingEntity.getType()).toString();
 	}
@@ -213,14 +200,6 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 		if (effect == null) return;
 		livingEntity.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
 				duration, amplifier, ambient, visible));
-	}
-
-	public static void _addEffect(final LivingEntity target, final Holder<MobEffect> effect,
-	                              final int duration, final int amplifier) {
-		if (target.isDeadOrDying() || !target.level().isLoaded(target.blockPosition()))
-			return;
-
-		target.addEffect(new MobEffectInstance(effect, duration, amplifier, true, true));
 	}
 
 	private DamageSource _extraDamageSource(final LivingEntity attacker) {

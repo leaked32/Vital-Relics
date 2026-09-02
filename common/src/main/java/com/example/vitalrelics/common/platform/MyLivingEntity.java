@@ -42,8 +42,6 @@ public interface MyLivingEntity extends MyEntity {
 
 	List<MyLivingEntity> livingEntitiesInRange(double radius);
 
-	void addEffect(MyEffect effect, int duration, int amplifier);
-
 	String typeId();
 
 	int serverTick();

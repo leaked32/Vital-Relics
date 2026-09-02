@@ -18,7 +18,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -344,29 +343,6 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 				.map(ForgeLivingEntity::new)
 				.map(MyLivingEntity.class::cast)
 				.toList();
-	}
-
-	@Override
-	public void addEffect(
-			final MyEffect effect,
-			final int duration,
-			final int amplifier) {
-
-		final MobEffect nativeEffect = switch (effect) {
-			case MOVEMENT_SLOWDOWN -> MobEffects.MOVEMENT_SLOWDOWN;
-			case WITHER -> MobEffects.WITHER;
-			case DARKNESS -> MobEffects.DARKNESS;
-			case ABSORPTION -> MobEffects.ABSORPTION;
-		};
-
-		_addEffect(nativeEffect, duration, amplifier);
-	}
-
-	private void _addEffect(final MobEffect effect, final int duration, final int amplifier) {
-		if (entity.isDeadOrDying() || !entity.level().isLoaded(entity.blockPosition()))
-			return;
-
-		entity.addEffect(new MobEffectInstance(effect, duration, amplifier, true, true));
 	}
 
 	@Override

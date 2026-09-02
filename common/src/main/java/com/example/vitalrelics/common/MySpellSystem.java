@@ -180,7 +180,7 @@ public final class MySpellSystem {
 					RelicSpells.numberParameter(spell, "duration_ticks", 200.0))));
 			final int amplifier = (int) Math.min(255, Math.max(0, Math.round(
 					RelicSpells.numberParameter(spell, "amplifier", 0.0))));
-			caster.addEffect(MyEffect.ABSORPTION, durationTicks, amplifier);
+			caster.addEffect(Manifest.EFFECT_ABSORPTION, durationTicks, amplifier, true, true);
 			caster.playSound(MySound.BEACON_ACTIVATE);
 			return true;
 		});
