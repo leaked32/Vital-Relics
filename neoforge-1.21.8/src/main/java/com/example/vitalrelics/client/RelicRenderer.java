@@ -1,36 +1,42 @@
 package com.example.vitalrelics.client;
 
 import com.example.vitalrelics.common.Manifest;
-import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.relics.Relic;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
-public final class RelicRenderer extends BlockEntityWithoutLevelRenderer {
-	public RelicRenderer() {
-		super(
-				Minecraft.getInstance().getBlockEntityRenderDispatcher(),
-				Minecraft.getInstance().getEntityModels()
-		);
+import java.util.Set;
+import java.util.function.Consumer;
+
+public final class RelicRenderer implements SpecialModelRenderer<ItemStack> {
+	@Override
+	public ItemStack extractArgument(final ItemStack stack) {
+		return stack;
 	}
 
 	@Override
-	public void renderByItem(
+	public void render(
 			final ItemStack stack,
 			final ItemDisplayContext context,
 			final PoseStack poseStack,
 			final MultiBufferSource buffers,
 			final int light,
-			final int overlay) {
+			final int overlay,
+			final boolean hasFoil) {
+
+		if (stack == null)
+			return;
 
 		final ResourceLocation itemId =
 				BuiltInRegistries.ITEM.getKey(stack.getItem());
@@ -61,8 +67,16 @@ public final class RelicRenderer extends BlockEntityWithoutLevelRenderer {
 		vertex(vertices, matrix,  0.5F, -0.5F, 0.0F, 1.0F, 1.0F, renderLight, overlay);
 		vertex(vertices, matrix,  0.5F,  0.5F, 0.0F, 1.0F, 0.0F, renderLight, overlay);
 		vertex(vertices, matrix, -0.5F,  0.5F, 0.0F, 0.0F, 0.0F, renderLight, overlay);
-		
+
 		poseStack.popPose();
+	}
+
+	@Override
+	public void getExtents(final Set<Vector3f> extents) {
+		extents.add(new Vector3f(-0.5F, -0.5F, 0.0F));
+		extents.add(new Vector3f( 0.5F, -0.5F, 0.0F));
+		extents.add(new Vector3f( 0.5F,  0.5F, 0.0F));
+		extents.add(new Vector3f(-0.5F,  0.5F, 0.0F));
 	}
 
 	private static void vertex(

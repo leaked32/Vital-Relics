@@ -1,49 +1,33 @@
 package com.example.vitalrelics.client;
 
-import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.common.relics.Relic;
-import com.example.vitalrelics.common.relics.Loader;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.NeoNetwork;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
-import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 
 public final class VitalClientEvents {
-	private static final ResourceLocation FLAT_ID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "item/flat");
-
-	private static final ModelResourceLocation FLAT_MODEL =
-			ModelResourceLocation.standalone(FLAT_ID);
-
 	private VitalClientEvents() {}
 
 	public static void registerListeners(final IEventBus modEventBus) {
 		modEventBus.addListener(VitalClientEvents::registerKeyMappings);
-		modEventBus.addListener(VitalClientEvents::registerClientExtensions);
-		modEventBus.addListener(VitalClientEvents::registerAdditionalModels);
-		modEventBus.addListener(VitalClientEvents::modifyBakingResult);
+		modEventBus.addListener(VitalClientEvents::registerGuiLayers);
 
 		NeoForge.EVENT_BUS.addListener(VitalClientEvents::clientTick);
 		NeoForge.EVENT_BUS.addListener(VitalClientEvents::mouseScroll);
-
-		modEventBus.addListener(VitalClientEvents::registerGuiLayers);
 	}
 
 	/*
@@ -52,27 +36,30 @@ public final class VitalClientEvents {
 
 	public static final KeyMapping ACTIVE_SKILL_KEY =
 			new KeyMapping(
-					"key.vitalrelics.cast_spell", KeyConflictContext.IN_GAME,
-					InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_R, "key.categories.vitalrelics"
+					"key.vitalrelics.cast_spell",
+					KeyConflictContext.IN_GAME,
+					InputConstants.Type.KEYSYM,
+					GLFW.GLFW_KEY_R,
+					"key.categories.vitalrelics"
 			);
 
 	public static final KeyMapping SWITCH_SKILL_KEY =
 			new KeyMapping(
 					"key.vitalrelics.switch_spell",
-					KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM,
-					GLFW.GLFW_KEY_LEFT_SHIFT,"key.categories.vitalrelics"
+					KeyConflictContext.IN_GAME,
+					InputConstants.Type.KEYSYM,
+					GLFW.GLFW_KEY_LEFT_SHIFT,
+					"key.categories.vitalrelics"
 			);
 
-	public static void clientTick(
-			final ClientTickEvent.Post event) {
-
+	public static void clientTick(final ClientTickEvent.Post event) {
 		ClientSpellState.clientTick();
 
 		while (ACTIVE_SKILL_KEY.consumeClick()) {
 			final Minecraft minecraft = Minecraft.getInstance();
 			minecraft.options.keyDrop.consumeClick();
 
-			PacketDistributor.sendToServer(
+			ClientPacketDistributor.sendToServer(
 					new NeoNetwork.NetworkPayload(MySpellSystem.CAST_SPELL)
 			);
 		}
@@ -81,7 +68,6 @@ public final class VitalClientEvents {
 				Minecraft.getInstance().getLanguageManager().getSelected()
 		);
 	}
-
 
 	public static void registerKeyMappings(
 			final RegisterKeyMappingsEvent event) {
@@ -99,62 +85,15 @@ public final class VitalClientEvents {
 		if (delta == 0.0)
 			return;
 
-		PacketDistributor.sendToServer(new NeoNetwork.NetworkPayload(
-				delta > 0.0
-						? MySpellSystem.SWITCH_SPELL_PREVIOUS
-						: MySpellSystem.SWITCH_SPELL_NEXT
-		));
+		ClientPacketDistributor.sendToServer(
+				new NeoNetwork.NetworkPayload(
+						delta > 0.0
+								? MySpellSystem.SWITCH_SPELL_PREVIOUS
+								: MySpellSystem.SWITCH_SPELL_NEXT
+				)
+		);
 
 		event.setCanceled(true);
-	}
-
-	/*
-	Client Rendering
-	 */
-
-	public static void registerClientExtensions(
-			final RegisterClientExtensionsEvent event) {
-
-		final Item[] items = VitalRelics.RELIC_ITEMS.stream()
-				.map(holder -> holder.get())
-				.toArray(Item[]::new);
-
-		event.registerItem(new RelicClientExtensions(), items);
-	}
-
-	public static void registerAdditionalModels(
-			final ModelEvent.RegisterAdditional event) {
-
-		// Explicitly load assets/vitalrelics/models/item/flat.json.
-		event.register(FLAT_MODEL);
-	}
-
-	public static void modifyBakingResult(
-			final ModelEvent.ModifyBakingResult event) {
-
-		final BakedModel flat = event.getModels().get(FLAT_MODEL);
-
-		if (flat == null)
-			throw new IllegalStateException(
-					"Vital Relics shared flat model was not baked"
-			);
-
-		for (final Relic relic : Loader.get().relics_) {
-			final ResourceLocation id =
-					ResourceLocation.fromNamespaceAndPath(
-							Manifest.MODID,
-							relic.id
-					);
-
-			final ModelResourceLocation itemModel =
-					ModelResourceLocation.inventory(id);
-
-			/*
-			 * All relic IDs now resolve to exactly the same baked model.
-			 * The renderer distinguishes them using the ItemStack ID.
-			 */
-			event.getModels().put(itemModel, flat);
-		}
 	}
 
 	/*
@@ -214,10 +153,10 @@ public final class VitalClientEvents {
 		final int gap = 12;
 
 		final int width =
-				font.width(spellName) +
-						gap +
-						font.width(status) +
-						padding * 2;
+				font.width(spellName)
+						+ gap
+						+ font.width(status)
+						+ padding * 2;
 
 		final int height = 18;
 
@@ -255,22 +194,32 @@ public final class VitalClientEvents {
 
 		// Cooldown / ready accent.
 		graphics.fill(
-				x, y + 1, x + 2, y + height - 1,
+				x,
+				y + 1,
+				x + 2,
+				y + height - 1,
 				cooldownTicks > 0 ? 0xFF9E434C : 0xFF6FA57A
 		);
 
 		graphics.drawString(
-				font, spellName, x + padding, y + 5,
-				0xFFE8D8DC, true
+				font,
+				spellName,
+				x + padding,
+				y + 5,
+				0xFFE8D8DC,
+				true
 		);
 
-		final int statusX = x + width - padding - font.width(status);
+		final int statusX =
+				x + width - padding - font.width(status);
 
 		graphics.drawString(
-				font, status, statusX, y + 5,
-				cooldownTicks > 0 ? 0xFFE38A91 : 0xFFA8D6AF, true
+				font,
+				status,
+				statusX,
+				y + 5,
+				cooldownTicks > 0 ? 0xFFE38A91 : 0xFFA8D6AF,
+				true
 		);
 	}
-
-
 }

@@ -17,8 +17,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -30,6 +30,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
 import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosSlotTypes;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
@@ -54,7 +55,7 @@ public class VitalRelics
 			DYNAMIC_RELIC_RECIPE =
 			RECIPE_SERIALIZERS.register(
 					"dynamic_relic",
-					() -> new SimpleCraftingRecipeSerializer<>(DynamicRelicRecipe::new)
+					() -> new CustomRecipe.Serializer<>(DynamicRelicRecipe::new)
 			);
 
 	public static DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = null;
@@ -125,9 +126,7 @@ public class VitalRelics
 		final ResourceLocation validator =
 				ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "relic_slot");
 
-		CuriosApi.registerCurioPredicate(validator, result -> {
-			final ItemStack stack = result.stack();
-
+		CuriosSlotTypes.registerPredicate(validator, (slotContext, stack) -> {
 			final ResourceLocation itemId =
 					BuiltInRegistries.ITEM.getKey(stack.getItem());
 
@@ -136,7 +135,7 @@ public class VitalRelics
 
 			final Relic relic = Loader.get().find(itemId.getPath());
 
-			return relic != null && relic.curio_slot.equals(result.slotContext().identifier());
+			return relic != null && relic.curio_slot.equals(slotContext.identifier());
 		});
 
 		event.enqueueWork(() -> {

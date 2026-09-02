@@ -107,10 +107,7 @@ minecraft {
         data {
             workingDirectory project.file('run-data')
 
-            args '--mod', mod_id,
-                    '--all',
-                    '--output', file('src/generated/resources/'),
-                    '--existing', file('src/main/resources/')
+            // args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }
     }
 }
@@ -157,13 +154,6 @@ dependencies {
 
     compileOnly fg.deobf("curse.maven:touhou-little-maid-${tlm_file_id}")
     // runtimeOnly fg.deobf("curse.maven:touhou-little-maid-${tlm_file_id}")
-    /*
-     * Optional Touhou Little Maid compile integration.
-     *
-     * This only makes its classes available during compilation.
-     * Users do not need TLM installed unless your code actually
-     * declares it as a mandatory runtime dependency.
-     */
 }
 
 

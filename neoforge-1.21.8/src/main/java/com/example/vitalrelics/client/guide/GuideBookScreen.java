@@ -125,8 +125,8 @@ public class GuideBookScreen extends Screen {
 
 		return BuiltInRegistries.ITEM
 				.get(location)
-				.getDescription()
-				.getString();
+				.map(holder -> Component.translatable(holder.value().getDescriptionId()).getString())
+				.orElse(null);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package com.example.vitalrelics.client.compat;
 
-import com.example.vitalrelics.common.relics.Acquisition;
 import com.example.vitalrelics.common.Manifest;
+import com.example.vitalrelics.common.relics.Acquisition;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -9,14 +9,17 @@ import mezz.jei.api.recipe.vanilla.IJeiShapedRecipeBuilder;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +56,12 @@ public final class VitalJeiPlugin implements IModPlugin {
 				default -> null;
 			};
 
-			if (recipe != null)
-				recipes.add(new RecipeHolder<>(id, recipe));
+			if (recipe != null) {
+				final ResourceKey<Recipe<?>> recipeKey =
+						ResourceKey.create(Registries.RECIPE, id);
+
+				recipes.add(new RecipeHolder<>(recipeKey, recipe));
+			}
 		}
 
 		registration.addRecipes(RecipeTypes.CRAFTING, recipes);
@@ -65,9 +72,12 @@ public final class VitalJeiPlugin implements IModPlugin {
 			final Acquisition.Data.Crafting definition,
 			final ItemStack output) {
 
+		final SlotDisplay outputDisplay =
+				new SlotDisplay.ItemStackSlotDisplay(output);
+
 		final IJeiShapedRecipeBuilder builder = registration
 				.getVanillaRecipeFactory()
-				.createShapedRecipeBuilder(CraftingBookCategory.MISC, List.of(output));
+				.createShapedRecipeBuilder(CraftingBookCategory.MISC, outputDisplay);
 
 		for (final Map.Entry<String, String> entry : definition.key.entrySet())
 			builder.define(entry.getKey().charAt(0), ingredient(entry.getValue()));
@@ -96,21 +106,23 @@ public final class VitalJeiPlugin implements IModPlugin {
 
 	private static Ingredient ingredient(final String itemId) {
 		if (itemId == null)
-			return Ingredient.EMPTY;
+			return Ingredient.of();
 
 		final ResourceLocation id = ResourceLocation.tryParse(itemId);
 
-		if (id == null || !BuiltInRegistries.ITEM.containsKey(id))
-			return Ingredient.EMPTY;
+		if (id == null)
+			return Ingredient.of();
 
-		return Ingredient.of(BuiltInRegistries.ITEM.get(id));
+		return BuiltInRegistries.ITEM
+				.get(id)
+				.map(holder -> Ingredient.of(holder.value()))
+				.orElseGet(Ingredient::of);
 	}
 
 	private static ItemStack itemStack(final ResourceLocation id, final int count) {
-		if (!BuiltInRegistries.ITEM.containsKey(id))
-			return ItemStack.EMPTY;
-
-		final Item item = BuiltInRegistries.ITEM.get(id);
-		return new ItemStack(item, count);
+		return BuiltInRegistries.ITEM
+				.get(id)
+				.map(holder -> new ItemStack(holder.value(), count))
+				.orElse(ItemStack.EMPTY);
 	}
 }
