@@ -12,9 +12,11 @@ import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.NeoNetwork;
 import com.example.vitalrelics.platform.NeoRuntimeUtils;
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.CustomRecipe;
@@ -64,6 +66,8 @@ public class VitalRelics
 	// public final static AcquisitionLoader acquisition = AcquisitionLoader.INSTANCE;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
 
+	private static final ResourceLocation RELIC_ITEM_MODEL = ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "relic");
+
 	public static final DeferredItem<GuideBookItem> GUIDE_BOOK = ITEMS.registerItem("guide_book", GuideBookItem::new);
 
 	public VitalRelics(
@@ -101,7 +105,19 @@ public class VitalRelics
 			};
 			RELIC_ITEMS.add(ITEMS.register(
 					relic.id,
-					() -> new RelicItem(relic, new Item.Properties().rarity(rarity))
+					() -> new RelicItem(
+							relic,
+							new Item.Properties()
+									.setId(ResourceKey.create(
+											Registries.ITEM,
+											ResourceLocation.fromNamespaceAndPath(
+													Manifest.MODID,
+													relic.id
+											)
+									))
+									.component(DataComponents.ITEM_MODEL, RELIC_ITEM_MODEL)
+									.rarity(rarity)
+					)
 			));
 		}
 
