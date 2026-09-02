@@ -241,7 +241,7 @@ public class GuideBookScreen extends Screen {
 			final GuiGraphics graphics, final int mouseX,
 			final int mouseY, final float partialTick) {
 
-		renderBackground(graphics, mouseX, mouseY, partialTick);
+		// renderBackground(graphics, mouseX, mouseY, partialTick);
 		super.render(graphics, mouseX, mouseY, partialTick);
 
 		graphics.drawString(font, title, MARGIN, MARGIN, 0xFFFFFF);
