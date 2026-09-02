@@ -123,11 +123,11 @@ public class MyExtraDamageInfo
 			final int duration,
 			final int amplifier) {
 
-		target.addEffect(MyEffect.MOVEMENT_SLOWDOWN, duration, amplifier);
-		target.addEffect(MyEffect.WITHER, duration, amplifier);
-		target.addEffect(MyEffect.DARKNESS, duration, 0);
+		target.addEffect("slowness", duration, amplifier, true, true);
+		target.addEffect("wither", duration, amplifier, true, true);
+		target.addEffect("weakness", duration, amplifier, true, true);
+		target.addEffect("darkness", duration, 0, true, true);
 	}
-
 	/*
 	Non-static Members
 	 */
