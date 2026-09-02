@@ -6,13 +6,13 @@ import com.example.vitalrelics.common.Manifest;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,14 +25,14 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public boolean matches(final CraftingInput input, final Level level) {
+	public boolean matches(final @NotNull CraftingInput input, final @NotNull Level level) {
 		return findMatch(input) != null;
 	}
 
 	@Override
-	public ItemStack assemble(
-			final CraftingInput input,
-			final HolderLookup.Provider registries) {
+	public @NotNull ItemStack assemble(
+			final @NotNull CraftingInput input,
+			final HolderLookup.@NotNull Provider registries) {
 
 
 		VitalRelics.LOGGER.info("Vital Relics: assemble()");
@@ -47,17 +47,16 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 		if (!BuiltInRegistries.ITEM.containsKey(id))
 			return ItemStack.EMPTY;
 
-		final Item item = BuiltInRegistries.ITEM.get(id);
-		return new ItemStack(item, match.recipe.count);
+		final var item = BuiltInRegistries.ITEM.get(id);
+
+		if (item.isEmpty())
+			return ItemStack.EMPTY;
+
+		return new ItemStack(item.get().value(), match.recipe.count);
 	}
 
 	@Override
-	public boolean canCraftInDimensions(final int width, final int height) {
-		return width >= 2 && height >= 2;
-	}
-
-	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public @NotNull RecipeSerializer<DynamicRelicRecipe> getSerializer() {
 		return VitalRelics.DYNAMIC_RELIC_RECIPE.get();
 	}
 

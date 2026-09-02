@@ -15,10 +15,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.EnchantmentTags;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -207,7 +204,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 
 				hit = BlockHitResult.miss(
 						rayEnd,
-						Direction.getNearest(
+						Direction.getApproximateNearest(
 								direction.x,
 								direction.y,
 								direction.z
@@ -746,17 +743,21 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (!(entity.level() instanceof ServerLevel level))
 			return;
 
-		final LightningBolt lightning =
-				EntityType.LIGHTNING_BOLT.create(level);
+		final LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(
+				level,
+				EntitySpawnReason.TRIGGERED
+		);
 
 		if (lightning == null)
 			return;
 
 		lightning.setVisualOnly(true);
-		lightning.moveTo(
+		lightning.snapTo(
 				entity.getX(),
 				entity.getY(),
-				entity.getZ()
+				entity.getZ(),
+				0.0F,
+				0.0F
 		);
 
 		level.addFreshEntity(lightning);

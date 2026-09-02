@@ -13,22 +13,15 @@ import com.example.vitalrelics.common.RelicText;
 import java.util.List;
 
 public class RelicItem extends Item {
-	private final Relic relic;
+	public final Relic relic;
 
 	public RelicItem(final Relic relic, final Properties properties) {
 		super(properties);
 		this.relic = relic;
 	}
 
-	@Override
-	public void appendHoverText(
-			final ItemStack stack,
-			final TooltipContext context,
-			final List<Component> tooltip,
-			final TooltipFlag flag) {
-
-		for (final RelicText.Text line : RelicText.tooltipLines(relic))
-			tooltip.add(component(line));
+	public Relic relic() {
+		return relic;
 	}
 
 	@Override
@@ -37,7 +30,7 @@ public class RelicItem extends Item {
 	}
 
 
-	private static Component component(final RelicText.Text text) {
+	public static Component component(final RelicText.Text text) {
 		final Component result = switch (text.source()) {
 			case LITERAL -> Component.literal(text.fallback());
 

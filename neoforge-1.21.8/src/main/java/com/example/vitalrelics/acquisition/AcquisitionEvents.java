@@ -26,7 +26,12 @@ public final class AcquisitionEvents {
 			if (!BuiltInRegistries.ITEM.containsKey(id))
 				continue;
 
-			final Item item = BuiltInRegistries.ITEM.get(id);
+			final var item = BuiltInRegistries.ITEM.get(id);
+
+			if (item.isEmpty())
+				continue;
+
+			final Item nativeItem = item.get().value();
 
 			for (final Acquisition.Data.Loot rule : entry.getValue()) {
 				if (!rule.table.equals(table))
@@ -34,7 +39,7 @@ public final class AcquisitionEvents {
 
 				final LootPool pool = LootPool.lootPool()
 						.setRolls(ConstantValue.exactly(1))
-						.add(LootItem.lootTableItem(item)
+						.add(LootItem.lootTableItem(nativeItem)
 								.when(LootItemRandomChanceCondition.randomChance(
 										(float)rule.chance)))
 						.build();

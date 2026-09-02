@@ -19,12 +19,15 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.Relative;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEntity {
 	private final LivingEntity livingEntity;
@@ -45,7 +48,16 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 			return;
 
 		if (livingEntity instanceof ServerPlayer player) {
-			player.teleportTo(level, x, y, z, player.getYRot(), player.getXRot());
+			player.teleportTo(
+					level,
+					x,
+					y,
+					z,
+					Set.of(),
+					player.getYRot(),
+					player.getXRot(),
+					true
+			);
 		} else {
 			livingEntity.teleportTo(x, y, z);
 		}
@@ -67,7 +79,17 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 			case BEACON_ACTIVATE -> SoundEvents.BEACON_ACTIVATE;
 			case ENCHANTMENT_TABLE_USE -> SoundEvents.ENCHANTMENT_TABLE_USE;
 		};
-		level.playSound(null, x(), y(), z(), (SoundEvent) event, SoundSource.PLAYERS, 1.0F, 1.0F);
+
+		level.playSound(
+				null,
+				x(),
+				y(),
+				z(),
+				(SoundEvent) event,
+				SoundSource.PLAYERS,
+				1.0F,
+				1.0F
+		);
 	}
 
 	@Override
@@ -79,53 +101,122 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 	public boolean hurt(final MyDamageSource source, final float amount) {
 		if (!(source instanceof NeoDamageSource neoSource))
 			throw new IllegalArgumentException("Expected NeoDamageSource");
-		return livingEntity.hurt(neoSource.nativeSource(), amount);
+
+		Level var4 = livingEntity.level();
+		if (var4 instanceof ServerLevel serverlevel) {
+			return livingEntity.hurtServer(
+					serverlevel,
+					neoSource.nativeSource(),
+					amount
+			);
+		}
+		return false;
 	}
 
 	@Override
 	public boolean hurtThorns(final MyLivingEntity source, final float amount) {
 		if (!(source instanceof NeoLivingEntity neoSource))
 			throw new IllegalArgumentException("Expected NeoLivingEntity source");
-		return livingEntity.hurt(livingEntity.damageSources().thorns(neoSource.livingEntity), amount);
+
+		Level var4 = livingEntity.level();
+		if (var4 instanceof ServerLevel serverlevel) {
+			return livingEntity.hurtServer(
+					serverlevel,
+					livingEntity.damageSources().thorns(neoSource.livingEntity),
+					amount
+			);
+		}
+		return false;
 	}
 
 	@Override
 	public void resetInvulnerable() {
-		if (entity.isInvulnerable()) {
+		if (entity.isInvulnerable())
 			entity.setInvulnerable(false);
-		}
+
 		resetInvulnerableTime();
 	}
-	@Override public void resetInvulnerableTime() { livingEntity.invulnerableTime = 0; }
-	@Override public int invulnerableTime() { return livingEntity.invulnerableTime; }
-	@Override public void setInvulnerableTime(final int ticks) { livingEntity.invulnerableTime = ticks; }
-	@Override public void setHealth(final float health) { livingEntity.setHealth(health); }
+
+	@Override
+	public void resetInvulnerableTime() {
+		livingEntity.invulnerableTime = 0;
+	}
+
+	@Override
+	public int invulnerableTime() {
+		return livingEntity.invulnerableTime;
+	}
+
+	@Override
+	public void setInvulnerableTime(final int ticks) {
+		livingEntity.invulnerableTime = ticks;
+	}
+
+	@Override
+	public void setHealth(final float health) {
+		livingEntity.setHealth(health);
+	}
 
 	@Override
 	public void setHurtMark(final MyDamageSource source) {
 		if (!(source instanceof NeoDamageSource neoSource))
 			throw new IllegalArgumentException("Expected NeoDamageSource");
+
 		final DamageSource damageSource = neoSource.nativeSource();
+
 		if (livingEntity.getHealth() <= 0.0F) {
 			livingEntity.die(damageSource);
 			return;
 		}
+
 		if (!livingEntity.isAlive())
 			return;
+
 		livingEntity.hurtDuration = 10;
 		livingEntity.hurtTime = 10;
 		livingEntity.hurtMarked = true;
 		livingEntity.gameEvent(GameEvent.ENTITY_DAMAGE);
-		livingEntity.playSound(SoundEvents.PLAYER_HURT, 1.0F, livingEntity.getVoicePitch());
+		livingEntity.playSound(
+				SoundEvents.PLAYER_HURT,
+				1.0F,
+				livingEntity.getVoicePitch()
+		);
 	}
 
-	@Override public float health() { return livingEntity.getHealth(); }
-	@Override public float maxHealth() { return livingEntity.getMaxHealth(); }
-	@Override public float attackDamage() { return (float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE); }
-	@Override public void push(final double x, final double y, final double z) { livingEntity.push(x, y, z); }
-	@Override public void markMovementChanged() { livingEntity.hurtMarked = true; }
-	@Override public boolean isDeadOrDying() { return livingEntity.isDeadOrDying(); }
-	@Override public boolean isServerPlayer() { return livingEntity instanceof ServerPlayer; }
+	@Override
+	public float health() {
+		return livingEntity.getHealth();
+	}
+
+	@Override
+	public float maxHealth() {
+		return livingEntity.getMaxHealth();
+	}
+
+	@Override
+	public float attackDamage() {
+		return (float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
+	}
+
+	@Override
+	public void push(final double x, final double y, final double z) {
+		livingEntity.push(x, y, z);
+	}
+
+	@Override
+	public void markMovementChanged() {
+		livingEntity.hurtMarked = true;
+	}
+
+	@Override
+	public boolean isDeadOrDying() {
+		return livingEntity.isDeadOrDying();
+	}
+
+	@Override
+	public boolean isServerPlayer() {
+		return livingEntity instanceof ServerPlayer;
+	}
 
 	@Override
 	public boolean is(final MyLivingEntity other) {
@@ -134,20 +225,30 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 
 	@Override
 	public boolean isAllied(final MyLivingEntity other) {
-		return other instanceof NeoLivingEntity neo && Utils.isAllied(livingEntity, neo.livingEntity);
+		return other instanceof NeoLivingEntity neo
+				&& Utils.isAllied(livingEntity, neo.livingEntity);
 	}
 
 	@Override
 	public boolean isHostileTargeted(final MyLivingEntity other) {
-		return other instanceof NeoLivingEntity neo && Utils.hostileTargeted(livingEntity, neo.livingEntity);
+		return other instanceof NeoLivingEntity neo
+				&& Utils.hostileTargeted(livingEntity, neo.livingEntity);
 	}
 
 	@Override
 	public List<MyLivingEntity> livingEntitiesInRange(final double radius) {
 		final var box = livingEntity.getBoundingBox().inflate(radius, radius, radius);
-		return livingEntity.level().getEntitiesOfClass(LivingEntity.class, box,
-				target -> target != livingEntity && target.isAlive()).stream()
-				.map(NeoLivingEntity::new).map(MyLivingEntity.class::cast).toList();
+
+		return livingEntity.level()
+				.getEntitiesOfClass(
+						LivingEntity.class,
+						box,
+						target -> target != livingEntity && target.isAlive()
+				)
+				.stream()
+				.map(NeoLivingEntity::new)
+				.map(MyLivingEntity.class::cast)
+				.toList();
 	}
 
 	@Override
@@ -161,61 +262,119 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 		return server == null ? -1 : server.getTickCount();
 	}
 
-	@Override public void heal(final float amount) { livingEntity.heal(amount); }
-	@Override public void feed(final int nutrition, final float saturation) {
-		if (livingEntity instanceof Player player) player.getFoodData().eat(nutrition, saturation);
+	@Override
+	public void heal(final float amount) {
+		livingEntity.heal(amount);
 	}
-	@Override public void mendEquipment(final int level) { Utils.metalMending(livingEntity, level); }
-	@Override public double horizontalLookX() { return livingEntity.getLookAngle().x; }
-	@Override public double horizontalLookZ() { return livingEntity.getLookAngle().z; }
-	@Override public double width() { return livingEntity.getBbWidth(); }
+
+	@Override
+	public void feed(final int nutrition, final float saturation) {
+		if (livingEntity instanceof Player player)
+			player.getFoodData().eat(nutrition, saturation);
+	}
+
+	@Override
+	public void mendEquipment(final int level) {
+		Utils.metalMending(livingEntity, level);
+	}
+
+	@Override
+	public double horizontalLookX() {
+		return livingEntity.getLookAngle().x;
+	}
+
+	@Override
+	public double horizontalLookZ() {
+		return livingEntity.getLookAngle().z;
+	}
+
+	@Override
+	public double width() {
+		return livingEntity.getBbWidth();
+	}
 
 	@Override
 	public List<MyEffectInstance> activeEffects() {
 		return livingEntity.getActiveEffects().stream().map(instance -> {
 			final var effect = instance.getEffect().value();
 			final ResourceLocation id = BuiltInRegistries.MOB_EFFECT.getKey(effect);
-			if (id == null) return null;
+
+			if (id == null)
+				return null;
+
 			final MyEffectCategory category = switch (effect.getCategory()) {
 				case BENEFICIAL -> MyEffectCategory.POSITIVE;
 				case HARMFUL -> MyEffectCategory.NEGATIVE;
 				case NEUTRAL -> MyEffectCategory.NEUTRAL;
 			};
+
 			return new MyEffectInstance(id.getPath(), category);
 		}).filter(Objects::nonNull).toList();
 	}
 
 	@Override
 	public void removeEffect(final String id) {
-		final ResourceLocation resource = ResourceLocation.fromNamespaceAndPath("minecraft", id);
-		final var effect = BuiltInRegistries.MOB_EFFECT.get(resource);
-		if (effect != null) livingEntity.removeEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect));
+		final ResourceLocation resource =
+				ResourceLocation.fromNamespaceAndPath("minecraft", id);
+
+		BuiltInRegistries.MOB_EFFECT.get(resource)
+				.ifPresent(livingEntity::removeEffect);
 	}
 
 	@Override
-	public void addEffect(final String id, final int duration, final int amplifier,
-			final boolean ambient, final boolean visible) {
-		final ResourceLocation resource = ResourceLocation.fromNamespaceAndPath("minecraft", id);
-		final var effect = BuiltInRegistries.MOB_EFFECT.get(resource);
-		if (effect == null) return;
-		livingEntity.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect),
-				duration, amplifier, ambient, visible));
+	public void addEffect(
+			final String id,
+			final int duration,
+			final int amplifier,
+			final boolean ambient,
+			final boolean visible) {
+
+		final ResourceLocation resource =
+				ResourceLocation.fromNamespaceAndPath("minecraft", id);
+
+		BuiltInRegistries.MOB_EFFECT.get(resource).ifPresent(effect ->
+				livingEntity.addEffect(
+						new MobEffectInstance(
+								effect,
+								duration,
+								amplifier,
+								ambient,
+								visible
+						)
+				)
+		);
 	}
 
 	private DamageSource _extraDamageSource(final LivingEntity attacker) {
-		final HolderLookup.RegistryLookup<DamageType> damageTypeLookup = livingEntity.level().registryAccess()
-				.lookupOrThrow(Registries.DAMAGE_TYPE);
-		final Holder<DamageType> baseHolder = damageTypeLookup.getOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE,
-				ResourceLocation.fromNamespaceAndPath("minecraft", "generic")));
+		final HolderLookup.RegistryLookup<DamageType> damageTypeLookup =
+				livingEntity.level().registryAccess()
+						.lookupOrThrow(Registries.DAMAGE_TYPE);
+
+		final Holder<DamageType> baseHolder = damageTypeLookup.getOrThrow(
+				ResourceKey.create(
+						Registries.DAMAGE_TYPE,
+						ResourceLocation.fromNamespaceAndPath("minecraft", "generic")
+				)
+		);
+
 		return new DamageSource(baseHolder, attacker) {
 			@Override
 			public boolean is(final TagKey<DamageType> tag) {
-				if (tag == DamageTypeTags.BYPASSES_COOLDOWN) return true;
+				if (tag == DamageTypeTags.BYPASSES_COOLDOWN)
+					return true;
+
 				return super.is(tag);
 			}
 		};
 	}
 
-	@Override public boolean isOnFire() { return livingEntity.isOnFire(); }
-	@Override public void clearFire() { livingEntity.clearFire(); }
+	@Override
+	public boolean isOnFire() {
+		return livingEntity.isOnFire();
+	}
+
+	@Override
+	public void clearFire() {
+		livingEntity.clearFire();
+	}
 }

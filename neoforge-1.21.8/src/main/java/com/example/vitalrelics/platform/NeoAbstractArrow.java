@@ -41,7 +41,7 @@ public final class NeoAbstractArrow extends NeoForgeEntity implements MyAbstract
 
 	@Override
 	public double baseDamage() {
-		return arrow.getBaseDamage();
+		return arrow.baseDamage;
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public final class NeoAbstractArrow extends NeoForgeEntity implements MyAbstract
 		arrow.hasImpulse = true;
 		arrow.setOwner(newOwnerEntity);
 
-		final double multipliedDamage = arrow.getBaseDamage() * damageMultiplier;
+		final double multipliedDamage = arrow.baseDamage * damageMultiplier;
 		final double minimumDamage =
 				newOwnerEntity.getAttributeValue(Attributes.ATTACK_DAMAGE) * minimumDamageFromAttack;
 

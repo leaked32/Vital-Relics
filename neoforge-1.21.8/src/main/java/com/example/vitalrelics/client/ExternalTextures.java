@@ -59,10 +59,15 @@ public final class ExternalTextures {
 			final String name,
 			final InputStream stream) throws IOException {
 		final NativeImage image = NativeImage.read(stream);
-		final DynamicTexture texture = new DynamicTexture(image);
-		return Minecraft.getInstance().getTextureManager().register(
-				Manifest.MODID + "/external/" + safeName(name), texture
-		);
+		final ResourceLocation location = ResourceLocation.fromNamespaceAndPath(
+				Manifest.MODID,
+				"external/" + safeName(name));
+
+		final DynamicTexture texture =
+				new DynamicTexture(() -> location.toString(), image);
+
+		Minecraft.getInstance().getTextureManager().register(location, texture);
+		return location;
 	}
 
 	private static String safeName(final String filename) {

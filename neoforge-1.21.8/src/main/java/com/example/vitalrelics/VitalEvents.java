@@ -357,7 +357,7 @@ public final class VitalEvents {
 
 		final var data = player.getPersistentData();
 
-		if (data.getBoolean(GUIDE_BOOK_GIVEN))
+		if (data.getBoolean(GUIDE_BOOK_GIVEN).orElse(false))
 			return;
 
 		final var book = VitalRelics.GUIDE_BOOK.get().getDefaultInstance();

@@ -1,5 +1,6 @@
 package com.example.vitalrelics.client;
 
+import com.example.vitalrelics.RelicItem;
 import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
@@ -16,6 +17,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
@@ -28,6 +30,7 @@ public final class VitalClientEvents {
 
 		NeoForge.EVENT_BUS.addListener(VitalClientEvents::clientTick);
 		NeoForge.EVENT_BUS.addListener(VitalClientEvents::mouseScroll);
+		NeoForge.EVENT_BUS.addListener(VitalClientEvents::onItemTooltip);
 	}
 
 	/*
@@ -221,5 +224,14 @@ public final class VitalClientEvents {
 				cooldownTicks > 0 ? 0xFFE38A91 : 0xFFA8D6AF,
 				true
 		);
+	}
+
+
+	public static void onItemTooltip(final ItemTooltipEvent event) {
+		if (!(event.getItemStack().getItem() instanceof RelicItem item))
+			return;
+
+		for (final RelicText.Text line : RelicText.tooltipLines(item.relic()))
+			event.getToolTip().add(RelicItem.component(line));
 	}
 }

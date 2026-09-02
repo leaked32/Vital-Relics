@@ -1,15 +1,14 @@
 package com.example.vitalrelics;
 
-
 import com.example.vitalrelics.common.*;
-import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
@@ -34,13 +33,18 @@ public class Utils {
 
 		// Player inventory / hotbar.
 		if (entity instanceof Player player) {
-			for (int i = 0; i < player.getInventory().items.size(); ++i) {
-				final ItemStack stack = player.getInventory().items.get(i);
+			final var inventory = player.getInventory();
+
+			for (int i = 0; i < inventory.getContainerSize(); ++i) {
+				final ItemStack stack = inventory.getItem(i);
 				final boolean hotbar = i < 9;
 
-				addRelic(out, stack,
+				addRelic(
+						out,
+						stack,
 						hotbar ? "in_hotbar" : "in_inventory",
-						"in_inventory");
+						"in_inventory"
+				);
 			}
 		}
 
@@ -63,7 +67,8 @@ public class Utils {
 
 	private static boolean effectiveAt(final Relic relic, final String location) {
 		if (relic.effective_slots.isEmpty()) {
-			return location.equals("in_curios_api_slots") || location.equals("in_touhou_little_maid_curios_slots");
+			return location.equals("in_curios_api_slots")
+					|| location.equals("in_touhou_little_maid_curios_slots");
 		}
 
 		return relic.effective_slots.contains(location);
@@ -98,42 +103,50 @@ public class Utils {
 	 */
 
 	public static void metalMending(final LivingEntity entity, final int level) {
-
 		if (level <= 0)
 			return;
 
 		int remaining = level;
 
-		for (final ItemStack stack : entity.getAllSlots()) {
+		remaining = repairStack(entity.getMainHandItem(), remaining);
+
+		if (remaining <= 0)
+			return;
+
+		remaining = repairStack(entity.getOffhandItem(), remaining);
+
+		if (remaining <= 0)
+			return;
+
+		for (final EquipmentSlot slot : new EquipmentSlot[] {
+				EquipmentSlot.HEAD, EquipmentSlot.CHEST,
+				EquipmentSlot.LEGS, EquipmentSlot.FEET, EquipmentSlot.BODY
+		}) {
+			remaining = repairStack(entity.getItemBySlot(slot), remaining);
+
 			if (remaining <= 0)
-				break;
-
-			if (!stack.isDamageableItem() || !stack.isDamaged())
-				continue;
-
-			final int repairAmount = Math.min(remaining, stack.getDamageValue());
-			stack.setDamageValue(stack.getDamageValue() - repairAmount);
-			remaining -= repairAmount;
+				return;
 		}
 
 		if (entity instanceof Player player) {
-			for (final ItemStack stack : player.getInventory().items) {
+			final var inventory = player.getInventory();
+
+			for (int i = 0; i < inventory.getContainerSize(); ++i) {
+				remaining = repairStack(inventory.getItem(i), remaining);
+
 				if (remaining <= 0)
-					break;
-
-				if (!stack.isDamageableItem() || !stack.isDamaged())
-					continue;
-
-				final int repairAmount =
-						Math.min(remaining, stack.getDamageValue());
-
-				stack.setDamageValue(
-						stack.getDamageValue() - repairAmount
-				);
-
-				remaining -= repairAmount;
+					return;
 			}
 		}
+	}
+
+	private static int repairStack(final ItemStack stack, final int remaining) {
+		if (!stack.isDamageableItem() || !stack.isDamaged())
+			return remaining;
+
+		final int repairAmount = Math.min(remaining, stack.getDamageValue());
+		stack.setDamageValue(stack.getDamageValue() - repairAmount);
+		return remaining - repairAmount;
 	}
 
 	/*
@@ -184,32 +197,28 @@ public class Utils {
 		return false;
 	}
 
-
 	public static boolean isAllied(LivingEntity live0, LivingEntity live1) {
-		if (live0 == null || live1 == null || live0 == live1 || live0.getUUID() == live1.getUUID()) {
+		if (live0 == null || live1 == null || live0 == live1 || live0.getUUID() == live1.getUUID())
 			return false;
-		}
 
 		// 1. Use the built-in isAlliedTo (covers scoreboard teams + some vanilla behaviors)
-		if (live0.isAlliedTo(live1)) {
+		if (live0.isAlliedTo(live1))
 			return true;
-		}
 
 		// 2. Check if target is a tamed animal owned by base
 		if (live1 instanceof TamableAnimal tamable && tamable.isTame()) {
-			LivingEntity owner = tamable.getOwner();   // This is safe and preferred
+			final LivingEntity owner = tamable.getOwner();
 
-			if (owner != null && owner.is(live0)) {     // owner.is(base) is better than ==
+			if (owner != null && owner.is(live0))
 				return true;
-			}
 		}
 
 		// 3. Also check the other way around (if base is the pet and target is the owner)
 		if (live0 instanceof TamableAnimal tamableBase && tamableBase.isTame()) {
-			LivingEntity owner = tamableBase.getOwner();
-			if (owner != null && owner.is(live1)) {
+			final LivingEntity owner = tamableBase.getOwner();
+
+			if (owner != null && owner.is(live1))
 				return true;
-			}
 		}
 
 		return false;
@@ -220,23 +229,21 @@ public class Utils {
 			final String fallback,
 			final Object... arguments) {
 
-		final String pattern =
-				Translations.get().translate(key, fallback);
+		final String pattern = Translations.get().translate(key, fallback);
 
-		return Component.literal(
-				String.format(Locale.ROOT, pattern, arguments)
-		);
+		return Component.literal(String.format(Locale.ROOT, pattern, arguments));
 	}
-
 
 	public static String effectName(final String id) {
 		final ResourceLocation location = ResourceLocation.parse(id);
-		final MobEffect effect = BuiltInRegistries.MOB_EFFECT.get(location);
+		final var effect = BuiltInRegistries.MOB_EFFECT.get(location);
 
-		if (effect == null)
+		if (effect.isEmpty())
 			return null;
 
-		return Component.translatable(effect.getDescriptionId()).getString();
+		return Component.translatable(
+				effect.get().value().getDescriptionId()
+		).getString();
 	}
 
 	/*
@@ -261,18 +268,17 @@ public class Utils {
 			final List<Relic> out) {
 
 		final var tag = entity.getPersistentData();
+		final var optionalList = tag.getList(Manifest.ENEMY_RELICS_TAG);
 
-		if (!tag.contains(Manifest.ENEMY_RELICS_TAG))
+		if (optionalList.isEmpty())
 			return;
 
-		final var list = tag.getList(
-				Manifest.ENEMY_RELICS_TAG,
-				net.minecraft.nbt.Tag.TAG_STRING
-		);
+		final var list = optionalList.get();
 
 		for (int i = 0; i < list.size(); ++i) {
-			final Relic relic = Loader.get().find(list.getString(i));
+			final String id = list.getString(i).orElse("");
 
+			final Relic relic = Loader.get().find(id);
 			if (relic != null)
 				out.add(relic);
 		}
@@ -280,7 +286,8 @@ public class Utils {
 
 	public static boolean enemyRelicsRolled(final LivingEntity entity) {
 		return entity.getPersistentData()
-				.getBoolean(Manifest.ENEMY_RELICS_ROLLED_TAG);
+				.getBoolean(Manifest.ENEMY_RELICS_ROLLED_TAG)
+				.orElse(false);
 	}
 
 	public static void markEnemyRelicsRolled(final LivingEntity entity) {
@@ -309,19 +316,16 @@ public class Utils {
 	}
 
 	public static boolean hasEnemyRelics(final LivingEntity entity) {
-		final var tag = entity.getPersistentData();
-
-		if (!tag.contains(Manifest.ENEMY_RELICS_TAG))
-			return false;
-
-		return !tag.getList(
-				Manifest.ENEMY_RELICS_TAG,
-				net.minecraft.nbt.Tag.TAG_STRING
-		).isEmpty();
+		return entity.getPersistentData()
+				.getList(Manifest.ENEMY_RELICS_TAG)
+				.map(list -> !list.isEmpty())
+				.orElse(false);
 	}
 
 	public static void spawnEnemyRelicParticles(
-			final LivingEntity entity, final List<Relic> relics, final int currentTick) {
+			final LivingEntity entity,
+			final List<Relic> relics,
+			final int currentTick) {
 
 		if (!hasEnemyRelics(entity) || relics.isEmpty())
 			return;
@@ -340,44 +344,24 @@ public class Utils {
 		final double rotation = currentTick * 0.12;
 
 		for (int i = 0; i < particleCount; ++i) {
-			final double angle =
-					rotation +
-							Math.PI * 2.0 * i / particleCount;
+			final double angle = rotation + Math.PI * 2.0 * i / particleCount;
+			final double x = entity.getX() + Math.cos(angle) * radius;
+			final double z = entity.getZ() + Math.sin(angle) * radius;
 
-			final double x =
-					entity.getX() + Math.cos(angle) * radius;
-
-			final double z =
-					entity.getZ() + Math.sin(angle) * radius;
-
-			final org.joml.Vector3f color;
+			final int color;
 
 			if (score >= 1.0) {
-				/*
-				 * Extremely dangerous:
-				 * alternate bloody red with almost-black crimson.
-				 */
 				color = (i & 1) == 0
-						? new org.joml.Vector3f(0.45F, 0.01F, 0.01F)
-						: new org.joml.Vector3f(0.10F, 0.005F, 0.005F);
+						? rgb(0.45F, 0.01F, 0.01F)
+						: rgb(0.10F, 0.005F, 0.005F);
 			} else {
-				/*
-				 * 0.0 -> light pink
-				 * ~0.3 -> light red
-				 * ~0.7 -> darker red
-				 * 1.0 -> bloody red
-				 */
 				final float t = (float) Math.max(0.0, Math.min(1.0, score));
 
 				final float red = 1.0F - 0.55F * t;
 				final float green = 0.65F * (1.0F - t);
 				final float blue = 0.75F * (1.0F - t);
 
-				color = new org.joml.Vector3f(
-						red,
-						green,
-						blue
-				);
+				color = rgb(red, green, blue);
 			}
 
 			level.sendParticles(
@@ -387,5 +371,11 @@ public class Utils {
 		}
 	}
 
+	private static int rgb(final float red, final float green, final float blue) {
+		final int r = Math.round(red * 255.0F);
+		final int g = Math.round(green * 255.0F);
+		final int b = Math.round(blue * 255.0F);
 
+		return r << 16 | g << 8 | b;
+	}
 }
