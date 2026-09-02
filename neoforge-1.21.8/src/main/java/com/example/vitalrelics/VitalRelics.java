@@ -99,12 +99,9 @@ public class VitalRelics
 				case "epic" -> Rarity.EPIC;
 				default -> Rarity.COMMON;
 			};
-			RELIC_ITEMS.add(ITEMS.registerItem(
+			RELIC_ITEMS.add(ITEMS.register(
 					relic.id,
-					properties -> new RelicItem(
-							relic,
-							properties.rarity(rarity)
-					)
+					() -> new RelicItem(relic, new Item.Properties().rarity(rarity))
 			));
 		}
 

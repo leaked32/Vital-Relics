@@ -14,6 +14,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterSpecialModelRendererEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.common.NeoForge;
@@ -27,10 +28,20 @@ public final class VitalClientEvents {
 	public static void registerListeners(final IEventBus modEventBus) {
 		modEventBus.addListener(VitalClientEvents::registerKeyMappings);
 		modEventBus.addListener(VitalClientEvents::registerGuiLayers);
+		modEventBus.addListener(VitalClientEvents::registerSpecialModelRenderers);
 
 		NeoForge.EVENT_BUS.addListener(VitalClientEvents::clientTick);
 		NeoForge.EVENT_BUS.addListener(VitalClientEvents::mouseScroll);
 		NeoForge.EVENT_BUS.addListener(VitalClientEvents::onItemTooltip);
+	}
+
+	public static void registerSpecialModelRenderers(
+			final RegisterSpecialModelRendererEvent event) {
+
+		event.register(
+				ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "relic"),
+				RelicRenderer.Unbaked.MAP_CODEC
+		);
 	}
 
 	/*
