@@ -8,7 +8,10 @@ Vital Relics is intentionally designed to be changed.
 
 Project Documentation
 
-[English](https://github.com/leaked32/Vital-Relics/blob/main/docs/en_us/README.md) | [日本語](https://github.com/leaked32/Vital-Relics/blob/main/docs/ja_jp/index.md) | [简体中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_cn/index.md) | [繁體中文](https://github.com/leaked32/Vital-Relics/blob/main/docs/zh_tw/index.md)
+[English](https://github.com/leaked32/Vital-Relics/blob/main/common/src/main/resources/vitalrelics/guide/en_us/README.md) |
+[日本語](https://github.com/leaked32/Vital-Relics/blob/main/common/src/main/resources/vitalrelics/guide/ja_jp/index.md) |
+[简体中文](https://github.com/leaked32/Vital-Relics/blob/main/common/src/main/resources/vitalrelics/guide/zh_cn/index.md) |
+[繁體中文](https://github.com/leaked32/Vital-Relics/blob/main/common/src/main/resources/vitalrelics/guide/zh_tw/index.md)
 
 The documentation is very easy to use and understand, really.
 

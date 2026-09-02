@@ -216,9 +216,11 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 	}
 
 	public static void _addEffect(final LivingEntity target, final Holder<MobEffect> effect,
-			final int duration, final int amplifier) {
-		if (target.isDeadOrDying() || !target.level().isLoaded(target.blockPosition())) return;
-		target.forceAddEffect(new MobEffectInstance(effect, duration, amplifier, true, true), null);
+	                              final int duration, final int amplifier) {
+		if (target.isDeadOrDying() || !target.level().isLoaded(target.blockPosition()))
+			return;
+
+		target.addEffect(new MobEffectInstance(effect, duration, amplifier, true, true));
 	}
 
 	private DamageSource _extraDamageSource(final LivingEntity attacker) {

@@ -359,23 +359,14 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 			case ABSORPTION -> MobEffects.ABSORPTION;
 		};
 
-		addEffect(nativeEffect, duration, amplifier);
+		_addEffect(nativeEffect, duration, amplifier);
 	}
 
-	private void addEffect(
-			final MobEffect effect,
-			final int duration,
-			final int amplifier) {
-
-		if (entity.isDeadOrDying() ||
-				!entity.level().isLoaded(entity.blockPosition())) {
+	private void _addEffect(final MobEffect effect, final int duration, final int amplifier) {
+		if (entity.isDeadOrDying() || !entity.level().isLoaded(entity.blockPosition()))
 			return;
-		}
 
-		final MobEffectInstance instance =
-				new MobEffectInstance(effect, duration, amplifier, true, true);
-
-		entity.forceAddEffect(instance, null);
+		entity.addEffect(new MobEffectInstance(effect, duration, amplifier, true, true));
 	}
 
 	@Override
