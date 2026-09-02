@@ -16,6 +16,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -63,6 +64,8 @@ public class VitalRelics
 	// public final static RelicLoader loader  = RelicLoader.get();
 	// public final static AcquisitionLoader acquisition = AcquisitionLoader.INSTANCE;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
+	private static final ResourceLocation RELIC_ITEM_MODEL =
+			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "relic");
 
 	public static final DeferredItem<GuideBookItem> GUIDE_BOOK = ITEMS.registerItem("guide_book", GuideBookItem::new);
 
