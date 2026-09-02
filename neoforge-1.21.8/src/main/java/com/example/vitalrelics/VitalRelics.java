@@ -106,7 +106,8 @@ public class VitalRelics
 					relic.id,
 					properties -> new RelicItem(
 							relic,
-							properties.rarity(rarity)
+							properties.component(DataComponents.ITEM_MODEL, RELIC_ITEM_MODEL)
+								.rarity(rarity)
 					)
 			));
 		}
