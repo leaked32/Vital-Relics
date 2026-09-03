@@ -8,6 +8,9 @@
     "0.7.6": "Vital Relics v0.7.6",
     "0.7.8": "Vital Relics v0.7.8"
   },
+  "1.21.8": {
+    "0.7.8": "Vital Relics v0.7.8"
+  },
   "promos": {
     "1.20.1-latest": "0.7.8",
     "1.20.1-recommended": "0.7.8",
@@ -15,8 +18,5 @@
     "1.21.1-recommended": "0.7.8",
     "1.21.8-latest": "0.7.8",
     "1.21.8-recommended": "0.7.8"
-  },
-  "1.21.8": {
-    "0.7.8": "Vital Relics v0.7.8"
   }
 }
