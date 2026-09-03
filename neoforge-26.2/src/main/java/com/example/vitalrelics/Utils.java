@@ -6,7 +6,7 @@ import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -82,7 +82,7 @@ public class Utils {
 		if (stack.isEmpty())
 			return;
 
-		final ResourceLocation id = BuiltInRegistries.ITEM.getKey(stack.getItem());
+		final Identifier id = BuiltInRegistries.ITEM.getKey(stack.getItem());
 		if (!id.getNamespace().equals(Manifest.MODID))
 			return;
 
@@ -235,7 +235,7 @@ public class Utils {
 	}
 
 	public static String effectName(final String id) {
-		final ResourceLocation location = ResourceLocation.parse(id);
+		final Identifier location = Identifier.parse(id);
 		final var effect = BuiltInRegistries.MOB_EFFECT.get(location);
 
 		if (effect.isEmpty())

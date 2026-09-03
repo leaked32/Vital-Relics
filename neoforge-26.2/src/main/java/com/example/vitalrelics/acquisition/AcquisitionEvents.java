@@ -3,7 +3,7 @@ package com.example.vitalrelics.acquisition;
 import com.example.vitalrelics.common.relics.Acquisition;
 import com.example.vitalrelics.common.Manifest;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -20,8 +20,8 @@ public final class AcquisitionEvents {
 		final String table = event.getName().toString();
 
 		for (final var entry : Acquisition.get().data.loot.entrySet()) {
-			final ResourceLocation id =
-					ResourceLocation.fromNamespaceAndPath(Manifest.MODID, entry.getKey());
+			final Identifier id =
+					Identifier.fromNamespaceAndPath(Manifest.MODID, entry.getKey());
 
 			if (!BuiltInRegistries.ITEM.containsKey(id))
 				continue;

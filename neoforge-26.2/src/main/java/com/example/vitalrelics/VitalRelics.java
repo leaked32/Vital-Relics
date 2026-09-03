@@ -16,7 +16,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -107,7 +107,7 @@ public class VitalRelics
 							new Item.Properties()
 									.setId(ResourceKey.create(
 											Registries.ITEM,
-											ResourceLocation.fromNamespaceAndPath(
+											Identifier.fromNamespaceAndPath(
 													Manifest.MODID,
 													relic.id
 											)
@@ -135,11 +135,11 @@ public class VitalRelics
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {
-		final ResourceLocation validator =
-				ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "relic_slot");
+		final Identifier validator =
+				Identifier.fromNamespaceAndPath(Manifest.MODID, "relic_slot");
 
 		CuriosSlotTypes.registerPredicate(validator, (slotContext, stack) -> {
-			final ResourceLocation itemId =
+			final Identifier itemId =
 					BuiltInRegistries.ITEM.getKey(stack.getItem());
 
 			if (!itemId.getNamespace().equals(Manifest.MODID))
@@ -160,7 +160,7 @@ public class VitalRelics
 							final SlotContext context,
 							final ItemStack stack) {
 
-						final ResourceLocation id =
+						final Identifier id =
 								BuiltInRegistries.ITEM.getKey(stack.getItem());
 
 						final Relic relic = Loader.get().find(id.getPath());

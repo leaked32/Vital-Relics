@@ -11,8 +11,9 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -27,11 +28,11 @@ import java.util.Map;
 
 @JeiPlugin
 public final class VitalJeiPlugin implements IModPlugin {
-	private static final ResourceLocation UID =
-			ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "jei_plugin");
+	private static final Identifier UID =
+			Identifier.fromNamespaceAndPath(Manifest.MODID, "jei_plugin");
 
 	@Override
-	public ResourceLocation getPluginUid() {
+	public Identifier getPluginUid() {
 		return UID;
 	}
 
@@ -42,8 +43,8 @@ public final class VitalJeiPlugin implements IModPlugin {
 		for (final Map.Entry<String, Acquisition.Data.Crafting> entry :
 				Acquisition.get().data.recipes.entrySet()) {
 
-			final ResourceLocation id =
-					ResourceLocation.fromNamespaceAndPath(Manifest.MODID, entry.getKey());
+			final Identifier id =
+					Identifier.fromNamespaceAndPath(Manifest.MODID, entry.getKey());
 
 			final ItemStack output = itemStack(id, entry.getValue().count);
 
@@ -73,7 +74,7 @@ public final class VitalJeiPlugin implements IModPlugin {
 			final ItemStack output) {
 
 		final SlotDisplay outputDisplay =
-				new SlotDisplay.ItemStackSlotDisplay(output);
+				new SlotDisplay.ItemStackSlotDisplay(ItemStackTemplate.fromNonEmptyStack(output));
 
 		final IJeiShapedRecipeBuilder builder = registration
 				.getVanillaRecipeFactory()
@@ -97,10 +98,10 @@ public final class VitalJeiPlugin implements IModPlugin {
 				.toList();
 
 		return new ShapelessRecipe(
-				"",
-				CraftingBookCategory.MISC,
-				output,
-				NonNullList.copyOf(ingredients)
+				new Recipe.CommonInfo(false),
+				new CraftingRecipe.CraftingBookInfo(CraftingBookCategory.MISC, ""),
+				ItemStackTemplate.fromNonEmptyStack(output),
+				ingredients
 		);
 	}
 
@@ -108,7 +109,7 @@ public final class VitalJeiPlugin implements IModPlugin {
 		if (itemId == null)
 			return Ingredient.of();
 
-		final ResourceLocation id = ResourceLocation.tryParse(itemId);
+		final Identifier id = Identifier.tryParse(itemId);
 
 		if (id == null)
 			return Ingredient.of();
@@ -119,7 +120,7 @@ public final class VitalJeiPlugin implements IModPlugin {
 				.orElseGet(Ingredient::of);
 	}
 
-	private static ItemStack itemStack(final ResourceLocation id, final int count) {
+	private static ItemStack itemStack(final Identifier id, final int count) {
 		return BuiltInRegistries.ITEM
 				.get(id)
 				.map(holder -> new ItemStack(holder.value(), count))

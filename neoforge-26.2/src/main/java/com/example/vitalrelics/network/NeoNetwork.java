@@ -11,7 +11,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class NeoNetwork {
 	private static final String PROTOCOL_VERSION = "0.6.7";
@@ -57,7 +57,7 @@ public final class NeoNetwork {
 
 		public static final Type<NetworkPayload> TYPE =
 				new Type<>(
-						ResourceLocation.fromNamespaceAndPath(
+						Identifier.fromNamespaceAndPath(
 								Manifest.MODID,
 								"activate_ability"
 						)
@@ -86,7 +86,7 @@ public final class NeoNetwork {
 
 		public static final Type<SelectedSpellPayload> TYPE =
 				new Type<>(
-						ResourceLocation.fromNamespaceAndPath(
+						Identifier.fromNamespaceAndPath(
 								Manifest.MODID,
 								"selected_spell"
 						)

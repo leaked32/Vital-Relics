@@ -8,7 +8,7 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -17,7 +17,7 @@ import com.example.vitalrelics.common.RelicText;
 import java.util.List;
 
 public class RelicItem extends Item {
-	private static final ResourceLocation MODEL = ResourceLocation.fromNamespaceAndPath(
+	private static final Identifier MODEL = Identifier.fromNamespaceAndPath(
 			Manifest.MODID, "relic"
 	);
 

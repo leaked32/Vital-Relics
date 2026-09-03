@@ -5,7 +5,7 @@ import com.example.vitalrelics.common.relics.Acquisition;
 import com.example.vitalrelics.common.Manifest;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
@@ -41,8 +41,8 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 		if (match == null)
 			return ItemStack.EMPTY;
 
-		final ResourceLocation id =
-				ResourceLocation.fromNamespaceAndPath(Manifest.MODID, match.id);
+		final Identifier id =
+				Identifier.fromNamespaceAndPath(Manifest.MODID, match.id);
 
 		if (!BuiltInRegistries.ITEM.containsKey(id))
 			return ItemStack.EMPTY;

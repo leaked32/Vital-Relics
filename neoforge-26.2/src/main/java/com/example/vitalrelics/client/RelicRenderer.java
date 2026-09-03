@@ -6,18 +6,17 @@ import com.example.vitalrelics.common.relics.Relic;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
-import java.util.Set;
+import java.util.function.Consumer;
 
 public final class RelicRenderer implements SpecialModelRenderer<ItemStack> {
 	@Override
@@ -26,19 +25,19 @@ public final class RelicRenderer implements SpecialModelRenderer<ItemStack> {
 	}
 
 	@Override
-	public void render(
+	public void submit(
 			final ItemStack stack,
-			final ItemDisplayContext context,
 			final PoseStack poseStack,
-			final MultiBufferSource buffers,
+			final SubmitNodeCollector collector,
 			final int light,
 			final int overlay,
-			final boolean hasFoil) {
+			final boolean hasFoil,
+			final int outlineColor) {
 
 		if (stack == null)
 			return;
 
-		final ResourceLocation itemId =
+		final Identifier itemId =
 				BuiltInRegistries.ITEM.getKey(stack.getItem());
 
 		if (!itemId.getNamespace().equals(Manifest.MODID))
@@ -49,34 +48,32 @@ public final class RelicRenderer implements SpecialModelRenderer<ItemStack> {
 		if (relic == null || relic.texture == null)
 			return;
 
-		final ResourceLocation texture = ExternalTextures.texture(relic.texture);
+		final Identifier texture = ExternalTextures.texture(relic.texture);
 
 		poseStack.pushPose();
 		poseStack.translate(0.5F, 0.5F, 0.5F);
 
-		final Matrix4f matrix = poseStack.last().pose();
-		final VertexConsumer vertices =
-				buffers.getBuffer(RenderType.entityCutoutNoCull(texture));
-
-		final int renderLight =
-				context == ItemDisplayContext.GUI
-						? 0x00F000F0
-						: light;
-
-		vertex(vertices, matrix, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, renderLight, overlay);
-		vertex(vertices, matrix,  0.5F, -0.5F, 0.0F, 1.0F, 1.0F, renderLight, overlay);
-		vertex(vertices, matrix,  0.5F,  0.5F, 0.0F, 1.0F, 0.0F, renderLight, overlay);
-		vertex(vertices, matrix, -0.5F,  0.5F, 0.0F, 0.0F, 0.0F, renderLight, overlay);
+		collector.submitCustomGeometry(
+				poseStack,
+				RenderTypes.entityCutoutNoCull(texture),
+				(pose, vertices) -> {
+					final Matrix4f matrix = pose.pose();
+					vertex(vertices, matrix, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, light, overlay);
+					vertex(vertices, matrix,  0.5F, -0.5F, 0.0F, 1.0F, 1.0F, light, overlay);
+					vertex(vertices, matrix,  0.5F,  0.5F, 0.0F, 1.0F, 0.0F, light, overlay);
+					vertex(vertices, matrix, -0.5F,  0.5F, 0.0F, 0.0F, 0.0F, light, overlay);
+				}
+		);
 
 		poseStack.popPose();
 	}
 
 	@Override
-	public void getExtents(final Set<Vector3f> extents) {
-		extents.add(new Vector3f(0.0F, 0.0F, 0.5F));
-		extents.add(new Vector3f(1.0F, 0.0F, 0.5F));
-		extents.add(new Vector3f(1.0F, 1.0F, 0.5F));
-		extents.add(new Vector3f(0.0F, 1.0F, 0.5F));
+	public void getExtents(final Consumer<Vector3fc> output) {
+		output.accept(new Vector3f(0.0F, 0.0F, 0.5F));
+		output.accept(new Vector3f(1.0F, 0.0F, 0.5F));
+		output.accept(new Vector3f(1.0F, 1.0F, 0.5F));
+		output.accept(new Vector3f(0.0F, 1.0F, 0.5F));
 	}
 
 	private static void vertex(
@@ -98,7 +95,7 @@ public final class RelicRenderer implements SpecialModelRenderer<ItemStack> {
 				.setNormal(0.0F, 0.0F, 1.0F);
 	}
 
-	public static final class Unbaked implements SpecialModelRenderer.Unbaked {
+	public static final class Unbaked implements SpecialModelRenderer.Unbaked<ItemStack> {
 		public static final MapCodec<Unbaked> MAP_CODEC =
 				MapCodec.unit(new Unbaked());
 
@@ -108,7 +105,7 @@ public final class RelicRenderer implements SpecialModelRenderer<ItemStack> {
 		}
 
 		@Override
-		public SpecialModelRenderer<?> bake(final EntityModelSet modelSet) {
+		public SpecialModelRenderer<ItemStack> bake(final SpecialModelRenderer.BakingContext context) {
 			return new RelicRenderer();
 		}
 	}

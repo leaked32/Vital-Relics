@@ -8,7 +8,7 @@ import com.example.vitalrelics.network.NeoNetwork;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
@@ -24,6 +24,9 @@ import org.lwjgl.glfw.GLFW;
 
 public final class VitalClientEvents {
 	private VitalClientEvents() {}
+	private static final KeyMapping.Category KEY_CATEGORY = KeyMapping.Category.register(
+			Identifier.fromNamespaceAndPath(Manifest.MODID, "main")
+	);
 
 	public static void registerListeners(final IEventBus modEventBus) {
 		modEventBus.addListener(VitalClientEvents::registerKeyMappings);
@@ -39,7 +42,7 @@ public final class VitalClientEvents {
 			final RegisterSpecialModelRendererEvent event) {
 
 		event.register(
-				ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "relic"),
+				Identifier.fromNamespaceAndPath(Manifest.MODID, "relic"),
 				RelicRenderer.Unbaked.MAP_CODEC
 		);
 	}
@@ -54,7 +57,7 @@ public final class VitalClientEvents {
 					KeyConflictContext.IN_GAME,
 					InputConstants.Type.KEYSYM,
 					GLFW.GLFW_KEY_R,
-					"key.categories.vitalrelics"
+					KEY_CATEGORY
 			);
 
 	public static final KeyMapping SWITCH_SKILL_KEY =
@@ -63,7 +66,7 @@ public final class VitalClientEvents {
 					KeyConflictContext.IN_GAME,
 					InputConstants.Type.KEYSYM,
 					GLFW.GLFW_KEY_LEFT_SHIFT,
-					"key.categories.vitalrelics"
+					KEY_CATEGORY
 			);
 
 	public static void clientTick(final ClientTickEvent.Post event) {
@@ -114,8 +117,8 @@ public final class VitalClientEvents {
 	HUD
 	 */
 
-	private static final ResourceLocation SPELL_HUD =
-			ResourceLocation.fromNamespaceAndPath(
+	private static final Identifier SPELL_HUD =
+			Identifier.fromNamespaceAndPath(
 					Manifest.MODID,
 					"spell_hud"
 			);
@@ -130,12 +133,12 @@ public final class VitalClientEvents {
 	}
 
 	private static void renderSpellHud(
-			final net.minecraft.client.gui.GuiGraphics graphics,
+			final net.minecraft.client.gui.GuiGraphicsExtractor graphics,
 			final net.minecraft.client.DeltaTracker deltaTracker) {
 
 		final Minecraft minecraft = Minecraft.getInstance();
 
-		if (minecraft.player == null || minecraft.options.hideGui)
+		if (minecraft.player == null || minecraft.gui.hud.isHidden())
 			return;
 
 		final String spellId = ClientSpellState.selectedSpellId();

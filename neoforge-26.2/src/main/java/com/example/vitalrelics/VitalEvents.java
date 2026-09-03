@@ -10,7 +10,7 @@ import com.example.vitalrelics.platform.NeoDamageSource;
 import com.example.vitalrelics.platform.NeoLivingEntity;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,7 +18,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.phys.EntityHitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 
@@ -42,15 +42,15 @@ public final class VitalEvents {
 	/*
 	Properties
 	 */
-	private static ResourceLocation makePropertyId(final String propertyName) {
-		return ResourceLocation.fromNamespaceAndPath(Manifest.MODID, propertyName);
+	private static Identifier makePropertyId(final String propertyName) {
+		return Identifier.fromNamespaceAndPath(Manifest.MODID, propertyName);
 	}
 
 	private record PropertyTarget(
 			Holder<Attribute> attribute,
-			ResourceLocation addId,
-			ResourceLocation mulBaseId,
-			ResourceLocation mulTotalId) {
+			Identifier addId,
+			Identifier mulBaseId,
+			Identifier mulTotalId) {
 
 		private static PropertyTarget of(
 				final String propertyName,
@@ -199,9 +199,9 @@ public final class VitalEvents {
 	private static void applyProperty(
 			final AttributeInstance attr,
 			final Relic.Properties.Info prop,
-			final ResourceLocation addId,
-			final ResourceLocation mulBaseId,
-			final ResourceLocation mulTotalId) {
+			final Identifier addId,
+			final Identifier mulBaseId,
+			final Identifier mulTotalId) {
 
 		if (attr == null || prop == null)
 			return;
@@ -213,7 +213,7 @@ public final class VitalEvents {
 
 	private static void replaceModifier(
 			final AttributeInstance attr,
-			final ResourceLocation id,
+			final Identifier id,
 			final double amount,
 			final AttributeModifier.Operation op) {
 
@@ -256,7 +256,7 @@ public final class VitalEvents {
 		final var relics = gatherRelics(livingEntity);
 		final var effect = event.getEffectInstance().getEffect().value();
 
-		final ResourceLocation id =
+		final Identifier id =
 				BuiltInRegistries.MOB_EFFECT.getKey(effect);
 
 		if (id == null)
@@ -327,7 +327,7 @@ public final class VitalEvents {
 		 */
 		markEnemyRelicsRolled(livingEntity);
 
-		final ResourceLocation entityId =
+		final Identifier entityId =
 				BuiltInRegistries.ENTITY_TYPE.getKey(livingEntity.getType());
 
 		if (entityId == null)

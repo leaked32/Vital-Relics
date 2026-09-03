@@ -7,7 +7,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -297,7 +297,7 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 	public List<MyEffectInstance> activeEffects() {
 		return livingEntity.getActiveEffects().stream().map(instance -> {
 			final var effect = instance.getEffect().value();
-			final ResourceLocation id = BuiltInRegistries.MOB_EFFECT.getKey(effect);
+			final Identifier id = BuiltInRegistries.MOB_EFFECT.getKey(effect);
 
 			if (id == null)
 				return null;
@@ -314,8 +314,8 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 
 	@Override
 	public void removeEffect(final String id) {
-		final ResourceLocation resource =
-				ResourceLocation.fromNamespaceAndPath("minecraft", id);
+		final Identifier resource =
+				Identifier.fromNamespaceAndPath("minecraft", id);
 
 		BuiltInRegistries.MOB_EFFECT.get(resource)
 				.ifPresent(livingEntity::removeEffect);
@@ -329,8 +329,8 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 			final boolean ambient,
 			final boolean visible) {
 
-		final ResourceLocation resource =
-				ResourceLocation.fromNamespaceAndPath("minecraft", id);
+		final Identifier resource =
+				Identifier.fromNamespaceAndPath("minecraft", id);
 
 		BuiltInRegistries.MOB_EFFECT.get(resource).ifPresent(effect ->
 				livingEntity.addEffect(
@@ -353,7 +353,7 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 		final Holder<DamageType> baseHolder = damageTypeLookup.getOrThrow(
 				ResourceKey.create(
 						Registries.DAMAGE_TYPE,
-						ResourceLocation.fromNamespaceAndPath("minecraft", "generic")
+						Identifier.fromNamespaceAndPath("minecraft", "generic")
 				)
 		);
 

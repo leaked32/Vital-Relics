@@ -6,12 +6,13 @@ import com.example.vitalrelics.common.guide.GuidePage;
 import com.example.vitalrelics.common.guide.MarkdownPage;
 import com.example.vitalrelics.common.relics.Translations;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -118,7 +119,7 @@ public class GuideBookScreen extends Screen {
 	}
 
 	private static String translatedIngredientName(final String id) {
-		final ResourceLocation location = ResourceLocation.tryParse(id);
+		final Identifier location = Identifier.tryParse(id);
 
 		if (location == null || !BuiltInRegistries.ITEM.containsKey(location))
 			return null;
@@ -237,12 +238,12 @@ public class GuideBookScreen extends Screen {
 	}
 
 	@Override
-	public void render(
-			final GuiGraphics graphics, final int mouseX,
+	public void extractRenderState(
+			final GuiGraphicsExtractor graphics, final int mouseX,
 			final int mouseY, final float partialTick) {
 
 		// renderBackground(graphics, mouseX, mouseY, partialTick);
-		super.render(graphics, mouseX, mouseY, partialTick);
+		super.extractRenderState(graphics, mouseX, mouseY, partialTick);
 
 		graphics.drawString(font, title, MARGIN, MARGIN, 0xFFFFFFFF);
 
@@ -268,7 +269,7 @@ public class GuideBookScreen extends Screen {
 		renderScrollbars(graphics);
 	}
 
-	private void renderPageList(final GuiGraphics graphics) {
+	private void renderPageList(final GuiGraphicsExtractor graphics) {
 		final int left = listLeft();
 		final int right = listTextRight();
 		final int top = listTop();
@@ -304,7 +305,7 @@ public class GuideBookScreen extends Screen {
 	}
 
 	private void renderGuidePage(
-			final GuiGraphics graphics,
+			final GuiGraphicsExtractor graphics,
 			final GuidePage page) {
 
 		final int left = contentLeft();
@@ -371,7 +372,7 @@ public class GuideBookScreen extends Screen {
 	}
 
 	private void renderMarkdownPage(
-			final GuiGraphics graphics,
+			final GuiGraphicsExtractor graphics,
 			final MarkdownPage page) {
 
 		final int left = contentLeft();
@@ -490,7 +491,7 @@ public class GuideBookScreen extends Screen {
 	}
 
 	private int drawLine(
-			final GuiGraphics graphics, final String text,
+			final GuiGraphicsExtractor graphics, final String text,
 			final int x, final int y, final int color) {
 
 		if (text == null || text.isBlank())
@@ -501,7 +502,7 @@ public class GuideBookScreen extends Screen {
 	}
 
 	private int drawWrapped(
-			final GuiGraphics graphics, final String text,
+			final GuiGraphicsExtractor graphics, final String text,
 			final int x, final int y,
 			final int width, final int color) {
 
@@ -518,7 +519,7 @@ public class GuideBookScreen extends Screen {
 		return currentY;
 	}
 
-	private void renderScrollbars(final GuiGraphics graphics) {
+	private void renderScrollbars(final GuiGraphicsExtractor graphics) {
 		renderScrollbar(
 				graphics,
 				listRight() - SCROLLBAR_WIDTH,
@@ -535,7 +536,7 @@ public class GuideBookScreen extends Screen {
 	}
 
 	private void renderScrollbar(
-			final GuiGraphics graphics, final int x,
+			final GuiGraphicsExtractor graphics, final int x,
 			final int top, final int viewportHeight,
 			final int scroll, final int contentHeight) {
 
@@ -569,8 +570,10 @@ public class GuideBookScreen extends Screen {
 
 	@Override
 	public boolean mouseClicked(
-			final double mouseX, final double mouseY,
-			final int button) {
+			final MouseButtonEvent event, final boolean doubleClick) {
+		final double mouseX = event.x();
+		final double mouseY = event.y();
+		final int button = event.button();
 
 		if (button == 0 && inside(
 				mouseX, mouseY,
@@ -587,7 +590,7 @@ public class GuideBookScreen extends Screen {
 			}
 		}
 
-		return super.mouseClicked(mouseX, mouseY, button);
+		return super.mouseClicked(event, doubleClick);
 	}
 
 	@Override

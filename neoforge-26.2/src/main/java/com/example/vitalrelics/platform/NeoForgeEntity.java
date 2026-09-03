@@ -49,7 +49,7 @@ public class NeoForgeEntity implements MyEntity {
 
 	@Override
 	public void markMovementChanged() {
-		entity.hasImpulse = true;
+		entity.needsSync = true;
 	}
 
 	@Override

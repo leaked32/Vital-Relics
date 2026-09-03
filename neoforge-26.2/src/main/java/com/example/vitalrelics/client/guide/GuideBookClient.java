@@ -14,7 +14,7 @@ public final class GuideBookClient {
 				Acquisition.get()
 		);
 
-		Minecraft.getInstance().setScreen(
+		Minecraft.getInstance().gui.setScreen(
 				new GuideBookScreen(guideBook)
 		);
 	}

@@ -5,7 +5,7 @@ import com.example.vitalrelics.common.platform.MyLivingEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.phys.Vec3;
 
 public final class NeoAbstractArrow extends NeoForgeEntity implements MyAbstractArrow {
@@ -86,7 +86,7 @@ public final class NeoAbstractArrow extends NeoForgeEntity implements MyAbstract
 		final double newSpeed = arrow.getDeltaMovement().length() * speedMultiplier;
 
 		arrow.setDeltaMovement(direction.scale(newSpeed));
-		arrow.hasImpulse = true;
+		arrow.needsSync = true;
 		arrow.setOwner(newOwnerEntity);
 
 		final double multipliedDamage = arrow.baseDamage * damageMultiplier;

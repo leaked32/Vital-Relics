@@ -4,7 +4,7 @@ import com.example.vitalrelics.common.Manifest;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.fml.loading.FMLPaths;
 
 import java.io.IOException;
@@ -17,15 +17,15 @@ import java.util.Map;
 public final class ExternalTextures {
 	private static final Path TEXTURE_DIR =
 			FMLPaths.CONFIGDIR.get().resolve("vitalrelics/textures");
-	private static final Map<String, ResourceLocation> CACHE = new HashMap<>();
+	private static final Map<String, Identifier> CACHE = new HashMap<>();
 
 	private ExternalTextures() {}
 
-	public static ResourceLocation texture(final String filename) {
+	public static Identifier texture(final String filename) {
 		return CACHE.computeIfAbsent(filename, ExternalTextures::load);
 	}
 
-	private static ResourceLocation load(final String filename) {
+	private static Identifier load(final String filename) {
 		final Path file = TEXTURE_DIR.resolve(filename).normalize();
 		if (!file.startsWith(TEXTURE_DIR))
 			return packaged(filename);
@@ -42,7 +42,7 @@ public final class ExternalTextures {
 		return packaged(filename);
 	}
 
-	private static ResourceLocation packaged(final String filename) {
+	private static Identifier packaged(final String filename) {
 		try (final InputStream stream = ExternalTextures.class.getClassLoader()
 				.getResourceAsStream("vitalrelics/textures/" + filename)) {
 			if (stream != null)
@@ -52,14 +52,14 @@ public final class ExternalTextures {
 			// Minecraft will show its missing texture for invalid bundled files.
 		}
 
-		return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/missingno.png");
+		return Identifier.fromNamespaceAndPath("minecraft", "textures/missingno.png");
 	}
 
-	private static ResourceLocation register(
+	private static Identifier register(
 			final String name,
 			final InputStream stream) throws IOException {
 		final NativeImage image = NativeImage.read(stream);
-		final ResourceLocation location = ResourceLocation.fromNamespaceAndPath(
+		final Identifier location = Identifier.fromNamespaceAndPath(
 				Manifest.MODID,
 				"external/" + safeName(name));
 

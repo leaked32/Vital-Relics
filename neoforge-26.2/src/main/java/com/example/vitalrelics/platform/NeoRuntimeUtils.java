@@ -14,8 +14,10 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -42,6 +44,13 @@ import java.util.UUID;
 import static com.example.vitalrelics.Utils.message;
 
 public final class NeoRuntimeUtils implements MyRuntimeUtils {
+	private static void displayClientMessage(
+			final ServerPlayer player, final Component message, final boolean overlay) {
+		if (overlay)
+			player.sendOverlayMessage(message);
+		else
+			player.sendSystemMessage(message);
+	}
 	public static final NeoRuntimeUtils INSTANCE = new NeoRuntimeUtils();
 
 	private NeoRuntimeUtils() {}
@@ -424,7 +433,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (option == EnchantmentFilter.ENCHANTMENT_BOOK_ONLY &&
 				!stack.is(Items.ENCHANTED_BOOK)) {
 
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.enchantment_book_required",
 							"Hold an enchanted book in your main hand."
@@ -443,7 +452,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 				stack.getOrDefault(component, ItemEnchantments.EMPTY);
 
 		if (enchantments.isEmpty()) {
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.item_not_enchanted",
 							"The held item is not enchanted."
@@ -474,7 +483,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		}
 
 		if (!upgraded) {
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.enchantments_at_maximum",
 							"Every enchantment is already at its maximum level."
@@ -488,7 +497,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (!player.isCreative() &&
 				player.experienceLevel < experienceCost) {
 
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.enchant_upgrade_insufficient_experience",
 							"Not enough experience. Required level: %s",
@@ -505,7 +514,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (!player.isCreative())
 			player.giveExperienceLevels(-experienceCost);
 
-		player.displayClientMessage(
+		displayClientMessage(player,
 				message(
 						"message.vitalrelics.enchant_upgrade_success",
 						"Enchantment upgraded to level %s.",
@@ -542,7 +551,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 				.orElse(null);
 
 		if (curse == null) {
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.no_curse",
 							"The held item has no curse to remove."
@@ -556,7 +565,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (!player.isCreative() &&
 				player.experienceLevel < experienceCost) {
 
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.enchant_upgrade_insufficient_experience",
 							"Not enough experience. Required level: %s",
@@ -596,7 +605,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 				stack.getOrDefault(DataComponents.REPAIR_COST, 0);
 
 		if (repairCost <= 0) {
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.no_anvil_penalty",
 							"The held item has no anvil penalty to remove."
@@ -610,7 +619,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (!player.isCreative() &&
 				player.experienceLevel < experienceCost) {
 
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.enchant_upgrade_insufficient_experience",
 							"Not enough experience. Required level: %s",
@@ -670,7 +679,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (player == null)
 			return;
 
-		player.displayClientMessage(
+		displayClientMessage(player,
 				message(
 						"message.vitalrelics.selected_spell",
 						"Selected spell: %s",
@@ -691,7 +700,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (player == null)
 			return;
 
-		player.displayClientMessage(
+		displayClientMessage(player,
 				message(
 						"message.vitalrelics.spell_cooldown",
 						"%s cooldown: %s",
@@ -717,7 +726,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (player == null)
 			return;
 
-		player.displayClientMessage(message(key, fallback), true);
+		displayClientMessage(player, message(key, fallback), true);
 	}
 
 	@Override
@@ -727,7 +736,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (player == null)
 			return;
 
-		player.displayClientMessage(
+		displayClientMessage(player,
 				message(
 						"message.vitalrelics.curse_requires_target",
 						"Curse requires a target."
@@ -743,7 +752,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (!(entity.level() instanceof ServerLevel level))
 			return;
 
-		final LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(
+		final LightningBolt lightning = EntityTypes.LIGHTNING_BOLT.create(
 				level,
 				EntitySpawnReason.TRIGGERED
 		);
@@ -797,7 +806,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		final ItemStack offhand = player.getOffhandItem();
 
 		if (!offhand.is(Items.BOOK)) {
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.disenchantment_book_required",
 							"Hold a book in your off hand."
@@ -815,7 +824,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 				stack.getOrDefault(component, ItemEnchantments.EMPTY);
 
 		if (enchantments.isEmpty()) {
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.item_not_enchanted",
 							"The held item is not enchanted."
@@ -838,7 +847,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		}
 
 		if (selected == null) {
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.disenchantment_no_removable_enchantment",
 							"The held item has no removable enchantment."
@@ -851,7 +860,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (!player.isCreative() &&
 				player.experienceLevel < experienceCost) {
 
-			player.displayClientMessage(
+			displayClientMessage(player,
 					message(
 							"message.vitalrelics.enchant_upgrade_insufficient_experience",
 							"Not enough experience. Required level: %s",
@@ -888,7 +897,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (!player.isCreative())
 			player.giveExperienceLevels(-experienceCost);
 
-		player.displayClientMessage(
+		displayClientMessage(player,
 				message(
 						"message.vitalrelics.disenchantment_success",
 						"Enchantment transferred to the book."
