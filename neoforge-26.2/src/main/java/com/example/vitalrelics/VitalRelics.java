@@ -13,6 +13,7 @@ import com.example.vitalrelics.network.NeoNetwork;
 import com.example.vitalrelics.platform.NeoRuntimeUtils;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -28,6 +29,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -84,6 +86,7 @@ public class VitalRelics
 		// existing constructor body...
 
 		modEventBus.addListener(this::commonSetup);
+		modEventBus.addListener(this::modifyDefaultComponents);
 		modEventBus.addListener(NeoNetwork::registerPayloadHandlers);
 
 		BLOCKS.register(modEventBus);
@@ -137,6 +140,16 @@ public class VitalRelics
 		// NeoForge.EVENT_BUS.register(this);
 		NeoForge.EVENT_BUS.register(VitalEvents.class);
 		NeoForge.EVENT_BUS.register(AcquisitionEvents.class);
+	}
+
+	private void modifyDefaultComponents(final ModifyDefaultComponentsEvent event) {
+		for (final var relic : RELIC_ITEMS) {
+			event.modify(
+					relic.get(),
+					(components, context, item) ->
+							components.set(DataComponents.ITEM_MODEL, RelicItem.MODEL)
+			);
+		}
 	}
 
 	private void commonSetup(final FMLCommonSetupEvent event) {

@@ -4,8 +4,6 @@ import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -17,28 +15,15 @@ import com.example.vitalrelics.common.RelicText;
 import java.util.List;
 
 public class RelicItem extends Item {
-	private static final Identifier MODEL = Identifier.fromNamespaceAndPath(
+	static final Identifier MODEL = Identifier.fromNamespaceAndPath(
 			Manifest.MODID, "relic"
 	);
 
 	public final Relic relic;
-	private DataComponentMap components;
 
 	public RelicItem(final Relic relic, final Properties properties) {
 		super(properties);
 		this.relic = relic;
-	}
-
-	@Override
-	public DataComponentMap components() {
-		if (components == null) {
-			components = DataComponentMap.builder()
-					.addAll(super.components())
-					.set(DataComponents.ITEM_MODEL, MODEL)
-					.build();
-		}
-
-		return components;
 	}
 
 	public Relic relic() {
