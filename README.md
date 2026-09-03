@@ -73,6 +73,8 @@ Which enemies can receive each relic—and how frequently they appear—can be c
 
 *   **Minecraft 1.20.1 — Forge**
 *   **Minecraft 1.21.1 — NeoForge**
+*   **Minecraft 1.21.8 — NeoForge**
+*   **Minecraft 26.2 — NeoForge**
 
 Both versions aim to provide the same relic behavior and features.
 

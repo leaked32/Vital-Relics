@@ -138,6 +138,7 @@ public class Scheduler {
 			}
 		}
 
+		// Clean up each 2 seconds
 		if (currentTickCount % 40 == 0) {
 			DELAYED_TASK_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
 			HEAL_PREVENTION_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
