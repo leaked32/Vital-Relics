@@ -218,7 +218,7 @@ public final class VitalClientEvents {
 				cooldownTicks > 0 ? 0xFF9E434C : 0xFF6FA57A
 		);
 
-		graphics.drawString(
+		graphics.text(
 				font,
 				spellName,
 				x + padding,
@@ -230,7 +230,7 @@ public final class VitalClientEvents {
 		final int statusX =
 				x + width - padding - font.width(status);
 
-		graphics.drawString(
+		graphics.text(
 				font,
 				status,
 				statusX,

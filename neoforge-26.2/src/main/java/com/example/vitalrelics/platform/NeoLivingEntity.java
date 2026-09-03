@@ -258,7 +258,7 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 
 	@Override
 	public int serverTick() {
-		final var server = livingEntity.getServer();
+		final var server = livingEntity.level().getServer();
 		return server == null ? -1 : server.getTickCount();
 	}
 

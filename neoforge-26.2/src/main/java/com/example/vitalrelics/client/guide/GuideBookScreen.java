@@ -245,14 +245,14 @@ public class GuideBookScreen extends Screen {
 		// renderBackground(graphics, mouseX, mouseY, partialTick);
 		super.extractRenderState(graphics, mouseX, mouseY, partialTick);
 
-		graphics.drawString(font, title, MARGIN, MARGIN, 0xFFFFFFFF);
+		graphics.text(font, title, MARGIN, MARGIN, 0xFFFFFFFF);
 
 		renderPageList(graphics);
 
 		final Page page = selectedPage();
 
 		if (page == null) {
-			graphics.drawString(
+			graphics.text(
 					font,
 					Component.literal(tr(
 							"guide.vitalrelics.empty",
@@ -290,7 +290,7 @@ public class GuideBookScreen extends Screen {
 				graphics.fill(left, y, right, y + ROW_HEIGHT - 1, 0x60404040);
 
 			if (y + ROW_HEIGHT >= top && y <= bottom) {
-				graphics.drawString(
+				graphics.text(
 						font,
 						Component.literal(page.title),
 						left + 3, y + 4,
@@ -497,7 +497,7 @@ public class GuideBookScreen extends Screen {
 		if (text == null || text.isBlank())
 			return y;
 
-		graphics.drawString(font, Component.literal(text), x, y, color);
+		graphics.text(font, Component.literal(text), x, y, color);
 		return y + LINE_HEIGHT;
 	}
 
@@ -512,7 +512,7 @@ public class GuideBookScreen extends Screen {
 		int currentY = y;
 
 		for (final var line : font.split(Component.literal(text), width)) {
-			graphics.drawString(font, line, x, currentY, color);
+			graphics.text(font, line, x, currentY, color);
 			currentY += LINE_HEIGHT;
 		}
 

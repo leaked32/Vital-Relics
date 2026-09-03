@@ -98,7 +98,7 @@ public final class VitalEvents {
 			return;
 		}
 
-		final MinecraftServer server = livingEntity.getServer();
+		final MinecraftServer server = livingEntity.level().getServer();
 		if (server == null) {
 			return;
 		}
@@ -231,7 +231,7 @@ public final class VitalEvents {
 		if (victim.level().isClientSide())
 			return;
 
-		final MinecraftServer server = victim.getServer();
+		final MinecraftServer server = victim.level().getServer();
 		if (server == null)
 			return;
 
@@ -281,7 +281,7 @@ public final class VitalEvents {
 				!(hit.getEntity() instanceof LivingEntity victim))
 			return;
 
-		final MinecraftServer server = victim.getServer();
+		final MinecraftServer server = victim.level().getServer();
 		if (server == null)
 			return;
 

@@ -3,7 +3,6 @@ package com.example.vitalrelics.acquisition;
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.relics.Acquisition;
 import com.example.vitalrelics.common.Manifest;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -20,9 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public final class DynamicRelicRecipe extends CustomRecipe {
-	public DynamicRelicRecipe(final CraftingBookCategory category) {
-		super(category);
-	}
+	public DynamicRelicRecipe() {}
 
 	@Override
 	public boolean matches(final @NotNull CraftingInput input, final @NotNull Level level) {
@@ -31,8 +28,7 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 
 	@Override
 	public @NotNull ItemStack assemble(
-			final @NotNull CraftingInput input,
-			final HolderLookup.@NotNull Provider registries) {
+			final @NotNull CraftingInput input) {
 
 
 		VitalRelics.LOGGER.info("Vital Relics: assemble()");
@@ -177,4 +173,3 @@ public final class DynamicRelicRecipe extends CustomRecipe {
 	private record Match(String id, Acquisition.Data.Crafting recipe) {}
 	private record Grid(int width, int height, List<ItemStack> items) {}
 }
-

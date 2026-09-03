@@ -12,9 +12,11 @@ import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.NeoNetwork;
 import com.example.vitalrelics.platform.NeoRuntimeUtils;
 import com.mojang.logging.LogUtils;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.*;
@@ -56,7 +58,10 @@ public class VitalRelics
 			DYNAMIC_RELIC_RECIPE =
 			RECIPE_SERIALIZERS.register(
 					"dynamic_relic",
-					() -> new CustomRecipe.Serializer<>(DynamicRelicRecipe::new)
+					() -> {
+						final DynamicRelicRecipe recipe = new DynamicRelicRecipe();
+						return new RecipeSerializer<>(MapCodec.unit(recipe), StreamCodec.unit(recipe));
+					}
 			);
 
 	public static DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = null;

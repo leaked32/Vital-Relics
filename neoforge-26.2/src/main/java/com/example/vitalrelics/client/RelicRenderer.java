@@ -55,7 +55,7 @@ public final class RelicRenderer implements SpecialModelRenderer<ItemStack> {
 
 		collector.submitCustomGeometry(
 				poseStack,
-				RenderTypes.entityCutoutNoCull(texture),
+				RenderTypes.entityCutout(texture),
 				(pose, vertices) -> {
 					final Matrix4f matrix = pose.pose();
 					vertex(vertices, matrix, -0.5F, -0.5F, 0.0F, 0.0F, 1.0F, light, overlay);
