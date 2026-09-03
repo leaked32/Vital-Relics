@@ -22,19 +22,22 @@ public class RelicItem extends Item {
 	);
 
 	public final Relic relic;
-	private final DataComponentMap components;
+	private DataComponentMap components;
 
 	public RelicItem(final Relic relic, final Properties properties) {
 		super(properties);
 		this.relic = relic;
-		this.components = DataComponentMap.builder()
-				.addAll(super.components())
-				.set(DataComponents.ITEM_MODEL, MODEL)
-				.build();
 	}
 
 	@Override
 	public DataComponentMap components() {
+		if (components == null) {
+			components = DataComponentMap.builder()
+					.addAll(super.components())
+					.set(DataComponents.ITEM_MODEL, MODEL)
+					.build();
+		}
+
 		return components;
 	}
 
