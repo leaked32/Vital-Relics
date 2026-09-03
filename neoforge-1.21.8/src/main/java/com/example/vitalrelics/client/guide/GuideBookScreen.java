@@ -244,7 +244,7 @@ public class GuideBookScreen extends Screen {
 		// renderBackground(graphics, mouseX, mouseY, partialTick);
 		super.render(graphics, mouseX, mouseY, partialTick);
 
-		graphics.drawString(font, title, MARGIN, MARGIN, 0xFFFFFF);
+		graphics.drawString(font, title, MARGIN, MARGIN, 0xFFFFFFFF);
 
 		renderPageList(graphics);
 
@@ -257,7 +257,7 @@ public class GuideBookScreen extends Screen {
 							"guide.vitalrelics.empty",
 							"No relics loaded."
 					)),
-					contentLeft(), contentTop(), 0xAAAAAA
+					contentLeft(), contentTop(), 0xFFAAAAAA
 			);
 		} else if (page.markdown != null) {
 			renderMarkdownPage(graphics, page.markdown);
@@ -293,7 +293,7 @@ public class GuideBookScreen extends Screen {
 						font,
 						Component.literal(page.title),
 						left + 3, y + 4,
-						selected ? 0xFFFFFF : 0xCCCCCC
+						selected ? 0xFFFFFFFF : 0xFFCCCCCC
 				);
 			}
 
@@ -317,7 +317,7 @@ public class GuideBookScreen extends Screen {
 
 		int y = top - contentScroll;
 
-		y = drawLine(graphics, page.title, left, y, 0xFFFFFF);
+		y = drawLine(graphics, page.title, left, y, 0xFFFFFFFF);
 
 		if (!page.rarity.isBlank() || !page.slot.isBlank()) {
 			y = drawLine(
@@ -333,7 +333,7 @@ public class GuideBookScreen extends Screen {
 									humanize(page.slot)
 							)
 					),
-					left, y, 0xAAAAAA
+					left, y, 0xFFAAAAAA
 			);
 		}
 
@@ -343,13 +343,13 @@ public class GuideBookScreen extends Screen {
 				graphics,
 				page.description,
 				left, y, textWidth,
-				0xDDDDDD
+				0xFFDDDDDD
 		);
 
 		y += 5;
 
 		for (final GuidePage.Section section : page.sections) {
-			y = drawLine(graphics, section.title, left, y, 0xFFFFFF);
+			y = drawLine(graphics, section.title, left, y, 0xFFFFFFFF);
 
 			for (final String line : section.lines) {
 				y = drawWrapped(
@@ -357,7 +357,7 @@ public class GuideBookScreen extends Screen {
 						line,
 						left + 5, y,
 						Math.max(40, textWidth - 5),
-						0xCCCCCC
+						0xFFCCCCCC
 				);
 			}
 
@@ -384,7 +384,7 @@ public class GuideBookScreen extends Screen {
 
 		int y = top - contentScroll;
 
-		y = drawLine(graphics, page.title, left, y, 0xFFFFFF);
+		y = drawLine(graphics, page.title, left, y, 0xFFFFFFFF);
 		y += 4;
 
 		for (final MarkdownPage.Block block : page.blocks) {
@@ -395,7 +395,7 @@ public class GuideBookScreen extends Screen {
 						heading.text(),
 						left + Math.min(8, Math.max(0, heading.level() - 2) * 3),
 						y,
-						heading.level() <= 2 ? 0xFFFFFF : 0xE0E0E0
+						heading.level() <= 2 ? 0xFFFFFFFF : 0xFFE0E0E0
 				);
 				y += 2;
 				continue;
@@ -407,7 +407,7 @@ public class GuideBookScreen extends Screen {
 						paragraph.text(),
 						left, y,
 						textWidth,
-						0xDDDDDD
+						0xFFDDDDDD
 				);
 				y += 4;
 				continue;
@@ -424,7 +424,7 @@ public class GuideBookScreen extends Screen {
 						marker + item.text(),
 						left + 5 + indent, y,
 						Math.max(40, textWidth - 5 - indent),
-						0xCCCCCC
+						0xFFCCCCCC
 				);
 				continue;
 			}
@@ -435,7 +435,7 @@ public class GuideBookScreen extends Screen {
 							graphics,
 							code.language(),
 							left + 4, y,
-							0x999999
+							0xFF999999
 					);
 				}
 
@@ -461,7 +461,7 @@ public class GuideBookScreen extends Screen {
 							line.isEmpty() ? " " : line,
 							left + 5, y,
 							Math.max(40, textWidth - 10),
-							0xD0D0D0
+							0xFFD0D0D0
 					);
 				}
 
@@ -478,7 +478,7 @@ public class GuideBookScreen extends Screen {
 						String.join("  |  ", table.cells()),
 						left + 4, y,
 						Math.max(40, textWidth - 8),
-						0xCCCCCC
+						0xFFCCCCCC
 				);
 			}
 		}
