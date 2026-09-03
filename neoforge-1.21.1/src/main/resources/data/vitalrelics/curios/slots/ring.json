@@ -1,0 +1,7 @@
+{
+  "size": 4,
+  "validators": [
+    "curios:tag",
+    "vitalrelics:relic_slot"
+  ]
+}

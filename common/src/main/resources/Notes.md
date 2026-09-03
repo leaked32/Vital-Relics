@@ -1,0 +1,1 @@
+Do not save anything might be loaded by Minecraft directly here.
