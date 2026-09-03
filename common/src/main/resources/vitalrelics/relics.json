@@ -535,7 +535,6 @@
       "id": "cherry_cross",
       "tooltip": "The pure power of cherry trees. ",
       "texture": "cherry_cross.png",
-      "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "curio_slot": "necklace",
       "rarity": "epic",
       "immune_to_effects": ["darkness", "blindness", "wither", "mining_fatigue"],
@@ -570,7 +569,6 @@
       "display_name": "Halo of the Celestial Aegis",
       "tooltip": "A sacred halo that shelters its wearer beneath a celestial ward.",
       "texture": "celestial_aegis.png",
-      "effective_slots": ["in_inventory", "in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "curio_slot": "head",
       "rarity": "epic",
       "granted_effects": {
@@ -605,7 +603,6 @@
     {
       "id": "cursed_crimson_rune",
       "texture": "cursed_crimson_rune.png",
-      "effective_slots": ["in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
       "rarity": "epic",
       "passive_skills": { "reality_severance": 4.5 },
       "granted_effects": { "strength": 2 },
