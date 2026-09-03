@@ -35,6 +35,16 @@
       },
       "count": 1
     },
+    "covenant_ring": {
+      "type": "shaped",
+      "pattern": [" E ", "GTG", " G "],
+      "key": {
+        "E": "minecraft:emerald",
+        "G": "minecraft:gold_ingot",
+        "T": "minecraft:ghast_tear"
+      },
+      "count": 1
+    },
     "swiftness_ring": {
       "type": "shaped",
       "pattern": [
@@ -639,6 +649,10 @@
     "scholars_convergence_ring": [
       { "table": "minecraft:chests/stronghold_library", "chance": 0.06 },
       { "table": "minecraft:chests/ancient_city", "chance": 0.03 }
+    ],
+    "covenant_ring": [
+      { "table": "minecraft:chests/village/village_temple", "chance": 0.05 },
+      { "table": "minecraft:chests/woodland_mansion", "chance": 0.03 }
     ],
     "swiftness_ring": [
       {

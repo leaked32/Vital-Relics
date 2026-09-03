@@ -262,5 +262,8 @@
   "message.vitalrelics.return_to_bed_unavailable": "Your bed is missing or obstructed.",
   "item.vitalrelics.scholars_convergence_ring": "Scholar's Convergence Ring",
   "tooltip.vitalrelics.scholars_convergence_ring": "Makes each experience level require nearly the same effort as the last.",
-  "relic.vitalrelics.passive_skill.experience_convergence": "Experience Convergence"
+  "relic.vitalrelics.passive_skill.experience_convergence": "Experience Convergence",
+  "item.vitalrelics.covenant_ring": "Covenant Ring",
+  "tooltip.vitalrelics.covenant_ring": "Surrounds its wearer and their allies with a restorative aura.",
+  "relic.vitalrelics.passive_skill.regeneration_aura": "Regeneration Aura"
 }

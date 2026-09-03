@@ -264,5 +264,8 @@
   "message.vitalrelics.return_to_bed_unavailable": "你的床已消失或周围被阻挡。",
   "item.vitalrelics.scholars_convergence_ring": "学者聚流戒指",
   "tooltip.vitalrelics.scholars_convergence_ring": "使每一级经验等级所需的努力近乎相同。",
-  "relic.vitalrelics.passive_skill.experience_convergence": "经验聚流"
+  "relic.vitalrelics.passive_skill.experience_convergence": "经验聚流",
+  "item.vitalrelics.covenant_ring": "盟约戒指",
+  "tooltip.vitalrelics.covenant_ring": "以治愈光环笼罩佩戴者及其盟友。",
+  "relic.vitalrelics.passive_skill.regeneration_aura": "再生光环"
 }

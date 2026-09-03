@@ -88,6 +88,22 @@ public final class MyEvents {
 
 		// Scheduled to update on each second
 		if (currentTick % 20 == 0) {
+			// Passive Skill: Regeneration Aura
+			final double regenerationAuraLevel = Loader.levelOfSuchPassiveSkill(
+					relics, Relic.PASSIVE_SKILL_REGENERATION_AURA);
+			if (regenerationAuraLevel > 0.0) {
+				final double range = 10.0 * regenerationAuraLevel;
+				final int amplifier = Math.min(255,
+						Math.max(0, (int) Math.floor(regenerationAuraLevel) - 1));
+				myLivingEntity.addEffect(Manifest.EFFECT_REGENERATION, 40, amplifier, true, false);
+
+				for (final MyLivingEntity target : myLivingEntity.livingEntitiesInRange(range)) {
+					if (myLivingEntity.isAllied(target))
+						target.addEffect(
+								Manifest.EFFECT_REGENERATION, 40, amplifier, true, false);
+				}
+			}
+
 			// Client HUD
 			if (myLivingEntity.isServerPlayer()) {
 				MySpellSystem.INSTANCE.syncSpellHud(myLivingEntity);

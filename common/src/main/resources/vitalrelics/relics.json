@@ -718,6 +718,17 @@
       }
     },
     {
+      "id": "covenant_ring",
+      "display_name": "Covenant Ring",
+      "tooltip": "Surrounds its wearer and their allies with a restorative aura.",
+      "texture": "ring_green_saturated.png",
+      "curio_slot": "ring",
+      "rarity": "rare",
+      "passive_skills": {
+        "regeneration_aura": 1.0
+      }
+    },
+    {
       "id": "reality_piercing",
       "display_name": "Halo of the Reality Piercing (Creative Mode Only)",
       "tooltip": "A creative-mode Relic (cannot be obtained in survival mode). ",
