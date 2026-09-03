@@ -151,7 +151,16 @@ public final class MyEvents {
 				accumulateLingeringWound(victim, amount, lingeringWoundLevel, currentTick);
 			}
 
-			applyLingeringWound(attacker, victim);
+			Scheduler.INSTANCE().addDelayedTask(
+					victim.uuid(),
+					new Scheduler.DelayTask(1, 1, () -> {
+						if (!victim.isLoaded() || victim.isDeadOrDying())
+							return;
+
+						applyLingeringWound(attacker, victim);
+					}),
+					currentTick
+			);
 		}
 
 		// Passive Skill: Thorns
@@ -161,7 +170,19 @@ public final class MyEvents {
 
 			if (thornsLevel > 0.0 && Scheduler.INSTANCE().acquireThorns(
 					victim.uuid(), currentTick, 10)) {
-				attacker.hurtThorns(victim, (float) (amount * thornsLevel));
+
+				final float thornsDamage = (float) (amount * thornsLevel);
+
+				Scheduler.INSTANCE().addDelayedTask(
+						attacker.uuid(),
+						new Scheduler.DelayTask(1, 1, () -> {
+							if (!attacker.isLoaded() || attacker.isDeadOrDying())
+								return;
+
+							attacker.hurtThorns(victim, thornsDamage);
+						}),
+						currentTick
+				);
 			}
 		}
 
