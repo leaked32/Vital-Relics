@@ -23,22 +23,7 @@ dependencyResolutionManagement {
 rootProject.name = "VitalRelics"
 
 include("common")
-
-def targets = [
-        "forge-1.20.1",
-        "neoforge-1.21.1",
-        "neoforge-1.21.8",
-        "neoforge-26.2"
-]
-
-def requestedTasks = gradle.startParameter.taskNames
-
-def selectedTargets = targets.findAll { target ->
-    requestedTasks.any { task ->
-        task.startsWith(":${target}:")
-    }
-}
-
-selectedTargets.each { target ->
-    include(target)
-}
+include("forge-1.20.1")
+include("neoforge-1.21.1")
+include("neoforge-1.21.8")
+include("neoforge-26.2")
