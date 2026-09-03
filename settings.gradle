@@ -4,8 +4,8 @@ pluginManagement {
         gradlePluginPortal()
         maven { url = "https://maven.neoforged.net/releases" }
         maven {
-            name = 'MinecraftForge'
-            url = 'https://maven.minecraftforge.net/'
+            name = "MinecraftForge"
+            url = "https://maven.minecraftforge.net/"
         }
     }
 }
@@ -20,10 +20,25 @@ dependencyResolutionManagement {
     }
 }
 
-
 rootProject.name = "VitalRelics"
 
 include("common")
-include("forge-1.20.1")
-include("neoforge-1.21.1")
-include("neoforge-1.21.8")
+
+def targets = [
+        "forge-1.20.1",
+        "neoforge-1.21.1",
+        "neoforge-1.21.8",
+        "neoforge-26.2"
+]
+
+def requestedTasks = gradle.startParameter.taskNames
+
+def selectedTargets = targets.findAll { target ->
+    requestedTasks.any { task ->
+        task.startsWith(":${target}:")
+    }
+}
+
+selectedTargets.each { target ->
+    include(target)
+}

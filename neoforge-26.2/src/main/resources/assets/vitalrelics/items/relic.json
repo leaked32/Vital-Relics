@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "vitalrelics:item/flat",
+    "model": {
+      "type": "vitalrelics:relic"
+    }
+  }
+}
