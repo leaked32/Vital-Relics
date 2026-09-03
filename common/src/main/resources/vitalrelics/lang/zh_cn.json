@@ -253,5 +253,16 @@
   "tooltip.vitalrelics.gravebound_bracelet": "将附近的生物拖入地下，也能直接埋葬选中的目标。",
 
   "message.vitalrelics.grave_shift_invalid_range": "葬地位移无法施放：配置的范围无效。",
-  "message.vitalrelics.grave_shift_requires_hostile_target": "葬地位移需要一个敌对目标。"
+  "message.vitalrelics.grave_shift_requires_hostile_target": "葬地位移需要一个敌对目标。",
+
+  "item.vitalrelics.enderkeeper_bracelet": "末影守护手环",
+  "tooltip.vitalrelics.enderkeeper_bracelet": "无论相隔多远，都能让佩戴者开启自己的末影箱。",
+  "relic.vitalrelics.spell.open_ender_chest": "开启末影箱",
+  "item.vitalrelics.homebound_bracelet": "归乡手环",
+  "tooltip.vitalrelics.homebound_bracelet": "引导佩戴者安全返回自己的床边。",
+  "relic.vitalrelics.spell.return_to_bed": "返回床边",
+  "message.vitalrelics.return_to_bed_unavailable": "你的床已消失或周围被阻挡。",
+  "item.vitalrelics.scholars_convergence_ring": "学者聚流戒指",
+  "tooltip.vitalrelics.scholars_convergence_ring": "使每一级经验等级所需的努力近乎相同。",
+  "relic.vitalrelics.passive_skill.experience_convergence": "经验聚流"
 }

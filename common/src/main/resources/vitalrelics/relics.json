@@ -683,8 +683,40 @@
           "recovery": 0.5
         }
       }
-    }
-  ,
+    },
+    {
+      "id": "enderkeeper_bracelet",
+      "display_name": "Enderkeeper Bracelet",
+      "tooltip": "Keeps the wearer's Ender Chest within reach across any distance.",
+      "texture": "bracelet_purple.png",
+      "curio_slot": "bracelet",
+      "rarity": "uncommon",
+      "available_spells": {
+        "open_ender_chest": { "recovery": 1.0 }
+      }
+    },
+    {
+      "id": "homebound_bracelet",
+      "display_name": "Homebound Bracelet",
+      "tooltip": "Guides its wearer safely back to their bed.",
+      "texture": "bracelet_blue.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "available_spells": {
+        "return_to_bed": { "recovery": 0.01 }
+      }
+    },
+    {
+      "id": "scholars_convergence_ring",
+      "display_name": "Scholar's Convergence Ring",
+      "tooltip": "Makes each experience level require nearly the same effort as the last.",
+      "texture": "ring_blue.png",
+      "curio_slot": "ring",
+      "rarity": "rare",
+      "passive_skills": {
+        "experience_convergence": 1.0
+      }
+    },
     {
       "id": "reality_piercing",
       "display_name": "Halo of the Reality Piercing (Creative Mode Only)",

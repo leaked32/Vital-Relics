@@ -13,6 +13,22 @@ import java.util.Map;
 import java.util.UUID;
 
 public final class MyEvents {
+	public static int onExperienceGain(final MyLivingEntity player, final int amount,
+			final int experienceNeededForNextLevel) {
+		if (amount <= 0 || experienceNeededForNextLevel <= 0)
+			return amount;
+
+		final double level = Loader.levelOfSuchPassiveSkill(
+				MyRuntime.getRuntimeUtils().gatherRelics(player),
+				Relic.PASSIVE_SKILL_EXPERIENCE_CONVERGENCE
+		);
+		if (level <= 0.0)
+			return amount;
+
+		final double multiplier = 1.0 + level * (experienceNeededForNextLevel / 7.0 - 1.0);
+		return (int) Math.min(Integer.MAX_VALUE, Math.max(amount, Math.round(amount * multiplier)));
+	}
+
 	private MyEvents() {}
 
 	public static void onLivingEntityTick(

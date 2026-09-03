@@ -16,9 +16,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
@@ -39,6 +43,7 @@ import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.example.vitalrelics.Utils.message;
@@ -89,6 +94,50 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 
 	private static MyVec3 wrap(final Vec3 value) {
 		return new MyVec3(value.x, value.y, value.z);
+	}
+
+	@Override
+	public boolean openEnderChest(final MyLivingEntity caster) {
+		final ServerPlayer player = player(caster);
+		if (player == null)
+			return false;
+
+		player.openMenu(new SimpleMenuProvider(
+				(id, inventory, ignored) -> ChestMenu.threeRows(
+						id, inventory, player.getEnderChestInventory()),
+				Component.translatable("container.enderchest")
+		));
+		return true;
+	}
+
+	@Override
+	public boolean returnToBed(final MyLivingEntity caster) {
+		final ServerPlayer player = player(caster);
+		if (player == null || player.getRespawnConfig() == null)
+			return false;
+
+		final ServerPlayer.RespawnConfig config = player.getRespawnConfig();
+		final var data = config.respawnData();
+		final MinecraftServer server = player.level().getServer();
+		final ServerLevel level = server == null ? null : server.getLevel(data.dimension());
+		if (level == null || !level.getBlockState(data.pos()).is(BlockTags.BEDS)) {
+			showMessage(caster, "message.vitalrelics.return_to_bed_unavailable",
+					"Your bed is missing or obstructed.");
+			return false;
+		}
+
+		final var destination = BedBlock.findStandUpPosition(
+				EntityTypes.PLAYER, level, data.pos(), data.yaw());
+		if (destination.isEmpty()) {
+			showMessage(caster, "message.vitalrelics.return_to_bed_unavailable",
+					"Your bed is missing or obstructed.");
+			return false;
+		}
+
+		final Vec3 position = destination.get();
+		player.teleportTo(level, position.x, position.y, position.z, Set.of(),
+				player.getYRot(), player.getXRot(), true);
+		return true;
 	}
 
 

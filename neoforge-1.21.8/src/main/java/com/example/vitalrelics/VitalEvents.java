@@ -26,6 +26,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -38,6 +39,17 @@ import java.util.Map;
 import static com.example.vitalrelics.Utils.*;
 
 public final class VitalEvents {
+	@SubscribeEvent
+	public static void onExperienceGain(final PlayerXpEvent.XpChange event) {
+		final int amount = event.getAmount();
+		if (amount <= 0)
+			return;
+
+		event.setAmount(MyEvents.onExperienceGain(
+				new NeoLivingEntity(event.getEntity()), amount,
+				event.getEntity().getXpNeededForNextLevel()
+		));
+	}
 
 	/*
 	Properties

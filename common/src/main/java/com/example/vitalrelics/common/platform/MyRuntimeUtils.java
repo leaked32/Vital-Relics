@@ -20,6 +20,8 @@ public interface MyRuntimeUtils {
 	void showSelectedSpell(MyLivingEntity caster, String spellId);
 	void showSpellCooldown(MyLivingEntity caster, String spellId, int remainingTicks);
 	void showMessage(MyLivingEntity caster, String key, String fallback);
+	boolean openEnderChest(MyLivingEntity caster);
+	boolean returnToBed(MyLivingEntity caster);
 
 	// Utils
 	void log(String message);

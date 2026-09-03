@@ -5,6 +5,36 @@
   },
 
   "recipes": {
+    "enderkeeper_bracelet": {
+      "type": "shaped",
+      "pattern": ["OEO", "EPE", "OEO"],
+      "key": {
+        "O": "minecraft:obsidian",
+        "E": "minecraft:ender_pearl",
+        "P": "minecraft:ender_eye"
+      },
+      "count": 1
+    },
+    "homebound_bracelet": {
+      "type": "shaped",
+      "pattern": ["GCG", "RBR", "GCG"],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "C": "minecraft:compass",
+        "R": "minecraft:redstone",
+        "B": "minecraft:red_bed"
+      },
+      "count": 1
+    },
+    "scholars_convergence_ring": {
+      "type": "shaped",
+      "pattern": [" L ", "LGL", " L "],
+      "key": {
+        "L": "minecraft:lapis_lazuli",
+        "G": "minecraft:gold_ingot"
+      },
+      "count": 1
+    },
     "swiftness_ring": {
       "type": "shaped",
       "pattern": [
@@ -598,6 +628,18 @@
     }
   },
   "loot": {
+    "enderkeeper_bracelet": [
+      { "table": "minecraft:chests/stronghold_corridor", "chance": 0.04 },
+      { "table": "minecraft:chests/end_city_treasure", "chance": 0.08 }
+    ],
+    "homebound_bracelet": [
+      { "table": "minecraft:chests/village/village_cartographer", "chance": 0.06 },
+      { "table": "minecraft:chests/woodland_mansion", "chance": 0.04 }
+    ],
+    "scholars_convergence_ring": [
+      { "table": "minecraft:chests/stronghold_library", "chance": 0.06 },
+      { "table": "minecraft:chests/ancient_city", "chance": 0.03 }
+    ],
     "swiftness_ring": [
       {
         "table": "minecraft:chests/village/village_temple",

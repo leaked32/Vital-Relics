@@ -325,6 +325,23 @@ public final class MySpellSystem {
 			caster.playSound(MySound.ENCHANTMENT_TABLE_USE);
 			return true;
 		});
+
+		/*
+		Utility Spells
+		 */
+		register(Relic.SPELL_OPEN_ENDER_CHEST, (caster, spell) -> {
+			if (!runtime.openEnderChest(caster))
+				return false;
+			caster.playSound(MySound.AMETHYST_CHIME);
+			return true;
+		});
+
+		register(Relic.SPELL_RETURN_TO_BED, (caster, spell) -> {
+			if (!runtime.returnToBed(caster))
+				return false;
+			caster.playSound(MySound.TELEPORT);
+			return true;
+		});
 	}
 
 	private void register(final String abilityId, final Handler handler) {

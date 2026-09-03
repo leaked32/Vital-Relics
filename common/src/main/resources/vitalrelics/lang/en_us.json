@@ -251,5 +251,16 @@
   "relic.vitalrelics.passive_skill.grave_dominion": "Grave Dominion",
   "relic.vitalrelics.spell.grave_shift": "Grave Shift",
   "item.vitalrelics.gravebound_bracelet": "Gravebound Bracelet",
-  "tooltip.vitalrelics.gravebound_bracelet": "Drags nearby creatures beneath the earth and can bury a chosen target outright."
+  "tooltip.vitalrelics.gravebound_bracelet": "Drags nearby creatures beneath the earth and can bury a chosen target outright.",
+
+  "item.vitalrelics.enderkeeper_bracelet": "Enderkeeper Bracelet",
+  "tooltip.vitalrelics.enderkeeper_bracelet": "Keeps the wearer's Ender Chest within reach across any distance.",
+  "relic.vitalrelics.spell.open_ender_chest": "Open Ender Chest",
+  "item.vitalrelics.homebound_bracelet": "Homebound Bracelet",
+  "tooltip.vitalrelics.homebound_bracelet": "Guides its wearer safely back to their bed.",
+  "relic.vitalrelics.spell.return_to_bed": "Return to Bed",
+  "message.vitalrelics.return_to_bed_unavailable": "Your bed is missing or obstructed.",
+  "item.vitalrelics.scholars_convergence_ring": "Scholar's Convergence Ring",
+  "tooltip.vitalrelics.scholars_convergence_ring": "Makes each experience level require nearly the same effort as the last.",
+  "relic.vitalrelics.passive_skill.experience_convergence": "Experience Convergence"
 }

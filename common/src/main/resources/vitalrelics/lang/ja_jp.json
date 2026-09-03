@@ -253,5 +253,16 @@
   "tooltip.vitalrelics.gravebound_bracelet": "将附近的生物拖入地下，也能直接埋葬选中的目标。",
 
   "message.vitalrelics.grave_shift_invalid_range": "葬地位移は射程が無効なため発動できません。",
-  "message.vitalrelics.grave_shift_requires_hostile_target": "葬地位移には敵対対象が必要です。"
+  "message.vitalrelics.grave_shift_requires_hostile_target": "葬地位移には敵対対象が必要です。",
+
+  "item.vitalrelics.enderkeeper_bracelet": "エンダーキーパーの腕輪",
+  "tooltip.vitalrelics.enderkeeper_bracelet": "どれほど離れていても、自分のエンダーチェストを開ける。",
+  "relic.vitalrelics.spell.open_ender_chest": "エンダーチェストを開く",
+  "item.vitalrelics.homebound_bracelet": "帰郷の腕輪",
+  "tooltip.vitalrelics.homebound_bracelet": "装備者を安全にベッドへ帰還させる。",
+  "relic.vitalrelics.spell.return_to_bed": "ベッドへ帰還",
+  "message.vitalrelics.return_to_bed_unavailable": "ベッドが失われたか、周囲が塞がれている。",
+  "item.vitalrelics.scholars_convergence_ring": "学究の収束指輪",
+  "tooltip.vitalrelics.scholars_convergence_ring": "どの経験値レベルにも、ほぼ同じ労力で到達できる。",
+  "relic.vitalrelics.passive_skill.experience_convergence": "経験収束"
 }

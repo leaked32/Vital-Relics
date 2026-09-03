@@ -31,6 +31,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -40,6 +41,17 @@ import java.util.UUID;
 import static com.example.vitalrelics.Utils.*;
 
 public final class VitalEvents {
+	@SubscribeEvent
+	public static void onExperienceGain(final PlayerXpEvent.XpChange event) {
+		final int amount = event.getAmount();
+		if (amount <= 0)
+			return;
+
+		event.setAmount(MyEvents.onExperienceGain(
+				new ForgeLivingEntity(event.getEntity()), amount,
+				event.getEntity().getXpNeededForNextLevel()
+		));
+	}
 
 	private static UUID modifierId(final String name) {
 		return UUID.nameUUIDFromBytes((Manifest.MODID + ":" + name).getBytes(StandardCharsets.UTF_8));
