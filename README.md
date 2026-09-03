@@ -76,8 +76,6 @@ Which enemies can receive each relic—and how frequently they appear—can be c
 *   **Minecraft 1.21.8 — NeoForge**
 *   **Minecraft 26.2 — NeoForge**
 
-Both versions aim to provide the same relic behavior and features.
-
 ## Integrations
 
 *   **Curios API** — relic equipment
