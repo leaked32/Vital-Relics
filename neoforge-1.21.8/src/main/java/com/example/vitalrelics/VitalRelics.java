@@ -12,7 +12,6 @@ import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.NeoNetwork;
 import com.example.vitalrelics.platform.NeoRuntimeUtils;
 import com.mojang.logging.LogUtils;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -66,8 +65,6 @@ public class VitalRelics
 	// public final static AcquisitionLoader acquisition = AcquisitionLoader.INSTANCE;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
 
-	private static final ResourceLocation RELIC_ITEM_MODEL = ResourceLocation.fromNamespaceAndPath(Manifest.MODID, "relic");
-
 	public static final DeferredItem<GuideBookItem> GUIDE_BOOK = ITEMS.registerItem("guide_book", GuideBookItem::new);
 
 	public VitalRelics(
@@ -115,7 +112,6 @@ public class VitalRelics
 													relic.id
 											)
 									))
-									.component(DataComponents.ITEM_MODEL, RELIC_ITEM_MODEL)
 									.rarity(rarity)
 					)
 			));

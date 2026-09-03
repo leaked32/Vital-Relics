@@ -1,10 +1,14 @@
 package com.example.vitalrelics;
 
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -13,11 +17,25 @@ import com.example.vitalrelics.common.RelicText;
 import java.util.List;
 
 public class RelicItem extends Item {
+	private static final ResourceLocation MODEL = ResourceLocation.fromNamespaceAndPath(
+			Manifest.MODID, "relic"
+	);
+
 	public final Relic relic;
+	private final DataComponentMap components;
 
 	public RelicItem(final Relic relic, final Properties properties) {
 		super(properties);
 		this.relic = relic;
+		this.components = DataComponentMap.builder()
+				.addAll(super.components())
+				.set(DataComponents.ITEM_MODEL, MODEL)
+				.build();
+	}
+
+	@Override
+	public DataComponentMap components() {
+		return components;
 	}
 
 	public Relic relic() {
