@@ -29,6 +29,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
@@ -123,10 +124,8 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 			return false;
 		}
 
-		final var destination = ServerPlayer.findRespawnPositionAndUseSpawnBlock(
-				level, player.getRespawnPosition(), player.getRespawnAngle(),
-				player.isRespawnForced(), true
-		);
+		final var destination = BedBlock.findStandUpPosition(
+				EntityType.PLAYER, level, player.getRespawnPosition(), player.getRespawnAngle());
 		if (destination.isEmpty()) {
 			showMessage(caster, "message.vitalrelics.return_to_bed_unavailable",
 					"Your bed is missing or obstructed.");

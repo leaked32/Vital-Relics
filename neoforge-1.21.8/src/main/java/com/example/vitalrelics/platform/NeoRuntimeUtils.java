@@ -110,17 +110,16 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 			return false;
 
 		final ServerPlayer.RespawnConfig config = player.getRespawnConfig();
-		final var data =  config.respawnData();
 		final MinecraftServer server = player.level().getServer();
-		final ServerLevel level = server == null ? null : server.getLevel(data.dimension());
-		if (level == null || !level.getBlockState(data.pos()).is(BlockTags.BEDS)) {
+		final ServerLevel level = server == null ? null : server.getLevel(config.dimension());
+		if (level == null || !level.getBlockState(config.pos()).is(BlockTags.BEDS)) {
 			showMessage(caster, "message.vitalrelics.return_to_bed_unavailable",
 					"Your bed is missing or obstructed.");
 			return false;
 		}
 
 		final var destination = BedBlock.findStandUpPosition(
-				EntityType.PLAYER, level, data.pos(), data.yaw());
+				EntityType.PLAYER, level, config.pos(), config.angle());
 		if (destination.isEmpty()) {
 			showMessage(caster, "message.vitalrelics.return_to_bed_unavailable",
 					"Your bed is missing or obstructed.");
