@@ -141,7 +141,7 @@ public class GuidePage {
 			section.lines.add(trf(
 					"guide.vitalrelics.effect.granted", "%s %s",
 					resolveEffectName(entry.getKey(), effectName),
-					romanNumeral(entry.getValue() + 1)
+					romanNumeral(entry.getValue())
 			));
 		}
 
