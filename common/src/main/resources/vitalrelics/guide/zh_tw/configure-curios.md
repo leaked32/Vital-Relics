@@ -78,12 +78,20 @@ Vital Relics 是一個高度可設定、基於數據的遺物系統。遺物在 
 - `lifesteal`：依照造成的傷害 × 等級來治療持有者
 - `thorns`：反彈受到的傷害 × 等級；反彈受冷卻時間限制
 - `fire_resistance`：熄滅火焰。
+- `lava_swimmer`：預留的被動技能 ID，目前沒有執行時效果。
 - `iron_curtain`：超強無敵時間
 - `lingering_wound`：將造成的部分傷害累積為臨時傷口，
   降低目標的有效最大生命值，
   並阻止生命值恢復超過剩餘生命值上限。額外傷害可使傷口累積值增加兩次，
   即同時獲得原始攻擊所產生的累積值
   以及由額外傷害帶來的額外累積值。
+- `grave_dominion`：每半秒將附近實體向下移動其自身高度。
+  作用半徑的格數等於技能等級。
+- `experience_convergence`：將正經驗值獲取量乘以
+  `1 + 等級 ×（升至下一級所需經驗值 / 7 - 1）`，
+  使經驗等級增長趨近線性。
+- `healing_aura`：將每次設定的 `heal` 週期性動作分享給等級數值格範圍內的
+  友方生物。此技能本身不會產生治療。
 
 範例
 ```json
@@ -171,6 +179,8 @@ invulnerable_time_dealt
 - `absorption`（吸收）：賦予「吸收」效果，持續 `duration_ticks` 刻，強度為配置的 `amplifier`
 - `sky_launch`（升空）：將 `range` 範圍內的敵對生物向上拋起 `strength` 距離
 - `shadow_exchange`（暗影互換）：與 `range` 範圍內指向的敵對生物互換位置
+- `grave_shift`（葬地位移）：將 `range` 範圍內指向的非友方生物移入地下。
+  設定範圍上限為 256 格。
 - `phantom_step`（幻影步）：瞬間向前移動最多 `range` 格，並對路徑上的敵對
   生物造成攻擊傷害 `intensity`% 的傷害
 - `upgrade_enchanted_book`（升級附魔書）：升級主手所持附魔書上的
@@ -183,6 +193,9 @@ invulnerable_time_dealt
   消耗 `experience_cost` 數量的經驗等級；創造模式玩家無需支付此消耗。
 - `disenchantment`（附魔剝離）：移除主手物品上的第一個附魔，
   並將其以相同等級轉移至副手持有的書本上。
+- `open_ender_chest`（開啟終界箱）：開啟施法者自己的終界箱。
+- `return_to_bed`（返回床邊）：將施法者傳送至重生床旁安全的站立位置。
+  若床已消失或周圍被阻擋，施法將失敗。
 
 恢復 / 冷卻時間
 ```text

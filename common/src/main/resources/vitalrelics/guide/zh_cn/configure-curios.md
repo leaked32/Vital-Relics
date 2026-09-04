@@ -78,12 +78,20 @@ Vital Relics 是一个高度可配置、基于数据的遗物系统。遗物在 
 - `lifesteal`：根据造成的伤害 × 等级来治疗持有者
 - `thorns`：反弹受到的伤害 × 等级；反弹受冷却时间限制
 - `fire_resistance`：熄灭火焰。
+- `lava_swimmer`：预留的被动技能 ID，目前没有运行时效果。
 - `iron_curtain`：超强无敌时间
 - `lingering_wound`：将造成的部分伤害累积为临时伤口，
   降低目标的有效最大生命值，
   并阻止生命值恢复超过剩余生命值上限。额外伤害可使伤口累积值增加两次，
   即同时获得原始攻击产生的累积值
   以及由额外伤害带来的额外累积值。
+- `grave_dominion`：每半秒将附近实体向下移动其自身高度。
+  作用半径的格数等于技能等级。
+- `experience_convergence`：将正经验值获取量乘以
+  `1 + 等级 ×（升至下一级所需经验值 / 7 - 1）`，
+  使经验等级增长趋近线性。
+- `healing_aura`：将每次配置的 `heal` 周期性动作共享给等级数值格范围内的
+  友方生物。此技能本身不会产生治疗。
 
 示例
 ```json
@@ -171,6 +179,8 @@ invulnerable_time_dealt
 - `absorption`（吸收）：赋予“吸收”效果，持续 `duration_ticks` 刻，强度为配置的 `amplifier`
 - `sky_launch`（升空）：将 `range` 范围内的敌对生物向上抛起 `strength` 距离
 - `shadow_exchange`（暗影互换）：与 `range` 范围内指向的敌对生物互换位置
+- `grave_shift`（葬地位移）：将 `range` 范围内指向的非友方生物移入地下。
+  配置范围上限为 256 格。
 - `phantom_step`（幻影步）：瞬间向前移动最多 `range` 格，并对路径上的敌对
   生物造成攻击伤害 `intensity`% 的伤害
 - `upgrade_enchanted_book`（升级附魔书）：升级主手所持附魔书上的
@@ -183,6 +193,9 @@ invulnerable_time_dealt
   消耗 `experience_cost` 数量的经验等级；创造模式玩家无需支付此消耗。
 - `disenchantment`（附魔剥离）：移除主手物品上的第一个附魔，
   并将其以相同等级转移至副手持有的书本上。
+- `open_ender_chest`（开启末影箱）：开启施法者自己的末影箱。
+- `return_to_bed`（返回床边）：将施法者传送至重生床旁安全的站立位置。
+  若床已消失或周围被阻挡，施法将失败。
 
 恢复 / 冷却时间
 ```text
