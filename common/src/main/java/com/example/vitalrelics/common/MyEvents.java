@@ -33,6 +33,8 @@ public final class MyEvents {
 
 	public static void onLivingEntityTick(
 			MyLivingEntity myLivingEntity, final int currentTick, List<Relic> relics) {
+		spawnEnemyRelicParticles(myLivingEntity, relics, currentTick);
+
 		final Map<String, Relic.Ticks.Info> ticks = Loader.computeTicks(relics, currentTick);
 		final double healingAuraLevel = Loader.levelOfSuchPassiveSkill(
 				relics, Relic.PASSIVE_SKILL_HEALING_AURA);
@@ -117,6 +119,54 @@ public final class MyEvents {
 				myLivingEntity.mendEquipment(Math.max(1, (int) Math.round(metalMendingLevel)));
 			}
 		}
+	}
+
+	public static void spawnEnemyRelicParticles(
+			final MyLivingEntity entity, final List<Relic> relics, final int currentTick) {
+		final MyRuntimeUtils runtime = MyRuntime.getRuntimeUtils();
+		if (!runtime.hasEnemyRelics(entity) || relics.isEmpty() || currentTick % 2 != 0)
+			return;
+
+		double score = 0.0;
+		for (final Relic relic : relics) {
+			score += switch (relic.rarity) {
+				case "common" -> 0.10;
+				case "uncommon" -> 0.20;
+				case "rare" -> 0.40;
+				case "epic" -> 1.00;
+				default -> 0.10;
+			};
+		}
+
+		final int particleCount = 8;
+		final double radius = Math.max(0.6, entity.width() * 0.75);
+		final double y = entity.y() + entity.height() + 0.35;
+		final double rotation = currentTick * 0.12;
+
+		for (int i = 0; i < particleCount; ++i) {
+			final double angle = rotation + Math.PI * 2.0 * i / particleCount;
+			final double x = entity.x() + Math.cos(angle) * radius;
+			final double z = entity.z() + Math.sin(angle) * radius;
+			final int color;
+
+			if (score >= 1.0) {
+				color = (i & 1) == 0
+						? rgb(0.45F, 0.01F, 0.01F)
+						: rgb(0.10F, 0.005F, 0.005F);
+			} else {
+				final float t = (float) Math.max(0.0, Math.min(1.0, score));
+				color = rgb(1.0F - 0.55F * t, 0.65F * (1.0F - t), 0.75F * (1.0F - t));
+			}
+
+			runtime.spawnDustParticle(entity, color, x, y, z);
+		}
+	}
+
+	private static int rgb(final float red, final float green, final float blue) {
+		final int r = Math.round(red * 255.0F);
+		final int g = Math.round(green * 255.0F);
+		final int b = Math.round(blue * 255.0F);
+		return r << 16 | g << 8 | b;
 	}
 
 	public static float onLivingDamage(

@@ -1,6 +1,7 @@
 package com.example.vitalrelics.platform;
 
 import com.example.vitalrelics.VitalRelics;
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
@@ -138,6 +139,27 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 	public List<Relic> gatherRelics(final MyLivingEntity entity) {
 		return com.example.vitalrelics.Utils.gatherRelics(
 				nativeEntity(entity)
+		);
+	}
+
+	@Override
+	public boolean hasEnemyRelics(final MyLivingEntity entity) {
+		return nativeEntity(entity).getPersistentData()
+				.getList(Manifest.ENEMY_RELICS_TAG)
+				.map(list -> !list.isEmpty())
+				.orElse(false);
+	}
+
+	@Override
+	public void spawnDustParticle(
+			final MyLivingEntity entity, final int color,
+			final double x, final double y, final double z) {
+		if (!(nativeEntity(entity).level() instanceof ServerLevel level))
+			return;
+
+		level.sendParticles(
+				new net.minecraft.core.particles.DustParticleOptions(color, 1.0F),
+				x, y, z, 1, 0.0, 0.0, 0.0, 0.0
 		);
 	}
 

@@ -1,6 +1,7 @@
 package com.example.vitalrelics.platform;
 
 import com.example.vitalrelics.VitalRelics;
+import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
@@ -138,6 +139,30 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 	public List<Relic> gatherRelics(final MyLivingEntity entity) {
 		return com.example.vitalrelics.Utils.gatherRelics(
 				nativeEntity(entity)
+		);
+	}
+
+	@Override
+	public boolean hasEnemyRelics(final MyLivingEntity entity) {
+		final var tag = nativeEntity(entity).getPersistentData();
+		return tag.contains(Manifest.ENEMY_RELICS_TAG) && !tag.getList(
+				Manifest.ENEMY_RELICS_TAG, net.minecraft.nbt.Tag.TAG_STRING).isEmpty();
+	}
+
+	@Override
+	public void spawnDustParticle(
+			final MyLivingEntity entity, final int color,
+			final double x, final double y, final double z) {
+		if (!(nativeEntity(entity).level() instanceof ServerLevel level))
+			return;
+
+		final float red = (color >> 16 & 0xFF) / 255.0F;
+		final float green = (color >> 8 & 0xFF) / 255.0F;
+		final float blue = (color & 0xFF) / 255.0F;
+		level.sendParticles(
+				new net.minecraft.core.particles.DustParticleOptions(
+						new org.joml.Vector3f(red, green, blue), 1.0F),
+				x, y, z, 1, 0.0, 0.0, 0.0, 0.0
 		);
 	}
 

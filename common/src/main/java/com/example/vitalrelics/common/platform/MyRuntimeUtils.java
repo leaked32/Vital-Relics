@@ -27,6 +27,8 @@ public interface MyRuntimeUtils {
 	void log(String message);
 	List<Relic> gatherRelics(MyLivingEntity entity);
 	boolean isEntityValid(UUID uuid);
+	boolean hasEnemyRelics(MyLivingEntity entity);
+	void spawnDustParticle(MyLivingEntity entity, int color, double x, double y, double z);
 	void showCurseRequiresTarget(MyLivingEntity caster);
 	void summonVisualLightning(MyLivingEntity target);
 	default MyDamageSource extraDamageSource(final MyLivingEntity attacker) {

@@ -120,7 +120,6 @@ public final class VitalEvents {
 
 		final MyLivingEntity entity = new NeoLivingEntity(livingEntity);
 		MyEvents.onLivingEntityTick(entity, currentTickCount, relics);
-		spawnEnemyRelicParticles(livingEntity, relics, currentTickCount);
 
 		// Scheduled to update on each second
 		if (currentTickCount % 20 == 0) {

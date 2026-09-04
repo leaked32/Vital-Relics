@@ -7,7 +7,6 @@ import com.example.vitalrelics.common.relics.Translations;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
@@ -17,7 +16,6 @@ import net.neoforged.fml.ModList;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 //import static com.example.vitalrelics.compat.TouhouMaidCompat.gatherMaidRelics;
@@ -295,87 +293,4 @@ public class Utils {
 				.putBoolean(Manifest.ENEMY_RELICS_ROLLED_TAG, true);
 	}
 
-	// Visual effects for enemies with relics in this mod.
-	private static double relicEnemyScore(final Relic relic) {
-		return switch (relic.rarity) {
-			case "common" -> 0.10;
-			case "uncommon" -> 0.20;
-			case "rare" -> 0.40;
-			case "epic" -> 1.00;
-			default -> 0.10;
-		};
-	}
-
-	private static double enemyRelicScore(final List<Relic> relics) {
-		double score = 0.0;
-
-		for (final Relic relic : relics)
-			score += relicEnemyScore(relic);
-
-		return score;
-	}
-
-	public static boolean hasEnemyRelics(final LivingEntity entity) {
-		return entity.getPersistentData()
-				.getList(Manifest.ENEMY_RELICS_TAG)
-				.map(list -> !list.isEmpty())
-				.orElse(false);
-	}
-
-	public static void spawnEnemyRelicParticles(
-			final LivingEntity entity,
-			final List<Relic> relics,
-			final int currentTick) {
-
-		if (!hasEnemyRelics(entity) || relics.isEmpty())
-			return;
-
-		if (!(entity.level() instanceof ServerLevel level))
-			return;
-
-		if (currentTick % 2 != 0)
-			return;
-
-		final double score = enemyRelicScore(relics);
-
-		final int particleCount = 8;
-		final double radius = Math.max(0.6, entity.getBbWidth() * 0.75);
-		final double y = entity.getY() + entity.getBbHeight() + 0.35;
-		final double rotation = currentTick * 0.12;
-
-		for (int i = 0; i < particleCount; ++i) {
-			final double angle = rotation + Math.PI * 2.0 * i / particleCount;
-			final double x = entity.getX() + Math.cos(angle) * radius;
-			final double z = entity.getZ() + Math.sin(angle) * radius;
-
-			final int color;
-
-			if (score >= 1.0) {
-				color = (i & 1) == 0
-						? rgb(0.45F, 0.01F, 0.01F)
-						: rgb(0.10F, 0.005F, 0.005F);
-			} else {
-				final float t = (float) Math.max(0.0, Math.min(1.0, score));
-
-				final float red = 1.0F - 0.55F * t;
-				final float green = 0.65F * (1.0F - t);
-				final float blue = 0.75F * (1.0F - t);
-
-				color = rgb(red, green, blue);
-			}
-
-			level.sendParticles(
-					new net.minecraft.core.particles.DustParticleOptions(color, 1.0F),
-					x, y, z, 1, 0.0, 0.0, 0.0, 0.0
-			);
-		}
-	}
-
-	private static int rgb(final float red, final float green, final float blue) {
-		final int r = Math.round(red * 255.0F);
-		final int g = Math.round(green * 255.0F);
-		final int b = Math.round(blue * 255.0F);
-
-		return r << 16 | g << 8 | b;
-	}
 }

@@ -145,7 +145,6 @@ public final class VitalEvents {
 
 		final MyLivingEntity entity = new ForgeLivingEntity(livingEntity);
 		MyEvents.onLivingEntityTick(entity, currentTickCount, relics);
-		spawnEnemyRelicParticles(livingEntity, relics, currentTickCount);
 
 		if (currentTickCount % 20 == 0) {
 			// Properties
