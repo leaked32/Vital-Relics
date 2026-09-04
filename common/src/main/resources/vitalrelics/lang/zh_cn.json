@@ -266,6 +266,6 @@
   "tooltip.vitalrelics.scholars_convergence_ring": "使每一级经验等级所需的努力近乎相同。",
   "relic.vitalrelics.passive_skill.experience_convergence": "经验聚流",
   "item.vitalrelics.covenant_ring": "盟约戒指",
-  "tooltip.vitalrelics.covenant_ring": "以治愈光环笼罩佩戴者及其盟友。",
-  "relic.vitalrelics.passive_skill.regeneration_aura": "再生光环"
+  "tooltip.vitalrelics.covenant_ring": "将佩戴者的周期治疗分享给附近盟友。",
+  "relic.vitalrelics.passive_skill.healing_aura": "治疗光环"
 }

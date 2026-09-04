@@ -34,13 +34,27 @@ public final class MyEvents {
 	public static void onLivingEntityTick(
 			MyLivingEntity myLivingEntity, final int currentTick, List<Relic> relics) {
 		final Map<String, Relic.Ticks.Info> ticks = Loader.computeTicks(relics, currentTick);
+		final double healingAuraLevel = Loader.levelOfSuchPassiveSkill(
+				relics, Relic.PASSIVE_SKILL_HEALING_AURA);
 
 		for (final var entry : ticks.entrySet()) {
 			final Relic.Ticks.Info value = entry.getValue();
 
 			switch (entry.getKey()) {
-				case "heal" -> myLivingEntity.heal((float) (
-						value.add + myLivingEntity.maxHealth() * value.ratio_add));
+				case "heal" -> {
+					myLivingEntity.heal((float) (
+							value.add + myLivingEntity.maxHealth() * value.ratio_add));
+
+					if (healingAuraLevel > 0.0) {
+						final double range = 10.0 * healingAuraLevel;
+						for (final MyLivingEntity target : myLivingEntity.livingEntitiesInRange(range)) {
+							if (myLivingEntity.isAllied(target)) {
+								target.heal((float) (
+										value.add + target.maxHealth() * value.ratio_add));
+							}
+						}
+					}
+				}
 				case "feed" -> {
 					final float amount = (float) (
 							value.add + myLivingEntity.maxHealth() * value.ratio_add);
@@ -88,22 +102,6 @@ public final class MyEvents {
 
 		// Scheduled to update on each second
 		if (currentTick % 20 == 0) {
-			// Passive Skill: Regeneration Aura
-			final double regenerationAuraLevel = Loader.levelOfSuchPassiveSkill(
-					relics, Relic.PASSIVE_SKILL_REGENERATION_AURA);
-			if (regenerationAuraLevel > 0.0) {
-				final double range = 10.0 * regenerationAuraLevel;
-				final int amplifier = Math.min(255,
-						Math.max(0, (int) Math.floor(regenerationAuraLevel) - 1));
-				myLivingEntity.addEffect(Manifest.EFFECT_REGENERATION, 40, amplifier, true, false);
-
-				for (final MyLivingEntity target : myLivingEntity.livingEntitiesInRange(range)) {
-					if (myLivingEntity.isAllied(target))
-						target.addEffect(
-								Manifest.EFFECT_REGENERATION, 40, amplifier, true, false);
-				}
-			}
-
 			// Client HUD
 			if (myLivingEntity.isServerPlayer()) {
 				MySpellSystem.INSTANCE.syncSpellHud(myLivingEntity);

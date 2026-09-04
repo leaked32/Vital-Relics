@@ -720,12 +720,18 @@
     {
       "id": "covenant_ring",
       "display_name": "Covenant Ring",
-      "tooltip": "Surrounds its wearer and their allies with a restorative aura.",
+      "tooltip": "Shares its wearer's healing pulses with nearby allies.",
       "texture": "ring_green_saturated.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
-        "regeneration_aura": 1.0
+        "healing_aura": 1.0
+      },
+      "ticks": {
+        "heal": {
+          "interval_ticks": 20,
+          "add": 1.0
+        }
       }
     },
     {

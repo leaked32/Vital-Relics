@@ -264,6 +264,6 @@
   "tooltip.vitalrelics.scholars_convergence_ring": "Makes each experience level require nearly the same effort as the last.",
   "relic.vitalrelics.passive_skill.experience_convergence": "Experience Convergence",
   "item.vitalrelics.covenant_ring": "Covenant Ring",
-  "tooltip.vitalrelics.covenant_ring": "Surrounds its wearer and their allies with a restorative aura.",
-  "relic.vitalrelics.passive_skill.regeneration_aura": "Regeneration Aura"
+  "tooltip.vitalrelics.covenant_ring": "Shares its wearer's healing pulses with nearby allies.",
+  "relic.vitalrelics.passive_skill.healing_aura": "Healing Aura"
 }

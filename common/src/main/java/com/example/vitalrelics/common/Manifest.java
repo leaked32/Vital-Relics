@@ -33,5 +33,4 @@ public class Manifest {
 	Minecraft IDs
 	 */
 	public static final String EFFECT_ABSORPTION = "absorption";
-	public static final String EFFECT_REGENERATION = "regeneration";
 }

@@ -266,6 +266,6 @@
   "tooltip.vitalrelics.scholars_convergence_ring": "どの経験値レベルにも、ほぼ同じ労力で到達できる。",
   "relic.vitalrelics.passive_skill.experience_convergence": "経験収束",
   "item.vitalrelics.covenant_ring": "盟約の指輪",
-  "tooltip.vitalrelics.covenant_ring": "装備者と味方を再生のオーラで包む。",
-  "relic.vitalrelics.passive_skill.regeneration_aura": "再生のオーラ"
+  "tooltip.vitalrelics.covenant_ring": "装備者の周期的な回復を近くの味方と共有する。",
+  "relic.vitalrelics.passive_skill.healing_aura": "治癒のオーラ"
 }
