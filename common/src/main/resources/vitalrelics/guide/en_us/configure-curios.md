@@ -80,6 +80,7 @@ Available Passive skills:
 - `lifesteal`: Heals the bearer for damage dealt × level
 - `thorns`: Reflects received damage × level; reflection is limited by a cooldown
 - `fire_resistance`: Extinguish fire.
+- `lava_swimmer`: Reserved passive-skill ID. It currently has no runtime effect.
 - `iron_curtain`: super invulnerable time
 - `lingering_wound`: Accumulates a portion of damage dealt as a temporary wound that
      reduces the target's effective maximum health,
@@ -87,6 +88,13 @@ Available Passive skills:
      Extra damage can accumulate the wound twice,
      allowing it to receive both the original attack's accumulation
      and an additional accumulation from the extra damage.
+- `grave_dominion`: Every half second, moves nearby entities downward by their height.
+     The radius in blocks equals the skill level.
+- `experience_convergence`: Multiplies positive experience gains by
+     `1 + level × (experience needed for the next level / 7 - 1)`,
+     making experience-level progression approach a linear curve.
+- `healing_aura`: Shares each configured `heal` periodic action with allied living
+     entities within level blocks. This skill does not produce healing by itself.
 
 Example
 ```json
@@ -174,6 +182,8 @@ Available Spells
 - `absorption`: Grants Absorption for `duration_ticks` with the configured `amplifier`
 - `sky_launch`: Launches hostile living entities within `range` upward by `strength`
 - `shadow_exchange`: Swaps positions with the pointed hostile living entity within `range`
+- `grave_shift`: Moves the pointed non-allied living entity beneath the ground within
+     `range`. The configured range is limited to 256 blocks.
 - `phantom_step`: Instantly moves forward up to `range` blocks and damages hostile
      living entities crossed for `intensity`% attack damage
 - `upgrade_enchanted_book`: Upgrades the first non-max-level enchantment
@@ -187,6 +197,9 @@ Available Spells
      Consumes experience_cost experience levels; creative players do not pay the cost.
 - `disenchantment`: Removes the first enchantment from the item held in the
      main hand and transfers it at the same level to a book held in the off hand.
+- `open_ender_chest`: Opens the caster's Ender Chest.
+- `return_to_bed`: Teleports the caster to a safe standing position beside their
+     respawn bed. The spell fails if the bed is missing or obstructed.
 
 Recovery / Cooldown
 ```text
