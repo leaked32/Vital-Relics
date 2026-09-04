@@ -198,10 +198,10 @@
     },
     {
       "id": "blooddrinker_bracelet",
-      "display_name": "Blooddrinker Bracelet",
+      "display_name": "Blooddrinker Ring",
       "tooltip": "Returns a portion of inflicted harm as vitality.",
-      "texture": "bracelet_red_saturated.png",
-      "curio_slot": "bracelet",
+      "texture": "ring_blooddrinker.png",
+      "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
         "lifesteal": 0.1
@@ -209,10 +209,10 @@
     },
     {
       "id": "thorned_bracelet",
-      "display_name": "Thorned Bracelet",
+      "display_name": "Thorned Ring",
       "tooltip": "Periodically retaliates against attackers.",
-      "texture": "bracelet_purple.png",
-      "curio_slot": "bracelet",
+      "texture": "ring_thorned.png",
+      "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
         "thorns": 0.25
@@ -645,7 +645,7 @@
       "id": "homebound_bracelet",
       "display_name": "Homebound Bracelet",
       "tooltip": "Guides its wearer safely back to their bed.",
-      "texture": "bracelet_blue.png",
+      "texture": "bracelet_red_saturated.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {

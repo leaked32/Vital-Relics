@@ -44,7 +44,7 @@ public final class MyEvents {
 							value.add + myLivingEntity.maxHealth() * value.ratio_add));
 
 					if (healingAuraLevel > 0.0) {
-						final double range = 10.0 * healingAuraLevel;
+						final double range = healingAuraLevel;
 						for (final MyLivingEntity target : myLivingEntity.livingEntitiesInRange(range)) {
 							if (myLivingEntity.isAllied(target)) {
 								target.heal((float) (
