@@ -1169,6 +1169,9 @@
         },
         "armor_toughness": {
           "add": 10.0
+        },
+        "max_health": {
+          "mul_total": 2.0
         }
       },
       "granted_effects": {
