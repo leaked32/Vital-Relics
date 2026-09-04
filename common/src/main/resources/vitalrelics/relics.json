@@ -188,7 +188,7 @@
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
-        "healing_aura": 10.0
+        "healing_aura": 12.0
       },
       "ticks": {
         "heal": {
