@@ -13,12 +13,6 @@
       "rarity": "common",
       "granted_effects": {
         "speed": 1
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.05,
-        "minecraft:creeper": 0.03,
-        "minecraft:spider": 0.06,
-        "minecraft:cave_spider": 0.04
       }
     },
     {
@@ -42,10 +36,6 @@
       "rarity": "rare",
       "granted_effects": {
         "regeneration": 1
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.03,
-        "minecraft:drowned": 0.04
       }
     },
     {
@@ -57,9 +47,6 @@
       "rarity": "common",
       "granted_effects": {
         "strength": 1
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.05
       }
     },
     {
@@ -94,10 +81,6 @@
       "rarity": "common",
       "granted_effects": {
         "jump_boost": 2
-      },
-      "enemy_spawn": {
-        "minecraft:spider": 0.06,
-        "minecraft:cave_spider": 0.04
       }
     },
     {
@@ -127,10 +110,6 @@
         "armor_toughness": {
           "add": 2.0
         }
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.05,
-        "minecraft:husk": 0.06
       }
     },
 
@@ -144,11 +123,6 @@
         "knockback_resistance": {
           "add": 1
         }
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.04,
-        "minecraft:creeper": 0.03,
-        "minecraft:husk": 0.05
       }
     },
     {
@@ -231,10 +205,6 @@
       "rarity": "rare",
       "passive_skills": {
         "lifesteal": 0.1
-      },
-      "enemy_spawn": {
-        "minecraft:spider": 0.03,
-        "minecraft:cave_spider": 0.03
       }
     },
     {
@@ -375,9 +345,6 @@
         "max_health": {
           "add": 4.0
         }
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.03
       }
     },
     {
@@ -400,9 +367,6 @@
         "entity_interaction_range": {
           "add": 0.5
         }
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.03
       }
     },
     {
@@ -414,9 +378,6 @@
         "attack_damage": {
           "add": 2.0
         }
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.03
       }
     },
     {
@@ -434,9 +395,6 @@
           "interval_ticks": 100,
           "add": 1.0
         }
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.03
       }
     },
     {
@@ -448,9 +406,6 @@
         "knockback_resistance": {
           "add": 0.35
         }
-      },
-      "enemy_spawn": {
-        "minecraft:drowned": 0.05
       }
     },
     {
@@ -479,9 +434,6 @@
         "attack_speed": {
           "mul_total": 1.15
         }
-      },
-      "enemy_spawn": {
-        "minecraft:wither_skeleton": 0.04
       }
     },
     {
@@ -494,9 +446,6 @@
         "attack_damage": {
           "add": 4.0
         }
-      },
-      "enemy_spawn": {
-        "minecraft:wither_skeleton": 0.04
       }
     },
     {
@@ -514,9 +463,6 @@
           "interval_ticks": 60,
           "add": 1.0
         }
-      },
-      "enemy_spawn": {
-        "minecraft:zombie": 0.03
       }
     },
     {
@@ -784,7 +730,503 @@
           "modifier": 0.0
         }
       }
+    },
+
+
+
+    {
+      "id": "undead_badge",
+      "display_name": "Undead Badge",
+      "tooltip": "A mythic mark borne by empowered undead.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "rare",
+      "properties": {
+        "armor": {
+          "add": 12.0
+        },
+        "armor_toughness": {
+          "add": 4.0
+        }
+      },
+      "granted_effects": {
+        "speed": 1,
+        "regeneration": 1,
+        "strength": 1
+      },
+      "enemy_spawn": {
+        "minecraft:zombie": 0.30,
+        "minecraft:husk": 0.30,
+        "minecraft:drowned": 0.30,
+        "minecraft:zombie_villager": 0.30
+      }
+    },
+    {
+      "id": "skeletal_badge",
+      "display_name": "Skeletal Badge",
+      "tooltip": "A mythic mark borne by empowered skeletal undead.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "rare",
+      "properties": {
+        "armor": {
+          "add": 8.0
+        }
+      },
+      "granted_effects": {
+        "speed": 1,
+        "regeneration": 1,
+        "strength": 1,
+        "resistance": 1
+      },
+      "enemy_spawn": {
+        "minecraft:skeleton": 0.30,
+        "minecraft:stray": 0.30,
+        "minecraft:bogged": 0.30
+      }
+    },
+    {
+      "id": "arthropod_badge",
+      "display_name": "Crawling Badge",
+      "tooltip": "A mythic mark borne by empowered crawling creatures.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "rare",
+      "granted_effects": {
+        "speed": 2,
+        "strength": 1,
+        "regeneration": 1
+      },
+      "enemy_spawn": {
+        "minecraft:spider": 0.30,
+        "minecraft:cave_spider": 0.30,
+        "minecraft:silverfish": 0.30,
+        "minecraft:endermite": 0.30
+      }
+    },
+    {
+      "id": "ooze_badge",
+      "display_name": "Ooze Badge",
+      "tooltip": "A mythic mark borne by empowered amorphous creatures.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "rare",
+      "granted_effects": {
+        "regeneration": 2,
+        "resistance": 1,
+        "jump_boost": 2
+      },
+      "enemy_spawn": {
+        "minecraft:slime": 0.30,
+        "minecraft:magma_cube": 0.30
+      }
+    },
+    {
+      "id": "raider_badge",
+      "display_name": "Raider Badge",
+      "tooltip": "A mythic mark borne by empowered raiders.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "rare",
+      "properties": {
+        "armor": {
+          "add": 10.0
+        }
+      },
+      "granted_effects": {
+        "speed": 1,
+        "strength": 2,
+        "regeneration": 1
+      },
+      "enemy_spawn": {
+        "minecraft:pillager": 0.30,
+        "minecraft:vindicator": 0.30
+      }
+    },
+    {
+      "id": "evoker_badge",
+      "display_name": "Evoker Badge",
+      "tooltip": "A mythic mark borne by empowered evokers and their servants.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "granted_effects": {
+        "speed": 1,
+        "regeneration": 2,
+        "resistance": 1,
+        "strength": 1
+      },
+      "enemy_spawn": {
+        "minecraft:evoker": 0.30,
+        "minecraft:vex": 0.30
+      }
+    },
+    {
+      "id": "witch_badge",
+      "display_name": "Witch Badge",
+      "tooltip": "A mythic mark saturated with lingering alchemy.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "granted_effects": {
+        "regeneration": 2,
+        "resistance": 1,
+        "fire_resistance": 1,
+        "speed": 1
+      },
+      "enemy_spawn": {
+        "minecraft:witch": 0.30
+      }
+    },
+    {
+      "id": "piglin_badge",
+      "display_name": "Piglin Badge",
+      "tooltip": "A mythic mark borne by hardened warriors of the Nether.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "rare",
+      "properties": {
+        "armor": {
+          "add": 12.0
+        },
+        "armor_toughness": {
+          "add": 4.0
+        }
+      },
+      "granted_effects": {
+        "strength": 2,
+        "speed": 1,
+        "fire_resistance": 1
+      },
+      "enemy_spawn": {
+        "minecraft:piglin": 0.30,
+        "minecraft:piglin_brute": 0.30,
+        "minecraft:zombified_piglin": 0.30
+      }
+    },
+    {
+      "id": "nether_beast_badge",
+      "display_name": "Nether Beast Badge",
+      "tooltip": "A mythic mark borne by violent beasts of the Nether.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "rare",
+      "properties": {
+        "armor": {
+          "add": 10.0
+        }
+      },
+      "granted_effects": {
+        "strength": 2,
+        "regeneration": 1,
+        "fire_resistance": 1
+      },
+      "enemy_spawn": {
+        "minecraft:hoglin": 0.30,
+        "minecraft:zoglin": 0.30
+      }
+    },
+    {
+      "id": "withered_badge",
+      "display_name": "Withered Badge",
+      "tooltip": "A mythic mark borne by the blackened dead of Nether fortresses.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "properties": {
+        "armor": {
+          "add": 14.0
+        },
+        "armor_toughness": {
+          "add": 6.0
+        }
+      },
+      "granted_effects": {
+        "strength": 2,
+        "regeneration": 2,
+        "fire_resistance": 1,
+        "resistance": 1
+      },
+      "enemy_spawn": {
+        "minecraft:wither_skeleton": 0.30
+      }
+    },
+    {
+      "id": "blaze_badge",
+      "display_name": "Blaze Badge",
+      "tooltip": "A mythic mark burning with concentrated Nether flame.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "granted_effects": {
+        "strength": 2,
+        "regeneration": 1,
+        "fire_resistance": 1,
+        "resistance": 1
+      },
+      "enemy_spawn": {
+        "minecraft:blaze": 0.30
+      }
+    },
+    {
+      "id": "ghast_badge",
+      "display_name": "Ghast Badge",
+      "tooltip": "A mythic mark borne by ancient drifting horrors.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "granted_effects": {
+        "regeneration": 2,
+        "resistance": 2,
+        "fire_resistance": 1
+      },
+      "enemy_spawn": {
+        "minecraft:ghast": 0.30
+      }
+    },
+    {
+      "id": "end_badge",
+      "display_name": "End Badge",
+      "tooltip": "A mythic mark touched by the emptiness beyond the world.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "properties": {
+        "armor": {
+          "add": 12.0
+        }
+      },
+      "granted_effects": {
+        "speed": 2,
+        "strength": 2,
+        "regeneration": 1,
+        "resistance": 1
+      },
+      "enemy_spawn": {
+        "minecraft:enderman": 0.30,
+        "minecraft:shulker": 0.30
+      }
+    },
+    {
+      "id": "guardian_badge",
+      "display_name": "Guardian Badge",
+      "tooltip": "A mythic mark borne by the sentinels of ocean monuments.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "properties": {
+        "armor": {
+          "add": 12.0
+        },
+        "armor_toughness": {
+          "add": 5.0
+        }
+      },
+      "granted_effects": {
+        "regeneration": 1,
+        "resistance": 1,
+        "water_breathing": 1,
+        "strength": 1
+      },
+      "enemy_spawn": {
+        "minecraft:guardian": 0.30
+      }
+    },
+    {
+      "id": "creeper_badge",
+      "display_name": "Creeper Badge",
+      "tooltip": "A mythic mark pulsing with unstable destructive force.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "rare",
+      "properties": {
+        "armor": {
+          "add": 10.0
+        }
+      },
+      "granted_effects": {
+        "speed": 2,
+        "resistance": 1,
+        "regeneration": 1
+      },
+      "enemy_spawn": {
+        "minecraft:creeper": 0.30
+      }
+    },
+    {
+      "id": "phantom_badge",
+      "display_name": "Phantom Badge",
+      "tooltip": "A mythic mark carried through sleepless skies.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "rare",
+      "granted_effects": {
+        "speed": 2,
+        "strength": 2,
+        "regeneration": 1
+      },
+      "enemy_spawn": {
+        "minecraft:phantom": 0.30
+      }
+    },
+    {
+      "id": "breeze_badge",
+      "display_name": "Breeze Badge",
+      "tooltip": "A mythic mark resonating with violent currents of air.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "granted_effects": {
+        "speed": 2,
+        "jump_boost": 2,
+        "regeneration": 1,
+        "resistance": 1
+      },
+      "enemy_spawn": {
+        "minecraft:breeze": 0.30
+      }
+    },
+    {
+      "id": "creaking_badge",
+      "display_name": "Creaking Badge",
+      "tooltip": "A mythic mark carrying the stillness of the Pale Garden.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "granted_effects": {
+        "strength": 2,
+        "speed": 1,
+        "resistance": 2
+      },
+      "enemy_spawn": {
+        "minecraft:creaking": 0.30
+      }
+    },
+    {
+      "id": "ravager_badge",
+      "display_name": "Ravager Badge",
+      "tooltip": "A brutal mythic mark borne by an exceptional ravager.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "properties": {
+        "armor": {
+          "add": 16.0
+        },
+        "armor_toughness": {
+          "add": 8.0
+        }
+      },
+      "granted_effects": {
+        "strength": 2,
+        "regeneration": 2,
+        "resistance": 1
+      },
+      "enemy_spawn": {
+        "minecraft:ravager": 0.30
+      }
+    },
+    {
+      "id": "elder_guardian_badge",
+      "display_name": "Elder Guardian Badge",
+      "tooltip": "An ancient mythic mark borne by an elder sentinel.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "properties": {
+        "armor": {
+          "add": 18.0
+        },
+        "armor_toughness": {
+          "add": 8.0
+        }
+      },
+      "granted_effects": {
+        "strength": 2,
+        "regeneration": 2,
+        "resistance": 2,
+        "water_breathing": 1
+      },
+      "enemy_spawn": {
+        "minecraft:elder_guardian": 0.30
+      }
+    },
+    {
+      "id": "warden_badge",
+      "display_name": "Warden Badge",
+      "tooltip": "A dreadful mythic mark awakened in the deepest dark.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "properties": {
+        "armor": {
+          "add": 20.0
+        },
+        "armor_toughness": {
+          "add": 10.0
+        }
+      },
+      "granted_effects": {
+        "strength": 3,
+        "regeneration": 2,
+        "resistance": 2,
+        "speed": 1
+      },
+      "enemy_spawn": {
+        "minecraft:warden": 0.30
+      }
+    },
+    {
+      "id": "wither_badge",
+      "display_name": "Wither Badge",
+      "tooltip": "A catastrophic mythic mark carried by the Wither.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "properties": {
+        "armor": {
+          "add": 20.0
+        },
+        "armor_toughness": {
+          "add": 12.0
+        }
+      },
+      "granted_effects": {
+        "strength": 3,
+        "regeneration": 3,
+        "resistance": 2,
+        "speed": 1
+      },
+      "enemy_spawn": {
+        "minecraft:wither": 0.30
+      }
+    },
+    {
+      "id": "dragon_badge",
+      "display_name": "Dragon Badge",
+      "tooltip": "A supreme mythic mark borne by the dragon of the End.",
+      "texture": "myth_relic.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "properties": {
+        "armor": {
+          "add": 20.0
+        },
+        "armor_toughness": {
+          "add": 12.0
+        }
+      },
+      "granted_effects": {
+        "strength": 3,
+        "regeneration": 3,
+        "resistance": 2,
+        "speed": 2
+      },
+      "enemy_spawn": {
+        "minecraft:ender_dragon": 0.30
+      }
     }
+
   ]
 
 
