@@ -124,8 +124,11 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 			return false;
 		}
 
+		final Direction direction = level.getBlockState(player.getRespawnPosition())
+				.getValue(BedBlock.FACING);
 		final var destination = BedBlock.findStandUpPosition(
-				EntityType.PLAYER, level, player.getRespawnPosition(), player.getRespawnAngle());
+				EntityType.PLAYER, level, player.getRespawnPosition(), direction,
+				player.getRespawnAngle());
 		if (destination.isEmpty()) {
 			showMessage(caster, "message.vitalrelics.return_to_bed_unavailable",
 					"Your bed is missing or obstructed.");
