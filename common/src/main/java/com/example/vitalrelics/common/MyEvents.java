@@ -1,10 +1,6 @@
 package com.example.vitalrelics.common;
 
-import com.example.vitalrelics.common.platform.MyAbstractArrow;
-import com.example.vitalrelics.common.platform.MyDamageSource;
-import com.example.vitalrelics.common.platform.MyEntity;
-import com.example.vitalrelics.common.platform.MyLivingEntity;
-import com.example.vitalrelics.common.platform.MyUtils;
+import com.example.vitalrelics.common.platform.*;
 import com.example.vitalrelics.common.relics.Loader;
 import com.example.vitalrelics.common.relics.Relic;
 

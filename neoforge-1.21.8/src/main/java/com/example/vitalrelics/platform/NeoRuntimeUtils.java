@@ -110,7 +110,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 			return false;
 
 		final ServerPlayer.RespawnConfig config = player.getRespawnConfig();
-		final var data = config.respawnData();
+		final var data =  config.respawnData();
 		final MinecraftServer server = player.level().getServer();
 		final ServerLevel level = server == null ? null : server.getLevel(data.dimension());
 		if (level == null || !level.getBlockState(data.pos()).is(BlockTags.BEDS)) {

@@ -21,6 +21,7 @@ import net.minecraftforge.fml.ModList;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static com.example.vitalrelics.compat.TouhouMaidCompat.gatherMaidRelics;
