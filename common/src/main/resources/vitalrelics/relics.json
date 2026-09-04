@@ -752,6 +752,9 @@
         },
         "armor_toughness": {
           "add": 4.0
+        },
+        "knockback_resistance": {
+          "add": 0.5
         }
       },
       "granted_effects": {
@@ -760,10 +763,10 @@
         "strength": 1
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.30,
-        "minecraft:husk": 0.30,
-        "minecraft:drowned": 0.30,
-        "minecraft:zombie_villager": 0.30
+        "minecraft:zombie": 0.35,
+        "minecraft:husk": 0.35,
+        "minecraft:drowned": 0.35,
+        "minecraft:zombie_villager": 0.05
       }
     },
     {
@@ -1181,7 +1184,7 @@
         "speed": 1
       },
       "enemy_spawn": {
-        "minecraft:warden": 0.30
+        "minecraft:warden": 0.50
       }
     },
     {
