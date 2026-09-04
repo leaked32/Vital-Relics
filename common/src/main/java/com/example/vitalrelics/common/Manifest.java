@@ -33,4 +33,8 @@ public class Manifest {
 	Minecraft IDs
 	 */
 	public static final String EFFECT_ABSORPTION = "absorption";
+	public static final String EFFECT_SLOWNESS = "slowness";
+	public static final String EFFECT_WITHER = "wither";
+	public static final String EFFECT_WEAKNESS = "weakness";
+	public static final String EFFECT_DARKNESS = "darkness";
 }

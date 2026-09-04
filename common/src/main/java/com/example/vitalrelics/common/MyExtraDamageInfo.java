@@ -123,10 +123,10 @@ public class MyExtraDamageInfo
 			final int duration,
 			final int amplifier) {
 
-		target.addEffect("slowness", duration, amplifier, true, true);
-		target.addEffect("wither", duration, amplifier, true, true);
-		target.addEffect("weakness", duration, amplifier, true, true);
-		target.addEffect("darkness", duration, 0, true, true);
+		target.addEffect(Manifest.EFFECT_SLOWNESS, duration, amplifier, true, true);
+		target.addEffect(Manifest.EFFECT_WITHER, duration, amplifier, true, true);
+//		target.addEffect(Manifest.EFFECT_WEAKNESS, duration, amplifier, true, true);
+//		target.addEffect(Manifest.EFFECT_DARKNESS, duration, 0, true, true);
 	}
 	/*
 	Non-static Members
