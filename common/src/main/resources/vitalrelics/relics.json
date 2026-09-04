@@ -736,6 +736,9 @@
 
 
 
+
+
+
     {
       "id": "undead_badge",
       "display_name": "Undead Badge",
@@ -757,10 +760,10 @@
         "strength": 1
       },
       "enemy_spawn": {
-        "minecraft:zombie": 0.05,
-        "minecraft:husk": 0.05,
-        "minecraft:drowned": 0.05,
-        "minecraft:zombie_villager": 0.05
+        "minecraft:zombie": 0.30,
+        "minecraft:husk": 0.30,
+        "minecraft:drowned": 0.30,
+        "minecraft:zombie_villager": 0.30
       }
     },
     {
@@ -782,9 +785,9 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:skeleton": 0.05,
-        "minecraft:stray": 0.05,
-        "minecraft:bogged": 0.05
+        "minecraft:skeleton": 0.30,
+        "minecraft:stray": 0.30,
+        "minecraft:bogged": 0.30
       }
     },
     {
@@ -800,10 +803,10 @@
         "regeneration": 1
       },
       "enemy_spawn": {
-        "minecraft:spider": 0.05,
-        "minecraft:cave_spider": 0.06,
-        "minecraft:silverfish": 0.08,
-        "minecraft:endermite": 0.08
+        "minecraft:spider": 0.30,
+        "minecraft:cave_spider": 0.30,
+        "minecraft:silverfish": 0.30,
+        "minecraft:endermite": 0.30
       }
     },
     {
@@ -819,8 +822,8 @@
         "jump_boost": 2
       },
       "enemy_spawn": {
-        "minecraft:slime": 0.05,
-        "minecraft:magma_cube": 0.05
+        "minecraft:slime": 0.30,
+        "minecraft:magma_cube": 0.30
       }
     },
     {
@@ -841,8 +844,8 @@
         "regeneration": 1
       },
       "enemy_spawn": {
-        "minecraft:pillager": 0.05,
-        "minecraft:vindicator": 0.05
+        "minecraft:pillager": 0.30,
+        "minecraft:vindicator": 0.30
       }
     },
     {
@@ -859,8 +862,8 @@
         "strength": 1
       },
       "enemy_spawn": {
-        "minecraft:evoker": 0.08,
-        "minecraft:vex": 0.03
+        "minecraft:evoker": 0.30,
+        "minecraft:vex": 0.30
       }
     },
     {
@@ -877,7 +880,7 @@
         "speed": 1
       },
       "enemy_spawn": {
-        "minecraft:witch": 0.07
+        "minecraft:witch": 0.30
       }
     },
     {
@@ -901,9 +904,9 @@
         "fire_resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:piglin": 0.04,
-        "minecraft:piglin_brute": 0.08,
-        "minecraft:zombified_piglin": 0.04
+        "minecraft:piglin": 0.30,
+        "minecraft:piglin_brute": 0.30,
+        "minecraft:zombified_piglin": 0.30
       }
     },
     {
@@ -924,8 +927,8 @@
         "fire_resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:hoglin": 0.05,
-        "minecraft:zoglin": 0.06
+        "minecraft:hoglin": 0.30,
+        "minecraft:zoglin": 0.30
       }
     },
     {
@@ -950,7 +953,7 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:wither_skeleton": 0.06
+        "minecraft:wither_skeleton": 0.30
       }
     },
     {
@@ -967,7 +970,7 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:blaze": 0.06
+        "minecraft:blaze": 0.30
       }
     },
     {
@@ -983,7 +986,7 @@
         "fire_resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:ghast": 0.06
+        "minecraft:ghast": 0.30
       }
     },
     {
@@ -1005,8 +1008,8 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:enderman": 0.05,
-        "minecraft:shulker": 0.05
+        "minecraft:enderman": 0.30,
+        "minecraft:shulker": 0.30
       }
     },
     {
@@ -1031,7 +1034,7 @@
         "strength": 1
       },
       "enemy_spawn": {
-        "minecraft:guardian": 0.05
+        "minecraft:guardian": 0.30
       }
     },
     {
@@ -1052,7 +1055,7 @@
         "regeneration": 1
       },
       "enemy_spawn": {
-        "minecraft:creeper": 0.05
+        "minecraft:creeper": 0.30
       }
     },
     {
@@ -1068,7 +1071,7 @@
         "regeneration": 1
       },
       "enemy_spawn": {
-        "minecraft:phantom": 0.06
+        "minecraft:phantom": 0.30
       }
     },
     {
@@ -1085,7 +1088,7 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:breeze": 0.08
+        "minecraft:breeze": 0.30
       }
     },
     {
@@ -1101,7 +1104,7 @@
         "resistance": 2
       },
       "enemy_spawn": {
-        "minecraft:creaking": 0.08
+        "minecraft:creaking": 0.30
       }
     },
     {
@@ -1125,7 +1128,7 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:ravager": 0.12
+        "minecraft:ravager": 0.30
       }
     },
     {
@@ -1150,7 +1153,7 @@
         "water_breathing": 1
       },
       "enemy_spawn": {
-        "minecraft:elder_guardian": 0.20
+        "minecraft:elder_guardian": 0.30
       }
     },
     {
@@ -1175,7 +1178,7 @@
         "speed": 1
       },
       "enemy_spawn": {
-        "minecraft:warden": 0.25
+        "minecraft:warden": 0.30
       }
     },
     {
@@ -1200,7 +1203,7 @@
         "speed": 1
       },
       "enemy_spawn": {
-        "minecraft:wither": 0.25
+        "minecraft:wither": 0.30
       }
     },
     {
@@ -1225,7 +1228,7 @@
         "speed": 2
       },
       "enemy_spawn": {
-        "minecraft:ender_dragon": 0.25
+        "minecraft:ender_dragon": 0.30
       }
     }
 
