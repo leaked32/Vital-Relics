@@ -197,7 +197,7 @@
       }
     },
     {
-      "id": "blooddrinker_bracelet",
+      "id": "blooddrinker_ring",
       "display_name": "Blooddrinker Ring",
       "tooltip": "Returns a portion of inflicted harm as vitality.",
       "texture": "ring_blooddrinker.png",
@@ -208,7 +208,7 @@
       }
     },
     {
-      "id": "thorned_bracelet",
+      "id": "thorned_ring",
       "display_name": "Thorned Ring",
       "tooltip": "Periodically retaliates against attackers.",
       "texture": "ring_thorned.png",

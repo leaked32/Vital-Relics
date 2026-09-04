@@ -243,7 +243,7 @@
       },
       "count": 1
     },
-    "blooddrinker_bracelet": {
+    "blooddrinker_ring": {
       "type": "shaped",
       "pattern": [
         " R ",
@@ -257,7 +257,7 @@
       },
       "count": 1
     },
-    "thorned_bracelet": {
+    "thorned_ring": {
       "type": "shaped",
       "pattern": [
         " T ",
@@ -822,7 +822,7 @@
         "chance": 0.04
       }
     ],
-    "blooddrinker_bracelet": [
+    "blooddrinker_ring": [
       {
         "table": "minecraft:chests/bastion_treasure",
         "chance": 0.025
@@ -832,7 +832,7 @@
         "chance": 0.02
       }
     ],
-    "thorned_bracelet": [
+    "thorned_ring": [
       {
         "table": "minecraft:chests/woodland_mansion",
         "chance": 0.03
