@@ -686,8 +686,8 @@
 
 
     {
-      "id": "reality_piercing",
-      "display_name": "Halo of the Reality Piercing (Creative Mode Only)",
+      "id": "reality_rend",
+      "display_name": "Halo of Reality Rend (Creative Mode Only)",
       "tooltip": "A creative-mode Relic (cannot be obtained in survival mode). ",
       "texture": "halo_celestial_crystal.png",
       "effective_slots": ["in_inventory", "in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
