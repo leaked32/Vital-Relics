@@ -9,8 +9,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public final class MyEvents {
-	public static int onExperienceGain(final MyLivingEntity player, final int amount,
-			final int experienceNeededForNextLevel) {
+	public static int onExperienceGain(
+			final MyLivingEntity player, final int amount,
+			final int experienceNeededForNextLevel
+	) {
 		if (amount <= 0 || experienceNeededForNextLevel <= 0)
 			return amount;
 
@@ -25,7 +27,8 @@ public final class MyEvents {
 		return (int) Math.min(Integer.MAX_VALUE, Math.max(amount, Math.round(amount * multiplier)));
 	}
 
-	private MyEvents() {}
+	private MyEvents() {
+	}
 
 	public static void onLivingEntityTick(
 			MyLivingEntity myLivingEntity, final int currentTick, List<Relic> relics) {
@@ -76,7 +79,8 @@ public final class MyEvents {
 
 				MyExtraDamageInfo.directRangedAttack(
 						myLivingEntity, rangeDamage, Math.round((float) reality_severance_level), 1,
-						Math.round((float) (reality_severance_level / 4.0)));
+						Math.round((float) (reality_severance_level / 4.0))
+				);
 			}
 
 			// Passive Skill: Fire Resistance
@@ -229,12 +233,14 @@ public final class MyEvents {
 
 			Scheduler.INSTANCE().addDelayedTask(
 					victim.uuid(),
-					new Scheduler.DelayTask(1, 1, () -> {
+					new Scheduler.DelayTask(
+							1, 1, () -> {
 						if (!victim.isLoaded() || victim.isDeadOrDying())
 							return;
 
 						applyLingeringWound(attacker, victim);
-					}),
+					}
+					),
 					currentTick
 			);
 		}
@@ -251,12 +257,14 @@ public final class MyEvents {
 
 				Scheduler.INSTANCE().addDelayedTask(
 						attacker.uuid(),
-						new Scheduler.DelayTask(1, 1, () -> {
+						new Scheduler.DelayTask(
+								1, 1, () -> {
 							if (!attacker.isLoaded() || attacker.isDeadOrDying())
 								return;
 
 							attacker.hurtThorns(victim, thornsDamage);
-						}),
+						}
+						),
 						currentTick
 				);
 			}
@@ -306,7 +314,8 @@ public final class MyEvents {
 
 	public static boolean onArrowImpact(
 			final MyAbstractArrow arrow, final MyLivingEntity victim,
-			final List<Relic> relics, final int currentTick) {
+			final List<Relic> relics, final int currentTick
+	) {
 
 		final double retargetLevel = Loader.levelOfSuchPassiveSkill(
 				relics, Relic.PASSIVE_SKILL_RETARGET_ARROW);

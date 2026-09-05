@@ -7,14 +7,14 @@ import com.example.vitalrelics.common.relics.Relic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyExtraDamageInfo
-{
+public class MyExtraDamageInfo {
 	/*
 	Public convenient static functions
 	 */
 	public static void directRangedAttack(
-			final MyLivingEntity attacker,
-			final float amount, final int range, final int count, final int neg_leve) {
+			final MyLivingEntity attacker, final float amount,
+			final int range, final int count, final int neg_leve
+	) {
 
 		if (count <= 0) {
 			return;
@@ -25,10 +25,9 @@ public class MyExtraDamageInfo
 		for (int i = 0; i < count; i += 1) {
 			damages.add(
 					new MyExtraDamageInfo(
-							attacker, null, amount,
-							null, range, MyRangeFilter.hostileTargeted, 20, neg_leve
-					)
-			);
+							attacker, null, amount, null, range, MyRangeFilter.hostileTargeted, 20,
+							neg_leve
+					));
 		}
 
 		someExtraDamages(attacker, damages);
@@ -36,7 +35,8 @@ public class MyExtraDamageInfo
 
 	public static void directAttack(
 			final MyLivingEntity attacker, final MyLivingEntity victim,
-			final float amount, final int count) {
+			final float amount, final int count
+	) {
 
 		// float attrDamage = (float)attacker.getAttributeValue(Attributes.ATTACK_DAMAGE);
 		if (count <= 0) {
@@ -48,10 +48,9 @@ public class MyExtraDamageInfo
 		for (int i = 0; i < count; ++i) {
 			damages.add(
 					new MyExtraDamageInfo(
-							attacker, victim, amount,
-							null, 0.f, MyRangeFilter.none, 20, 5
-					)
-			);
+							attacker, victim, amount, null, 0.f, MyRangeFilter.none,
+							20, 5
+					));
 		}
 
 		someExtraDamages(attacker, damages);
@@ -61,8 +60,7 @@ public class MyExtraDamageInfo
 			final MyDamageSource source, final MyLivingEntity revenger, final int count) {
 
 		final MyLivingEntity target = source.attacker();
-		if (target == null)
-			return;
+		if (target == null) return;
 
 		// Anti dead-lock
 		if (source.isExtraDamage()) {
@@ -81,10 +79,9 @@ public class MyExtraDamageInfo
 		for (int i = 0; i < count; ++i) {
 			damages.add(
 					new MyExtraDamageInfo(
-							revenger, target, extra_damage_amount,
-							0.02f, 2.f, MyRangeFilter.nonallied, 20, 5
-					)
-			);
+							revenger, target, extra_damage_amount, 0.02f, 2.f,
+							MyRangeFilter.nonallied, 20, 5
+					));
 		}
 
 		someExtraDamages(revenger, damages);
@@ -102,41 +99,32 @@ public class MyExtraDamageInfo
 			final int index = i;
 
 			Scheduler.INSTANCE().addDelayedTask(
-					attacker.uuid(),
-					new Scheduler.DelayTask(
-							(i + 1) * 3,
-							1,
-							() -> {
-								if (attacker.isClientSide()) {
-									return;
-								}
-								infos.get(index).deal_damage();
-							}
-					),
-					tick
+					attacker.uuid(), new Scheduler.DelayTask(
+							(i + 1) * 3, 1, () -> {
+						if (attacker.isClientSide()) {
+							return;
+						}
+						infos.get(index).deal_damage();
+					}
+					), tick
 			);
 		}
 	}
 
 	private static void ascentWeaken(
-			final MyLivingEntity target,
-			final int duration,
-			final int amplifier) {
+			final MyLivingEntity target, final int duration, final int amplifier) {
 
 		target.addEffect(Manifest.EFFECT_SLOWNESS, duration, amplifier, true, true);
 		target.addEffect(Manifest.EFFECT_WITHER, duration, amplifier, true, true);
 //		target.addEffect(Manifest.EFFECT_WEAKNESS, duration, amplifier, true, true);
 //		target.addEffect(Manifest.EFFECT_DARKNESS, duration, 0, true, true);
 	}
+
 	/*
 	Non-static Members
 	 */
-	public enum MyRangeFilter
-	{
-		none,
-		all,
-		nonallied,
-		hostileTargeted
+	public enum MyRangeFilter {
+		none, all, nonallied, hostileTargeted
 	}
 
 	// private final MyDamageType type;
@@ -154,27 +142,21 @@ public class MyExtraDamageInfo
 
 	/**
 	 * @param amount Damage amount to apply
-	 * @param range All non-allied LivingEntity within range to apply. Specify null to disable ranged attack.
+	 * @param range  All non-allied LivingEntity within range to apply. Specify null to disable ranged attack.
 	 */
 	public MyExtraDamageInfo(
-			final MyLivingEntity attacker,
-			final MyLivingEntity target,
-			final Float amount,
-			final Float ratioAmount,
-			final float range,
-			final MyRangeFilter range_filter,
-			final int dura,
-			final int strength) {
+			final MyLivingEntity attacker, final MyLivingEntity target, final Float amount,
+			final Float ratioAmount, final float range, final MyRangeFilter range_filter,
+			final int dura, final int strength
+	) {
 
 		if (attacker == null) {
 			throw new RuntimeException(
-					"`MyDamageInfo` constructor: null `attacker` is not acceptable"
-			);
+					"`MyDamageInfo` constructor: null `attacker` is not acceptable");
 		}
 		if (range_filter == null) {
 			throw new RuntimeException(
-					"`MyDamageInfo` constructor: null `range_filter` is not acceptable"
-			);
+					"`MyDamageInfo` constructor: null `range_filter` is not acceptable");
 		}
 
 		this.attacker = attacker;
@@ -188,19 +170,14 @@ public class MyExtraDamageInfo
 		this.weakenStrength = strength;
 	}
 
-	public void deal_damage()
-	{
+	public void deal_damage() {
 		if (target != null) {
 			dealToLivingEntity(target);
 			dealToRange(target);
-		}
-		else if (range_filter != MyRangeFilter.none)  {
+		} else if (range_filter != MyRangeFilter.none) {
 			dealToRange(attacker);
-		}
-		else {
-			throw new RuntimeException(
-					"`MyDamageInfo`: neither range nor target is specified."
-			);
+		} else {
+			throw new RuntimeException("`MyDamageInfo`: neither range nor target is specified.");
 		}
 	}
 
@@ -209,8 +186,7 @@ public class MyExtraDamageInfo
 			return;
 		}
 
-		final List<MyLivingEntity> all_nearby =
-				centralized.livingEntitiesInRange(range);
+		final List<MyLivingEntity> all_nearby = centralized.livingEntitiesInRange(range);
 
 		for (final MyLivingEntity nearby_target : all_nearby) {
 			switch (range_filter) {
@@ -258,8 +234,7 @@ public class MyExtraDamageInfo
 			return;
 		}
 
-		final MyDamageSource new_source =
-				MyRuntime.getRuntimeUtils().extraDamageSource(attacker);
+		final MyDamageSource new_source = MyRuntime.getRuntimeUtils().extraDamageSource(attacker);
 
 		float amount_to_apply = 0.f;
 		if (amount != null) {
@@ -273,7 +248,6 @@ public class MyExtraDamageInfo
 			ascentWeaken(target, weakenDura, weakenStrength);
 		}
 
-
 		target.hurt(new_source, amount_to_apply);
 
 		{
@@ -285,13 +259,11 @@ public class MyExtraDamageInfo
 			final var attackerRelics = MyRuntime.getRuntimeUtils().gatherRelics(attacker);
 
 			final double lingeringWoundLevel = Loader.levelOfSuchPassiveSkill(
-					attackerRelics, Relic.PASSIVE_SKILL_LINGERING_WOUND
-			);
+					attackerRelics, Relic.PASSIVE_SKILL_LINGERING_WOUND);
 
 			if (lingeringWoundLevel != 0.0) {
 				MyEvents.accumulateLingeringWound(
-						target, amount_to_apply, lingeringWoundLevel, attacker.serverTick()
-				);
+						target, amount_to_apply, lingeringWoundLevel, attacker.serverTick());
 
 				MyEvents.applyLingeringWound(attacker, target);
 			}
