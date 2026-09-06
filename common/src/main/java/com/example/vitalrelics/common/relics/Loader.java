@@ -60,7 +60,8 @@ public class Loader {
 		return instance;
 	}
 
-	private Loader() {}
+	private Loader() {
+	}
 
 	public static void add_list(final List<String> target, final Object rawValue) {
 		if (!(rawValue instanceof List<?> values))
@@ -79,7 +80,8 @@ public class Loader {
 
 	public static void add_map_int(
 			final Map<String, Integer> target,
-			final Object rawValue) {
+			final Object rawValue
+	) {
 
 		if (!(rawValue instanceof Map<?, ?> values))
 			return;
@@ -100,7 +102,8 @@ public class Loader {
 			final Map<String, Double> target,
 			final Object rawValue,
 			final Double minimum,
-			final Double maximum) {
+			final Double maximum
+	) {
 
 		if (rawValue == null)
 			return;
@@ -200,7 +203,8 @@ public class Loader {
 	private static void setString(
 			final Map<?, ?> source,
 			final String key,
-			final java.util.function.Consumer<String> consumer) {
+			final java.util.function.Consumer<String> consumer
+	) {
 
 		final Object value = source.get(key);
 
@@ -214,7 +218,8 @@ public class Loader {
 			final Map<String, T> target,
 			final Object rawValue,
 			final Function<Object, T> parser,
-			final String fieldName) {
+			final String fieldName
+	) {
 
 		if (rawValue == null)
 			return;
@@ -314,7 +319,8 @@ public class Loader {
 
 	private static Map<?, ?> object(
 			final Object value,
-			final String typeName) {
+			final String typeName
+	) {
 
 		if (!(value instanceof Map<?, ?> map))
 			throw new IllegalArgumentException(
@@ -343,7 +349,8 @@ public class Loader {
 	}
 
 	public static Map<String, Relic.Properties.Info> computeProperties(
-			final List<Relic> relics) {
+			final List<Relic> relics
+	) {
 
 		final Map<String, Relic.Properties.Info> result =
 				new LinkedHashMap<>();
@@ -365,7 +372,8 @@ public class Loader {
 
 	private static void accumulate(
 			final Relic.Properties.Info result,
-			final Relic.Properties.Info value) {
+			final Relic.Properties.Info value
+	) {
 
 		if (value.add != null)
 			result.add += value.add;
@@ -377,7 +385,8 @@ public class Loader {
 
 	public static Map<String, Relic.Ticks.Info> computeTicks(
 			final List<Relic> relics,
-			final int currentTick) {
+			final int currentTick
+	) {
 
 		final Map<String, Relic.Ticks.Info> result =
 				new LinkedHashMap<>();
@@ -404,11 +413,13 @@ public class Loader {
 		return result;
 	}
 
+	/**
+	 * This function will not return negative value.
+	 */
 	public static double applyCallback(
-			final List<Relic> relics,
-			final String callbackId,
-			final double value,
-			final double reference) {
+			final List<Relic> relics, final String callbackId, final double value,
+			final double reference
+	) {
 
 		double result = value;
 
@@ -420,13 +431,14 @@ public class Loader {
 				result = callback.process(result, reference);
 		}
 
-		return result;
+		return Math.max(0.0F, result);
 	}
 
 	public static boolean isImmuneToEffect(
 			final List<Relic> relics,
 			final String effectId,
-			final boolean negative) {
+			final boolean negative
+	) {
 
 		for (final Relic relic : relics) {
 			if (relic.isImmuneToEffect(effectId, negative))
@@ -438,21 +450,24 @@ public class Loader {
 
 	public static int highestIntLevelInMap(
 			final Map<String, Integer> values,
-			final String id) {
+			final String id
+	) {
 
 		return values.getOrDefault(id, 0);
 	}
 
 	public static double highestDoubleLevelInMap(
 			final Map<String, Double> values,
-			final String id) {
+			final String id
+	) {
 
 		return values.getOrDefault(id, 0.0);
 	}
 
 	public static double levelOfSuchPassiveSkill(
 			final List<Relic> relics,
-			final String requiredPassiveSkill) {
+			final String requiredPassiveSkill
+	) {
 
 		double highestLevel = 0.0;
 

@@ -270,7 +270,7 @@ public final class MyEvents {
 			}
 		}
 
-		return amount;
+		return Math.max(0.0F, amount);
 	}
 
 	/*
