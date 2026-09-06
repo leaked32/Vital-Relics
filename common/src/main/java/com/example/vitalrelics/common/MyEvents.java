@@ -178,11 +178,14 @@ public final class MyEvents {
 		Offensive Attack
 		 */
 		double lingeringWoundLevel = 0.0;
+		double cinderbrandLevel = 0.0;
 
 		if (attacker != null) {
 			final List<Relic> attackerRelics = MyRuntime.getRuntimeUtils().gatherRelics(attacker);
 			lingeringWoundLevel = Loader.levelOfSuchPassiveSkill(
 					attackerRelics, Relic.PASSIVE_SKILL_LINGERING_WOUND);
+			cinderbrandLevel = Loader.levelOfSuchPassiveSkill(
+					attackerRelics, Relic.PASSIVE_SKILL_CINDERBRAND);
 
 			amount = (float) Loader.applyCallback(
 					attackerRelics, "damage_dealt", amount, victim.maxHealth());
@@ -224,6 +227,10 @@ public final class MyEvents {
 		/*
 		Footer
 		 */
+
+		// Passive Skill: Cinderbrand
+		if (attacker != null && cinderbrandLevel > 0.0 && amount > 0.0F)
+			victim.igniteForSeconds(5);
 
 		// Passive Skill: Lingering Wound
 		if (attacker != null && lingeringWoundLevel > 0.0 && amount > 0.0F) {

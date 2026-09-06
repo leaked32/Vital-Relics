@@ -24,6 +24,7 @@ public interface MyLivingEntity extends MyEntity {
 	float attackDamage();
 	boolean isOnFire();
 	void clearFire();
+	void igniteForSeconds(int seconds);
 
 	void heal(float amount);
 	void feed(int nutrition, float saturation);

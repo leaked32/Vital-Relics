@@ -377,4 +377,9 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 	public void clearFire() {
 		livingEntity.clearFire();
 	}
+
+	@Override
+	public void igniteForSeconds(final int seconds) {
+		livingEntity.igniteForSeconds(seconds);
+	}
 }

@@ -496,4 +496,9 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 	public void clearFire() {
 		entity.clearFire();
 	}
+
+	@Override
+	public void igniteForSeconds(final int seconds) {
+		entity.setSecondsOnFire(seconds);
+	}
 }

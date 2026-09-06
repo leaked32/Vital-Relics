@@ -315,5 +315,8 @@
   "item.vitalrelics.wither_badge": "凋零怪徽章",
   "tooltip.vitalrelics.wither_badge": "由凋零怪攜帶的災變神話印記。",
   "item.vitalrelics.dragon_badge": "終界龍徽章",
-  "tooltip.vitalrelics.dragon_badge": "由終界之龍攜帶的至高神話印記。"
+  "tooltip.vitalrelics.dragon_badge": "由終界之龍攜帶的至高神話印記。",
+  "item.vitalrelics.cinderbrand_ring": "燼痕戒指",
+  "tooltip.vitalrelics.cinderbrand_ring": "攻擊會點燃目標五秒。",
+  "relic.vitalrelics.passive_skill.cinderbrand": "燼痕"
 }

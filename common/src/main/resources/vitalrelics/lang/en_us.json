@@ -316,5 +316,8 @@
   "item.vitalrelics.wither_badge": "Wither Badge",
   "tooltip.vitalrelics.wither_badge": "A catastrophic mythic mark carried by the Wither.",
   "item.vitalrelics.dragon_badge": "Dragon Badge",
-  "tooltip.vitalrelics.dragon_badge": "A supreme mythic mark borne by the dragon of the End."
+  "tooltip.vitalrelics.dragon_badge": "A supreme mythic mark borne by the dragon of the End.",
+  "item.vitalrelics.cinderbrand_ring": "Cinderbrand Ring",
+  "tooltip.vitalrelics.cinderbrand_ring": "Its ember-marked strikes set foes ablaze.",
+  "relic.vitalrelics.passive_skill.cinderbrand": "Cinderbrand"
 }

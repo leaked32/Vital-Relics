@@ -318,5 +318,8 @@
   "item.vitalrelics.wither_badge": "ウィザーのバッジ",
   "tooltip.vitalrelics.wither_badge": "ウィザーが宿す破滅的な神話の印。",
   "item.vitalrelics.dragon_badge": "エンダードラゴンのバッジ",
-  "tooltip.vitalrelics.dragon_badge": "エンドの竜が宿す至高の神話の印。"
+  "tooltip.vitalrelics.dragon_badge": "エンドの竜が宿す至高の神話の印。",
+  "item.vitalrelics.cinderbrand_ring": "燼印の指輪",
+  "tooltip.vitalrelics.cinderbrand_ring": "攻撃した相手を5秒間炎上させる。",
+  "relic.vitalrelics.passive_skill.cinderbrand": "燼印"
 }

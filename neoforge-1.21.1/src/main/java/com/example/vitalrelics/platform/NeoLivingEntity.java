@@ -218,4 +218,5 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 
 	@Override public boolean isOnFire() { return livingEntity.isOnFire(); }
 	@Override public void clearFire() { livingEntity.clearFire(); }
+	@Override public void igniteForSeconds(final int seconds) { livingEntity.igniteForSeconds(seconds); }
 }

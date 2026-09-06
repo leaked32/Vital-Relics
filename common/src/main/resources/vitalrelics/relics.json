@@ -79,6 +79,17 @@
       }
     },
     {
+      "id": "cinderbrand_ring",
+      "display_name": "Cinderbrand Ring",
+      "tooltip": "Its ember-marked strikes set foes ablaze.",
+      "texture": "ring/cinderbrand_ring.png",
+      "curio_slot": "ring",
+      "rarity": "uncommon",
+      "passive_skills": {
+        "cinderbrand": 1
+      }
+    },
+    {
       "id": "jumping_ring",
       "display_name": "Ring of Jumping",
       "tooltip": "A ring that gives the wearer a lighter step.",
