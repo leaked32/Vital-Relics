@@ -1073,6 +1073,11 @@
         "resistance": 1,
         "regeneration": 1
       },
+      "callbacks": {
+        "damage_dealt": {
+          "modifier": 2
+        }
+      },
       "enemy_spawn": {
         "minecraft:creeper": 0.30
       }
@@ -1198,6 +1203,11 @@
         "regeneration": 2,
         "resistance": 2,
         "speed": 1
+      },
+      "callbacks": {
+        "damage_dealt": {
+          "modifier": 2
+        }
       },
       "enemy_spawn": {
         "minecraft:warden": 0.50
