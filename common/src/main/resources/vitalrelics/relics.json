@@ -45,7 +45,7 @@
       "id": "power_ring",
       "display_name": "Ring of Power",
       "tooltip": "A compact source of devastating strength.",
-      "texture": "ring_red.png",
+      "texture": "power_ring.png",
       "curio_slot": "ring",
       "rarity": "common",
       "granted_effects": {
@@ -56,7 +56,7 @@
       "id": "luck_ring",
       "display_name": "Ring of Luck",
       "tooltip": "Fortune seems to favor its wearer.",
-      "texture": "ring_green.png",
+      "texture": "luck_ring.png",
       "curio_slot": "ring",
       "rarity": "common",
       "granted_effects": {
@@ -82,7 +82,7 @@
       "id": "jumping_ring",
       "display_name": "Ring of Jumping",
       "tooltip": "A ring that gives the wearer a lighter step.",
-      "texture": "ring_yellow.png",
+      "texture": "jumping_ring.png",
       "curio_slot": "ring",
       "rarity": "common",
       "granted_effects": {
@@ -104,7 +104,7 @@
       "id": "vitality_ring",
       "display_name": "Ring of Vitality",
       "tooltip": "A ring filled with enduring life force.",
-      "texture": "ring_red_saturated.png",
+      "texture": "vitality_ring.png",
       "curio_slot": "ring",
       "rarity": "common",
       "properties": {
@@ -117,7 +117,7 @@
       "id": "bulwark_ring",
       "display_name": "Ring of the Bulwark",
       "tooltip": "Dense enchanted metal hardens the bearer against crushing blows.",
-      "texture": "ring_purple_saturated.png",
+      "texture": "bulwark_ring.png",
       "curio_slot": "ring",
       "rarity": "uncommon",
       "properties": {
@@ -132,7 +132,7 @@
     {
       "id": "stone_ring",
       "tooltip": "Heavy, plain, and surprisingly difficult to move.",
-      "texture": "ring_gray.png",
+      "texture": "stone_ring.png",
       "curio_slot": "ring",
       "rarity": "uncommon",
       "properties": {
@@ -191,7 +191,7 @@
       "id": "scholars_convergence_ring",
       "display_name": "Scholar's Convergence Ring",
       "tooltip": "Makes each experience level require nearly the same effort as the last.",
-      "texture": "ring_blue.png",
+      "texture": "scholars_convergence_ring.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
@@ -202,7 +202,7 @@
       "id": "covenant_ring",
       "display_name": "Covenant Ring",
       "tooltip": "Shares its wearer's healing pulses with nearby allies.",
-      "texture": "ring_green_saturated.png",
+      "texture": "covenant_ring.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
