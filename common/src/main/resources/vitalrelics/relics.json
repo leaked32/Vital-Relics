@@ -8,7 +8,7 @@
       "id": "swiftness_ring",
       "display_name": "Ring of Swiftness",
       "tooltip": "A ring that lightens every step.",
-      "texture": "ring/ring_swiftness.png",
+      "texture": "ring_swiftness.png",
       "curio_slot": "ring",
       "rarity": "common",
       "granted_effects": {
@@ -19,7 +19,7 @@
       "id": "night_sight_ring",
       "display_name": "Ring of Night Sight",
       "tooltip": "Darkness can no longer hide the path ahead.",
-      "texture": "ring/ring_night_sight.png",
+      "texture": "ring_night_sight.png",
       "curio_slot": "ring",
       "rarity": "common",
       "granted_effects": {
@@ -34,7 +34,7 @@
       "id": "regeneration_ring",
       "display_name": "Ring of Regeneration",
       "tooltip": "A warm pulse of vitality runs through the wearer.",
-      "texture": "ring/ring_regeneration.png",
+      "texture": "ring_regeneration.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "granted_effects": {
@@ -45,7 +45,7 @@
       "id": "power_ring",
       "display_name": "Ring of Power",
       "tooltip": "A compact source of devastating strength.",
-      "texture": "ring/power_ring.png",
+      "texture": "power_ring.png",
       "curio_slot": "ring",
       "rarity": "common",
       "granted_effects": {
@@ -56,7 +56,7 @@
       "id": "luck_ring",
       "display_name": "Ring of Luck",
       "tooltip": "Fortune seems to favor its wearer.",
-      "texture": "ring/luck_ring.png",
+      "texture": "luck_ring.png",
       "curio_slot": "ring",
       "rarity": "common",
       "granted_effects": {
@@ -67,7 +67,7 @@
       "id": "fire_resistance_ring",
       "display_name": "Ring of Fire Resistance",
       "tooltip": "Flames can no longer harm the wearer.",
-      "texture": "ring/ring_fire_resistance.png",
+      "texture": "ring_fire_resistance.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "granted_effects": {
@@ -82,7 +82,7 @@
       "id": "cinderbrand_ring",
       "display_name": "Cinderbrand Ring",
       "tooltip": "Its ember-marked strikes burn foes for Cinderbrand level seconds.",
-      "texture": "ring/cinderbrand_ring.png",
+      "texture": "cinderbrand_ring.png",
       "curio_slot": "ring",
       "rarity": "uncommon",
       "passive_skills": {
@@ -93,7 +93,7 @@
       "id": "jumping_ring",
       "display_name": "Ring of Jumping",
       "tooltip": "A ring that gives the wearer a lighter step.",
-      "texture": "ring/jumping_ring.png",
+      "texture": "jumping_ring.png",
       "curio_slot": "ring",
       "rarity": "common",
       "granted_effects": {
@@ -104,7 +104,7 @@
       "id": "haste_ring",
       "display_name": "Ring of Haste",
       "tooltip": "Its amber spark drives tools through stone with unnatural speed.",
-      "texture": "ring/ring_haste.png",
+      "texture": "ring_haste.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "granted_effects": {
@@ -115,7 +115,7 @@
       "id": "vitality_ring",
       "display_name": "Ring of Vitality",
       "tooltip": "A ring filled with enduring life force.",
-      "texture": "ring/vitality_ring.png",
+      "texture": "vitality_ring.png",
       "curio_slot": "ring",
       "rarity": "common",
       "properties": {
@@ -128,7 +128,7 @@
       "id": "bulwark_ring",
       "display_name": "Ring of the Bulwark",
       "tooltip": "Dense enchanted metal hardens the bearer against crushing blows.",
-      "texture": "ring/bulwark_ring.png",
+      "texture": "bulwark_ring.png",
       "curio_slot": "ring",
       "rarity": "uncommon",
       "properties": {
@@ -143,7 +143,7 @@
     {
       "id": "stone_ring",
       "tooltip": "Heavy, plain, and surprisingly difficult to move.",
-      "texture": "ring/stone_ring.png",
+      "texture": "stone_ring.png",
       "curio_slot": "ring",
       "rarity": "uncommon",
       "properties": {
@@ -156,7 +156,7 @@
       "id": "metal_mending_ring",
       "display_name": "Ring of Metal Mending",
       "tooltip": "Slowly repairs the equipment worn by its bearer.",
-      "texture": "ring/ring_metal_mending.png",
+      "texture": "ring_metal_mending.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
@@ -167,7 +167,7 @@
       "id": "temporal_guard_ring",
       "display_name": "Ring of Temporal Guard",
       "tooltip": "A ring that preserves a brief moment of protection after each blow.",
-      "texture": "ring/ring_temporal_guard.png",
+      "texture": "ring_temporal_guard.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "callbacks": {
@@ -180,7 +180,7 @@
       "id": "blooddrinker_ring",
       "display_name": "Blooddrinker Ring",
       "tooltip": "Returns a portion of inflicted harm as vitality.",
-      "texture": "ring/ring_blooddrinker.png",
+      "texture": "ring_blooddrinker.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
@@ -191,7 +191,7 @@
       "id": "thorned_ring",
       "display_name": "Thorned Ring",
       "tooltip": "Periodically retaliates against attackers.",
-      "texture": "ring/ring_thorned.png",
+      "texture": "ring_thorned.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
@@ -202,7 +202,7 @@
       "id": "scholars_convergence_ring",
       "display_name": "Scholar's Convergence Ring",
       "tooltip": "Makes each experience level require nearly the same effort as the last.",
-      "texture": "ring/scholars_convergence_ring.png",
+      "texture": "scholars_convergence_ring.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
@@ -213,7 +213,7 @@
       "id": "covenant_ring",
       "display_name": "Covenant Ring",
       "tooltip": "Shares its wearer's healing pulses with nearby allies.",
-      "texture": "ring/covenant_ring.png",
+      "texture": "covenant_ring.png",
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
@@ -230,7 +230,7 @@
       "id": "healing_bracelet",
       "display_name": "Bracelet of Healing",
       "tooltip": "Stores a small reserve of restorative magic.",
-      "texture": "bracelet/healing_bracelet.png",
+      "texture": "healing_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "uncommon",
       "available_spells": {
@@ -250,7 +250,7 @@
       "id": "cleansing_bracelet",
       "display_name": "Bracelet of Cleansing",
       "tooltip": "Purges harmful effects from its wearer.",
-      "texture": "bracelet/cleansing_bracelet.png",
+      "texture": "cleansing_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "uncommon",
       "available_spells": {
@@ -263,7 +263,7 @@
       "id": "windstep_bracelet",
       "display_name": "Bracelet of Windstep",
       "tooltip": "Releases a sudden burst of forward momentum.",
-      "texture": "bracelet/windstep_bracelet.png",
+      "texture": "windstep_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "uncommon",
       "available_spells": {
@@ -278,7 +278,7 @@
       "id": "warcaster_bracelet",
       "display_name": "Warcaster Bracelet",
       "tooltip": "Releases repeated bursts of force against nearby hostile creatures.",
-      "texture": "bracelet/warcaster_bracelet.png",
+      "texture": "warcaster_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -295,7 +295,7 @@
       "id": "repulsion_bracelet",
       "display_name": "Bracelet of Repulsion",
       "tooltip": "Releases a violent pulse that throws nearby enemies away.",
-      "texture": "bracelet/repulsion_bracelet.png",
+      "texture": "repulsion_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "uncommon",
       "available_spells": {
@@ -311,7 +311,7 @@
       "id": "warding_bracelet",
       "display_name": "Bracelet of Warding",
       "tooltip": "Wraps its wearer in a temporary layer of protective vitality.",
-      "texture": "bracelet/warding_bracelet.png",
+      "texture": "warding_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -326,7 +326,7 @@
       "id": "skycaller_bracelet",
       "display_name": "Skycaller Bracelet",
       "tooltip": "Commands nearby enemies upward with a sudden gravitational surge.",
-      "texture": "bracelet/skycaller_bracelet.png",
+      "texture": "skycaller_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -341,7 +341,7 @@
       "id": "shadow_exchange_bracelet",
       "display_name": "Bracelet of Shadow Exchange",
       "tooltip": "Trades places with an enemy through a flicker of shadow.",
-      "texture": "bracelet/shadow_exchange_bracelet.png",
+      "texture": "shadow_exchange_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -355,7 +355,7 @@
       "id": "phantom_step_bracelet",
       "display_name": "Bracelet of Phantom Step",
       "tooltip": "Passes through the battlefield like a phantom, cutting enemies along the way.",
-      "texture": "bracelet/phantom_step_bracelet.png",
+      "texture": "phantom_step_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -370,7 +370,7 @@
       "id": "enchanters_bracelet",
       "display_name": "Enchanter's Bracelet",
       "tooltip": "Feeds experience into a held enchanted book, strengthening one of its enchantments.",
-      "texture": "bracelet/enchanters_bracelet.png",
+      "texture": "enchanters_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -384,7 +384,7 @@
       "id": "windward_bracelet",
       "display_name": "Windward Bracelet",
       "tooltip": "Twists incoming arrows away before they can strike.",
-      "texture": "bracelet/windward_bracelet.png",
+      "texture": "windward_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "passive_skills": {
@@ -395,7 +395,7 @@
       "id": "enderkeeper_bracelet",
       "display_name": "Enderkeeper Bracelet",
       "tooltip": "Keeps the wearer's Ender Chest within reach across any distance.",
-      "texture": "bracelet/enderkeeper_bracelet.png",
+      "texture": "enderkeeper_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "uncommon",
       "available_spells": {
@@ -408,7 +408,7 @@
       "id": "homebound_bracelet",
       "display_name": "Homebound Bracelet",
       "tooltip": "Guides its wearer safely back to their bed.",
-      "texture": "bracelet/homebound_bracelet.png",
+      "texture": "homebound_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
