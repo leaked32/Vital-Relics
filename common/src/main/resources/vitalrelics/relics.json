@@ -25,7 +25,10 @@
       "granted_effects": {
         "night_vision": 1
       },
-      "immune_to_effects": ["darkness", "blindness"]
+      "immune_to_effects": [
+        "darkness",
+        "blindness"
+      ]
     },
     {
       "id": "regeneration_ring",
@@ -70,7 +73,10 @@
       "granted_effects": {
         "fire_resistance": 1
       },
-      "passive_skills": { "fire_resistance": 1, "lava_swimmer": 1 }
+      "passive_skills": {
+        "fire_resistance": 1,
+        "lava_swimmer": 1
+      }
     },
     {
       "id": "jumping_ring",
@@ -103,7 +109,7 @@
       "rarity": "common",
       "properties": {
         "max_health": {
-          "add": 4.0
+          "add": 4
         }
       }
     },
@@ -116,14 +122,13 @@
       "rarity": "uncommon",
       "properties": {
         "armor": {
-          "add": 4.0
+          "add": 4
         },
         "armor_toughness": {
-          "add": 2.0
+          "add": 2
         }
       }
     },
-
     {
       "id": "stone_ring",
       "tooltip": "Heavy, plain, and surprisingly difficult to move.",
@@ -143,7 +148,9 @@
       "texture": "ring_metal_mending.png",
       "curio_slot": "ring",
       "rarity": "rare",
-      "passive_skills": { "metal_mending": 2.0 }
+      "passive_skills": {
+        "metal_mending": 2
+      }
     },
     {
       "id": "temporal_guard_ring",
@@ -154,7 +161,7 @@
       "rarity": "rare",
       "callbacks": {
         "invulnerable_time_taken": {
-          "flat": 5.0
+          "flat": 5
         }
       }
     },
@@ -188,7 +195,7 @@
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
-        "experience_convergence": 1.0
+        "experience_convergence": 1
       }
     },
     {
@@ -199,21 +206,20 @@
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
-        "healing_aura": 12.0
+        "healing_aura": 12
       },
       "ticks": {
         "heal": {
           "interval_ticks": 20,
-          "add": 1.0
+          "add": 1
         }
       }
     },
-
     {
       "id": "healing_bracelet",
       "display_name": "Bracelet of Healing",
       "tooltip": "Stores a small reserve of restorative magic.",
-      "texture": "bracelet_pink.png",
+      "texture": "healing_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "uncommon",
       "available_spells": {
@@ -223,7 +229,7 @@
           "recovery": 0.2
         },
         "healing_ray": {
-          "intensity": 1.0,
+          "intensity": 1,
           "range": 16,
           "recovery": 0.2
         }
@@ -233,7 +239,7 @@
       "id": "cleansing_bracelet",
       "display_name": "Bracelet of Cleansing",
       "tooltip": "Purges harmful effects from its wearer.",
-      "texture": "bracelet_aqua.png",
+      "texture": "cleansing_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "uncommon",
       "available_spells": {
@@ -246,14 +252,14 @@
       "id": "windstep_bracelet",
       "display_name": "Bracelet of Windstep",
       "tooltip": "Releases a sudden burst of forward momentum.",
-      "texture": "bracelet_yellow.png",
+      "texture": "windstep_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "uncommon",
       "available_spells": {
         "dash": {
           "strength": 1.8,
           "vertical": 0.15,
-          "recovery": 1.0
+          "recovery": 1
         }
       }
     },
@@ -261,7 +267,7 @@
       "id": "warcaster_bracelet",
       "display_name": "Warcaster Bracelet",
       "tooltip": "Releases repeated bursts of force against nearby hostile creatures.",
-      "texture": "bracelet_red.png",
+      "texture": "warcaster_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -278,7 +284,7 @@
       "id": "repulsion_bracelet",
       "display_name": "Bracelet of Repulsion",
       "tooltip": "Releases a violent pulse that throws nearby enemies away.",
-      "texture": "bracelet_blue.png",
+      "texture": "repulsion_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "uncommon",
       "available_spells": {
@@ -294,7 +300,7 @@
       "id": "warding_bracelet",
       "display_name": "Bracelet of Warding",
       "tooltip": "Wraps its wearer in a temporary layer of protective vitality.",
-      "texture": "bracelet_aqua_saturated.png",
+      "texture": "warding_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -309,7 +315,7 @@
       "id": "skycaller_bracelet",
       "display_name": "Skycaller Bracelet",
       "tooltip": "Commands nearby enemies upward with a sudden gravitational surge.",
-      "texture": "bracelet_gray.png",
+      "texture": "skycaller_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -324,7 +330,7 @@
       "id": "shadow_exchange_bracelet",
       "display_name": "Bracelet of Shadow Exchange",
       "tooltip": "Trades places with an enemy through a flicker of shadow.",
-      "texture": "bracelet_pink_saturated.png",
+      "texture": "shadow_exchange_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -338,7 +344,7 @@
       "id": "phantom_step_bracelet",
       "display_name": "Bracelet of Phantom Step",
       "tooltip": "Passes through the battlefield like a phantom, cutting enemies along the way.",
-      "texture": "bracelet_green_saturated.png",
+      "texture": "phantom_step_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -353,7 +359,7 @@
       "id": "enchanters_bracelet",
       "display_name": "Enchanter's Bracelet",
       "tooltip": "Feeds experience into a held enchanted book, strengthening one of its enchantments.",
-      "texture": "bracelet_yellow_saturated.png",
+      "texture": "enchanters_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
@@ -367,37 +373,39 @@
       "id": "windward_bracelet",
       "display_name": "Windward Bracelet",
       "tooltip": "Twists incoming arrows away before they can strike.",
-      "texture": "bracelet_green.png",
+      "texture": "windward_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "passive_skills": {
-        "arrow_deflection": 1.0
+        "arrow_deflection": 1
       }
     },
     {
       "id": "enderkeeper_bracelet",
       "display_name": "Enderkeeper Bracelet",
       "tooltip": "Keeps the wearer's Ender Chest within reach across any distance.",
-      "texture": "bracelet_purple.png",
+      "texture": "enderkeeper_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "uncommon",
       "available_spells": {
-        "open_ender_chest": { "recovery": 1.0 }
+        "open_ender_chest": {
+          "recovery": 1
+        }
       }
     },
     {
       "id": "homebound_bracelet",
       "display_name": "Homebound Bracelet",
       "tooltip": "Guides its wearer safely back to their bed.",
-      "texture": "bracelet_red_saturated.png",
+      "texture": "homebound_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
       "available_spells": {
-        "return_to_bed": { "recovery": 0.01 }
+        "return_to_bed": {
+          "recovery": 0.01
+        }
       }
     },
-
-
     {
       "id": "iron_heart",
       "display_name": "Metal Heart",
@@ -406,7 +414,7 @@
       "rarity": "common",
       "properties": {
         "max_health": {
-          "add": 4.0
+          "add": 4
         }
       }
     },
@@ -417,7 +425,7 @@
       "rarity": "common",
       "properties": {
         "block_interaction_range": {
-          "add": 1.0
+          "add": 1
         }
       }
     },
@@ -439,7 +447,7 @@
       "rarity": "uncommon",
       "properties": {
         "attack_damage": {
-          "add": 2.0
+          "add": 2
         }
       }
     },
@@ -450,13 +458,13 @@
       "rarity": "uncommon",
       "properties": {
         "max_health": {
-          "add": 6.0
+          "add": 6
         }
       },
       "ticks": {
         "heal": {
           "interval_ticks": 100,
-          "add": 1.0
+          "add": 1
         }
       }
     },
@@ -476,14 +484,22 @@
       "tooltip": "An unpleasant charm with a strangely useful resistance.",
       "texture": "gothic_spider_eye_pendant.png",
       "rarity": "uncommon",
-      "immune_to_effects": ["poison"]
+      "immune_to_effects": [
+        "poison"
+      ]
     },
     {
       "id": "milk_pearl",
       "tooltip": "A pale pearl that suppresses several common afflictions.",
       "texture": "moonmilk_pearl.png",
       "rarity": "rare",
-      "immune_to_effects": ["poison", "blindness", "mining_fatigue", "nausea", "weakness"]
+      "immune_to_effects": [
+        "poison",
+        "blindness",
+        "mining_fatigue",
+        "nausea",
+        "weakness"
+      ]
     },
     {
       "id": "berserker_fang",
@@ -492,7 +508,7 @@
       "rarity": "rare",
       "properties": {
         "attack_damage": {
-          "add": 3.0
+          "add": 3
         },
         "attack_speed": {
           "mul_total": 1.15
@@ -504,10 +520,12 @@
       "tooltip": "A dead heart that somehow makes its bearer harder to kill.",
       "texture": "withered_heart_pendant.png",
       "rarity": "rare",
-      "granted_effects": { "wither": 1 },
+      "granted_effects": {
+        "wither": 1
+      },
       "properties": {
         "attack_damage": {
-          "add": 4.0
+          "add": 4
         }
       }
     },
@@ -518,13 +536,13 @@
       "rarity": "rare",
       "properties": {
         "max_health": {
-          "add": 10.0
+          "add": 10
         }
       },
       "ticks": {
         "heal": {
           "interval_ticks": 60,
-          "add": 1.0
+          "add": 1
         }
       }
     },
@@ -532,7 +550,9 @@
       "id": "celestial_wings",
       "texture": "celestial_wings.png",
       "rarity": "epic",
-      "passive_skills": { "flight": 1.0 },
+      "passive_skills": {
+        "flight": 1
+      },
       "available_spells": {
         "teleport": {
           "range": 50,
@@ -546,11 +566,19 @@
       "texture": "cherry_cross.png",
       "curio_slot": "necklace",
       "rarity": "epic",
-      "immune_to_effects": ["darkness", "blindness", "wither", "mining_fatigue"],
-      "granted_effects": { "night_vision": 1, "speed": 2 },
+      "immune_to_effects": [
+        "darkness",
+        "blindness",
+        "wither",
+        "mining_fatigue"
+      ],
+      "granted_effects": {
+        "night_vision": 1,
+        "speed": 2
+      },
       "properties": {
         "max_health": {
-          "add": 20.0
+          "add": 20
         }
       },
       "ticks": {
@@ -569,7 +597,7 @@
           "ratio_maximum": 0.45
         },
         "invulnerable_time_taken": {
-          "flat": 5.0
+          "flat": 5
         }
       }
     },
@@ -583,17 +611,23 @@
       "granted_effects": {
         "jump_boost": 2
       },
-      "immune_to_effects": ["wither", "poison", "weakness"],
-      "passive_skills": { "arrow_deflection": 2.0 },
+      "immune_to_effects": [
+        "wither",
+        "poison",
+        "weakness"
+      ],
+      "passive_skills": {
+        "arrow_deflection": 2
+      },
       "properties": {
         "max_health": {
-          "add": 12.0
+          "add": 12
         },
         "armor": {
-          "add": 6.0
+          "add": 6
         },
         "armor_toughness": {
-          "add": 3.0
+          "add": 3
         }
       },
       "ticks": {
@@ -613,11 +647,15 @@
       "id": "cursed_crimson_rune",
       "texture": "cursed_crimson_rune.png",
       "rarity": "epic",
-      "passive_skills": { "reality_severance": 4.5 },
-      "granted_effects": { "strength": 2 },
+      "passive_skills": {
+        "reality_severance": 4.5
+      },
+      "granted_effects": {
+        "strength": 2
+      },
       "available_spells": {
         "curse": {
-          "intensity": 1.0,
+          "intensity": 1,
           "range": 64,
           "recovery": 0.5
         }
@@ -637,7 +675,9 @@
       "tooltip": "Empowers arrows with greater force.",
       "texture": "icy_feathered_arrow.png",
       "rarity": "epic",
-      "passive_skills": { "empowered_arrows": 1.5 }
+      "passive_skills": {
+        "empowered_arrows": 1.5
+      }
     },
     {
       "id": "bleeding_sigil",
@@ -656,7 +696,7 @@
       },
       "properties": {
         "attack_damage": {
-          "add": 6.0
+          "add": 6
         },
         "attack_speed": {
           "mul_total": 1.15
@@ -673,7 +713,9 @@
       "texture": "arcane_reforging_charm.png",
       "curio_slot": "charm",
       "rarity": "epic",
-      "passive_skills": { "metal_mending": 16.0 },
+      "passive_skills": {
+        "metal_mending": 16
+      },
       "available_spells": {
         "enchantment_ascension": {
           "experience_cost": 15,
@@ -693,31 +735,32 @@
         }
       }
     },
-
-
-
     {
       "id": "reality_rend",
       "display_name": "Halo of Reality Rend (Creative Mode Only)",
       "tooltip": "A creative-mode Relic (cannot be obtained in survival mode). ",
       "texture": "halo_celestial_crystal.png",
-      "effective_slots": ["in_inventory", "in_curios_api_slots", "in_touhou_little_maid_curios_slots"],
+      "effective_slots": [
+        "in_inventory",
+        "in_curios_api_slots",
+        "in_touhou_little_maid_curios_slots"
+      ],
       "curio_slot": "head",
       "rarity": "epic",
       "immune_to_effects": "all_negative",
       "passive_skills": {
-        "retarget_arrow": 2.0,
-        "reality_severance": 32.0,
+        "retarget_arrow": 2,
+        "reality_severance": 32,
         "iron_curtain": 2.1,
-        "lingering_wound": 1.0
+        "lingering_wound": 1
       },
       "properties": {
         "attack_damage": {
-          "add": 9.0,
-          "mul_total": 2.0
+          "add": 9,
+          "mul_total": 2
         },
         "attack_speed": {
-          "add": 4.0
+          "add": 4
         },
         "entity_interaction_range": {
           "add": 2.5
@@ -732,7 +775,7 @@
       },
       "callbacks": {
         "damage_dealt": {
-          "modifier": 2.0,
+          "modifier": 2,
           "ratio_minimum": 0.1
         },
         "damage_taken": {
@@ -740,21 +783,13 @@
           "ratio_maximum": 0.05
         },
         "invulnerable_time_taken": {
-          "flat": 20.0
+          "flat": 20
         },
         "invulnerable_time_dealt": {
-          "modifier": 0.0
+          "modifier": 0
         }
       }
     },
-
-
-
-
-
-
-
-
     {
       "id": "undead_badge",
       "display_name": "Undead Badge",
@@ -764,10 +799,10 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 12.0
+          "add": 12
         },
         "armor_toughness": {
-          "add": 4.0
+          "add": 4
         },
         "knockback_resistance": {
           "add": 0.5
@@ -794,7 +829,7 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 8.0
+          "add": 8
         }
       },
       "granted_effects": {
@@ -804,9 +839,9 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:skeleton": 0.30,
-        "minecraft:stray": 0.30,
-        "minecraft:bogged": 0.30
+        "minecraft:skeleton": 0.3,
+        "minecraft:stray": 0.3,
+        "minecraft:bogged": 0.3
       }
     },
     {
@@ -822,10 +857,10 @@
         "regeneration": 1
       },
       "enemy_spawn": {
-        "minecraft:spider": 0.30,
-        "minecraft:cave_spider": 0.30,
-        "minecraft:silverfish": 0.30,
-        "minecraft:endermite": 0.30
+        "minecraft:spider": 0.3,
+        "minecraft:cave_spider": 0.3,
+        "minecraft:silverfish": 0.3,
+        "minecraft:endermite": 0.3
       }
     },
     {
@@ -841,8 +876,8 @@
         "jump_boost": 2
       },
       "enemy_spawn": {
-        "minecraft:slime": 0.30,
-        "minecraft:magma_cube": 0.30
+        "minecraft:slime": 0.3,
+        "minecraft:magma_cube": 0.3
       }
     },
     {
@@ -854,7 +889,7 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 10.0
+          "add": 10
         }
       },
       "granted_effects": {
@@ -863,8 +898,8 @@
         "regeneration": 1
       },
       "enemy_spawn": {
-        "minecraft:pillager": 0.30,
-        "minecraft:vindicator": 0.30
+        "minecraft:pillager": 0.3,
+        "minecraft:vindicator": 0.3
       }
     },
     {
@@ -881,8 +916,8 @@
         "strength": 1
       },
       "enemy_spawn": {
-        "minecraft:evoker": 0.30,
-        "minecraft:vex": 0.30
+        "minecraft:evoker": 0.3,
+        "minecraft:vex": 0.3
       }
     },
     {
@@ -899,7 +934,7 @@
         "speed": 1
       },
       "enemy_spawn": {
-        "minecraft:witch": 0.30
+        "minecraft:witch": 0.3
       }
     },
     {
@@ -911,10 +946,10 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 12.0
+          "add": 12
         },
         "armor_toughness": {
-          "add": 4.0
+          "add": 4
         }
       },
       "granted_effects": {
@@ -923,9 +958,9 @@
         "fire_resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:piglin": 0.30,
-        "minecraft:piglin_brute": 0.30,
-        "minecraft:zombified_piglin": 0.30
+        "minecraft:piglin": 0.3,
+        "minecraft:piglin_brute": 0.3,
+        "minecraft:zombified_piglin": 0.3
       }
     },
     {
@@ -937,7 +972,7 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 10.0
+          "add": 10
         }
       },
       "granted_effects": {
@@ -946,8 +981,8 @@
         "fire_resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:hoglin": 0.30,
-        "minecraft:zoglin": 0.30
+        "minecraft:hoglin": 0.3,
+        "minecraft:zoglin": 0.3
       }
     },
     {
@@ -959,10 +994,10 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 14.0
+          "add": 14
         },
         "armor_toughness": {
-          "add": 6.0
+          "add": 6
         }
       },
       "granted_effects": {
@@ -972,7 +1007,7 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:wither_skeleton": 0.30
+        "minecraft:wither_skeleton": 0.3
       }
     },
     {
@@ -989,7 +1024,7 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:blaze": 0.30
+        "minecraft:blaze": 0.3
       }
     },
     {
@@ -1005,7 +1040,7 @@
         "fire_resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:ghast": 0.30
+        "minecraft:ghast": 0.3
       }
     },
     {
@@ -1017,7 +1052,7 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 12.0
+          "add": 12
         }
       },
       "granted_effects": {
@@ -1027,8 +1062,8 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:enderman": 0.30,
-        "minecraft:shulker": 0.30
+        "minecraft:enderman": 0.3,
+        "minecraft:shulker": 0.3
       }
     },
     {
@@ -1040,10 +1075,10 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 12.0
+          "add": 12
         },
         "armor_toughness": {
-          "add": 5.0
+          "add": 5
         }
       },
       "granted_effects": {
@@ -1053,7 +1088,7 @@
         "strength": 1
       },
       "enemy_spawn": {
-        "minecraft:guardian": 0.30
+        "minecraft:guardian": 0.3
       }
     },
     {
@@ -1065,7 +1100,7 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 10.0
+          "add": 10
         }
       },
       "granted_effects": {
@@ -1079,7 +1114,7 @@
         }
       },
       "enemy_spawn": {
-        "minecraft:creeper": 0.30
+        "minecraft:creeper": 0.3
       }
     },
     {
@@ -1095,7 +1130,7 @@
         "regeneration": 1
       },
       "enemy_spawn": {
-        "minecraft:phantom": 0.30
+        "minecraft:phantom": 0.3
       }
     },
     {
@@ -1112,7 +1147,7 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:breeze": 0.30
+        "minecraft:breeze": 0.3
       }
     },
     {
@@ -1128,7 +1163,7 @@
         "resistance": 2
       },
       "enemy_spawn": {
-        "minecraft:creaking": 0.30
+        "minecraft:creaking": 0.3
       }
     },
     {
@@ -1140,10 +1175,10 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 16.0
+          "add": 16
         },
         "armor_toughness": {
-          "add": 8.0
+          "add": 8
         }
       },
       "granted_effects": {
@@ -1152,7 +1187,7 @@
         "resistance": 1
       },
       "enemy_spawn": {
-        "minecraft:ravager": 0.30
+        "minecraft:ravager": 0.3
       }
     },
     {
@@ -1164,10 +1199,10 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 18.0
+          "add": 18
         },
         "armor_toughness": {
-          "add": 8.0
+          "add": 8
         }
       },
       "granted_effects": {
@@ -1177,7 +1212,7 @@
         "water_breathing": 1
       },
       "enemy_spawn": {
-        "minecraft:elder_guardian": 0.30
+        "minecraft:elder_guardian": 0.3
       }
     },
     {
@@ -1189,13 +1224,13 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 20.0
+          "add": 20
         },
         "armor_toughness": {
-          "add": 10.0
+          "add": 10
         },
         "max_health": {
-          "mul_total": 2.0
+          "mul_total": 2
         }
       },
       "granted_effects": {
@@ -1210,7 +1245,7 @@
         }
       },
       "enemy_spawn": {
-        "minecraft:warden": 0.50
+        "minecraft:warden": 0.5
       }
     },
     {
@@ -1222,10 +1257,10 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 20.0
+          "add": 20
         },
         "armor_toughness": {
-          "add": 12.0
+          "add": 12
         }
       },
       "granted_effects": {
@@ -1235,7 +1270,7 @@
         "speed": 1
       },
       "enemy_spawn": {
-        "minecraft:wither": 0.30
+        "minecraft:wither": 0.3
       }
     },
     {
@@ -1247,10 +1282,10 @@
       "rarity": "rare",
       "properties": {
         "armor": {
-          "add": 20.0
+          "add": 20
         },
         "armor_toughness": {
-          "add": 12.0
+          "add": 12
         }
       },
       "granted_effects": {
@@ -1260,11 +1295,8 @@
         "speed": 2
       },
       "enemy_spawn": {
-        "minecraft:ender_dragon": 0.30
+        "minecraft:ender_dragon": 0.3
       }
     }
-
   ]
-
-
 }
