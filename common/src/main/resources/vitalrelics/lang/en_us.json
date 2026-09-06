@@ -318,6 +318,6 @@
   "item.vitalrelics.dragon_badge": "Dragon Badge",
   "tooltip.vitalrelics.dragon_badge": "A supreme mythic mark borne by the dragon of the End.",
   "item.vitalrelics.cinderbrand_ring": "Cinderbrand Ring",
-  "tooltip.vitalrelics.cinderbrand_ring": "Its ember-marked strikes set foes ablaze.",
+  "tooltip.vitalrelics.cinderbrand_ring": "Its ember-marked strikes burn foes for Cinderbrand level seconds.",
   "relic.vitalrelics.passive_skill.cinderbrand": "Cinderbrand"
 }

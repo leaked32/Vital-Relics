@@ -320,6 +320,6 @@
   "item.vitalrelics.dragon_badge": "末影龙徽章",
   "tooltip.vitalrelics.dragon_badge": "由末地之龙携带的至高神话印记。",
   "item.vitalrelics.cinderbrand_ring": "烬痕戒指",
-  "tooltip.vitalrelics.cinderbrand_ring": "攻击会点燃目标五秒。",
+  "tooltip.vitalrelics.cinderbrand_ring": "攻击会点燃目标，持续时间等于烬痕等级（秒）。",
   "relic.vitalrelics.passive_skill.cinderbrand": "烬痕"
 }

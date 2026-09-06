@@ -320,6 +320,6 @@
   "item.vitalrelics.dragon_badge": "エンダードラゴンのバッジ",
   "tooltip.vitalrelics.dragon_badge": "エンドの竜が宿す至高の神話の印。",
   "item.vitalrelics.cinderbrand_ring": "燼印の指輪",
-  "tooltip.vitalrelics.cinderbrand_ring": "攻撃した相手を5秒間炎上させる。",
+  "tooltip.vitalrelics.cinderbrand_ring": "攻撃した相手を燼印レベルと同じ秒数だけ炎上させる。",
   "relic.vitalrelics.passive_skill.cinderbrand": "燼印"
 }

@@ -317,6 +317,6 @@
   "item.vitalrelics.dragon_badge": "終界龍徽章",
   "tooltip.vitalrelics.dragon_badge": "由終界之龍攜帶的至高神話印記。",
   "item.vitalrelics.cinderbrand_ring": "燼痕戒指",
-  "tooltip.vitalrelics.cinderbrand_ring": "攻擊會點燃目標五秒。",
+  "tooltip.vitalrelics.cinderbrand_ring": "攻擊會點燃目標，持續時間等於燼痕等級（秒）。",
   "relic.vitalrelics.passive_skill.cinderbrand": "燼痕"
 }

@@ -81,7 +81,7 @@
     {
       "id": "cinderbrand_ring",
       "display_name": "Cinderbrand Ring",
-      "tooltip": "Its ember-marked strikes set foes ablaze.",
+      "tooltip": "Its ember-marked strikes burn foes for Cinderbrand level seconds.",
       "texture": "ring/cinderbrand_ring.png",
       "curio_slot": "ring",
       "rarity": "uncommon",

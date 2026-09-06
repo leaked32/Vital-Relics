@@ -230,7 +230,7 @@ public final class MyEvents {
 
 		// Passive Skill: Cinderbrand
 		if (attacker != null && cinderbrandLevel > 0.0 && amount > 0.0F)
-			victim.igniteForSeconds(5);
+			victim.igniteForSeconds(Math.max(1, (int) Math.round(cinderbrandLevel)));
 
 		// Passive Skill: Lingering Wound
 		if (attacker != null && lingeringWoundLevel > 0.0 && amount > 0.0F) {
