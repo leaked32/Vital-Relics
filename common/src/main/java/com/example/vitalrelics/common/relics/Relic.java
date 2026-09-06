@@ -50,7 +50,7 @@ public class Relic {
 	public static final String PASSIVE_SKILL_LAVA_SWIMMER = "lava_swimmer";
 	public static final String PASSIVE_SKILL_IRON_CURTAIN = "iron_curtain";
 	public static final String PASSIVE_SKILL_LINGERING_WOUND = "lingering_wound";
-	public static final String PASSIVE_SKILL_CINDERBRAND = "cinderbrand";
+	public static final String PASSIVE_SKILL_CINDER_BRAND = "cinder_brand";
 	public static final String PASSIVE_SKILL_GRAVE_DOMINION = "grave_dominion";
 	public static final String PASSIVE_SKILL_EXPERIENCE_CONVERGENCE = "experience_convergence";
 	public static final String PASSIVE_SKILL_HEALING_AURA = "healing_aura";

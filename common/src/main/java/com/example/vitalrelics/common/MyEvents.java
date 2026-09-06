@@ -185,7 +185,7 @@ public final class MyEvents {
 			lingeringWoundLevel = Loader.levelOfSuchPassiveSkill(
 					attackerRelics, Relic.PASSIVE_SKILL_LINGERING_WOUND);
 			cinderbrandLevel = Loader.levelOfSuchPassiveSkill(
-					attackerRelics, Relic.PASSIVE_SKILL_CINDERBRAND);
+					attackerRelics, Relic.PASSIVE_SKILL_CINDER_BRAND);
 
 			amount = (float) Loader.applyCallback(
 					attackerRelics, "damage_dealt", amount, victim.maxHealth());
