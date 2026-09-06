@@ -135,6 +135,20 @@
       },
       "count": 1
     },
+    "cinderbrand_ring": {
+      "type": "shaped",
+      "pattern": [
+        " B ",
+        "GFG",
+        " G "
+      ],
+      "key": {
+        "B": "minecraft:blaze_powder",
+        "G": "minecraft:gold_ingot",
+        "F": "minecraft:fire_charge"
+      },
+      "count": 1
+    },
     "jumping_ring": {
       "type": "shaped",
       "pattern": [
@@ -725,6 +739,16 @@
       },
       {
         "table": "minecraft:chests/bastion_treasure",
+        "chance": 0.04
+      }
+    ],
+    "cinderbrand_ring": [
+      {
+        "table": "minecraft:chests/nether_bridge",
+        "chance": 0.05
+      },
+      {
+        "table": "minecraft:chests/ruined_portal",
         "chance": 0.04
       }
     ],
