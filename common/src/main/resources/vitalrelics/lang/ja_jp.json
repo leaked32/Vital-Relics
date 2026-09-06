@@ -268,6 +268,8 @@
   "item.vitalrelics.covenant_ring": "盟約の指輪",
   "tooltip.vitalrelics.covenant_ring": "装備者の周期的な回復を近くの味方と共有する。",
   "relic.vitalrelics.passive_skill.healing_aura": "治癒のオーラ",
+  "item.vitalrelics.haste_ring": "採掘迅速の指輪",
+  "tooltip.vitalrelics.haste_ring": "琥珀色の輝きが、道具に岩を削り抜く驚異的な速さを与える。",
 
   "relic.vitalrelics.passive_skill.fire_resistance": "火炎耐性",
   "relic.vitalrelics.passive_skill.lava_swimmer": "溶岩遊泳",

@@ -45,6 +45,16 @@
       },
       "count": 1
     },
+    "haste_ring": {
+      "type": "shaped",
+      "pattern": [" G ", "RPR", " G "],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "R": "minecraft:redstone",
+        "P": "minecraft:iron_pickaxe"
+      },
+      "count": 1
+    },
     "swiftness_ring": {
       "type": "shaped",
       "pattern": [
@@ -653,6 +663,10 @@
     "covenant_ring": [
       { "table": "minecraft:chests/village/village_temple", "chance": 0.05 },
       { "table": "minecraft:chests/woodland_mansion", "chance": 0.03 }
+    ],
+    "haste_ring": [
+      { "table": "minecraft:chests/abandoned_mineshaft", "chance": 0.06 },
+      { "table": "minecraft:chests/stronghold_corridor", "chance": 0.04 }
     ],
     "swiftness_ring": [
       {

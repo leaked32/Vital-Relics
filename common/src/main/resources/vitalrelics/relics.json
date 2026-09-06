@@ -84,6 +84,17 @@
       }
     },
     {
+      "id": "haste_ring",
+      "display_name": "Ring of Haste",
+      "tooltip": "Its amber spark drives tools through stone with unnatural speed.",
+      "texture": "ring_haste.png",
+      "curio_slot": "ring",
+      "rarity": "rare",
+      "granted_effects": {
+        "haste": 2
+      }
+    },
+    {
       "id": "vitality_ring",
       "display_name": "Ring of Vitality",
       "tooltip": "A ring filled with enduring life force.",

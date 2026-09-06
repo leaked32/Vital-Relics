@@ -266,6 +266,8 @@
   "item.vitalrelics.covenant_ring": "Covenant Ring",
   "tooltip.vitalrelics.covenant_ring": "Shares its wearer's healing pulses with nearby allies.",
   "relic.vitalrelics.passive_skill.healing_aura": "Healing Aura",
+  "item.vitalrelics.haste_ring": "Ring of Haste",
+  "tooltip.vitalrelics.haste_ring": "Its amber spark drives tools through stone with unnatural speed.",
 
   "relic.vitalrelics.passive_skill.fire_resistance": "Fire Resistance",
   "relic.vitalrelics.passive_skill.lava_swimmer": "Lava Swimmer",

@@ -265,6 +265,8 @@
   "item.vitalrelics.covenant_ring": "盟約戒指",
   "tooltip.vitalrelics.covenant_ring": "將佩戴者的週期治療分享給附近盟友。",
   "relic.vitalrelics.passive_skill.healing_aura": "治療光環",
+  "item.vitalrelics.haste_ring": "挖掘加速戒指",
+  "tooltip.vitalrelics.haste_ring": "琥珀色的火花賦予工具不可思議的破岩速度。",
 
   "relic.vitalrelics.passive_skill.fire_resistance": "火焰抗性",
   "relic.vitalrelics.passive_skill.lava_swimmer": "熔岩泳者",
