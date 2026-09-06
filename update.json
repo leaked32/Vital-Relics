@@ -7,7 +7,8 @@
     "0.7.11": "Vital Relics v0.7.11",
     "0.7.12": "Vital Relics v0.7.12",
     "0.7.13": "Vital Relics v0.7.13",
-    "0.7.14": "Vital Relics v0.7.14"
+    "0.7.14": "Vital Relics v0.7.14",
+    "0.7.15": "Vital Relics v0.7.15"
   },
   "1.21.1": {
     "0.7.6": "Vital Relics v0.7.6",
@@ -16,7 +17,8 @@
     "0.7.11": "Vital Relics v0.7.11",
     "0.7.12": "Vital Relics v0.7.12",
     "0.7.13": "Vital Relics v0.7.13",
-    "0.7.14": "Vital Relics v0.7.14"
+    "0.7.14": "Vital Relics v0.7.14",
+    "0.7.15": "Vital Relics v0.7.15"
   },
   "1.21.8": {
     "0.7.8": "Vital Relics v0.7.8",
@@ -24,22 +26,24 @@
     "0.7.11": "Vital Relics v0.7.11",
     "0.7.12": "Vital Relics v0.7.12",
     "0.7.13": "Vital Relics v0.7.13",
-    "0.7.14": "Vital Relics v0.7.14"
+    "0.7.14": "Vital Relics v0.7.14",
+    "0.7.15": "Vital Relics v0.7.15"
   },
   "26.2": {
     "0.7.11": "Vital Relics v0.7.11",
     "0.7.12": "Vital Relics v0.7.12",
     "0.7.13": "Vital Relics v0.7.13",
-    "0.7.14": "Vital Relics v0.7.14"
+    "0.7.14": "Vital Relics v0.7.14",
+    "0.7.15": "Vital Relics v0.7.15"
   },
   "promos": {
-    "1.20.1-latest": "0.7.14",
-    "1.20.1-recommended": "0.7.14",
-    "1.21.1-latest": "0.7.14",
-    "1.21.1-recommended": "0.7.14",
-    "1.21.8-latest": "0.7.14",
-    "1.21.8-recommended": "0.7.14",
-    "26.2-latest": "0.7.14",
-    "26.2-recommended": "0.7.14"
+    "1.20.1-latest": "0.7.15",
+    "1.20.1-recommended": "0.7.15",
+    "1.21.1-latest": "0.7.15",
+    "1.21.1-recommended": "0.7.15",
+    "1.21.8-latest": "0.7.15",
+    "1.21.8-recommended": "0.7.15",
+    "26.2-latest": "0.7.15",
+    "26.2-recommended": "0.7.15"
   }
 }
