@@ -572,6 +572,55 @@
       }
     },
     {
+      "id": "cherry_petal_pendant",
+      "display_name": "Cherry Petal Pendant",
+      "tooltip": "A modest cherry-blossom charm carrying a trace of gentle vitality.",
+      "texture": "cherry_petal_pendant.png",
+      "curio_slot": "necklace",
+      "rarity": "uncommon",
+      "granted_effects": {
+        "night_vision": 1
+      },
+      "properties": {
+        "max_health": {
+          "add": 4
+        }
+      }
+    },
+    {
+      "id": "cherrywood_cross",
+      "display_name": "Cherrywood Cross",
+      "tooltip": "A polished cherrywood cross set with a protective blossom gem.",
+      "texture": "cherrywood_cross.png",
+      "curio_slot": "necklace",
+      "rarity": "rare",
+      "immune_to_effects": [
+        "blindness",
+        "mining_fatigue"
+      ],
+      "granted_effects": {
+        "night_vision": 1,
+        "speed": 1
+      },
+      "properties": {
+        "max_health": {
+          "add": 10
+        }
+      },
+      "ticks": {
+        "heal": {
+          "interval_ticks": 60,
+          "add": 1
+        }
+      },
+      "callbacks": {
+        "damage_taken": {
+          "modifier": 0.92,
+          "ratio_maximum": 0.6
+        }
+      }
+    },
+    {
       "id": "cherry_cross",
       "tooltip": "The pure power of cherry trees. ",
       "texture": "cherry_cross.png",
@@ -609,6 +658,60 @@
         },
         "invulnerable_time_taken": {
           "flat": 5
+        }
+      }
+    },
+    {
+      "id": "gilded_circlet",
+      "display_name": "Gilded Circlet",
+      "tooltip": "A simple golden circlet touched by a faint celestial light.",
+      "texture": "gilded_circlet.png",
+      "curio_slot": "head",
+      "rarity": "uncommon",
+      "granted_effects": {
+        "jump_boost": 1
+      },
+      "properties": {
+        "armor": {
+          "add": 2
+        }
+      }
+    },
+    {
+      "id": "astral_halo",
+      "display_name": "Astral Halo",
+      "tooltip": "A slender halo whose crystals hold a quiet astral ward.",
+      "texture": "astral_halo.png",
+      "curio_slot": "head",
+      "rarity": "rare",
+      "granted_effects": {
+        "jump_boost": 1
+      },
+      "immune_to_effects": [
+        "poison",
+        "weakness"
+      ],
+      "properties": {
+        "max_health": {
+          "add": 6
+        },
+        "armor": {
+          "add": 4
+        },
+        "armor_toughness": {
+          "add": 2
+        }
+      },
+      "ticks": {
+        "heal": {
+          "interval_ticks": 60,
+          "add": 1
+        }
+      },
+      "callbacks": {
+        "damage_taken": {
+          "modifier": 0.92,
+          "ratio_maximum": 0.6
         }
       }
     },

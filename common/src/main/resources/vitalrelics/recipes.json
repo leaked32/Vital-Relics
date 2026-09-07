@@ -472,6 +472,34 @@
       ],
       "count": 1
     },
+    "cherry_petal_pendant": {
+      "type": "shaped",
+      "pattern": [
+        " S ",
+        " C ",
+        " P "
+      ],
+      "key": {
+        "S": "minecraft:string",
+        "C": "minecraft:cherry_planks",
+        "P": "minecraft:pink_petals"
+      },
+      "count": 1
+    },
+    "cherrywood_cross": {
+      "type": "shaped",
+      "pattern": [
+        " G ",
+        "GCG",
+        " A "
+      ],
+      "key": {
+        "G": "minecraft:gold_nugget",
+        "C": "minecraft:cherry_log",
+        "A": "minecraft:amethyst_shard"
+      },
+      "count": 1
+    },
     "cherry_cross": {
       "type": "shaped",
       "pattern": [
@@ -661,6 +689,32 @@
       },
       "count": 1
     },
+    "gilded_circlet": {
+      "type": "shaped",
+      "pattern": [
+        "GLG",
+        " G "
+      ],
+      "key": {
+        "G": "minecraft:gold_ingot",
+        "L": "minecraft:lapis_lazuli"
+      },
+      "count": 1
+    },
+    "astral_halo": {
+      "type": "shaped",
+      "pattern": [
+        "AGA",
+        "D D",
+        " G "
+      ],
+      "key": {
+        "A": "minecraft:amethyst_shard",
+        "G": "minecraft:gold_ingot",
+        "D": "minecraft:diamond"
+      },
+      "count": 1
+    },
     "celestial_aegis": {
       "type": "shaped",
       "pattern": [
@@ -678,6 +732,22 @@
     }
   },
   "loot": {
+    "cherry_petal_pendant": [
+      { "table": "minecraft:chests/village/village_plains_house", "chance": 0.08 },
+      { "table": "minecraft:chests/shipwreck_supply", "chance": 0.06 }
+    ],
+    "cherrywood_cross": [
+      { "table": "minecraft:chests/woodland_mansion", "chance": 0.04 },
+      { "table": "minecraft:chests/buried_treasure", "chance": 0.04 }
+    ],
+    "gilded_circlet": [
+      { "table": "minecraft:chests/desert_pyramid", "chance": 0.07 },
+      { "table": "minecraft:chests/ruined_portal", "chance": 0.06 }
+    ],
+    "astral_halo": [
+      { "table": "minecraft:chests/stronghold_corridor", "chance": 0.04 },
+      { "table": "minecraft:chests/end_city_treasure", "chance": 0.03 }
+    ],
     "gravity_anchor_charm": [
       { "table": "minecraft:chests/ancient_city", "chance": 0.015 },
       { "table": "minecraft:chests/end_city_treasure", "chance": 0.015 }
