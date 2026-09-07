@@ -718,6 +718,17 @@
       }
     },
     {
+      "id": "gravity_anchor_charm",
+      "display_name": "Gravity Anchor",
+      "tooltip": "Its crushing field drags hostile creatures back to solid ground.",
+      "texture": "gravity_anchor_charm.png",
+      "curio_slot": "charm",
+      "rarity": "epic",
+      "passive_skills": {
+        "no_fly_zone": 24
+      }
+    },
+    {
       "id": "arcane_reforging_charm",
       "display_name": "Charm of Arcane Reforging",
       "tooltip": "Refines enchanted equipment, strengthening its magic or cleansing its accumulated burden.",

@@ -13,6 +13,8 @@ public interface MyRuntimeUtils {
 	MyVec3 safeDestinationAlongLook(MyLivingEntity entity, double range);
 	/** Returns a burial position beneath the first collidable block below the entity, or null. */
 	MyVec3 graveShiftDestination(MyLivingEntity entity);
+	/** Returns a position on the first collidable surface below the entity, or null. */
+	MyVec3 groundDestination(MyLivingEntity entity);
 	MyVec3 safeHorizontalDestination(MyLivingEntity entity, double range);
 	List<MyLivingEntity> entitiesIntersectingMovement(MyLivingEntity entity, MyVec3 from, MyVec3 to, double inflate);
 

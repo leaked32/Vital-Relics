@@ -54,6 +54,7 @@ public class Relic {
 	public static final String PASSIVE_SKILL_GRAVE_DOMINION = "grave_dominion";
 	public static final String PASSIVE_SKILL_EXPERIENCE_CONVERGENCE = "experience_convergence";
 	public static final String PASSIVE_SKILL_HEALING_AURA = "healing_aura";
+	public static final String PASSIVE_SKILL_NO_FLY_ZONE = "no_fly_zone";
 
 	public final Map<String, Double> passive_skills = new LinkedHashMap<>();
 

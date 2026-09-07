@@ -321,5 +321,8 @@
   "tooltip.vitalrelics.dragon_badge": "由末地之龙携带的至高神话印记。",
   "item.vitalrelics.cinderbrand_ring": "烬痕戒指",
   "tooltip.vitalrelics.cinderbrand_ring": "攻击会点燃目标，持续时间等于烬痕等级（秒）。",
-  "relic.vitalrelics.passive_skill.cinder_brand": "烬痕"
+  "relic.vitalrelics.passive_skill.cinder_brand": "烬痕",
+  "item.vitalrelics.gravity_anchor_charm": "重力之锚",
+  "tooltip.vitalrelics.gravity_anchor_charm": "沉重的力场将敌对生物拖回坚实地面。",
+  "relic.vitalrelics.passive_skill.no_fly_zone": "禁飞领域"
 }

@@ -100,6 +100,26 @@ public final class MyEvents {
 					entity.moveTo(entity.x(), entity.y() - entity.height(), entity.z());
 				}
 			}
+
+			// Passive Skill: No-Fly Zone
+			final double noFlyZoneLevel = Loader.levelOfSuchPassiveSkill(
+					relics, Relic.PASSIVE_SKILL_NO_FLY_ZONE);
+
+			if (noFlyZoneLevel > 0.0) {
+				final MyRuntimeUtils runtime = MyRuntime.getRuntimeUtils();
+				for (final MyLivingEntity target :
+						myLivingEntity.livingEntitiesInRange(noFlyZoneLevel)) {
+					if (!target.isHostile())
+						continue;
+
+					final var destination = runtime.groundDestination(target);
+					if (destination == null)
+						continue;
+
+					target.moveTo(destination.x(), destination.y(), destination.z());
+					target.markMovementChanged();
+				}
+			}
 		}
 
 		// Scheduled to update on each second

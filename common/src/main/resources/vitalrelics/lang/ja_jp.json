@@ -321,5 +321,8 @@
   "tooltip.vitalrelics.dragon_badge": "エンドの竜が宿す至高の神話の印。",
   "item.vitalrelics.cinderbrand_ring": "燼印の指輪",
   "tooltip.vitalrelics.cinderbrand_ring": "攻撃した相手を燼印レベルと同じ秒数だけ炎上させる。",
-  "relic.vitalrelics.passive_skill.cinder_brand": "燼印"
+  "relic.vitalrelics.passive_skill.cinder_brand": "燼印",
+  "item.vitalrelics.gravity_anchor_charm": "重力の錨",
+  "tooltip.vitalrelics.gravity_anchor_charm": "圧倒的な重力場が敵対する生物を大地へ引き戻す。",
+  "relic.vitalrelics.passive_skill.no_fly_zone": "飛行禁止領域"
 }

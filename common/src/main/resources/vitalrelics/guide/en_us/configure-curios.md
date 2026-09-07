@@ -89,6 +89,8 @@ Available Passive skills:
      allowing it to receive both the original attack's accumulation
      and an additional accumulation from the extra damage.
 - `grave_dominion`: Every half second, moves nearby entities downward by their height.
+- `no_fly_zone`: Every half second, moves hostile living entities within level blocks
+     onto the first collidable surface beneath them.
      The radius in blocks equals the skill level.
 - `experience_convergence`: Multiplies positive experience gains by
      `1 + level × (experience needed for the next level / 7 - 1)`,

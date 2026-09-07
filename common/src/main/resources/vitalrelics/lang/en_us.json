@@ -319,5 +319,8 @@
   "tooltip.vitalrelics.dragon_badge": "A supreme mythic mark borne by the dragon of the End.",
   "item.vitalrelics.cinderbrand_ring": "Cinderbrand Ring",
   "tooltip.vitalrelics.cinderbrand_ring": "Its ember-marked strikes burn foes for Cinder Brand level seconds.",
-  "relic.vitalrelics.passive_skill.cinder_brand": "Cinder Brand"
+  "relic.vitalrelics.passive_skill.cinder_brand": "Cinder Brand",
+  "item.vitalrelics.gravity_anchor_charm": "Gravity Anchor",
+  "tooltip.vitalrelics.gravity_anchor_charm": "Its crushing field drags hostile creatures back to solid ground.",
+  "relic.vitalrelics.passive_skill.no_fly_zone": "No-Fly Zone"
 }

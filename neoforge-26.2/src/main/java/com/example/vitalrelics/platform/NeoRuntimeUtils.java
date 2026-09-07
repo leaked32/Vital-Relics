@@ -261,6 +261,25 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 	}
 
 	@Override
+	public MyVec3 groundDestination(final MyLivingEntity abstractEntity) {
+		final LivingEntity entity = nativeEntity(abstractEntity);
+		if (!(entity.level() instanceof ServerLevel level))
+			return null;
+
+		final BlockPos.MutableBlockPos pos = BlockPos.containing(
+				entity.getX(), entity.getY() - 1.0E-5, entity.getZ()).mutable();
+		final int minY = level.getMinY();
+		while (pos.getY() >= minY) {
+			final var shape = level.getBlockState(pos).getCollisionShape(level, pos);
+			if (!shape.isEmpty())
+				return new MyVec3(entity.getX(), pos.getY() + shape.max(Direction.Axis.Y),
+						entity.getZ());
+			pos.move(Direction.DOWN);
+		}
+		return null;
+	}
+
+	@Override
 	public MyVec3 safeDestinationAlongLook(
 			final MyLivingEntity abstractEntity,
 			final double range) {

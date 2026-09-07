@@ -321,6 +321,11 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 	}
 
 	@Override
+	public boolean isHostile() {
+		return entity instanceof net.minecraft.world.entity.monster.Enemy;
+	}
+
+	@Override
 	public boolean isHostileTargeted(final MyLivingEntity other) {
 		if (!(other instanceof ForgeLivingEntity forge))
 			return false;
