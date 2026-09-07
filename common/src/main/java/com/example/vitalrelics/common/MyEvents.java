@@ -64,6 +64,29 @@ public final class MyEvents {
 			}
 		}
 
+		if (currentTick % 5 == 0) {
+
+			// Passive Skill: No-Fly Zone
+			final double noFlyZoneLevel = Loader.levelOfSuchPassiveSkill(
+					relics, Relic.PASSIVE_SKILL_NO_FLY_ZONE);
+
+			if (noFlyZoneLevel > 0.0) {
+				final MyRuntimeUtils runtime = MyRuntime.getRuntimeUtils();
+				for (final MyLivingEntity target :
+						myLivingEntity.livingEntitiesInRange(noFlyZoneLevel)) {
+					if (!myLivingEntity.isHostile(target))
+						continue;
+
+					final var destination = runtime.groundDestination(target);
+					if (destination == null)
+						continue;
+
+					target.moveTo(destination.x(), destination.y(), destination.z());
+					target.markMovementChanged();
+				}
+			}
+		}
+
 		// Scheduled to update on each half seconds
 		if (currentTick % 10 == 0) {
 			// Effects
@@ -101,25 +124,6 @@ public final class MyEvents {
 				}
 			}
 
-			// Passive Skill: No-Fly Zone
-			final double noFlyZoneLevel = Loader.levelOfSuchPassiveSkill(
-					relics, Relic.PASSIVE_SKILL_NO_FLY_ZONE);
-
-			if (noFlyZoneLevel > 0.0) {
-				final MyRuntimeUtils runtime = MyRuntime.getRuntimeUtils();
-				for (final MyLivingEntity target :
-						myLivingEntity.livingEntitiesInRange(noFlyZoneLevel)) {
-					if (!myLivingEntity.isHostile(target))
-						continue;
-
-					final var destination = runtime.groundDestination(target);
-					if (destination == null)
-						continue;
-
-					target.moveTo(destination.x(), destination.y(), destination.z());
-					target.markMovementChanged();
-				}
-			}
 		}
 
 		// Scheduled to update on each second

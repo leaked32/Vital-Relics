@@ -726,6 +726,20 @@
       "rarity": "epic",
       "passive_skills": {
         "no_fly_zone": 24
+      },
+      "properties": {
+        "attack_damage": {
+          "add": 6
+        },
+        "entity_interaction_range": {
+          "add": 1.0
+        },
+        "armor": {
+          "add": 6
+        },
+        "armor_toughness": {
+          "add": 3
+        }
       }
     },
     {
