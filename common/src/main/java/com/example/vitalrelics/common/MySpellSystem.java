@@ -247,7 +247,10 @@ public final class MySpellSystem {
 				);
 				return false;
 			}
-			target.moveTo(target.x(), target.y() - Math.ceil(target.height()) - 1, target.z());
+			final MyVec3 destination = runtime.graveShiftDestination(target);
+			if (destination == null)
+				return false;
+			target.moveTo(destination.x(), destination.y(), destination.z());
 			caster.playSound(MySound.EVOKER_CAST);
 			// target.playSound(MySound.ILLUSIONER_CAST);
 			return true;
