@@ -152,12 +152,15 @@ public class Utils {
 	Util Functions
 	 */
 
-	public static boolean hostileTargeted(
+	public static boolean isHostile(
 			final LivingEntity self,
 			final LivingEntity other) {
 
 		if (isAllied(self, other))
 			return false;
+
+		if (other instanceof net.minecraft.world.entity.monster.Enemy)
+			return true;
 
 		/*
 		 * self is actively targeting other.
@@ -188,7 +191,7 @@ public class Utils {
 			if (other instanceof TamableAnimal tamable && tamable.isTame()) {
 				final LivingEntity owner = tamable.getOwner();
 
-				if (owner != null && hostileTargeted(self, owner))
+				if (owner != null && isHostile(self, owner))
 					return true;
 			}
 		}

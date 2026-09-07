@@ -39,8 +39,7 @@ public interface MyLivingEntity extends MyEntity {
 	boolean isServerPlayer();
 	boolean is(MyLivingEntity other);
 	boolean isAllied(MyLivingEntity other);
-	boolean isHostile();
-	boolean isHostileTargeted(MyLivingEntity other);
+	boolean isHostile(MyLivingEntity other);
 
 	List<MyLivingEntity> livingEntitiesInRange(double radius);
 

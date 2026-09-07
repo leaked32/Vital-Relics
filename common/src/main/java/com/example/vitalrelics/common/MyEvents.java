@@ -109,7 +109,7 @@ public final class MyEvents {
 				final MyRuntimeUtils runtime = MyRuntime.getRuntimeUtils();
 				for (final MyLivingEntity target :
 						myLivingEntity.livingEntitiesInRange(noFlyZoneLevel)) {
-					if (!target.isHostile())
+					if (!myLivingEntity.isHostile(target))
 						continue;
 
 					final var destination = runtime.groundDestination(target);

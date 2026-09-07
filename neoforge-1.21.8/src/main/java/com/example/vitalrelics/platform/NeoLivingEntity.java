@@ -230,14 +230,9 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 	}
 
 	@Override
-	public boolean isHostile() {
-		return livingEntity instanceof net.minecraft.world.entity.monster.Enemy;
-	}
-
-	@Override
-	public boolean isHostileTargeted(final MyLivingEntity other) {
+	public boolean isHostile(final MyLivingEntity other) {
 		return other instanceof NeoLivingEntity neo
-				&& Utils.hostileTargeted(livingEntity, neo.livingEntity);
+				&& Utils.isHostile(livingEntity, neo.livingEntity);
 	}
 
 	@Override

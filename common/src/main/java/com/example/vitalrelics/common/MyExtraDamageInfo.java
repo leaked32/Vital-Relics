@@ -25,7 +25,7 @@ public class MyExtraDamageInfo {
 		for (int i = 0; i < count; i += 1) {
 			damages.add(
 					new MyExtraDamageInfo(
-							attacker, null, amount, null, range, MyRangeFilter.hostileTargeted, 20,
+							attacker, null, amount, null, range, MyRangeFilter.hostile, 20,
 							neg_leve
 					));
 		}
@@ -124,7 +124,7 @@ public class MyExtraDamageInfo {
 	Non-static Members
 	 */
 	public enum MyRangeFilter {
-		none, all, nonallied, hostileTargeted
+		none, all, nonallied, hostile
 	}
 
 	// private final MyDamageType type;
@@ -207,8 +207,8 @@ public class MyExtraDamageInfo {
 					dealToLivingEntity(nearby_target);
 					continue;
 
-				case hostileTargeted:
-					if (!attacker.isHostileTargeted(nearby_target)) {
+				case hostile:
+					if (!attacker.isHostile(nearby_target)) {
 						continue;
 					}
 					if (target != null && nearby_target.is(target)) {

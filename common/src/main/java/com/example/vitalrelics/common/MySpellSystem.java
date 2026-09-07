@@ -156,7 +156,7 @@ public final class MySpellSystem {
 				return false;
 			boolean affected = false;
 			for (final MyLivingEntity target : caster.livingEntitiesInRange(range)) {
-				if (!caster.isHostileTargeted(target))
+				if (!caster.isHostile(target))
 					continue;
 				final double dx = target.x() - caster.x();
 				final double dz = target.z() - caster.z();
@@ -194,7 +194,7 @@ public final class MySpellSystem {
 				return false;
 			boolean affected = false;
 			for (final MyLivingEntity target : caster.livingEntitiesInRange(range)) {
-				if (!caster.isHostileTargeted(target))
+				if (!caster.isHostile(target))
 					continue;
 				target.push(0.0, strength, 0.0);
 				target.markMovementChanged();
@@ -270,7 +270,7 @@ public final class MySpellSystem {
 			final float damage = caster.attackDamage() * intensity;
 			for (final MyLivingEntity target : runtime.entitiesIntersectingMovement(
 					caster, origin, destination, caster.width() * 0.5)) {
-				if (!caster.isHostileTargeted(target))
+				if (!caster.isHostile(target))
 					continue;
 				MyExtraDamageInfo.directAttack(caster, target, damage, 1);
 			}
