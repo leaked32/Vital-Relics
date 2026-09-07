@@ -656,7 +656,7 @@
     },
     {
       "id": "cursed_crimson_rune",
-      "texture": "cursed_crimson_rune.png",
+      "texture": "cursed_crimson_rune_v2.png",
       "rarity": "epic",
       "passive_skills": {
         "reality_severance": 4.5
@@ -694,7 +694,7 @@
       "id": "bleeding_sigil",
       "display_name": "Bleeding Sigil",
       "tooltip": "Every wound it opens refuses to fully close.",
-      "texture": "bleeding_sigil.png",
+      "texture": "bleeding_sigil_v2.png",
       "rarity": "epic",
       "passive_skills": {
         "lingering_wound": 0.2
