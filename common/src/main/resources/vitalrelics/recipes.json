@@ -748,10 +748,6 @@
       { "table": "minecraft:chests/stronghold_corridor", "chance": 0.04 },
       { "table": "minecraft:chests/end_city_treasure", "chance": 0.03 }
     ],
-    "gravity_anchor_charm": [
-      { "table": "minecraft:chests/ancient_city", "chance": 0.015 },
-      { "table": "minecraft:chests/end_city_treasure", "chance": 0.015 }
-    ],
     "enderkeeper_bracelet": [
       { "table": "minecraft:chests/stronghold_corridor", "chance": 0.04 },
       { "table": "minecraft:chests/end_city_treasure", "chance": 0.08 }
