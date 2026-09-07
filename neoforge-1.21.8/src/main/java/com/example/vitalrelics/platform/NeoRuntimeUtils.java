@@ -242,10 +242,7 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		final int minY = level.getMinY();
 		while (pos.getY() >= minY) {
 			if (!level.getBlockState(pos).getCollisionShape(level, pos).isEmpty()) {
-				// The extra block of burial is intentional. moveTo does not suppress jumping,
-				// retained upward velocity, or flight AI, so a shallower target can escape.
-				final double destinationY =
-						pos.getY() - Math.ceil(entity.getBbHeight()) - 1.0;
+				final double destinationY = pos.getY() - Math.ceil(entity.getBbHeight());
 				return destinationY < minY ? null
 						: new MyVec3(entity.getX(), destinationY, entity.getZ());
 			}
