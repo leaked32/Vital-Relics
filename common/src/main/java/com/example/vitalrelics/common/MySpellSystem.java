@@ -251,6 +251,9 @@ public final class MySpellSystem {
 			if (destination == null)
 				return false;
 			target.moveTo(destination.x(), destination.y(), destination.z());
+			final int currentTick = caster.serverTick();
+			if (currentTick >= 0)
+				Scheduler.INSTANCE().suppressNoFlyZone(target.uuid(), currentTick, 20);
 			caster.playSound(MySound.EVOKER_CAST);
 			// target.playSound(MySound.ILLUSIONER_CAST);
 			return true;

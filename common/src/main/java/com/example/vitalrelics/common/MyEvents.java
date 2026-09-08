@@ -76,6 +76,8 @@ public final class MyEvents {
 						myLivingEntity.livingEntitiesInRange(noFlyZoneLevel)) {
 					if (!myLivingEntity.isHostile(target))
 						continue;
+					if (Scheduler.INSTANCE().isNoFlyZoneSuppressed(target.uuid(), currentTick))
+						continue;
 
 					final var destination = runtime.groundDestination(target);
 					if (destination == null)
