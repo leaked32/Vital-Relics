@@ -13,9 +13,11 @@ public class Manifest {
 	public static final String OPT_RELICS_VER = "0.6.7";
 	public static final String OPT_RECIPES_VER = "0.6.2";
 	public static final String OPT_LANG_VER = "0.6.2";
+	public static final String OPT_MATERIAL_VER = "0.1.0";
 
 	public static final String INTERNAL_PATH_TO_RELICS = "vitalrelics/relics.json";
 	public static final String INTERNAL_PATH_TO_RECIPES = "vitalrelics/recipes.json";
+	public static final String INTERNAL_PATH_TO_MATERIAL = "vitalrelics/materials.json";
 
 	public static final List<String> DEFAULT_LOCALES = List.of(
 			"en_us", "zh_cn", "zh_tw", "ja_jp"

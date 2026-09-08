@@ -1,6 +1,8 @@
 package com.example.vitalrelics.common.materials;
 
 
+import com.example.vitalrelics.common.Manifest;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +11,6 @@ import java.util.Map;
 import static com.example.vitalrelics.common.utils.ConfigurationFiles.load_external_file;
 
 public final class MaterialLoader {
-	public static final String INTERNAL_PATH = "vitalrelics/materials.json";
-	public static final String CONFIGURATION_VERSION = "0.1.0";
 
 	public static final class Material {
 		public String id;
@@ -36,7 +36,7 @@ public final class MaterialLoader {
 			throw new IllegalArgumentException("MaterialLoader#load externalPath cannot be null");
 
 		final Map<String, Object> root = load_external_file(
-				INTERNAL_PATH, externalPath, CONFIGURATION_VERSION);
+				Manifest.INTERNAL_PATH_TO_MATERIAL, externalPath, Manifest.OPT_MATERIAL_VER);
 
 		if (!(root.get("materials") instanceof List<?> entries))
 			throw new IllegalArgumentException("'materials' must be a JSON array");
