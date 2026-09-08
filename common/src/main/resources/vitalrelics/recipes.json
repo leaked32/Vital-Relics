@@ -59,8 +59,8 @@
     "enderkeeper_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KEO",
-        "EPE",
+        "PEO",
+        "EKE",
         "OEO"
       ],
       "key": {
@@ -74,8 +74,8 @@
     "homebound_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KCG",
-        "RBR",
+        "BCG",
+        "RKR",
         "GCG"
       ],
       "key": {
@@ -90,8 +90,8 @@
     "scholars_convergence_ring": {
       "type": "shaped",
       "pattern": [
-        "KL ",
-        "LGL",
+        "GL ",
+        "LKL",
         " L "
       ],
       "key": {
@@ -104,8 +104,8 @@
     "covenant_ring": {
       "type": "shaped",
       "pattern": [
-        "KE ",
-        "GTG",
+        "TE ",
+        "GKG",
         " G "
       ],
       "key": {
@@ -119,8 +119,8 @@
     "haste_ring": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "RPR",
+        "PG ",
+        "RKR",
         " G "
       ],
       "key": {
@@ -134,8 +134,8 @@
     "swiftness_ring": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GFG",
+        "FG ",
+        "GKG",
         " G "
       ],
       "key": {
@@ -148,8 +148,8 @@
     "night_sight_ring": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GEG",
+        "EG ",
+        "GKG",
         " G "
       ],
       "key": {
@@ -162,8 +162,8 @@
     "regeneration_ring": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GQG",
+        "QG ",
+        "GKG",
         " G "
       ],
       "key": {
@@ -176,8 +176,8 @@
     "power_ring": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GNG",
+        "NG ",
+        "GKG",
         " G "
       ],
       "key": {
@@ -190,8 +190,8 @@
     "luck_ring": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GEM",
+        "EG ",
+        "GKM",
         " G "
       ],
       "key": {
@@ -205,8 +205,8 @@
     "fire_resistance_ring": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GCS",
+        "CG ",
+        "GKS",
         " G "
       ],
       "key": {
@@ -220,8 +220,8 @@
     "cinderbrand_ring": {
       "type": "shaped",
       "pattern": [
-        "KB ",
-        "GFG",
+        "FB ",
+        "GKG",
         " G "
       ],
       "key": {
@@ -236,8 +236,8 @@
       "type": "shaped",
       "pattern": [
         " G ",
-        "GFG",
-        "KG "
+        "GKG",
+        "FG "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
@@ -249,8 +249,8 @@
     "vitality_ring": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GAG",
+        "AG ",
+        "GKG",
         " G "
       ],
       "key": {
@@ -263,8 +263,8 @@
     "bulwark_ring": {
       "type": "shaped",
       "pattern": [
-        "KI ",
-        "IOI",
+        "OI ",
+        "IKI",
         " I "
       ],
       "key": {
@@ -277,8 +277,8 @@
     "stone_ring": {
       "type": "shaped",
       "pattern": [
-        "KS ",
-        "S S",
+        " S ",
+        "SKS",
         " S "
       ],
       "key": {
@@ -290,8 +290,8 @@
     "metal_mending_ring": {
       "type": "shaped",
       "pattern": [
-        "KD ",
-        "DAD",
+        "AD ",
+        "DKD",
         " D "
       ],
       "key": {
@@ -304,8 +304,8 @@
     "temporal_guard_ring": {
       "type": "shaped",
       "pattern": [
-        "KAG",
-        "ACA",
+        "CAG",
+        "AKA",
         "GAG"
       ],
       "key": {
@@ -319,8 +319,8 @@
     "healing_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GRG",
+        "RG ",
+        "GKG",
         " G "
       ],
       "key": {
@@ -333,8 +333,8 @@
     "cleansing_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KI ",
-        "IMI",
+        "MI ",
+        "IKI",
         " I "
       ],
       "key": {
@@ -347,8 +347,8 @@
     "windstep_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KF ",
-        "FGF",
+        "GF ",
+        "FKF",
         " F "
       ],
       "key": {
@@ -361,8 +361,8 @@
     "blooddrinker_ring": {
       "type": "shaped",
       "pattern": [
-        "KR ",
-        "RFR",
+        "FR ",
+        "RKR",
         " N "
       ],
       "key": {
@@ -376,8 +376,8 @@
     "thorned_ring": {
       "type": "shaped",
       "pattern": [
-        "KT ",
-        "TIT",
+        "IT ",
+        "TKT",
         " O "
       ],
       "key": {
@@ -391,8 +391,8 @@
     "warcaster_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KB ",
-        "RGR",
+        "GB ",
+        "RKR",
         " B "
       ],
       "key": {
@@ -406,8 +406,8 @@
     "repulsion_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KP ",
-        "PGP",
+        "GP ",
+        "PKP",
         " F "
       ],
       "key": {
@@ -421,8 +421,8 @@
     "warding_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GTG",
+        "TG ",
+        "GKG",
         " A "
       ],
       "key": {
@@ -436,8 +436,8 @@
     "skycaller_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KF ",
-        "EGE",
+        "GF ",
+        "EKE",
         " F "
       ],
       "key": {
@@ -451,8 +451,8 @@
     "shadow_exchange_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KE ",
-        "PGP",
+        "GE ",
+        "PKP",
         " E "
       ],
       "key": {
@@ -466,8 +466,8 @@
     "phantom_step_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KF ",
-        "EGE",
+        "GF ",
+        "EKE",
         " F "
       ],
       "key": {
@@ -481,8 +481,8 @@
     "enchanters_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KL ",
-        "GEG",
+        "EL ",
+        "GKG",
         " G "
       ],
       "key": {
@@ -496,8 +496,8 @@
     "windward_bracelet": {
       "type": "shaped",
       "pattern": [
-        "KA ",
-        "GSG",
+        "SA ",
+        "GKG",
         " F "
       ],
       "key": {
@@ -512,8 +512,8 @@
     "iron_heart": {
       "type": "shaped",
       "pattern": [
-        "KI ",
-        "IRI",
+        "RI ",
+        "IKI",
         " I "
       ],
       "key": {
@@ -526,8 +526,8 @@
     "miners_charm": {
       "type": "shaped",
       "pattern": [
-        "KS ",
-        "IPI",
+        "PS ",
+        "IKI",
         " I "
       ],
       "key": {
@@ -541,8 +541,8 @@
     "travelers_eye": {
       "type": "shaped",
       "pattern": [
-        "KS ",
-        "EGE",
+        "GS ",
+        "EKE",
         " S "
       ],
       "key": {
@@ -556,8 +556,8 @@
     "golden_apple_charm": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GAG",
+        "AG ",
+        "GKG",
         " G "
       ],
       "key": {
@@ -580,8 +580,8 @@
     "cherry_petal_pendant": {
       "type": "shaped",
       "pattern": [
-        "KS ",
-        " C ",
+        "CS ",
+        " K ",
         " P "
       ],
       "key": {
@@ -595,8 +595,8 @@
     "cherrywood_cross": {
       "type": "shaped",
       "pattern": [
-        "KG ",
-        "GCG",
+        "CG ",
+        "GKG",
         " A "
       ],
       "key": {
@@ -610,13 +610,12 @@
     "cherry_cross": {
       "type": "shaped",
       "pattern": [
-        "NSN",
-        "ECE",
-        "KN "
+        "N N",
+        "EKE",
+        "CN "
       ],
       "key": {
         "N": "minecraft:netherite_ingot",
-        "S": "minecraft:nether_star",
         "E": "minecraft:enchanted_golden_apple",
         "C": "minecraft:cherry_log",
         "K": "vitalrelics:epic_relic_core"
@@ -626,8 +625,8 @@
     "wolf_fang": {
       "type": "shaped",
       "pattern": [
-        "KB ",
-        "BFB",
+        "FB ",
+        "BKB",
         " S "
       ],
       "key": {
@@ -641,8 +640,8 @@
     "guardian_scale": {
       "type": "shaped",
       "pattern": [
-        "KP ",
-        "PSP",
+        "SP ",
+        "PKP",
         " I "
       ],
       "key": {
@@ -656,8 +655,8 @@
     "spider_eye_pendant": {
       "type": "shaped",
       "pattern": [
-        "KS ",
-        "SES",
+        "ES ",
+        "SKS",
         " I "
       ],
       "key": {
@@ -671,8 +670,8 @@
     "berserker_fang": {
       "type": "shaped",
       "pattern": [
-        "KB ",
-        "BFB",
+        "FB ",
+        "BKB",
         " R "
       ],
       "key": {
@@ -686,8 +685,8 @@
     "withered_heart": {
       "type": "shaped",
       "pattern": [
-        "KW ",
-        "WNW",
+        "NW ",
+        "WKW",
         " S "
       ],
       "key": {
@@ -701,8 +700,8 @@
     "totemic_heart": {
       "type": "shaped",
       "pattern": [
-        "KE ",
-        "ETE",
+        "TE ",
+        "EKE",
         " N "
       ],
       "key": {
@@ -716,8 +715,8 @@
     "celestial_wings": {
       "type": "shaped",
       "pattern": [
-        "NKN",
-        "PEP",
+        "NEN",
+        "PKP",
         "P P"
       ],
       "key": {
@@ -731,8 +730,8 @@
     "archers_emblem": {
       "type": "shaped",
       "pattern": [
-        "KF ",
-        "NAN",
+        "AF ",
+        "NKN",
         " S "
       ],
       "key": {
@@ -747,14 +746,13 @@
     "cursed_crimson_rune": {
       "type": "shaped",
       "pattern": [
-        "KC ",
-        "CSC",
-        " N "
+        "S  ",
+        "CKC",
+        " C "
       ],
       "key": {
         "C": "minecraft:crimson_fungus",
         "S": "minecraft:netherite_sword",
-        "N": "minecraft:nether_star",
         "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
@@ -762,14 +760,13 @@
     "bleeding_sigil": {
       "type": "shaped",
       "pattern": [
-        "KS ",
-        "RNR",
+        " S ",
+        "RKR",
         " W "
       ],
       "key": {
         "S": "minecraft:string",
         "R": "minecraft:redstone_block",
-        "N": "minecraft:nether_star",
         "W": "minecraft:wither_rose",
         "K": "vitalrelics:epic_relic_core"
       },
@@ -779,14 +776,13 @@
       "type": "shaped",
       "pattern": [
         "SLS",
-        "KNG",
+        " KG",
         "GAG"
       ],
       "key": {
         "S": "minecraft:string",
         "L": "minecraft:lapis_lazuli",
         "G": "minecraft:gold_ingot",
-        "N": "minecraft:nether_star",
         "A": "minecraft:anvil",
         "K": "vitalrelics:epic_relic_core"
       },
@@ -795,15 +791,14 @@
     "gravity_anchor_charm": {
       "type": "shaped",
       "pattern": [
-        "KMC",
-        "PNP",
+        " MC",
+        "PKP",
         "CAC"
       ],
       "key": {
         "C": "minecraft:chain",
         "M": "minecraft:phantom_membrane",
         "P": "minecraft:crying_obsidian",
-        "N": "minecraft:nether_star",
         "A": "minecraft:anvil",
         "K": "vitalrelics:epic_relic_core"
       },
@@ -812,8 +807,9 @@
     "gilded_circlet": {
       "type": "shaped",
       "pattern": [
-        "GLG",
-        "KG "
+        " LG",
+        "GK ",
+        " G "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
@@ -840,15 +836,14 @@
     "celestial_aegis": {
       "type": "shaped",
       "pattern": [
-        "KNE",
-        "DSD",
+        " NE",
+        "DKD",
         "ENE"
       ],
       "key": {
         "E": "minecraft:end_crystal",
         "N": "minecraft:netherite_ingot",
         "D": "minecraft:diamond",
-        "S": "minecraft:nether_star",
         "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
