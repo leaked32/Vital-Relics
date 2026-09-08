@@ -872,7 +872,7 @@
       "key": {
         "X": "minecraft:oak_sapling",
         "G": "minecraft:gold_ingot",
-        "C": "vitalrelics:rare_relic_core"
+        "C": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
