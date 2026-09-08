@@ -320,8 +320,6 @@ public final class VitalEvents {
 				event.getLevel().isClientSide())
 			return;
 
-		if (RelicMining.rejectOrphan(arrow)) return;
-
 		if (!(arrow.getOwner() instanceof LivingEntity owner))
 			return;
 
