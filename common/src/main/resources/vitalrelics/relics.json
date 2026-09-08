@@ -226,6 +226,72 @@
         }
       }
     },
+
+    ,
+    {
+      "id": "frostbind_ring",
+      "display_name": "Frostbind Ring",
+      "tooltip": "Every second, slows hostile creatures within 10 blocks with Slowness III for 3 seconds.",
+      "texture": "frostbind_ring.png",
+      "curio_slot": "ring",
+      "rarity": "rare",
+      "passive_skills": {
+        "slowing_aura": 10.0
+      }
+    },
+    {
+      "id": "timberheart_ring",
+      "display_name": "Timberheart Ring",
+      "tooltip": "Break a log to fell connected logs with your held tool. Sneak to disable; leaves decay naturally.",
+      "texture": "timberheart_ring.png",
+      "curio_slot": "ring",
+      "rarity": "rare",
+      "passive_skills": {
+        "tree_feller": 1.0
+      }
+    },
+    {
+      "id": "quarry_ring",
+      "display_name": "Quarry Ring",
+      "tooltip": "Mines nearby blocks within 2 blocks using your held tool, including Fortune and Silk Touch. Sneak to disable.",
+      "texture": "quarry_ring.png",
+      "curio_slot": "ring",
+      "rarity": "rare",
+      "passive_skills": {
+        "area_mining": 2.0
+      }
+    },
+    {
+      "id": "borebolt_bracelet",
+      "display_name": "Borebolt Bracelet",
+      "tooltip": "Fires a block-boring arrow: 40 durability, 0.25 durability lost per tick, speed 2 blocks per tick.",
+      "texture": "borebolt_bracelet.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "available_spells": {
+        "borebolt": {
+          "speed": 2.0,
+          "durability": 40.0,
+          "durability_loss_per_tick": 0.25,
+          "recovery": 0.2
+        }
+      }
+    },
+    {
+      "id": "discord_bracelet",
+      "display_name": "Discord Bracelet",
+      "tooltip": "Compels the pointed creature to strike its nearest living neighbor immediately, even an ally or you.",
+      "texture": "discord_bracelet.png",
+      "curio_slot": "bracelet",
+      "rarity": "rare",
+      "available_spells": {
+        "compel_attack": {
+          "range": 24.0,
+          "search_range": 32.0,
+          "recovery": 0.1
+        }
+      }
+    },
     {
       "id": "healing_bracelet",
       "display_name": "Bracelet of Healing",
@@ -1437,70 +1503,6 @@
       },
       "enemy_spawn": {
         "minecraft:ender_dragon": 0.3
-      }
-    },
-    {
-      "id": "frostbind_ring",
-      "display_name": "Frostbind Ring",
-      "tooltip": "Every second, slows hostile creatures within 10 blocks with Slowness III for 3 seconds.",
-      "texture": "frostbind_ring.png",
-      "curio_slot": "ring",
-      "rarity": "rare",
-      "passive_skills": {
-        "slowing_aura": 10.0
-      }
-    },
-    {
-      "id": "timberheart_ring",
-      "display_name": "Timberheart Ring",
-      "tooltip": "Break a log to fell connected logs with your held tool. Sneak to disable; leaves decay naturally.",
-      "texture": "timberheart_ring.png",
-      "curio_slot": "ring",
-      "rarity": "rare",
-      "passive_skills": {
-        "tree_feller": 1.0
-      }
-    },
-    {
-      "id": "quarry_ring",
-      "display_name": "Quarry Ring",
-      "tooltip": "Mines nearby blocks within 2 blocks using your held tool, including Fortune and Silk Touch. Sneak to disable.",
-      "texture": "quarry_ring.png",
-      "curio_slot": "ring",
-      "rarity": "rare",
-      "passive_skills": {
-        "area_mining": 2.0
-      }
-    },
-    {
-      "id": "borebolt_bracelet",
-      "display_name": "Borebolt Bracelet",
-      "tooltip": "Fires a block-boring arrow: 40 durability, 0.25 durability lost per tick, speed 2 blocks per tick.",
-      "texture": "borebolt_bracelet.png",
-      "curio_slot": "bracelet",
-      "rarity": "rare",
-      "available_spells": {
-        "borebolt": {
-          "speed": 2.0,
-          "durability": 40.0,
-          "durability_loss_per_tick": 0.25,
-          "recovery": 0.2
-        }
-      }
-    },
-    {
-      "id": "discord_bracelet",
-      "display_name": "Discord Bracelet",
-      "tooltip": "Compels the pointed creature to strike its nearest living neighbor immediately, even an ally or you.",
-      "texture": "discord_bracelet.png",
-      "curio_slot": "bracelet",
-      "rarity": "rare",
-      "available_spells": {
-        "compel_attack": {
-          "range": 24.0,
-          "search_range": 32.0,
-          "recovery": 0.1
-        }
       }
     }
   ]
