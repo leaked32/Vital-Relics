@@ -89,14 +89,17 @@ Available Passive skills:
      allowing it to receive both the original attack's accumulation
      and an additional accumulation from the extra damage.
 - `grave_dominion`: Every half second, moves nearby entities downward by their height.
-- `no_fly_zone`: Every half second, moves hostile living entities within level blocks
-     onto the first collidable surface beneath them.
-     The radius in blocks equals the skill level.
 - `experience_convergence`: Multiplies positive experience gains by
      `1 + level × (experience needed for the next level / 7 - 1)`,
      making experience-level progression approach a linear curve.
 - `healing_aura`: Shares each configured `heal` periodic action with allied living
      entities within level blocks. This skill does not produce healing by itself.
+- `no_fly_zone`: Every half second, moves hostile living entities within level blocks
+     onto the first collidable surface beneath them.
+     The radius in blocks equals the skill level.
+- `slowing_aura`: Grants all hostile living entities Slowness 3 in level range.
+- `tree_feller`: Level does not matter.
+- `area_mining`: Ranged mining with mining context (fortune level, silk touch) preserved.
 
 Example
 ```json
@@ -202,6 +205,10 @@ Available Spells
 - `open_ender_chest`: Opens the caster's Ender Chest.
 - `return_to_bed`: Teleports the caster to a safe standing position beside their
      respawn bed. The spell fails if the bed is missing or obstructed.
+- `borebolt`: Launches an arrow along the visual sight, the arrow destroys the blocks blocked it,
+     arrow disappears after the durability drains.
+- `compel_attack`: Make the target living entity attack the nearest living entity
+     (excluding the caster).
 
 Recovery / Cooldown
 ```text
