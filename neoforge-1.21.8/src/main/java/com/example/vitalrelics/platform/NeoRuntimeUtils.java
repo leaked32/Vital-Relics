@@ -12,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -27,7 +26,6 @@ import net.minecraft.world.level.block.BedBlock;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
@@ -1044,33 +1042,6 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		);
 
 		return true;
-	}
-
-	@Override
-	public void syncHeldEnchantments(final MyLivingEntity abstractEntity, final int fortuneLevel, final int lootingLevel) {
-		final LivingEntity entity = nativeEntity(abstractEntity);
-		if (!(entity instanceof ServerPlayer player)) return;
-		final UUID uuid = player.getUUID();
-		final ItemStack stack = player.getMainHandItem();
-		final int fortuneLevelClamped = Math.min(3, Math.max(0, fortuneLevel));
-		final int lootingLevelClamped = Math.min(3, Math.max(0, lootingLevel));
-		final HeldEnchantments previous = heldEnchantments.get(uuid);
-		if (previous != null && (previous.stack() != stack || previous.grantedFortune() != fortuneLevelClamped || previous.grantedLooting() != lootingLevelClamped)) {
-			restoreHeldEnchantments(previous);
-			heldEnchantments.remove(uuid);
-		}
-		if (stack.isEmpty() || (fortuneLevelClamped == 0 && lootingLevelClamped == 0) || heldEnchantments.containsKey(uuid)) return;
-		final var registry = player.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-		final Holder<Enchantment> fortune = registry.getOrThrow(Enchantments.FORTUNE);
-		final Holder<Enchantment> looting = registry.getOrThrow(Enchantments.LOOTING);
-		final ItemEnchantments enchantments = stack.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
-		final int originalFortune = enchantments.getLevel(fortune);
-		final int originalLooting = enchantments.getLevel(looting);
-		final ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(enchantments);
-		if (fortuneLevelClamped > originalFortune) mutable.set(fortune, fortuneLevelClamped);
-		if (lootingLevelClamped > originalLooting) mutable.set(looting, lootingLevelClamped);
-		stack.set(DataComponents.ENCHANTMENTS, mutable.toImmutable());
-		heldEnchantments.put(uuid, new HeldEnchantments(stack, fortune, looting, originalFortune, originalLooting, fortuneLevelClamped, lootingLevelClamped));
 	}
 
 	@Override public void clearHeldEnchantments(final UUID uuid) {

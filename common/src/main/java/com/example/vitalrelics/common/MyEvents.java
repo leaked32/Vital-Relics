@@ -34,14 +34,6 @@ public final class MyEvents {
 			MyLivingEntity myLivingEntity, final int currentTick, List<Relic> relics) {
 		spawnEnemyRelicParticles(myLivingEntity, relics, currentTick);
 
-		if (myLivingEntity.isServerPlayer()) {
-			final int fortune = Math.max(0, (int) Math.floor(Loader.levelOfSuchPassiveSkill(
-					relics, Relic.PASSIVE_SKILL_FORTUNE)));
-			final int looting = Math.max(0, (int) Math.floor(Loader.levelOfSuchPassiveSkill(
-					relics, Relic.PASSIVE_SKILL_LOOTING)));
-			MyRuntime.getRuntimeUtils().syncHeldEnchantments(myLivingEntity, fortune, looting);
-		}
-
 		final Map<String, Relic.Ticks.Info> ticks = Loader.computeTicks(relics, currentTick);
 		final double healingAuraLevel = Loader.levelOfSuchPassiveSkill(
 				relics, Relic.PASSIVE_SKILL_HEALING_AURA);

@@ -48,8 +48,6 @@ public interface MyRuntimeUtils {
 	boolean resetRepairCost(MyLivingEntity entity, int experienceCost);
 	boolean disenchantToOffhandBook(MyLivingEntity entity, int experienceCost);
 
-	/** Keeps the player's held tool temporarily enchanted while relevant relics are equipped. */
-	void syncHeldEnchantments(MyLivingEntity entity, int fortuneLevel, int lootingLevel);
 	void clearHeldEnchantments(UUID uuid);
 	void clearHeldEnchantments();
 }

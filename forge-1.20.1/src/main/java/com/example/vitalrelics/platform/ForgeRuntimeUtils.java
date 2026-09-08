@@ -1020,30 +1020,6 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 	}
 
 	@Override
-	public void syncHeldEnchantments(final MyLivingEntity abstractEntity,
-			final int fortuneLevel, final int lootingLevel) {
-		final LivingEntity entity = nativeEntity(abstractEntity);
-		if (!(entity instanceof ServerPlayer player)) return;
-		final UUID uuid = player.getUUID();
-		final ItemStack stack = player.getMainHandItem();
-		final int fortune = Math.min(3, Math.max(0, fortuneLevel));
-		final int looting = Math.min(3, Math.max(0, lootingLevel));
-		final HeldEnchantments previous = heldEnchantments.get(uuid);
-		if (previous != null && (previous.stack() != stack || previous.grantedFortune() != fortune || previous.grantedLooting() != looting)) {
-			restoreHeldEnchantments(previous);
-			heldEnchantments.remove(uuid);
-		}
-		if (stack.isEmpty() || (fortune == 0 && looting == 0) || heldEnchantments.containsKey(uuid)) return;
-		final Map<Enchantment, Integer> enchantments = new HashMap<>(EnchantmentHelper.getEnchantments(stack));
-		final int originalFortune = enchantments.getOrDefault(Enchantments.BLOCK_FORTUNE, 0);
-		final int originalLooting = enchantments.getOrDefault(Enchantments.MOB_LOOTING, 0);
-		if (fortune > originalFortune) enchantments.put(Enchantments.BLOCK_FORTUNE, fortune);
-		if (looting > originalLooting) enchantments.put(Enchantments.MOB_LOOTING, looting);
-		EnchantmentHelper.setEnchantments(enchantments, stack);
-		heldEnchantments.put(uuid, new HeldEnchantments(stack, originalFortune, originalLooting, fortune, looting));
-	}
-
-	@Override
 	public void clearHeldEnchantments(final UUID uuid) {
 		final HeldEnchantments held = heldEnchantments.remove(uuid);
 		if (held != null) restoreHeldEnchantments(held);
