@@ -121,11 +121,14 @@ public final class VitalClientEvents {
 			);
 		}
 
-		for (final Relic relic : Loader.get().relics_) {
+		for (final String itemId : java.util.stream.Stream.concat(
+				Loader.get().relics_.stream().map(relic -> relic.id),
+				com.example.vitalrelics.common.materials.MaterialLoader.get().materials().stream()
+						.map(material -> material.id)).toList()) {
 			final ModelResourceLocation itemModel =
 					new ModelResourceLocation(
 							Manifest.MODID,
-							relic.id,
+							itemId,
 							"inventory"
 					);
 

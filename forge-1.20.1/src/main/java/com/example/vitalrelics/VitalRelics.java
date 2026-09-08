@@ -8,6 +8,7 @@ import com.example.vitalrelics.common.MyRuntime;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Acquisition;
 import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.materials.MaterialLoader;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.ForgeNetwork;
 import com.example.vitalrelics.platform.ForgeRuntimeUtils;
@@ -60,6 +61,7 @@ public class VitalRelics {
 	// public final static Loader loader = Loader.get();
 
 	public static final List<RegistryObject<Item>> RELIC_ITEMS = new ArrayList<>();
+	public static final List<RegistryObject<Item>> MATERIAL_ITEMS = new ArrayList<>();
 
 	public static final RegistryObject<Item> GUIDE_BOOK =
 						ITEMS.register("guide_book", GuideBookItem::new);
@@ -98,8 +100,29 @@ public class VitalRelics {
 		final Path config = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/relics.json");
 		final Path recipeConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
 		Loader.load(config);
+		MaterialLoader.load(config.resolveSibling("materials.json"));
 		Acquisition.load(recipeConfig);
 		Translations.load(FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang"));
+
+		for (final var material : MaterialLoader.get().materials()) {
+			final Rarity rarity = switch (material.rarity.toLowerCase()) {
+				case "uncommon" -> Rarity.UNCOMMON;
+				case "rare" -> Rarity.RARE;
+				case "epic" -> Rarity.EPIC;
+				default -> Rarity.COMMON;
+			};
+
+			MATERIAL_ITEMS.add(
+					ITEMS.register(
+							material.id,
+							() -> new MaterialItem(
+									material,
+									new Item.Properties().rarity(rarity).stacksTo(material.max_stack_size)
+							)
+					)
+			);
+		}
+
 
 		for (final var relic : Loader.get().relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {
@@ -131,6 +154,8 @@ public class VitalRelics {
 						)
 						.displayItems((parameters, output) -> {
 							output.accept(GUIDE_BOOK.get());
+					for (final var material : MATERIAL_ITEMS)
+						output.accept(material.get());
 							
 							for (final RegistryObject<Item> relic : RELIC_ITEMS)
 								output.accept(relic.get());

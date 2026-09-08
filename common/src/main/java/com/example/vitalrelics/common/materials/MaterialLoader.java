@@ -47,7 +47,10 @@ public final class MaterialLoader {
 			if (!(entry instanceof Map<?, ?> rawMaterial))
 				throw new IllegalArgumentException("Each material must be a JSON object");
 
-			loader.materials_.add(loadMaterial(rawMaterial));
+			final Material material = loadMaterial(rawMaterial);
+			if (loader.find(material.id) != null)
+				throw new IllegalArgumentException("Duplicate material id: " + material.id);
+			loader.materials_.add(material);
 		}
 
 		instance = loader;
@@ -77,6 +80,8 @@ public final class MaterialLoader {
 		final Material material = new Material();
 
 		material.id = requiredString(rawMaterial, "id");
+		if (!material.id.matches("[a-z0-9_]+"))
+			throw new IllegalArgumentException("Invalid material id: " + material.id);
 		material.texture = requiredString(rawMaterial, "texture");
 
 		setString(rawMaterial, "display_name", value -> material.display_name = value);
@@ -88,10 +93,11 @@ public final class MaterialLoader {
 			if (!(rawMaxStackSize instanceof Number value))
 				throw new IllegalArgumentException("max_stack_size must be a number");
 
-			material.max_stack_size = value.intValue();
-
-			if (material.max_stack_size < 1 || material.max_stack_size > 99)
-				throw new IllegalArgumentException("max_stack_size must be between 1 and 99");
+			final double size = value.doubleValue();
+			// Keep materials compatible with the oldest supported Item.Properties API.
+			if (!Double.isFinite(size) || size != Math.rint(size) || size < 1 || size > 64)
+				throw new IllegalArgumentException("max_stack_size must be an integer from 1 to 64");
+			material.max_stack_size = (int) size;
 		}
 
 		return material;

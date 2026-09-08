@@ -1,29 +1,40 @@
 {
   "_meta": {
-    "version": "0.7.19",
+    "version": "0.1.0",
     "customized": false
   },
-
-  "ingredients": [
+  "materials": [
     {
       "id": "common_relic_core",
+      "display_name": "Common Relic Core",
+      "tooltip": "A common crafting core used to forge relics.",
       "texture": "common_relic_core.png",
-      "rarity": "common"
+      "rarity": "common",
+      "max_stack_size": 64
     },
     {
       "id": "uncommon_relic_core",
+      "display_name": "Uncommon Relic Core",
+      "tooltip": "A uncommon crafting core used to forge relics.",
       "texture": "uncommon_relic_core.png",
-      "rarity": "uncommon"
+      "rarity": "uncommon",
+      "max_stack_size": 64
     },
     {
       "id": "rare_relic_core",
+      "display_name": "Rare Relic Core",
+      "tooltip": "A rare crafting core used to forge relics.",
       "texture": "rare_relic_core.png",
-      "rarity": "rare"
+      "rarity": "rare",
+      "max_stack_size": 64
     },
     {
       "id": "epic_relic_core",
+      "display_name": "Epic Relic Core",
+      "tooltip": "A epic crafting core used to forge relics.",
       "texture": "epic_relic_core.png",
-      "rarity": "epic"
+      "rarity": "epic",
+      "max_stack_size": 64
     }
   ]
 }

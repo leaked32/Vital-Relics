@@ -3,6 +3,7 @@ package com.example.vitalrelics.common.guide;
 import com.example.vitalrelics.common.relics.Acquisition;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.materials.MaterialLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +41,14 @@ public class GuideBook {
 
 		final Acquisition.Data data = acquisition.data;
 
+		for (final var material : MaterialLoader.get().materials()) {
+			final Entry entry = new Entry(material, data.recipes.get(material.id),
+					List.copyOf(data.loot.getOrDefault(material.id, List.of())),
+					data.undefined.contains(material.id));
+			entries.add(entry);
+			entriesById.put(material.id, entry);
+		}
+
 		for (final Relic relic : loader.relics_) {
 			final Acquisition.Data.Crafting recipe =
 					data.recipes.get(relic.id);
@@ -69,6 +78,7 @@ public class GuideBook {
 
 	public static class Entry {
 		public final Relic relic;
+		public final MaterialLoader.Material material;
 		public final Acquisition.Data.Crafting recipe;
 		public final List<Acquisition.Data.Loot> loot;
 		public final boolean acquisitionUndefined;
@@ -80,6 +90,17 @@ public class GuideBook {
 				final boolean acquisitionUndefined) {
 
 			this.relic = relic;
+			this.material = null;
+			this.recipe = recipe;
+			this.loot = loot;
+			this.acquisitionUndefined = acquisitionUndefined;
+		}
+
+		private Entry(final MaterialLoader.Material material,
+				final Acquisition.Data.Crafting recipe, final List<Acquisition.Data.Loot> loot,
+				final boolean acquisitionUndefined) {
+			this.relic = null;
+			this.material = material;
 			this.recipe = recipe;
 			this.loot = loot;
 			this.acquisitionUndefined = acquisitionUndefined;

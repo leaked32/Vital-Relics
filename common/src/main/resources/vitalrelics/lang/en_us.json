@@ -330,5 +330,14 @@
   "relic.vitalrelics.passive_skill.cinder_brand": "Cinder Brand",
   "item.vitalrelics.gravity_anchor_charm": "Gravity Anchor",
   "tooltip.vitalrelics.gravity_anchor_charm": "Its crushing field drags hostile creatures back to solid ground.",
-  "relic.vitalrelics.passive_skill.no_fly_zone": "No-Fly Zone"
+  "relic.vitalrelics.passive_skill.no_fly_zone": "No-Fly Zone",
+  "item.vitalrelics.common_relic_core": "Common Relic Core",
+  "tooltip.vitalrelics.common_relic_core": "A common crafting core used to forge relics.",
+  "item.vitalrelics.uncommon_relic_core": "Uncommon Relic Core",
+  "tooltip.vitalrelics.uncommon_relic_core": "A uncommon crafting core used to forge relics.",
+  "item.vitalrelics.rare_relic_core": "Rare Relic Core",
+  "tooltip.vitalrelics.rare_relic_core": "A rare crafting core used to forge relics.",
+  "item.vitalrelics.epic_relic_core": "Epic Relic Core",
+  "tooltip.vitalrelics.epic_relic_core": "A epic crafting core used to forge relics.",
+  "guide.vitalrelics.slot.material": "Material"
 }

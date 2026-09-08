@@ -242,6 +242,10 @@ public final class VitalClientEvents {
 
 
 	public static void onItemTooltip(final ItemTooltipEvent event) {
+		if (event.getItemStack().getItem() instanceof com.example.vitalrelics.MaterialItem material) {
+			event.getToolTip().add(material.description());
+			return;
+		}
 		if (!(event.getItemStack().getItem() instanceof RelicItem item))
 			return;
 

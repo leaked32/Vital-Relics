@@ -332,5 +332,14 @@
   "relic.vitalrelics.passive_skill.cinder_brand": "燼印",
   "item.vitalrelics.gravity_anchor_charm": "重力の錨",
   "tooltip.vitalrelics.gravity_anchor_charm": "圧倒的な重力場が敵対する生物を大地へ引き戻す。",
-  "relic.vitalrelics.passive_skill.no_fly_zone": "飛行禁止領域"
+  "relic.vitalrelics.passive_skill.no_fly_zone": "飛行禁止領域",
+  "item.vitalrelics.common_relic_core": "コモンレリックコア",
+  "tooltip.vitalrelics.common_relic_core": "レリックの製作に使うコモン品質のコア。",
+  "item.vitalrelics.uncommon_relic_core": "アンコモンレリックコア",
+  "tooltip.vitalrelics.uncommon_relic_core": "レリックの製作に使うアンコモン品質のコア。",
+  "item.vitalrelics.rare_relic_core": "レアレリックコア",
+  "tooltip.vitalrelics.rare_relic_core": "レリックの製作に使うレア品質のコア。",
+  "item.vitalrelics.epic_relic_core": "エピックレリックコア",
+  "tooltip.vitalrelics.epic_relic_core": "レリックの製作に使うエピック品質のコア。",
+  "guide.vitalrelics.slot.material": "素材"
 }

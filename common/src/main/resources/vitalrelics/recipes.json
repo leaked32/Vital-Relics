@@ -3,149 +3,232 @@
     "version": "0.6.2",
     "customized": false
   },
-
   "recipes": {
+    "common_relic_core": {
+      "type": "shaped",
+      "pattern": [
+        " I ",
+        "IRI",
+        " I "
+      ],
+      "key": {
+        "I": "minecraft:iron_nugget",
+        "R": "minecraft:redstone"
+      },
+      "count": 1
+    },
+    "uncommon_relic_core": {
+      "type": "shaped",
+      "pattern": [
+        " C ",
+        "CXC",
+        " C "
+      ],
+      "key": {
+        "C": "vitalrelics:common_relic_core",
+        "X": "minecraft:gold_ingot"
+      },
+      "count": 1
+    },
+    "rare_relic_core": {
+      "type": "shaped",
+      "pattern": [
+        " C ",
+        "CXC",
+        " C "
+      ],
+      "key": {
+        "C": "vitalrelics:uncommon_relic_core",
+        "X": "minecraft:diamond"
+      },
+      "count": 1
+    },
+    "epic_relic_core": {
+      "type": "shaped",
+      "pattern": [
+        " C ",
+        "CXC",
+        " C "
+      ],
+      "key": {
+        "C": "vitalrelics:rare_relic_core",
+        "X": "minecraft:nether_star"
+      },
+      "count": 1
+    },
     "enderkeeper_bracelet": {
       "type": "shaped",
-      "pattern": ["OEO", "EPE", "OEO"],
+      "pattern": [
+        "KEO",
+        "EPE",
+        "OEO"
+      ],
       "key": {
         "O": "minecraft:obsidian",
         "E": "minecraft:ender_pearl",
-        "P": "minecraft:ender_eye"
+        "P": "minecraft:ender_eye",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
     "homebound_bracelet": {
       "type": "shaped",
-      "pattern": ["GCG", "RBR", "GCG"],
+      "pattern": [
+        "KCG",
+        "RBR",
+        "GCG"
+      ],
       "key": {
         "G": "minecraft:gold_ingot",
         "C": "minecraft:compass",
         "R": "minecraft:redstone",
-        "B": "minecraft:red_bed"
+        "B": "minecraft:red_bed",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "scholars_convergence_ring": {
       "type": "shaped",
-      "pattern": [" L ", "LGL", " L "],
+      "pattern": [
+        "KL ",
+        "LGL",
+        " L "
+      ],
       "key": {
         "L": "minecraft:lapis_lazuli",
-        "G": "minecraft:gold_ingot"
+        "G": "minecraft:gold_ingot",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "covenant_ring": {
       "type": "shaped",
-      "pattern": [" E ", "GTG", " G "],
+      "pattern": [
+        "KE ",
+        "GTG",
+        " G "
+      ],
       "key": {
         "E": "minecraft:emerald",
         "G": "minecraft:gold_ingot",
-        "T": "minecraft:ghast_tear"
+        "T": "minecraft:ghast_tear",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "haste_ring": {
       "type": "shaped",
-      "pattern": [" G ", "RPR", " G "],
+      "pattern": [
+        "KG ",
+        "RPR",
+        " G "
+      ],
       "key": {
         "G": "minecraft:gold_ingot",
         "R": "minecraft:redstone",
-        "P": "minecraft:iron_pickaxe"
+        "P": "minecraft:iron_pickaxe",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "swiftness_ring": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GFG",
         " G "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
-        "F": "minecraft:rabbit_foot"
+        "F": "minecraft:rabbit_foot",
+        "K": "vitalrelics:common_relic_core"
       },
       "count": 1
     },
     "night_sight_ring": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GEG",
         " G "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
-        "E": "minecraft:spider_eye"
+        "E": "minecraft:spider_eye",
+        "K": "vitalrelics:common_relic_core"
       },
       "count": 1
     },
     "regeneration_ring": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GQG",
         " G "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
-        "Q": "minecraft:ghast_tear"
+        "Q": "minecraft:ghast_tear",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "power_ring": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GNG",
         " G "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
-        "N": "minecraft:blaze_powder"
+        "N": "minecraft:blaze_powder",
+        "K": "vitalrelics:common_relic_core"
       },
       "count": 1
     },
     "luck_ring": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GEM",
         " G "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
         "E": "minecraft:emerald",
-        "M": "minecraft:rabbit_foot"
+        "M": "minecraft:rabbit_foot",
+        "K": "vitalrelics:common_relic_core"
       },
       "count": 1
     },
     "fire_resistance_ring": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GCS",
         " G "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
         "C": "minecraft:fire_charge",
-        "S": "minecraft:snowball"
+        "S": "minecraft:snowball",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "cinderbrand_ring": {
       "type": "shaped",
       "pattern": [
-        " B ",
+        "KB ",
         "GFG",
         " G "
       ],
       "key": {
         "B": "minecraft:blaze_powder",
         "G": "minecraft:gold_ingot",
-        "F": "minecraft:fire_charge"
+        "F": "minecraft:fire_charge",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
@@ -154,249 +237,266 @@
       "pattern": [
         " G ",
         "GFG",
-        " G "
+        "KG "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
-        "F": "minecraft:rabbit_foot"
+        "F": "minecraft:rabbit_foot",
+        "K": "vitalrelics:common_relic_core"
       },
       "count": 1
     },
     "vitality_ring": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GAG",
         " G "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
-        "A": "minecraft:glistering_melon_slice"
+        "A": "minecraft:glistering_melon_slice",
+        "K": "vitalrelics:common_relic_core"
       },
       "count": 1
-    },"bulwark_ring": {
+    },
+    "bulwark_ring": {
       "type": "shaped",
       "pattern": [
-        " I ",
+        "KI ",
         "IOI",
         " I "
       ],
       "key": {
         "I": "minecraft:iron_ingot",
-        "O": "minecraft:obsidian"
+        "O": "minecraft:obsidian",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
-
     "stone_ring": {
       "type": "shaped",
       "pattern": [
-        " S ",
+        "KS ",
         "S S",
         " S "
       ],
       "key": {
-        "S": "minecraft:stone"
+        "S": "minecraft:stone",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
     "metal_mending_ring": {
       "type": "shaped",
       "pattern": [
-        " D ",
+        "KD ",
         "DAD",
         " D "
       ],
       "key": {
         "D": "minecraft:diamond",
-        "A": "minecraft:anvil"
+        "A": "minecraft:anvil",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "temporal_guard_ring": {
       "type": "shaped",
       "pattern": [
-        "GAG",
+        "KAG",
         "ACA",
         "GAG"
       ],
       "key": {
         "G": "minecraft:gold_ingot",
         "A": "minecraft:amethyst_shard",
-        "C": "minecraft:clock"
+        "C": "minecraft:clock",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
-
     "healing_bracelet": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GRG",
         " G "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
-        "R": "minecraft:ghast_tear"
+        "R": "minecraft:ghast_tear",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
     "cleansing_bracelet": {
       "type": "shaped",
       "pattern": [
-        " I ",
+        "KI ",
         "IMI",
         " I "
       ],
       "key": {
         "I": "minecraft:iron_ingot",
-        "M": "minecraft:milk_bucket"
+        "M": "minecraft:milk_bucket",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
     "windstep_bracelet": {
       "type": "shaped",
       "pattern": [
-        " F ",
+        "KF ",
         "FGF",
         " F "
       ],
       "key": {
         "F": "minecraft:feather",
-        "G": "minecraft:gold_ingot"
+        "G": "minecraft:gold_ingot",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
     "blooddrinker_ring": {
       "type": "shaped",
       "pattern": [
-        " R ",
+        "KR ",
         "RFR",
         " N "
       ],
       "key": {
         "R": "minecraft:redstone_block",
         "F": "minecraft:fermented_spider_eye",
-        "N": "minecraft:netherite_scrap"
+        "N": "minecraft:netherite_scrap",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "thorned_ring": {
       "type": "shaped",
       "pattern": [
-        " T ",
+        "KT ",
         "TIT",
         " O "
       ],
       "key": {
         "T": "minecraft:sweet_berries",
         "I": "minecraft:iron_ingot",
-        "O": "minecraft:obsidian"
+        "O": "minecraft:obsidian",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "warcaster_bracelet": {
       "type": "shaped",
       "pattern": [
-        " B ",
+        "KB ",
         "RGR",
         " B "
       ],
       "key": {
         "B": "minecraft:blaze_powder",
         "R": "minecraft:redstone",
-        "G": "minecraft:gold_ingot"
+        "G": "minecraft:gold_ingot",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "repulsion_bracelet": {
       "type": "shaped",
       "pattern": [
-        " P ",
+        "KP ",
         "PGP",
         " F "
       ],
       "key": {
         "P": "minecraft:prismarine_shard",
         "G": "minecraft:gold_ingot",
-        "F": "minecraft:feather"
+        "F": "minecraft:feather",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
     "warding_bracelet": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GTG",
         " A "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
         "T": "minecraft:ghast_tear",
-        "A": "minecraft:golden_apple"
+        "A": "minecraft:golden_apple",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "skycaller_bracelet": {
       "type": "shaped",
       "pattern": [
-        " F ",
+        "KF ",
         "EGE",
         " F "
       ],
       "key": {
         "F": "minecraft:feather",
         "E": "minecraft:ender_pearl",
-        "G": "minecraft:gold_ingot"
+        "G": "minecraft:gold_ingot",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "shadow_exchange_bracelet": {
       "type": "shaped",
       "pattern": [
-        " E ",
+        "KE ",
         "PGP",
         " E "
       ],
       "key": {
         "E": "minecraft:ender_pearl",
         "P": "minecraft:amethyst_shard",
-        "G": "minecraft:gold_ingot"
+        "G": "minecraft:gold_ingot",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "phantom_step_bracelet": {
       "type": "shaped",
       "pattern": [
-        " F ",
+        "KF ",
         "EGE",
         " F "
       ],
       "key": {
         "F": "minecraft:phantom_membrane",
         "E": "minecraft:ender_pearl",
-        "G": "minecraft:gold_ingot"
+        "G": "minecraft:gold_ingot",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "enchanters_bracelet": {
       "type": "shaped",
       "pattern": [
-        " L ",
+        "KL ",
         "GEG",
         " G "
       ],
       "key": {
         "L": "minecraft:lapis_lazuli",
         "G": "minecraft:gold_ingot",
-        "E": "minecraft:enchanting_table"
+        "E": "minecraft:enchanting_table",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "windward_bracelet": {
       "type": "shaped",
       "pattern": [
-        " A ",
+        "KA ",
         "GSG",
         " F "
       ],
@@ -404,62 +504,66 @@
         "A": "minecraft:arrow",
         "G": "minecraft:gold_ingot",
         "S": "minecraft:shield",
-        "F": "minecraft:feather"
+        "F": "minecraft:feather",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
-
     "iron_heart": {
       "type": "shaped",
       "pattern": [
-        " I ",
+        "KI ",
         "IRI",
         " I "
       ],
       "key": {
         "I": "minecraft:iron_ingot",
-        "R": "minecraft:redstone"
+        "R": "minecraft:redstone",
+        "K": "vitalrelics:common_relic_core"
       },
       "count": 1
     },
     "miners_charm": {
       "type": "shaped",
       "pattern": [
-        " S ",
+        "KS ",
         "IPI",
         " I "
       ],
       "key": {
         "S": "minecraft:string",
         "I": "minecraft:iron_ingot",
-        "P": "minecraft:iron_pickaxe"
+        "P": "minecraft:iron_pickaxe",
+        "K": "vitalrelics:common_relic_core"
       },
       "count": 1
     },
     "travelers_eye": {
       "type": "shaped",
       "pattern": [
-        " S ",
+        "KS ",
         "EGE",
         " S "
       ],
       "key": {
         "S": "minecraft:string",
         "E": "minecraft:ender_pearl",
-        "G": "minecraft:glass_pane"
+        "G": "minecraft:glass_pane",
+        "K": "vitalrelics:common_relic_core"
       },
       "count": 1
     },
     "golden_apple_charm": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GAG",
         " G "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
-        "A": "minecraft:golden_apple"
+        "A": "minecraft:golden_apple",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
@@ -468,35 +572,38 @@
       "ingredients": [
         "minecraft:milk_bucket",
         "minecraft:quartz",
-        "minecraft:ghast_tear"
+        "minecraft:ghast_tear",
+        "vitalrelics:rare_relic_core"
       ],
       "count": 1
     },
     "cherry_petal_pendant": {
       "type": "shaped",
       "pattern": [
-        " S ",
+        "KS ",
         " C ",
         " P "
       ],
       "key": {
         "S": "minecraft:string",
         "C": "minecraft:cherry_planks",
-        "P": "minecraft:pink_petals"
+        "P": "minecraft:pink_petals",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
     "cherrywood_cross": {
       "type": "shaped",
       "pattern": [
-        " G ",
+        "KG ",
         "GCG",
         " A "
       ],
       "key": {
         "G": "minecraft:gold_nugget",
         "C": "minecraft:cherry_log",
-        "A": "minecraft:amethyst_shard"
+        "A": "minecraft:amethyst_shard",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
@@ -505,118 +612,126 @@
       "pattern": [
         "NSN",
         "ECE",
-        " N "
+        "KN "
       ],
       "key": {
         "N": "minecraft:netherite_ingot",
         "S": "minecraft:nether_star",
         "E": "minecraft:enchanted_golden_apple",
-        "C": "minecraft:cherry_log"
+        "C": "minecraft:cherry_log",
+        "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
     },
     "wolf_fang": {
       "type": "shaped",
       "pattern": [
-        " B ",
+        "KB ",
         "BFB",
         " S "
       ],
       "key": {
         "B": "minecraft:bone",
         "F": "minecraft:fermented_spider_eye",
-        "S": "minecraft:string"
+        "S": "minecraft:string",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
     "guardian_scale": {
       "type": "shaped",
       "pattern": [
-        " P ",
+        "KP ",
         "PSP",
         " I "
       ],
       "key": {
         "P": "minecraft:prismarine_shard",
         "S": "minecraft:turtle_scute",
-        "I": "minecraft:iron_ingot"
+        "I": "minecraft:iron_ingot",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
     "spider_eye_pendant": {
       "type": "shaped",
       "pattern": [
-        " S ",
+        "KS ",
         "SES",
         " I "
       ],
       "key": {
         "S": "minecraft:string",
         "E": "minecraft:spider_eye",
-        "I": "minecraft:iron_nugget"
+        "I": "minecraft:iron_nugget",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
     "berserker_fang": {
       "type": "shaped",
       "pattern": [
-        " B ",
+        "KB ",
         "BFB",
         " R "
       ],
       "key": {
         "B": "minecraft:blaze_powder",
         "F": "minecraft:ghast_tear",
-        "R": "minecraft:rabbit_foot"
+        "R": "minecraft:rabbit_foot",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "withered_heart": {
       "type": "shaped",
       "pattern": [
-        " W ",
+        "KW ",
         "WNW",
         " S "
       ],
       "key": {
         "W": "minecraft:wither_rose",
         "N": "minecraft:nether_star",
-        "S": "minecraft:wither_skeleton_skull"
+        "S": "minecraft:wither_skeleton_skull",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "totemic_heart": {
       "type": "shaped",
       "pattern": [
-        " E ",
+        "KE ",
         "ETE",
         " N "
       ],
       "key": {
         "E": "minecraft:emerald_block",
         "T": "minecraft:totem_of_undying",
-        "N": "minecraft:nether_star"
+        "N": "minecraft:nether_star",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "celestial_wings": {
       "type": "shaped",
       "pattern": [
-        "N N",
+        "NKN",
         "PEP",
         "P P"
       ],
       "key": {
         "P": "minecraft:phantom_membrane",
         "N": "minecraft:netherite_ingot",
-        "E": "minecraft:elytra"
+        "E": "minecraft:elytra",
+        "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
     },
     "archers_emblem": {
       "type": "shaped",
       "pattern": [
-        " F ",
+        "KF ",
         "NAN",
         " S "
       ],
@@ -624,28 +739,30 @@
         "F": "minecraft:feather",
         "N": "minecraft:netherite_ingot",
         "A": "minecraft:arrow",
-        "S": "minecraft:string"
+        "S": "minecraft:string",
+        "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
     },
     "cursed_crimson_rune": {
       "type": "shaped",
       "pattern": [
-        " C ",
+        "KC ",
         "CSC",
         " N "
       ],
       "key": {
         "C": "minecraft:crimson_fungus",
         "S": "minecraft:netherite_sword",
-        "N": "minecraft:nether_star"
+        "N": "minecraft:nether_star",
+        "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
     },
     "bleeding_sigil": {
       "type": "shaped",
       "pattern": [
-        " S ",
+        "KS ",
         "RNR",
         " W "
       ],
@@ -653,7 +770,8 @@
         "S": "minecraft:string",
         "R": "minecraft:redstone_block",
         "N": "minecraft:nether_star",
-        "W": "minecraft:wither_rose"
+        "W": "minecraft:wither_rose",
+        "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
     },
@@ -661,7 +779,7 @@
       "type": "shaped",
       "pattern": [
         "SLS",
-        "GNG",
+        "KNG",
         "GAG"
       ],
       "key": {
@@ -669,14 +787,15 @@
         "L": "minecraft:lapis_lazuli",
         "G": "minecraft:gold_ingot",
         "N": "minecraft:nether_star",
-        "A": "minecraft:anvil"
+        "A": "minecraft:anvil",
+        "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
     },
     "gravity_anchor_charm": {
       "type": "shaped",
       "pattern": [
-        "CMC",
+        "KMC",
         "PNP",
         "CAC"
       ],
@@ -685,7 +804,8 @@
         "M": "minecraft:phantom_membrane",
         "P": "minecraft:crying_obsidian",
         "N": "minecraft:nether_star",
-        "A": "minecraft:anvil"
+        "A": "minecraft:anvil",
+        "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
     },
@@ -693,11 +813,12 @@
       "type": "shaped",
       "pattern": [
         "GLG",
-        " G "
+        "KG "
       ],
       "key": {
         "G": "minecraft:gold_ingot",
-        "L": "minecraft:lapis_lazuli"
+        "L": "minecraft:lapis_lazuli",
+        "K": "vitalrelics:uncommon_relic_core"
       },
       "count": 1
     },
@@ -705,20 +826,21 @@
       "type": "shaped",
       "pattern": [
         "AGA",
-        "D D",
+        "DKD",
         " G "
       ],
       "key": {
         "A": "minecraft:amethyst_shard",
         "G": "minecraft:gold_ingot",
-        "D": "minecraft:diamond"
+        "D": "minecraft:diamond",
+        "K": "vitalrelics:rare_relic_core"
       },
       "count": 1
     },
     "celestial_aegis": {
       "type": "shaped",
       "pattern": [
-        "ENE",
+        "KNE",
         "DSD",
         "ENE"
       ],
@@ -726,47 +848,102 @@
         "E": "minecraft:end_crystal",
         "N": "minecraft:netherite_ingot",
         "D": "minecraft:diamond",
-        "S": "minecraft:nether_star"
+        "S": "minecraft:nether_star",
+        "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
     }
   },
   "loot": {
     "cherry_petal_pendant": [
-      { "table": "minecraft:chests/village/village_plains_house", "chance": 0.08 },
-      { "table": "minecraft:chests/shipwreck_supply", "chance": 0.06 }
+      {
+        "table": "minecraft:chests/village/village_plains_house",
+        "chance": 0.08
+      },
+      {
+        "table": "minecraft:chests/shipwreck_supply",
+        "chance": 0.06
+      }
     ],
     "cherrywood_cross": [
-      { "table": "minecraft:chests/woodland_mansion", "chance": 0.04 },
-      { "table": "minecraft:chests/buried_treasure", "chance": 0.04 }
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/buried_treasure",
+        "chance": 0.04
+      }
     ],
     "gilded_circlet": [
-      { "table": "minecraft:chests/desert_pyramid", "chance": 0.07 },
-      { "table": "minecraft:chests/ruined_portal", "chance": 0.06 }
+      {
+        "table": "minecraft:chests/desert_pyramid",
+        "chance": 0.07
+      },
+      {
+        "table": "minecraft:chests/ruined_portal",
+        "chance": 0.06
+      }
     ],
     "astral_halo": [
-      { "table": "minecraft:chests/stronghold_corridor", "chance": 0.04 },
-      { "table": "minecraft:chests/end_city_treasure", "chance": 0.03 }
+      {
+        "table": "minecraft:chests/stronghold_corridor",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.03
+      }
     ],
     "enderkeeper_bracelet": [
-      { "table": "minecraft:chests/stronghold_corridor", "chance": 0.04 },
-      { "table": "minecraft:chests/end_city_treasure", "chance": 0.08 }
+      {
+        "table": "minecraft:chests/stronghold_corridor",
+        "chance": 0.04
+      },
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.08
+      }
     ],
     "homebound_bracelet": [
-      { "table": "minecraft:chests/village/village_cartographer", "chance": 0.06 },
-      { "table": "minecraft:chests/woodland_mansion", "chance": 0.04 }
+      {
+        "table": "minecraft:chests/village/village_cartographer",
+        "chance": 0.06
+      },
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.04
+      }
     ],
     "scholars_convergence_ring": [
-      { "table": "minecraft:chests/stronghold_library", "chance": 0.06 },
-      { "table": "minecraft:chests/ancient_city", "chance": 0.03 }
+      {
+        "table": "minecraft:chests/stronghold_library",
+        "chance": 0.06
+      },
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.03
+      }
     ],
     "covenant_ring": [
-      { "table": "minecraft:chests/village/village_temple", "chance": 0.05 },
-      { "table": "minecraft:chests/woodland_mansion", "chance": 0.03 }
+      {
+        "table": "minecraft:chests/village/village_temple",
+        "chance": 0.05
+      },
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.03
+      }
     ],
     "haste_ring": [
-      { "table": "minecraft:chests/abandoned_mineshaft", "chance": 0.06 },
-      { "table": "minecraft:chests/stronghold_corridor", "chance": 0.04 }
+      {
+        "table": "minecraft:chests/abandoned_mineshaft",
+        "chance": 0.06
+      },
+      {
+        "table": "minecraft:chests/stronghold_corridor",
+        "chance": 0.04
+      }
     ],
     "swiftness_ring": [
       {
@@ -876,7 +1053,6 @@
         "chance": 0.05
       }
     ],
-
     "stone_ring": [
       {
         "table": "minecraft:entities/zombie",
@@ -915,7 +1091,6 @@
         "chance": 0.025
       }
     ],
-
     "healing_bracelet": [
       {
         "table": "minecraft:chests/village/village_temple",
@@ -1046,7 +1221,6 @@
         "chance": 0.025
       }
     ],
-
     "iron_heart": [
       {
         "table": "minecraft:entities/iron_golem",
@@ -1195,6 +1369,36 @@
       {
         "table": "minecraft:chests/bastion_treasure",
         "chance": 0.03
+      }
+    ],
+    "common_relic_core": [
+      {
+        "table": "minecraft:chests/simple_dungeon",
+        "chance": 0.25
+      },
+      {
+        "table": "minecraft:chests/abandoned_mineshaft",
+        "chance": 0.25
+      }
+    ],
+    "uncommon_relic_core": [
+      {
+        "table": "minecraft:chests/desert_pyramid",
+        "chance": 0.15
+      },
+      {
+        "table": "minecraft:chests/jungle_temple",
+        "chance": 0.15
+      }
+    ],
+    "rare_relic_core": [
+      {
+        "table": "minecraft:chests/ancient_city",
+        "chance": 0.08
+      },
+      {
+        "table": "minecraft:chests/end_city_treasure",
+        "chance": 0.08
       }
     ]
   }

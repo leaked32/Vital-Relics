@@ -115,7 +115,8 @@ public final class VitalClientEvents {
 	public static void registerClientExtensions(
 			final RegisterClientExtensionsEvent event) {
 
-		final Item[] items = VitalRelics.RELIC_ITEMS.stream()
+		final Item[] items = java.util.stream.Stream.concat(
+				VitalRelics.RELIC_ITEMS.stream(), VitalRelics.MATERIAL_ITEMS.stream())
 				.map(holder -> holder.get())
 				.toArray(Item[]::new);
 
@@ -139,11 +140,14 @@ public final class VitalClientEvents {
 					"Vital Relics shared flat model was not baked"
 			);
 
-		for (final Relic relic : Loader.get().relics_) {
+		for (final String itemId : java.util.stream.Stream.concat(
+				Loader.get().relics_.stream().map(relic -> relic.id),
+				com.example.vitalrelics.common.materials.MaterialLoader.get().materials().stream()
+						.map(material -> material.id)).toList()) {
 			final ResourceLocation id =
 					ResourceLocation.fromNamespaceAndPath(
 							Manifest.MODID,
-							relic.id
+							itemId
 					);
 
 			final ModelResourceLocation itemModel =

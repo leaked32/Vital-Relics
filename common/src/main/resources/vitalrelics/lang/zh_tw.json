@@ -329,5 +329,14 @@
   "relic.vitalrelics.passive_skill.cinder_brand": "燼痕",
   "item.vitalrelics.gravity_anchor_charm": "重力之錨",
   "tooltip.vitalrelics.gravity_anchor_charm": "沉重的力場將敵對生物拖回堅實地面。",
-  "relic.vitalrelics.passive_skill.no_fly_zone": "禁飛領域"
+  "relic.vitalrelics.passive_skill.no_fly_zone": "禁飛領域",
+  "item.vitalrelics.common_relic_core": "普通遺物核心",
+  "tooltip.vitalrelics.common_relic_core": "用於鍛造遺物的普通品質核心。",
+  "item.vitalrelics.uncommon_relic_core": "精良遺物核心",
+  "tooltip.vitalrelics.uncommon_relic_core": "用於鍛造遺物的精良品質核心。",
+  "item.vitalrelics.rare_relic_core": "稀有遺物核心",
+  "tooltip.vitalrelics.rare_relic_core": "用於鍛造遺物的稀有品質核心。",
+  "item.vitalrelics.epic_relic_core": "史詩遺物核心",
+  "tooltip.vitalrelics.epic_relic_core": "用於鍛造遺物的史詩品質核心。",
+  "guide.vitalrelics.slot.material": "材料"
 }

@@ -42,6 +42,17 @@ public class GuidePage {
 		if (effectName == null)
 			throw new IllegalArgumentException("effectName cannot be null");
 
+		if (entry.material != null) {
+			final var material = entry.material;
+			final GuidePage page = new GuidePage(material.id,
+					tr("item.vitalrelics." + material.id, material.display_name == null
+							? humanize(material.id) : material.display_name),
+					material.rarity, "material",
+					tr("tooltip.vitalrelics." + material.id, material.tooltip));
+			addAcquisition(page, entry, ingredientName);
+			return page;
+		}
+
 		final Relic relic = entry.relic;
 
 		final GuidePage page = new GuidePage(

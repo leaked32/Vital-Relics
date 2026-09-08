@@ -8,6 +8,7 @@ import com.example.vitalrelics.common.MyRuntime;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Acquisition;
 import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.materials.MaterialLoader;
 import com.example.vitalrelics.common.relics.Translations;
 import com.example.vitalrelics.network.NeoNetwork;
 import com.example.vitalrelics.platform.NeoRuntimeUtils;
@@ -71,6 +72,7 @@ public class VitalRelics
 	// public final static RelicLoader loader  = RelicLoader.get();
 	// public final static AcquisitionLoader acquisition = AcquisitionLoader.INSTANCE;
 	public static final List<DeferredItem<Item>> RELIC_ITEMS = new ArrayList<>();
+	public static final List<DeferredItem<Item>> MATERIAL_ITEMS = new ArrayList<>();
 
 	public static final DeferredItem<GuideBookItem> GUIDE_BOOK = ITEMS.registerItem("guide_book", GuideBookItem::new);
 
@@ -98,8 +100,34 @@ public class VitalRelics
 		final Path recipeConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/recipes.json");
 		final Path translationConfig = FMLPaths.CONFIGDIR.get().resolve("vitalrelics/lang");
 		Loader.load(config);
+		MaterialLoader.load(config.resolveSibling("materials.json"));
 		Acquisition.load(recipeConfig);
 		Translations.load(translationConfig);
+
+		for (final var material : MaterialLoader.get().materials()) {
+			final Rarity rarity = switch (material.rarity.toLowerCase()) {
+				case "uncommon" -> Rarity.UNCOMMON;
+				case "rare" -> Rarity.RARE;
+				case "epic" -> Rarity.EPIC;
+				default -> Rarity.COMMON;
+			};
+			MATERIAL_ITEMS.add(ITEMS.register(
+					material.id,
+					() -> new MaterialItem(
+							material,
+							new Item.Properties()
+									.setId(ResourceKey.create(
+											Registries.ITEM,
+											Identifier.fromNamespaceAndPath(
+													Manifest.MODID,
+													material.id
+											)
+									))
+									.rarity(rarity).stacksTo(material.max_stack_size)
+					)
+			));
+		}
+
 
 		for (final var relic : Loader.get().relics_) {
 			final Rarity rarity = switch (relic.rarity.toLowerCase()) {
@@ -131,6 +159,8 @@ public class VitalRelics
 				.icon(() -> RELIC_ITEMS.get(0).get().getDefaultInstance())
 				.displayItems((parameters, output) -> {
 					output.accept(GUIDE_BOOK.get());
+					for (final var material : MATERIAL_ITEMS)
+						output.accept(material.get());
 
 					for (final var relic : RELIC_ITEMS)
 						output.accept(relic.get());
@@ -144,6 +174,13 @@ public class VitalRelics
 
 	private void modifyDefaultComponents(final ModifyDefaultComponentsEvent event) {
 		for (final var relic : RELIC_ITEMS) {
+			event.modify(
+					relic.get(),
+					(components, context, item) ->
+							components.set(DataComponents.ITEM_MODEL, RelicItem.MODEL)
+			);
+		}
+		for (final var relic : MATERIAL_ITEMS) {
 			event.modify(
 					relic.get(),
 					(components, context, item) ->

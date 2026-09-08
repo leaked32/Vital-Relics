@@ -3,6 +3,7 @@ package com.example.vitalrelics.client;
 import com.example.vitalrelics.VitalRelics;
 import com.example.vitalrelics.common.Manifest;
 import com.example.vitalrelics.common.relics.Loader;
+import com.example.vitalrelics.common.materials.MaterialLoader;
 import com.example.vitalrelics.common.relics.Relic;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -41,10 +42,14 @@ public final class RelicRenderer extends BlockEntityWithoutLevelRenderer {
 
 		final Relic relic = Loader.get().find(itemId.getPath());
 
-		if (relic == null || relic.texture == null)
+		final var material = MaterialLoader.get().find(itemId.getPath());
+		final String textureName = relic != null ? relic.texture
+				: material != null ? material.texture : null;
+
+		if (textureName == null)
 			return;
 
-		final ResourceLocation texture = ExternalTextures.texture(relic.texture);
+		final ResourceLocation texture = ExternalTextures.texture(textureName);
 
 		poseStack.pushPose();
 		poseStack.translate(0.5F, 0.5F, 0.5F);
