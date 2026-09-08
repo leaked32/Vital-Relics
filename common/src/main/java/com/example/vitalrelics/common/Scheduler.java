@@ -5,7 +5,6 @@ import com.example.vitalrelics.common.utils.MyMap;
 
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Function;
 
 public class Scheduler {
 
@@ -97,7 +96,7 @@ public class Scheduler {
 	private final MyMap<FlightState> FLIGHT_STATE_LIST = new MyMap<>(0);
 	private final MyMap<Integer> THORNS_COOLDOWN_LIST = new MyMap<>();
 	private final MyMap<Integer> ARROW_DEFLECTION_COOLDOWN_LIST = new MyMap<>();
-	private final MyMap<Integer> NO_FLY_ZONE_SUPPRESSION_LIST = new MyMap<>();
+	private final MyMap<Integer> AUTO_MOVE_SUPPRESSION_LIST = new MyMap<>();
 
 	private static final int DELAYED_TASK_LIST_MAX = 12;
 
@@ -146,7 +145,7 @@ public class Scheduler {
 			PROTECTED_PLAYER_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
 			THORNS_COOLDOWN_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
 			ARROW_DEFLECTION_COOLDOWN_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
-			NO_FLY_ZONE_SUPPRESSION_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
+			AUTO_MOVE_SUPPRESSION_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
 			FLIGHT_STATE_LIST.cleanUp(currentTickCount, runtime::isEntityValid);
 		}
 	}
@@ -160,7 +159,7 @@ public class Scheduler {
 		SPELL_STATE_LIST.remove(uuid);
 		THORNS_COOLDOWN_LIST.remove(uuid);
 		ARROW_DEFLECTION_COOLDOWN_LIST.remove(uuid);
-		NO_FLY_ZONE_SUPPRESSION_LIST.remove(uuid);
+		AUTO_MOVE_SUPPRESSION_LIST.remove(uuid);
 		FLIGHT_STATE_LIST.remove(uuid);
 	}
 
@@ -172,7 +171,7 @@ public class Scheduler {
 		SPELL_STATE_LIST.clear();
 		THORNS_COOLDOWN_LIST.clear();
 		ARROW_DEFLECTION_COOLDOWN_LIST.clear();
-		NO_FLY_ZONE_SUPPRESSION_LIST.clear();
+		AUTO_MOVE_SUPPRESSION_LIST.clear();
 		FLIGHT_STATE_LIST.clear();
 	}
 
@@ -389,14 +388,14 @@ public class Scheduler {
 	No-Fly Zone Suppression
 	 */
 
-	public void suppressNoFlyZone(final UUID uuid, final int currentTick,
-			final int durationTicks) {
-		NO_FLY_ZONE_SUPPRESSION_LIST.put(uuid, currentTick,
+	public void suppressAutoMove(final UUID uuid, final int currentTick,
+	                             final int durationTicks) {
+		AUTO_MOVE_SUPPRESSION_LIST.put(uuid, currentTick,
 				currentTick + Math.max(0, durationTicks));
 	}
 
-	public boolean isNoFlyZoneSuppressed(final UUID uuid, final int currentTick) {
-		return currentTick < NO_FLY_ZONE_SUPPRESSION_LIST.getOrDefault(uuid, 0);
+	public boolean isAutoMoveSuppressed(final UUID uuid, final int currentTick) {
+		return currentTick < AUTO_MOVE_SUPPRESSION_LIST.getOrDefault(uuid, 0);
 	}
 
 	/*

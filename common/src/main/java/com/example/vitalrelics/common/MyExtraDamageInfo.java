@@ -111,7 +111,7 @@ public class MyExtraDamageInfo {
 		}
 	}
 
-	private static void ascentWeaken(
+	public static void ascentWeaken(
 			final MyLivingEntity target, final int duration, final int amplifier) {
 
 		target.addEffect(Manifest.EFFECT_SLOWNESS, duration, amplifier, true, true);
