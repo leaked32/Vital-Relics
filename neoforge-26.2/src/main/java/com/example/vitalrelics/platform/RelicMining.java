@@ -25,7 +25,6 @@ public final class RelicMining {
     private RelicMining() {}
     private static final Set<UUID> EXPANDING = new HashSet<>();
     private static final Map<AbstractArrow, ArrowDurability> ARROWS = new HashMap<>();
-    private static final String ARROW_TAG = "vitalrelics_borebolt";
 
     public static void afterBreak(ServerPlayer player, BlockPos position, BlockState original, java.util.function.BooleanSupplier canceled) {
         if (EXPANDING.contains(player.getUUID()) || player.isShiftKeyDown()) return;
@@ -83,17 +82,10 @@ public final class RelicMining {
         Vec3 look = owner.getLookAngle();
         arrow.shoot(look.x, look.y, look.z, (float) speed, 0);
         arrow.pickup = AbstractArrow.Pickup.DISALLOWED;
-        arrow.addTag(ARROW_TAG);
         ARROWS.put(arrow, new ArrowDurability(durability, loss));
         // Owner is assigned before joining: normal empowered-arrow hooks run exactly once.
         if (!level.addFreshEntity(arrow)) { ARROWS.remove(arrow); return false; }
         return true;
-    }
-
-    public static boolean rejectOrphan(AbstractArrow arrow) {
-        // Spell arrows are transient. Do not let chunk reload/server restart turn one into a permanent vanilla arrow.
-        if (arrow.getTags().contains(ARROW_TAG) && !ARROWS.containsKey(arrow)) { arrow.discard(); return true; }
-        return false;
     }
 
     public static void tick() {
