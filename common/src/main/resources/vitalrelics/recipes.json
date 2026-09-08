@@ -7,7 +7,7 @@
     "common_relic_core": {
       "type": "shaped",
       "pattern": [
-        " I ",
+        "   ",
         "IRI",
         " I "
       ],
@@ -20,7 +20,7 @@
     "uncommon_relic_core": {
       "type": "shaped",
       "pattern": [
-        " C ",
+        "   ",
         "CXC",
         " C "
       ],
@@ -33,7 +33,7 @@
     "rare_relic_core": {
       "type": "shaped",
       "pattern": [
-        " C ",
+        "   ",
         "CXC",
         " C "
       ],
@@ -46,7 +46,7 @@
     "epic_relic_core": {
       "type": "shaped",
       "pattern": [
-        " C ",
+        "   ",
         "CXC",
         " C "
       ],
