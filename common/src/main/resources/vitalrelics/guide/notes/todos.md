@@ -2,6 +2,19 @@
 
 ## Discovered Bugs
 
+## New Relic Items
+
+Mira~ Just one more work:
+
+New rare relics:
+A new ring that has the passive skill which grants all hostile living entities in level range with slowness 3 effect, triggers once per 20 ticks, effect lasts for 3 seconds.
+A new ring that has the passive skill which enables the user destroy the entire tree.
+A new ring that has the passive skill which enables the user to destroy multiple blocks in level range by the same data (I meant, Minecraft may record how the block is destroyed, like fortune level, which changes the drops).
+A new bracelet that has a nwe spell which launches an arrow with durability, when the durability reaches 0, it disappears, how many its durability decreases per one tick, the arrow speed and total durability are all described by the relic spell. When it hits a block, if its current durability is greater than the block durability, break the block and subtract the arrow durability, otherwise, the arrow disappears. It can also trigger the passive skill of others.
+A new bracelet that has a new spell which makes the target attacks the nearest living entity (except self) immediately no matter what.
+
+Please add them with translations, and generate the textures with the art guideline of Minecraft.
+
 
 ## Upgradable
 - Update all (bracelet, ring) textures with only duplicated colored ones.
