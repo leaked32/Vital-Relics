@@ -268,8 +268,15 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		if (!(entity.level() instanceof ServerLevel level))
 			return null;
 
+		final double feetY = entity.getY();
 		final BlockPos.MutableBlockPos pos = BlockPos.containing(
-				entity.getX(), entity.getY() - 1.0E-5, entity.getZ()).mutable();
+				entity.getX(), feetY - 1.0E-5, entity.getZ()).mutable();
+		final var feetShape = level.getBlockState(pos).getCollisionShape(level, pos);
+		if (!feetShape.isEmpty() &&
+				feetY < pos.getY() + feetShape.max(Direction.Axis.Y) - 1.0E-5) {
+			// The feet are inside this block, so it cannot be the supporting ground.
+			pos.move(Direction.DOWN);
+		}
 		final int minY = level.getMinBuildHeight();
 		while (pos.getY() >= minY) {
 			final var shape = level.getBlockState(pos).getCollisionShape(level, pos);
