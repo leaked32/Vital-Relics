@@ -1,6 +1,9 @@
 package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.*;
+import com.example.vitalrelics.platform.RelicMining;
+import net.minecraftforge.event.level.BlockEvent;
+
 import com.example.vitalrelics.common.platform.MyDamageSource;
 import com.example.vitalrelics.common.platform.MyLivingEntity;
 import com.example.vitalrelics.common.relics.Relic;
@@ -41,6 +44,12 @@ import java.util.UUID;
 import static com.example.vitalrelics.Utils.*;
 
 public final class VitalEvents {
+    @SubscribeEvent
+    public static void onRelicBlockBreak(final BlockEvent.BreakEvent event) {
+        if (!event.isCanceled() && event.getPlayer() instanceof ServerPlayer player)
+            RelicMining.afterBreak(player, event.getPos(), event.getState(), event::isCanceled);
+    }
+
 	@SubscribeEvent
 	public static void onExperienceGain(final PlayerXpEvent.XpChange event) {
 		final int amount = event.getAmount();
@@ -123,6 +132,7 @@ public final class VitalEvents {
 		if (event.phase != TickEvent.Phase.END)
 			return;
 
+		RelicMining.tick();
 		Scheduler.INSTANCE().serverTick(
 				event.getServer().getTickCount()
 		);
@@ -327,6 +337,8 @@ public final class VitalEvents {
 				event.getLevel().isClientSide())
 			return;
 
+		if (RelicMining.rejectOrphan(arrow)) return;
+
 		if (!(arrow.getOwner() instanceof LivingEntity owner))
 			return;
 
@@ -414,6 +426,7 @@ public final class VitalEvents {
 	@SubscribeEvent
 	public static void onServerStopping(
 			final ServerStoppingEvent event) {
+        RelicMining.clear();
 
 		MyEvents.onServerStopping();
 	}

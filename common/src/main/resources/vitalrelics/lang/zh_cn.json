@@ -341,5 +341,20 @@
   "tooltip.vitalrelics.rare_relic_core": "用于锻造遗物的稀有品质核心。",
   "item.vitalrelics.epic_relic_core": "史诗遗物核心",
   "tooltip.vitalrelics.epic_relic_core": "用于锻造遗物的史诗品质核心。",
-  "guide.vitalrelics.slot.material": "材料"
+  "guide.vitalrelics.slot.material": "材料",
+  "item.vitalrelics.frostbind_ring": "霜缚之戒",
+  "tooltip.vitalrelics.frostbind_ring": "每秒使10格内的敌对生物获得持续3秒的缓慢III。",
+  "relic.vitalrelics.passive_skill.slowing_aura": "缓慢光环",
+  "item.vitalrelics.timberheart_ring": "林心之戒",
+  "tooltip.vitalrelics.timberheart_ring": "破坏原木时，用手中工具砍倒相连的原木。潜行可停用；树叶自然凋落。",
+  "relic.vitalrelics.passive_skill.tree_feller": "连锁伐木",
+  "item.vitalrelics.quarry_ring": "采石之戒",
+  "tooltip.vitalrelics.quarry_ring": "用手中工具挖掘2格内的方块，保留时运、精准采集等效果。潜行可停用。",
+  "relic.vitalrelics.passive_skill.area_mining": "范围采掘",
+  "item.vitalrelics.borebolt_bracelet": "穿岩手镯",
+  "tooltip.vitalrelics.borebolt_bracelet": "发射穿岩箭：耐久40，每刻消耗0.25耐久，速度为每刻2格。",
+  "relic.vitalrelics.spell.borebolt": "穿岩箭",
+  "item.vitalrelics.discord_bracelet": "纷争手镯",
+  "tooltip.vitalrelics.discord_bracelet": "令指向的生物立即攻击离它最近的其他生物，即使对方是盟友或你。",
+  "relic.vitalrelics.spell.compel_attack": "强制攻击"
 }

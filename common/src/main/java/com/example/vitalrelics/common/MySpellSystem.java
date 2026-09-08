@@ -25,6 +25,31 @@ public final class MySpellSystem {
 	private final Map<String, Handler> handlers = new HashMap<>();
 
 	private MySpellSystem() {
+		register(Relic.SPELL_BOREBOLT, (caster, spell) -> {
+			double speed = RelicSpells.numberParameter(spell, "speed", 2.0);
+			double durability = RelicSpells.numberParameter(spell, "durability", 40.0);
+			double loss = RelicSpells.numberParameter(spell, "durability_loss_per_tick", 0.25);
+			if (!Double.isFinite(speed) || speed <= 0 || speed > 10 || !Double.isFinite(durability)
+					|| durability <= 0 || !Double.isFinite(loss) || loss < 0) return false;
+			return runtime.launchBorebolt(caster, speed, durability, loss);
+		});
+		register(Relic.SPELL_COMPEL_ATTACK, (caster, spell) -> {
+			double range = RelicSpells.numberParameter(spell, "range", 24.0);
+			double searchRange = RelicSpells.numberParameter(spell, "search_range", 32.0);
+			if (!Double.isFinite(range) || range <= 0 || !Double.isFinite(searchRange) || searchRange <= 0) return false;
+			MyLivingEntity attacker = runtime.pointedLivingEntity(caster, Math.min(range, 256));
+			if (attacker == null || attacker.isDeadOrDying()) return false;
+			MyLivingEntity nearest = null;
+			double best = Math.pow(Math.min(searchRange, 256), 2);
+			for (MyLivingEntity candidate : attacker.livingEntitiesInRange(Math.min(searchRange, 256))) {
+				if (candidate.is(attacker) || candidate.isDeadOrDying()) continue;
+				double dx = candidate.x() - attacker.x(), dy = candidate.y() - attacker.y(), dz = candidate.z() - attacker.z();
+				double distance = dx * dx + dy * dy + dz * dz;
+				if (distance <= best) { best = distance; nearest = candidate; }
+			}
+			// Deliberately no hostility/alliance or AI-goal check; the caster can be the victim.
+			return nearest != null && runtime.forceAttack(attacker, nearest);
+		});
 		/*
 		BLOCK hit
 			-> try center for thin blocks

@@ -53,6 +53,27 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 
 	private NeoRuntimeUtils() {}
 
+
+    @Override
+    public boolean launchBorebolt(MyLivingEntity caster, double speed, double durability, double lossPerTick) {
+        return RelicMining.launch(nativeEntity(caster), speed, durability, lossPerTick);
+    }
+
+    @Override
+    public boolean forceAttack(MyLivingEntity attacker, MyLivingEntity victim) {
+        LivingEntity source = nativeEntity(attacker), target = nativeEntity(victim);
+        if (!(source.level() instanceof ServerLevel level) || source.level() != target.level() || source == target) return false;
+        source.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
+        // Perform the strike now, without waiting for pathfinding, reach checks, or an AI goal.
+        // Passive creatures without ATTACK_DAMAGE still make a one-health strike.
+        var attribute = source.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE);
+        float damage = attribute == null ? 1.0F : (float) Math.max(1.0, attribute.getValue());
+        var damageSource = source.damageSources().mobAttack(source);
+        target.invulnerableTime = 0;
+        target.hurtServer(level, damageSource, damage);
+        return true;
+    }
+
 	@Override
 	public void log(final String message) {
 		VitalRelics.LOGGER.info(message);

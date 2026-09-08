@@ -130,6 +130,14 @@ public final class MyEvents {
 
 		// Scheduled to update on each second
 		if (currentTick % 20 == 0) {
+			final double slowRange = Loader.levelOfSuchPassiveSkill(relics, Relic.PASSIVE_SKILL_SLOWING_AURA);
+			if (Double.isFinite(slowRange) && slowRange > 0) {
+				for (MyLivingEntity target : myLivingEntity.livingEntitiesInRange(slowRange)) {
+					double dx = target.x() - myLivingEntity.x(), dy = target.y() - myLivingEntity.y(), dz = target.z() - myLivingEntity.z();
+					if (myLivingEntity.isHostile(target) && dx * dx + dy * dy + dz * dz <= slowRange * slowRange)
+						target.addEffect(Manifest.EFFECT_SLOWNESS, 60, 2, false, true);
+				}
+			}
 			// Client HUD
 			if (myLivingEntity.isServerPlayer()) {
 				MySpellSystem.INSTANCE.syncSpellHud(myLivingEntity);

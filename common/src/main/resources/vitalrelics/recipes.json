@@ -852,6 +852,76 @@
         "K": "vitalrelics:epic_relic_core"
       },
       "count": 1
+    },
+    "frostbind_ring": {
+      "type": "shaped",
+      "pattern": [
+        " X ",
+        "GCG",
+        " G "
+      ],
+      "key": {
+        "X": "minecraft:packed_ice",
+        "G": "minecraft:gold_ingot",
+        "C": "vitalrelics:rare_relic_core"
+      },
+      "count": 1
+    },
+    "timberheart_ring": {
+      "type": "shaped",
+      "pattern": [
+        " X ",
+        "GCG",
+        " G "
+      ],
+      "key": {
+        "X": "minecraft:oak_sapling",
+        "G": "minecraft:gold_ingot",
+        "C": "vitalrelics:rare_relic_core"
+      },
+      "count": 1
+    },
+    "quarry_ring": {
+      "type": "shaped",
+      "pattern": [
+        " X ",
+        "GCG",
+        " G "
+      ],
+      "key": {
+        "X": "minecraft:iron_pickaxe",
+        "G": "minecraft:gold_ingot",
+        "C": "vitalrelics:rare_relic_core"
+      },
+      "count": 1
+    },
+    "borebolt_bracelet": {
+      "type": "shaped",
+      "pattern": [
+        " X ",
+        "GCG",
+        " G "
+      ],
+      "key": {
+        "X": "minecraft:arrow",
+        "G": "minecraft:gold_ingot",
+        "C": "vitalrelics:rare_relic_core"
+      },
+      "count": 1
+    },
+    "discord_bracelet": {
+      "type": "shaped",
+      "pattern": [
+        " X ",
+        "GCG",
+        " G "
+      ],
+      "key": {
+        "X": "minecraft:fermented_spider_eye",
+        "G": "minecraft:gold_ingot",
+        "C": "vitalrelics:rare_relic_core"
+      },
+      "count": 1
     }
   },
   "loot": {
@@ -1399,6 +1469,36 @@
       {
         "table": "minecraft:chests/end_city_treasure",
         "chance": 0.08
+      }
+    ],
+    "frostbind_ring": [
+      {
+        "table": "minecraft:chests/igloo_chest",
+        "chance": 0.04
+      }
+    ],
+    "timberheart_ring": [
+      {
+        "table": "minecraft:chests/woodland_mansion",
+        "chance": 0.04
+      }
+    ],
+    "quarry_ring": [
+      {
+        "table": "minecraft:chests/abandoned_mineshaft",
+        "chance": 0.04
+      }
+    ],
+    "borebolt_bracelet": [
+      {
+        "table": "minecraft:chests/pillager_outpost",
+        "chance": 0.04
+      }
+    ],
+    "discord_bracelet": [
+      {
+        "table": "minecraft:chests/stronghold_corridor",
+        "chance": 0.04
       }
     ]
   }

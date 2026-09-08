@@ -55,6 +55,9 @@ public class Relic {
 	public static final String PASSIVE_SKILL_EXPERIENCE_CONVERGENCE = "experience_convergence";
 	public static final String PASSIVE_SKILL_HEALING_AURA = "healing_aura";
 	public static final String PASSIVE_SKILL_NO_FLY_ZONE = "no_fly_zone";
+	public static final String PASSIVE_SKILL_SLOWING_AURA = "slowing_aura";
+	public static final String PASSIVE_SKILL_TREE_FELLER = "tree_feller";
+	public static final String PASSIVE_SKILL_AREA_MINING = "area_mining";
 
 	public final Map<String, Double> passive_skills = new LinkedHashMap<>();
 
@@ -81,6 +84,8 @@ public class Relic {
 	public static final String SPELL_DISENCHANTMENT = "disenchantment";
 	public static final String SPELL_OPEN_ENDER_CHEST = "open_ender_chest";
 	public static final String SPELL_RETURN_TO_BED = "return_to_bed";
+	public static final String SPELL_BOREBOLT = "borebolt";
+	public static final String SPELL_COMPEL_ATTACK = "compel_attack";
 
 	public final Map<String, Spells.Info> available_spells = new LinkedHashMap<>();
 

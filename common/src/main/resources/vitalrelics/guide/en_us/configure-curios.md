@@ -213,3 +213,11 @@ cooldown_seconds = 1 / recovery
 | `0.25` | 4 s |
 | `1` | 1 s |
 | `4` | 0.25 s |
+
+## Mining and control relics
+
+- `slowing_aura`: every 20 ticks, applies Slowness III (amplifier 2) for 60 ticks to hostile living entities within `level` blocks. Frostbind Ring: level 10.
+- `tree_feller`: positive level enables connected-log felling after a successful log break. Timberheart Ring: level 1. Leaves decay naturally. The search is bounded to 32 blocks and 512 additional logs; touching log structures can also be felled.
+- `area_mining`: after a successful break, mines blocks of any type within `level` blocks of that block. Quarry Ring: level 2. Radius is capped at 8, and one operation breaks at most 512 additional blocks. Both mining skills use the actual held tool and player context (Fortune, Silk Touch, tool suitability, durability, XP and protection events). Sneaking disables expansion; changing or breaking the tool stops it. They do not recursively expand their own generated breaks.
+- `borebolt`: `speed` (default 2 blocks/tick, maximum 10), `durability` (40), `durability_loss_per_tick` (0.25), `recovery` (0.2). Remaining durability must be strictly greater than block hardness; successful breaks subtract hardness. Unbreakable or protected blocks stop the arrow. Zero tick loss is allowed. Spell arrows cannot be picked up and expire on unload/restart. Normal arrow-hit passives remain active; block breaks can trigger the owner's mining passives using their currently held tool.
+- `compel_attack`: `range` (24) selects the pointed living entity; `search_range` (32) finds its nearest other living entity; `recovery` (0.1). Both ranges cap at 256. The target immediately makes an attributed melee strike without an AI, allegiance, or reach check. The caster can be hit. Creatures without an attack-damage attribute deal 1 health; other targets use at least 1 health of attack damage. Normal damage protections/events still apply; this does not rewrite AI goals.

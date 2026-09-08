@@ -339,5 +339,20 @@
   "tooltip.vitalrelics.rare_relic_core": "A rare crafting core used to forge relics.",
   "item.vitalrelics.epic_relic_core": "Epic Relic Core",
   "tooltip.vitalrelics.epic_relic_core": "A epic crafting core used to forge relics.",
-  "guide.vitalrelics.slot.material": "Material"
+  "guide.vitalrelics.slot.material": "Material",
+  "item.vitalrelics.frostbind_ring": "Frostbind Ring",
+  "tooltip.vitalrelics.frostbind_ring": "Every second, slows hostile creatures within 10 blocks with Slowness III for 3 seconds.",
+  "relic.vitalrelics.passive_skill.slowing_aura": "Slowing Aura",
+  "item.vitalrelics.timberheart_ring": "Timberheart Ring",
+  "tooltip.vitalrelics.timberheart_ring": "Break a log to fell connected logs with your held tool. Sneak to disable; leaves decay naturally.",
+  "relic.vitalrelics.passive_skill.tree_feller": "Tree Feller",
+  "item.vitalrelics.quarry_ring": "Quarry Ring",
+  "tooltip.vitalrelics.quarry_ring": "Mines nearby blocks within 2 blocks using your held tool, including Fortune and Silk Touch. Sneak to disable.",
+  "relic.vitalrelics.passive_skill.area_mining": "Area Mining",
+  "item.vitalrelics.borebolt_bracelet": "Borebolt Bracelet",
+  "tooltip.vitalrelics.borebolt_bracelet": "Fires a block-boring arrow: 40 durability, 0.25 durability lost per tick, speed 2 blocks per tick.",
+  "relic.vitalrelics.spell.borebolt": "Borebolt",
+  "item.vitalrelics.discord_bracelet": "Discord Bracelet",
+  "tooltip.vitalrelics.discord_bracelet": "Compels the pointed creature to strike its nearest living neighbor immediately, even an ally or you.",
+  "relic.vitalrelics.spell.compel_attack": "Compel Attack"
 }

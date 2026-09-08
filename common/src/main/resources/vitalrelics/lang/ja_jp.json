@@ -341,5 +341,20 @@
   "tooltip.vitalrelics.rare_relic_core": "レリックの製作に使うレア品質のコア。",
   "item.vitalrelics.epic_relic_core": "エピックレリックコア",
   "tooltip.vitalrelics.epic_relic_core": "レリックの製作に使うエピック品質のコア。",
-  "guide.vitalrelics.slot.material": "素材"
+  "guide.vitalrelics.slot.material": "素材",
+  "item.vitalrelics.frostbind_ring": "霜縛りの指輪",
+  "tooltip.vitalrelics.frostbind_ring": "毎秒、10ブロック以内の敵対生物に移動速度低下IIIを3秒間付与する。",
+  "relic.vitalrelics.passive_skill.slowing_aura": "鈍足のオーラ",
+  "item.vitalrelics.timberheart_ring": "樹心の指輪",
+  "tooltip.vitalrelics.timberheart_ring": "原木を壊すと、手持ちの道具でつながった原木を伐採する。スニークで無効化。葉は自然に消える。",
+  "relic.vitalrelics.passive_skill.tree_feller": "一括伐採",
+  "item.vitalrelics.quarry_ring": "採石の指輪",
+  "tooltip.vitalrelics.quarry_ring": "手持ちの道具で2ブロック以内を採掘する。幸運やシルクタッチを引き継ぐ。スニークで無効化。",
+  "relic.vitalrelics.passive_skill.area_mining": "範囲採掘",
+  "item.vitalrelics.borebolt_bracelet": "穿岩の腕輪",
+  "tooltip.vitalrelics.borebolt_bracelet": "耐久値40、毎ティックの消耗0.25、速度2ブロック毎ティックの穿岩矢を放つ。",
+  "relic.vitalrelics.spell.borebolt": "穿岩矢",
+  "item.vitalrelics.discord_bracelet": "不和の腕輪",
+  "tooltip.vitalrelics.discord_bracelet": "狙った生物に、最も近い別の生物を即座に攻撃させる。味方や使用者も対象になる。",
+  "relic.vitalrelics.spell.compel_attack": "強制攻撃"
 }

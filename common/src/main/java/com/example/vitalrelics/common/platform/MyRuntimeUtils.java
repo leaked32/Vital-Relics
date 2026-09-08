@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface MyRuntimeUtils {
+	boolean launchBorebolt(MyLivingEntity caster, double speed, double durability, double lossPerTick);
+	boolean forceAttack(MyLivingEntity attacker, MyLivingEntity victim);
 
 	// Ray-cast
 	MyLivingEntity pointedLivingEntity(MyLivingEntity source, double range);
