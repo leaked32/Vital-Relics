@@ -3,7 +3,6 @@
     "version": "0.6.2",
     "customized": false
   },
-
   "itemGroup.vitalrelics": "生命の遺物",
   "key.categories.vitalrelics": "生命の遺物",
   "key.vitalrelics.cast_spell": "呪文を発動",
@@ -11,7 +10,7 @@
   "message.vitalrelics.selected_spell": "選択中の呪文: %s",
   "message.vitalrelics.spell_cooldown": "%s のクールダウン: %s",
   "message.vitalrelics.curse_requires_target": "呪いには対象が必要です。",
-  "message.vitalrelics.grave_shift_invalid_range": "射程が無効なため、葬地位移を発動できません。",
+  "message.vitalrelics.grave_shift_invalid_range": "葬地位移は射程が無効なため発動できません。",
   "message.vitalrelics.grave_shift_requires_hostile_target": "葬地位移には敵対対象が必要です。",
   "tooltip.vitalrelics.property.add": "%s %s",
   "tooltip.vitalrelics.property.mul_base": "%s %s（基本値）",
@@ -43,7 +42,6 @@
   "relic.vitalrelics.callback.damage_taken": "受けるダメージ",
   "relic.vitalrelics.callback.invulnerable_time_dealt": "与ダメージ時の無敵時間",
   "relic.vitalrelics.callback.invulnerable_time_taken": "被ダメージ時の無敵時間",
-
   "relic.vitalrelics.spell.teleport": "テレポート",
   "relic.vitalrelics.spell.curse": "呪い",
   "item.vitalrelics.swiftness_ring": "俊敏の指輪",
@@ -109,7 +107,6 @@
   "tooltip.vitalrelics.gilded_circlet": "かすかな天の光を帯びた、簡素な黄金の冠。",
   "tooltip.vitalrelics.astral_halo": "静かな星界の守りを結晶に宿す細身の光輪。",
   "tooltip.vitalrelics.celestial_aegis": "天上の加護で装着者を守る聖なる光輪。",
-
   "relic.vitalrelics.passive_skill.flight": "飛行",
   "relic.vitalrelics.passive_skill.metal_mending": "金属修復",
   "relic.vitalrelics.passive_skill.reality_severance": "現実断絶",
@@ -117,7 +114,6 @@
   "relic.vitalrelics.passive_skill.empowered_arrows": "強化された矢",
   "relic.vitalrelics.passive_skill.lifesteal": "ライフスティール",
   "relic.vitalrelics.passive_skill.thorns": "棘",
-
   "relic.vitalrelics.spell.heal": "治癒",
   "relic.vitalrelics.spell.cleanse": "浄化",
   "relic.vitalrelics.spell.dash": "ダッシュ",
@@ -125,7 +121,6 @@
   "relic.vitalrelics.spell.repulse": "反発",
   "relic.vitalrelics.spell.absorption": "衝撃吸収",
   "relic.vitalrelics.spell.sky_launch": "天空打ち上げ",
-
   "item.vitalrelics.healing_bracelet": "治癒の腕輪",
   "item.vitalrelics.cleansing_bracelet": "浄化の腕輪",
   "item.vitalrelics.windstep_bracelet": "風歩の腕輪",
@@ -135,7 +130,6 @@
   "item.vitalrelics.repulsion_bracelet": "反発の腕輪",
   "item.vitalrelics.warding_bracelet": "守護の腕輪",
   "item.vitalrelics.skycaller_bracelet": "天呼びの腕輪",
-
   "tooltip.vitalrelics.healing_bracelet": "少量の治癒魔力を蓄えている。",
   "tooltip.vitalrelics.cleansing_bracelet": "装備者から有害な効果を浄化する。",
   "tooltip.vitalrelics.windstep_bracelet": "前方へ一気に加速する力を解き放つ。",
@@ -145,28 +139,20 @@
   "tooltip.vitalrelics.repulsion_bracelet": "激しい衝撃波を放ち、周囲の敵を吹き飛ばす。",
   "tooltip.vitalrelics.warding_bracelet": "装備者を一時的な生命の障壁で包む。",
   "tooltip.vitalrelics.skycaller_bracelet": "重力の奔流によって周囲の敵を空高く打ち上げる。",
-
   "relic.vitalrelics.spell.shadow_exchange": "影交換",
   "relic.vitalrelics.spell.phantom_step": "幻影歩法",
-
   "item.vitalrelics.shadow_exchange_bracelet": "影交換の腕輪",
   "item.vitalrelics.phantom_step_bracelet": "幻影歩法の腕輪",
-
   "tooltip.vitalrelics.shadow_exchange_bracelet": "影の揺らめきを通じて敵と瞬時に位置を入れ替える。",
   "tooltip.vitalrelics.phantom_step_bracelet": "幻影のように戦場を駆け抜け、通過した敵を切り裂く。",
-
   "relic.vitalrelics.spell.upgrade_enchanted_book": "エンチャント強化",
-
   "item.vitalrelics.enchanters_bracelet": "付魔師の腕輪",
   "tooltip.vitalrelics.enchanters_bracelet": "手に持ったエンチャント本へ経験値を注ぎ込み、そのエンチャントの一つを強化する。",
-
   "message.vitalrelics.enchant_upgrade_insufficient_experience": "経験値が足りません。必要レベル: %s",
   "message.vitalrelics.enchant_upgrade_success": "エンチャントをレベル %s に強化しました。",
-
   "item.vitalrelics.windward_bracelet": "風護りの腕輪",
   "tooltip.vitalrelics.windward_bracelet": "飛来する矢を一度そらし、その後短いクールダウンに入る。",
   "relic.vitalrelics.passive_skill.arrow_deflection": "矢そらし",
-
   "guide.vitalrelics.section.effective_slots": "有効スロット",
   "guide.vitalrelics.section.properties": "属性",
   "guide.vitalrelics.section.granted_effects": "付与効果",
@@ -177,52 +163,41 @@
   "guide.vitalrelics.section.callbacks": "コールバック",
   "guide.vitalrelics.section.enemy_spawn": "敵対Mobへの出現",
   "guide.vitalrelics.section.acquisition": "入手方法",
-
   "guide.vitalrelics.property.add": "%s：+%s",
   "guide.vitalrelics.property.mul_base": "%s 基礎値：×%s",
   "guide.vitalrelics.property.mul_total": "%s 合計：×%s",
-
   "guide.vitalrelics.effect.granted": "%s %s",
   "guide.vitalrelics.passive_skill": "%s：%s",
   "guide.vitalrelics.parameter": "  %s：%s",
-
   "guide.vitalrelics.tick.interval": "  間隔：%s",
   "guide.vitalrelics.tick.add": "  加算：%s",
   "guide.vitalrelics.tick.ratio": "  割合：%s",
-
   "guide.vitalrelics.callback.modifier": "  倍率：×%s",
   "guide.vitalrelics.callback.flat": "  固定値：%s",
   "guide.vitalrelics.callback.minimum": "  最小値：%s",
   "guide.vitalrelics.callback.ratio_minimum": "  最小割合：%s",
   "guide.vitalrelics.callback.maximum": "  最大値：%s",
   "guide.vitalrelics.callback.ratio_maximum": "  最大割合：%s",
-
   "guide.vitalrelics.enemy_spawn": "%s：%s",
-
   "guide.vitalrelics.acquisition.unavailable": "通常のサバイバルでは入手できません",
   "guide.vitalrelics.acquisition.none": "入手方法が設定されていません",
   "guide.vitalrelics.acquisition.loot": "戦利品：%s（%s）",
   "guide.vitalrelics.acquisition.crafting": "クラフト：%s",
   "guide.vitalrelics.acquisition.output": "  作成数：%s",
-
   "guide.vitalrelics.title": "Vital Relics",
   "guide.vitalrelics.empty": "レリックが読み込まれていません。",
   "guide.vitalrelics.rarity_slot": "%s · %s",
-
   "guide.vitalrelics.rarity.common": "コモン",
   "guide.vitalrelics.rarity.uncommon": "アンコモン",
   "guide.vitalrelics.rarity.rare": "レア",
   "guide.vitalrelics.rarity.epic": "エピック",
-
   "guide.vitalrelics.slot.charm": "チャーム",
   "guide.vitalrelics.slot.ring": "リング",
   "guide.vitalrelics.slot.bracelet": "ブレスレット",
-
   "guide.vitalrelics.search": "検索...",
   "tooltip.vitalrelics.celestial_wings": "装着者に空を自由に翔ける力を与える。",
   "item.vitalrelics.archers_emblem": "射手の紋章",
   "tooltip.vitalrelics.archers_emblem": "装着者が放つ矢を強化する。",
-
   "relic.vitalrelics.spell.enchantment_ascension": "エンチャント昇華",
   "item.vitalrelics.arcane_reforging_charm": "秘術再鍛造の護符",
   "tooltip.vitalrelics.arcane_reforging_charm": "エンチャント装備を精錬し、その魔力を高めるか、金床作業で蓄積した負担を浄化する。",
@@ -230,39 +205,29 @@
   "message.vitalrelics.item_not_enchanted": "手に持っているアイテムにはエンチャントがありません。",
   "message.vitalrelics.enchantments_at_maximum": "すべてのエンチャントが最大レベルです。",
   "message.vitalrelics.nothing_to_purify": "手に持っているアイテムには、浄化できる呪いも金床ペナルティもありません。",
-
   "guide.vitalrelics.introduction.title": "はじめに",
   "guide.vitalrelics.introduction.description": "レリックを装備すると、さまざまな能力を得られます。",
   "guide.vitalrelics.introduction.stacking.title": "重複時のルール",
   "guide.vitalrelics.introduction.stacking.callbacks": "同じレリックを異なるスロットに装備した場合、コールバックとプロパティの効果は重複します。同じスロットに複数装備しても重複として扱われません。",
   "guide.vitalrelics.introduction.stacking.passive_skills": "複数の装備中のレリックが同じパッシブスキルを持つ場合、最も高いレベルの効果のみが適用されます。",
   "guide.vitalrelics.introduction.stacking.spells": "各スペルはそれぞれ固有のレリックに属しているため、スペルの重複を気にする必要はありません。",
-
   "message.vitalrelics.disenchantment_book_required": "オフハンドに本を持ってください。",
   "message.vitalrelics.disenchantment_no_removable_enchantment": "手に持っているアイテムには解除可能なエンチャントがありません。",
   "message.vitalrelics.disenchantment_success": "エンチャントを本に移しました。",
-
   "relic.vitalrelics.spell.purify_curse": "呪いの浄化",
   "relic.vitalrelics.spell.purify_penalty": "金床ペナルティの浄化",
   "relic.vitalrelics.spell.disenchantment": "解呪",
-
   "message.vitalrelics.no_curse": "手に持っているアイテムには解除できる呪いがありません。",
   "message.vitalrelics.no_anvil_penalty": "手に持っているアイテムには解除できる金床ペナルティがありません。",
-
   "item.vitalrelics.bleeding_sigil": "流血の刻印",
   "tooltip.vitalrelics.bleeding_sigil": "これが刻んだ傷は、いつまでも完全には癒えない。",
   "relic.vitalrelics.passive_skill.lingering_wound": "癒えぬ傷",
   "relic.vitalrelics.passive_skill.iron_curtain": "鉄のカーテン",
   "relic.vitalrelics.spell.healing_ray": "治癒の光線",
-
   "relic.vitalrelics.passive_skill.grave_dominion": "墓域支配",
   "relic.vitalrelics.spell.grave_shift": "葬地位移",
   "item.vitalrelics.gravebound_bracelet": "墓缚手环",
   "tooltip.vitalrelics.gravebound_bracelet": "将附近的生物拖入地下，也能直接埋葬选中的目标。",
-
-  "message.vitalrelics.grave_shift_invalid_range": "葬地位移は射程が無効なため発動できません。",
-  "message.vitalrelics.grave_shift_requires_hostile_target": "葬地位移には敵対対象が必要です。",
-
   "item.vitalrelics.enderkeeper_bracelet": "エンダーキーパーの腕輪",
   "tooltip.vitalrelics.enderkeeper_bracelet": "どれほど離れていても、自分のエンダーチェストを開ける。",
   "relic.vitalrelics.spell.open_ender_chest": "エンダーチェストを開く",
@@ -278,7 +243,6 @@
   "relic.vitalrelics.passive_skill.healing_aura": "治癒のオーラ",
   "item.vitalrelics.haste_ring": "採掘迅速の指輪",
   "tooltip.vitalrelics.haste_ring": "琥珀色の輝きが、道具に岩を削り抜く驚異的な速さを与える。",
-
   "relic.vitalrelics.passive_skill.fire_resistance": "火炎耐性",
   "relic.vitalrelics.passive_skill.lava_swimmer": "溶岩遊泳",
   "item.vitalrelics.undead_badge": "アンデッドのバッジ",
@@ -356,5 +320,11 @@
   "relic.vitalrelics.spell.borebolt": "穿岩矢",
   "item.vitalrelics.discord_bracelet": "不和の腕輪",
   "tooltip.vitalrelics.discord_bracelet": "狙った生物に、最も近い別の生物を即座に攻撃させる。味方や使用者も対象になる。",
-  "relic.vitalrelics.spell.compel_attack": "強制攻撃"
+  "relic.vitalrelics.spell.compel_attack": "強制攻撃",
+  "item.vitalrelics.prospector_ring": "探鉱者の指輪",
+  "tooltip.vitalrelics.prospector_ring": "手に持ったアイテムに幸運 III を一時的に与える。",
+  "relic.vitalrelics.passive_skill.fortune": "幸運",
+  "item.vitalrelics.reaper_ring": "収穫者の指輪",
+  "tooltip.vitalrelics.reaper_ring": "手に持ったアイテムにドロップ増加 III を一時的に与える。",
+  "relic.vitalrelics.passive_skill.looting": "ドロップ増加"
 }

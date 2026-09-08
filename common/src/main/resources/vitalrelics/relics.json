@@ -86,7 +86,7 @@
       "curio_slot": "ring",
       "rarity": "uncommon",
       "passive_skills": {
-        "cinder_brand": 5.0
+        "cinder_brand": 5
       }
     },
     {
@@ -234,7 +234,7 @@
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
-        "slowing_aura": 10.0
+        "slowing_aura": 10
       }
     },
     {
@@ -245,7 +245,7 @@
       "curio_slot": "ring",
       "rarity": "uncommon",
       "passive_skills": {
-        "tree_feller": 1.0
+        "tree_feller": 1
       }
     },
     {
@@ -256,7 +256,7 @@
       "curio_slot": "ring",
       "rarity": "rare",
       "passive_skills": {
-        "area_mining": 2.0
+        "area_mining": 2
       }
     },
     {
@@ -268,8 +268,8 @@
       "rarity": "rare",
       "available_spells": {
         "borebolt": {
-          "speed": 2.0,
-          "durability": 40.0,
+          "speed": 2,
+          "durability": 40,
           "durability_loss_per_tick": 0.25,
           "recovery": 0.2
         }
@@ -284,8 +284,8 @@
       "rarity": "rare",
       "available_spells": {
         "compel_attack": {
-          "range": 24.0,
-          "search_range": 32.0,
+          "range": 24,
+          "search_range": 32,
           "recovery": 0.1
         }
       }
@@ -901,7 +901,7 @@
           "add": 6
         },
         "entity_interaction_range": {
-          "add": 1.0
+          "add": 1
         },
         "armor": {
           "add": 6
@@ -1501,6 +1501,28 @@
       },
       "enemy_spawn": {
         "minecraft:ender_dragon": 0.3
+      }
+    },
+    {
+      "id": "prospector_ring",
+      "display_name": "Prospector's Ring",
+      "tooltip": "Temporarily grants Fortune III to the held item.",
+      "texture": "ring_prospector.png",
+      "curio_slot": "ring",
+      "rarity": "uncommon",
+      "passive_skills": {
+        "fortune": 3
+      }
+    },
+    {
+      "id": "reaper_ring",
+      "display_name": "Reaper's Ring",
+      "tooltip": "Temporarily grants Looting III to the held item.",
+      "texture": "ring_reaper.png",
+      "curio_slot": "ring",
+      "rarity": "uncommon",
+      "passive_skills": {
+        "looting": 3
       }
     }
   ]

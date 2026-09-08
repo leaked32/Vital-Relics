@@ -917,6 +917,34 @@
         "C": "vitalrelics:rare_relic_core"
       },
       "count": 1
+    },
+    "prospector_ring": {
+      "type": "shaped",
+      "pattern": [
+        " L ",
+        "GDG",
+        " G "
+      ],
+      "key": {
+        "L": "minecraft:lapis_lazuli",
+        "G": "minecraft:gold_ingot",
+        "D": "minecraft:diamond"
+      },
+      "count": 1
+    },
+    "reaper_ring": {
+      "type": "shaped",
+      "pattern": [
+        " B ",
+        "GDG",
+        " G "
+      ],
+      "key": {
+        "B": "minecraft:bone",
+        "G": "minecraft:gold_ingot",
+        "D": "minecraft:diamond"
+      },
+      "count": 1
     }
   },
   "loot": {
@@ -1494,6 +1522,18 @@
       {
         "table": "minecraft:chests/stronghold_corridor",
         "chance": 0.04
+      }
+    ],
+    "prospector_ring": [
+      {
+        "table": "minecraft:chests/abandoned_mineshaft",
+        "chance": 0.06
+      }
+    ],
+    "reaper_ring": [
+      {
+        "table": "minecraft:chests/simple_dungeon",
+        "chance": 0.06
       }
     ]
   }

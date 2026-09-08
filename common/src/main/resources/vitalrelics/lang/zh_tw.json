@@ -3,7 +3,6 @@
     "version": "0.6.2",
     "customized": false
   },
-
   "itemGroup.vitalrelics": "生命遺物",
   "key.categories.vitalrelics": "生命遺物",
   "key.vitalrelics.cast_spell": "施放法術",
@@ -106,7 +105,6 @@
   "tooltip.vitalrelics.gilded_circlet": "沾染微弱天光的簡樸金色頭環。",
   "tooltip.vitalrelics.astral_halo": "水晶中蘊藏著寧靜星界守護的纖細光環。",
   "tooltip.vitalrelics.celestial_aegis": "以天界守護庇護佩戴者的神聖光環。",
-
   "relic.vitalrelics.passive_skill.flight": "飛行",
   "relic.vitalrelics.passive_skill.metal_mending": "金屬修復",
   "relic.vitalrelics.passive_skill.reality_severance": "現實斬斷",
@@ -114,7 +112,6 @@
   "relic.vitalrelics.passive_skill.empowered_arrows": "強化箭矢",
   "relic.vitalrelics.passive_skill.lifesteal": "生命偷取",
   "relic.vitalrelics.passive_skill.thorns": "荊棘",
-
   "relic.vitalrelics.spell.heal": "治療",
   "relic.vitalrelics.spell.cleanse": "淨化",
   "relic.vitalrelics.spell.dash": "突進",
@@ -122,7 +119,6 @@
   "relic.vitalrelics.spell.repulse": "斥力衝擊",
   "relic.vitalrelics.spell.absorption": "傷害吸收",
   "relic.vitalrelics.spell.sky_launch": "升空",
-
   "item.vitalrelics.healing_bracelet": "治療手環",
   "item.vitalrelics.cleansing_bracelet": "淨化手環",
   "item.vitalrelics.windstep_bracelet": "風行手環",
@@ -132,7 +128,6 @@
   "item.vitalrelics.repulsion_bracelet": "斥力手環",
   "item.vitalrelics.warding_bracelet": "守護手環",
   "item.vitalrelics.skycaller_bracelet": "喚天手環",
-
   "tooltip.vitalrelics.healing_bracelet": "儲存著少量用於恢復生命的魔力。",
   "tooltip.vitalrelics.cleansing_bracelet": "淨化佩戴者身上的有害效果。",
   "tooltip.vitalrelics.windstep_bracelet": "釋放一股力量，使佩戴者迅速向前突進。",
@@ -142,28 +137,20 @@
   "tooltip.vitalrelics.repulsion_bracelet": "釋放猛烈的衝擊，將附近的敵人擊退。",
   "tooltip.vitalrelics.warding_bracelet": "以暫時的生命護盾保護佩戴者。",
   "tooltip.vitalrelics.skycaller_bracelet": "釋放突如其來的重力異變，將附近的敵人拋向空中。",
-
   "relic.vitalrelics.spell.shadow_exchange": "暗影交換",
   "relic.vitalrelics.spell.phantom_step": "幻影步",
-
   "item.vitalrelics.shadow_exchange_bracelet": "暗影交換手環",
   "item.vitalrelics.phantom_step_bracelet": "幻影步手環",
-
   "tooltip.vitalrelics.shadow_exchange_bracelet": "藉由一瞬暗影，與敵人交換所在位置。",
   "tooltip.vitalrelics.phantom_step_bracelet": "如幻影般穿越戰場，並斬擊沿途的敵人。",
-
   "relic.vitalrelics.spell.upgrade_enchanted_book": "附魔強化",
-
   "item.vitalrelics.enchanters_bracelet": "附魔師手環",
   "tooltip.vitalrelics.enchanters_bracelet": "將經驗注入手持的附魔書，提升其中一項附魔的等級。",
-
   "message.vitalrelics.enchant_upgrade_insufficient_experience": "經驗不足。需要等級：%s",
   "message.vitalrelics.enchant_upgrade_success": "附魔已提升至 %s 級。",
-
   "item.vitalrelics.windward_bracelet": "御風手環",
   "tooltip.vitalrelics.windward_bracelet": "偏轉一次來襲的箭矢，隨後進入短暫冷卻。",
   "relic.vitalrelics.passive_skill.arrow_deflection": "箭矢偏轉",
-
   "guide.vitalrelics.section.effective_slots": "生效欄位",
   "guide.vitalrelics.section.properties": "屬性",
   "guide.vitalrelics.section.granted_effects": "持續效果",
@@ -174,52 +161,41 @@
   "guide.vitalrelics.section.callbacks": "觸發效果",
   "guide.vitalrelics.section.enemy_spawn": "敵對生物生成",
   "guide.vitalrelics.section.acquisition": "取得方式",
-
   "guide.vitalrelics.property.add": "%s：+%s",
   "guide.vitalrelics.property.mul_base": "%s基礎值：×%s",
   "guide.vitalrelics.property.mul_total": "%s總值：×%s",
-
   "guide.vitalrelics.effect.granted": "%s %s",
   "guide.vitalrelics.passive_skill": "%s：%s",
   "guide.vitalrelics.parameter": "  %s：%s",
-
   "guide.vitalrelics.tick.interval": "  間隔：%s",
   "guide.vitalrelics.tick.add": "  增加：%s",
   "guide.vitalrelics.tick.ratio": "  比例：%s",
-
   "guide.vitalrelics.callback.modifier": "  倍率：×%s",
   "guide.vitalrelics.callback.flat": "  固定值：%s",
   "guide.vitalrelics.callback.minimum": "  最低值：%s",
   "guide.vitalrelics.callback.ratio_minimum": "  最低比例：%s",
   "guide.vitalrelics.callback.maximum": "  最高值：%s",
   "guide.vitalrelics.callback.ratio_maximum": "  最高比例：%s",
-
   "guide.vitalrelics.enemy_spawn": "%s：%s",
-
   "guide.vitalrelics.acquisition.unavailable": "無法透過正常生存模式取得",
   "guide.vitalrelics.acquisition.none": "未設定取得方式",
   "guide.vitalrelics.acquisition.loot": "戰利品：%s（%s）",
   "guide.vitalrelics.acquisition.crafting": "合成：%s",
   "guide.vitalrelics.acquisition.output": "  產物數量：%s",
-
   "guide.vitalrelics.title": "生命遺物",
   "guide.vitalrelics.empty": "沒有已載入的遺物。",
   "guide.vitalrelics.rarity_slot": "%s · %s",
-
   "guide.vitalrelics.rarity.common": "普通",
   "guide.vitalrelics.rarity.uncommon": "優良",
   "guide.vitalrelics.rarity.rare": "稀有",
   "guide.vitalrelics.rarity.epic": "史詩",
-
   "guide.vitalrelics.slot.charm": "護符",
   "guide.vitalrelics.slot.ring": "戒指",
   "guide.vitalrelics.slot.bracelet": "手鐲",
-
   "guide.vitalrelics.search": "搜尋...",
   "tooltip.vitalrelics.celestial_wings": "賦予佩戴者翱翔天空的自由。",
   "item.vitalrelics.archers_emblem": "弓手徽記",
   "tooltip.vitalrelics.archers_emblem": "強化佩戴者射出的箭矢。",
-
   "relic.vitalrelics.spell.enchantment_ascension": "附魔昇華",
   "item.vitalrelics.arcane_reforging_charm": "奧術重鑄護符",
   "tooltip.vitalrelics.arcane_reforging_charm": "精煉附魔裝備，強化其魔力或淨化鐵砧作業累積的懲罰。",
@@ -227,39 +203,31 @@
   "message.vitalrelics.item_not_enchanted": "主手物品未附魔。",
   "message.vitalrelics.enchantments_at_maximum": "所有附魔均已達到最高等級。",
   "message.vitalrelics.nothing_to_purify": "主手物品沒有可淨化的詛咒或鐵砧懲罰。",
-
   "guide.vitalrelics.introduction.title": "入門指南",
   "guide.vitalrelics.introduction.description": "裝備遺物後，它們會賦予不同種類的能力。",
   "guide.vitalrelics.introduction.stacking.title": "疊加規則",
   "guide.vitalrelics.introduction.stacking.callbacks": "當同一種遺物裝備在不同欄位時，其回呼與屬性可以疊加。裝備在同一欄位中的多個相同遺物不會重複計算。",
   "guide.vitalrelics.introduction.stacking.passive_skills": "如果多個已裝備的遺物提供相同的被動技能，則只有其中最高等級的效果會生效。",
   "guide.vitalrelics.introduction.stacking.spells": "每個法術都屬於其獨有的遺物，因此無需考慮法術疊加問題。",
-
   "message.vitalrelics.disenchantment_book_required": "請在副手持有一本書。",
   "message.vitalrelics.disenchantment_no_removable_enchantment": "手持物品上沒有可移除的附魔。",
   "message.vitalrelics.disenchantment_success": "附魔已轉移至書中。",
-
   "relic.vitalrelics.spell.purify_curse": "淨化詛咒",
   "relic.vitalrelics.spell.purify_penalty": "淨化鐵砧懲罰",
   "relic.vitalrelics.spell.disenchantment": "祛魔",
-
   "message.vitalrelics.no_curse": "手持物品沒有可移除的詛咒。",
   "message.vitalrelics.no_anvil_penalty": "手持物品沒有可移除的鐵砧懲罰。",
-
   "item.vitalrelics.bleeding_sigil": "流血刻印",
   "tooltip.vitalrelics.bleeding_sigil": "由它撕開的每一道傷口都久久無法癒合。",
   "relic.vitalrelics.passive_skill.lingering_wound": "不癒之傷",
   "relic.vitalrelics.passive_skill.iron_curtain": "鋼鐵帷幕",
   "relic.vitalrelics.spell.healing_ray": "治癒射線",
-
   "relic.vitalrelics.passive_skill.grave_dominion": "墓域支配",
   "relic.vitalrelics.spell.grave_shift": "葬地位移",
   "item.vitalrelics.gravebound_bracelet": "墓縛手環",
   "tooltip.vitalrelics.gravebound_bracelet": "將附近的生物拖入地下，也能直接埋葬選中的目標。",
-
   "message.vitalrelics.grave_shift_invalid_range": "葬地位移無法施放：設定的範圍無效。",
   "message.vitalrelics.grave_shift_requires_hostile_target": "葬地位移需要一個敵對目標。",
-
   "item.vitalrelics.enderkeeper_bracelet": "終界守護手環",
   "tooltip.vitalrelics.enderkeeper_bracelet": "無論相隔多遠，都能讓佩戴者開啟自己的終界箱。",
   "relic.vitalrelics.spell.open_ender_chest": "開啟終界箱",
@@ -275,7 +243,6 @@
   "relic.vitalrelics.passive_skill.healing_aura": "治療光環",
   "item.vitalrelics.haste_ring": "挖掘加速戒指",
   "tooltip.vitalrelics.haste_ring": "琥珀色的火花賦予工具不可思議的破岩速度。",
-
   "relic.vitalrelics.passive_skill.fire_resistance": "火焰抗性",
   "relic.vitalrelics.passive_skill.lava_swimmer": "熔岩泳者",
   "item.vitalrelics.undead_badge": "不死族徽章",
@@ -353,5 +320,11 @@
   "relic.vitalrelics.spell.borebolt": "穿岩箭",
   "item.vitalrelics.discord_bracelet": "紛爭手鐲",
   "tooltip.vitalrelics.discord_bracelet": "令指向的生物立即攻擊離它最近的其他生物，即使對方是盟友或你。",
-  "relic.vitalrelics.spell.compel_attack": "強制攻擊"
+  "relic.vitalrelics.spell.compel_attack": "強制攻擊",
+  "item.vitalrelics.prospector_ring": "勘探者戒指",
+  "tooltip.vitalrelics.prospector_ring": "暫時為手持物品賦予幸運 III。",
+  "relic.vitalrelics.passive_skill.fortune": "幸運",
+  "item.vitalrelics.reaper_ring": "收割者戒指",
+  "tooltip.vitalrelics.reaper_ring": "暫時為手持物品賦予掠奪 III。",
+  "relic.vitalrelics.passive_skill.looting": "掠奪"
 }

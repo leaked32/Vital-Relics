@@ -23,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.level.ClipContext;
@@ -40,6 +41,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.List;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
@@ -48,6 +50,11 @@ import static com.example.vitalrelics.Utils.message;
 
 public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 	public static final ForgeRuntimeUtils INSTANCE = new ForgeRuntimeUtils();
+	private final Map<UUID, HeldEnchantments> heldEnchantments = new HashMap<>();
+
+	private record HeldEnchantments(ItemStack stack, int originalFortune, int originalLooting,
+			int grantedFortune, int grantedLooting) {
+	}
 
 	private ForgeRuntimeUtils() {}
 
@@ -1010,5 +1017,54 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 		);
 
 		return true;
+	}
+
+	@Override
+	public void syncHeldEnchantments(final MyLivingEntity abstractEntity,
+			final int fortuneLevel, final int lootingLevel) {
+		final LivingEntity entity = nativeEntity(abstractEntity);
+		if (!(entity instanceof ServerPlayer player)) return;
+		final UUID uuid = player.getUUID();
+		final ItemStack stack = player.getMainHandItem();
+		final int fortune = Math.min(3, Math.max(0, fortuneLevel));
+		final int looting = Math.min(3, Math.max(0, lootingLevel));
+		final HeldEnchantments previous = heldEnchantments.get(uuid);
+		if (previous != null && (previous.stack() != stack || previous.grantedFortune() != fortune || previous.grantedLooting() != looting)) {
+			restoreHeldEnchantments(previous);
+			heldEnchantments.remove(uuid);
+		}
+		if (stack.isEmpty() || (fortune == 0 && looting == 0) || heldEnchantments.containsKey(uuid)) return;
+		final Map<Enchantment, Integer> enchantments = new HashMap<>(EnchantmentHelper.getEnchantments(stack));
+		final int originalFortune = enchantments.getOrDefault(Enchantments.BLOCK_FORTUNE, 0);
+		final int originalLooting = enchantments.getOrDefault(Enchantments.MOB_LOOTING, 0);
+		if (fortune > originalFortune) enchantments.put(Enchantments.BLOCK_FORTUNE, fortune);
+		if (looting > originalLooting) enchantments.put(Enchantments.MOB_LOOTING, looting);
+		EnchantmentHelper.setEnchantments(enchantments, stack);
+		heldEnchantments.put(uuid, new HeldEnchantments(stack, originalFortune, originalLooting, fortune, looting));
+	}
+
+	@Override
+	public void clearHeldEnchantments(final UUID uuid) {
+		final HeldEnchantments held = heldEnchantments.remove(uuid);
+		if (held != null) restoreHeldEnchantments(held);
+	}
+
+	@Override
+	public void clearHeldEnchantments() {
+		for (final HeldEnchantments held : heldEnchantments.values()) restoreHeldEnchantments(held);
+		heldEnchantments.clear();
+	}
+
+	private static void restoreHeldEnchantments(final HeldEnchantments held) {
+		final Map<Enchantment, Integer> enchantments = new HashMap<>(EnchantmentHelper.getEnchantments(held.stack()));
+		restoreEnchantment(enchantments, Enchantments.BLOCK_FORTUNE, held.originalFortune(), held.grantedFortune());
+		restoreEnchantment(enchantments, Enchantments.MOB_LOOTING, held.originalLooting(), held.grantedLooting());
+		EnchantmentHelper.setEnchantments(enchantments, held.stack());
+	}
+
+	private static void restoreEnchantment(final Map<Enchantment, Integer> enchantments, final Enchantment enchantment,
+			final int original, final int granted) {
+		if (granted <= original || enchantments.getOrDefault(enchantment, 0) != granted) return;
+		if (original == 0) enchantments.remove(enchantment); else enchantments.put(enchantment, original);
 	}
 }
