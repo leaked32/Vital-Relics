@@ -764,14 +764,16 @@
       "passive_skills": {
         "reality_severance": 4.5
       },
-      "granted_effects": {
-        "strength": 2
-      },
       "available_spells": {
         "curse": {
           "intensity": 1,
           "range": 64,
           "recovery": 0.5
+        }
+      },
+      "properties": {
+        "attack_damage": {
+          "add": 4
         }
       },
       "callbacks": {
