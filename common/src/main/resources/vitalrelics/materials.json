@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "version": "0.7.19",
+    "customized": false
+  },
+
+  "ingredients": [
+    {
+      "id": "common_relic_core",
+      "texture": "common_relic_core.png",
+      "rarity": "common"
+    },
+    {
+      "id": "uncommon_relic_core",
+      "texture": "uncommon_relic_core.png",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "rare_relic_core",
+      "texture": "rare_relic_core.png",
+      "rarity": "rare"
+    },
+    {
+      "id": "epic_relic_core",
+      "texture": "epic_relic_core.png",
+      "rarity": "epic"
+    }
+  ]
+}
