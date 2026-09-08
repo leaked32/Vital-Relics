@@ -97,9 +97,12 @@ Available Passive skills:
 - `no_fly_zone`: Every half second, moves hostile living entities within level blocks
      onto the first collidable surface beneath them.
      The radius in blocks equals the skill level.
-- `slowing_aura`: Grants all hostile living entities Slowness 3 in level range.
-- `tree_feller`: Level does not matter.
-- `area_mining`: Ranged mining with mining context (fortune level, silk touch) preserved.
+- `slowing_aura`: Every 20 ticks, applies Slowness III for 60 ticks to hostile
+     living entities within `level` blocks.
+- `tree_feller`: Any positive level enables bounded, connected-log felling with
+     the player's held tool.
+- `area_mining`: Mines nearby blocks within `level` blocks while preserving
+     the player's held tool and normal mining context.
 
 Example
 ```json
@@ -205,10 +208,10 @@ Available Spells
 - `open_ender_chest`: Opens the caster's Ender Chest.
 - `return_to_bed`: Teleports the caster to a safe standing position beside their
      respawn bed. The spell fails if the bed is missing or obstructed.
-- `borebolt`: Launches an arrow along the visual sight, the arrow destroys the blocks blocked it,
-     arrow disappears after the durability drains.
-- `compel_attack`: Make the target living entity attack the nearest living entity
-     (excluding the caster).
+- `borebolt`: Fires a non-recoverable arrow that spends durability over time and
+     when boring through blocks. Its block drops use an unenchanted Netherite Pickaxe.
+- `compel_attack`: Forces the pointed living entity to strike its nearest eligible
+     living neighbor immediately. The compelled creature and caster are excluded.
 
 Recovery / Cooldown
 ```text
@@ -223,8 +226,36 @@ cooldown_seconds = 1 / recovery
 
 ## Mining and control relics
 
-- `slowing_aura`: every 20 ticks, applies Slowness III (amplifier 2) for 60 ticks to hostile living entities within `level` blocks. Frostbind Ring: level 10.
-- `tree_feller`: positive level enables connected-log felling after a successful log break. Timberheart Ring: level 1. Leaves decay naturally. The search is bounded to 32 blocks and 512 additional logs; touching log structures can also be felled.
-- `area_mining`: after a successful break, mines blocks of any type within `level` blocks of that block. Quarry Ring: level 2. Radius is capped at 8, and one operation breaks at most 512 additional blocks. Both mining skills use the actual held tool and player context (Fortune, Silk Touch, tool suitability, durability, XP and protection events). Sneaking disables expansion; changing or breaking the tool stops it. They do not recursively expand their own generated breaks.
-- `borebolt`: `speed` (default 2 blocks/tick, maximum 10), `durability` (40), `durability_loss_per_tick` (0.25), `recovery` (0.2). Remaining durability must be strictly greater than block hardness; successful breaks subtract hardness. Unbreakable or protected blocks stop the arrow. Zero tick loss is allowed. Spell arrows cannot be picked up and expire on unload/restart. Normal arrow-hit passives remain active; block breaks can trigger the owner's mining passives using their currently held tool.
-- `compel_attack`: `range` (24) selects the pointed living entity; `search_range` (32) finds its nearest other living entity; `recovery` (0.1). Both ranges cap at 256. The target immediately makes an attributed melee strike without an AI, allegiance, or reach check. The caster can be hit. Creatures without an attack-damage attribute deal 1 health; other targets use at least 1 health of attack damage. Normal damage protections/events still apply; this does not rewrite AI goals.
+- `slowing_aura`: Every 20 ticks, applies Slowness III (amplifier 2) for 60 ticks
+  to hostile living entities within `level` blocks. The Frostbind Ring uses level 10,
+  so affected targets remain slowed between refreshes.
+- `tree_feller`: Any positive level enables the effect. After the player successfully
+  breaks a log, connected logs are mined with the same held tool and mining context.
+  The search includes diagonal connections, stays within 32 blocks of the first log,
+  and breaks at most 512 additional logs. Leaves decay naturally. Sneaking disables
+  the effect; changing or breaking the tool stops it. Connected log buildings can
+  therefore be felled as well.
+- `area_mining`: After a successful block break, mines nearby blocks of any type
+  within `level` blocks, nearest first. The radius is capped at 8, and one operation
+  breaks at most 512 additional blocks. It preserves the held tool, Fortune,
+  Silk Touch, tool suitability, durability loss, experience drops, and block-break
+  events. Sneaking disables the effect; changing or breaking the tool stops it.
+  Generated breaks do not recursively start another expansion. The Quarry Ring uses
+  level 2.
+- `borebolt`: Fires an arrow along the caster's sight line. `speed` defaults to
+  2 blocks per tick and is capped at 10; `durability` defaults to 40;
+  `durability_loss_per_tick` defaults to 0.25 and may be 0; `recovery` defaults
+  to 0.2. The arrow can break a block only while its remaining durability is strictly
+  greater than that block's hardness, then spends durability equal to the hardness.
+  Insufficient durability, an unbreakable block, or a denied interaction destroys
+  the arrow. Drops are calculated as if mined with a fresh, unenchanted Netherite
+  Pickaxe; the caster's held item and enchantments are never modified. Borebolt arrows
+  cannot be picked up, do not survive unloads or restarts, and retain normal arrow-hit
+  passive effects.
+- `compel_attack`: `range` defaults to 24 and selects the pointed living creature;
+  `search_range` defaults to 32 and finds the nearest living creature other than
+  the compelled creature and caster; `recovery` defaults to 0.1. Both ranges are
+  capped at 256. The compelled creature immediately performs one attributed melee
+  strike without waiting for AI goals, allegiance checks, or normal reach. Creatures
+  without an attack-damage attribute deal 1 damage; all others deal at least 1.
+  Normal damage protections and events still apply, and AI goals are not rewritten.
