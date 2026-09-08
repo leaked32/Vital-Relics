@@ -164,6 +164,28 @@
       }
     },
     {
+      "id": "prospector_ring",
+      "display_name": "Prospector's Ring",
+      "tooltip": "Temporarily grants Fortune III to the held item.",
+      "texture": "ring_prospector.png",
+      "curio_slot": "ring",
+      "rarity": "uncommon",
+      "passive_skills": {
+        "fortune": 3
+      }
+    },
+    {
+      "id": "reaper_ring",
+      "display_name": "Reaper's Ring",
+      "tooltip": "Temporarily grants Looting III to the held item.",
+      "texture": "ring_reaper.png",
+      "curio_slot": "ring",
+      "rarity": "uncommon",
+      "passive_skills": {
+        "looting": 3
+      }
+    },
+    {
       "id": "temporal_guard_ring",
       "display_name": "Ring of Temporal Guard",
       "tooltip": "A ring that preserves a brief moment of protection after each blow.",
@@ -1501,28 +1523,6 @@
       },
       "enemy_spawn": {
         "minecraft:ender_dragon": 0.3
-      }
-    },
-    {
-      "id": "prospector_ring",
-      "display_name": "Prospector's Ring",
-      "tooltip": "Temporarily grants Fortune III to the held item.",
-      "texture": "ring_prospector.png",
-      "curio_slot": "ring",
-      "rarity": "uncommon",
-      "passive_skills": {
-        "fortune": 3
-      }
-    },
-    {
-      "id": "reaper_ring",
-      "display_name": "Reaper's Ring",
-      "tooltip": "Temporarily grants Looting III to the held item.",
-      "texture": "ring_reaper.png",
-      "curio_slot": "ring",
-      "rarity": "uncommon",
-      "passive_skills": {
-        "looting": 3
       }
     }
   ]

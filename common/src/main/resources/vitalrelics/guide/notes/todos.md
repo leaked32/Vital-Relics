@@ -15,6 +15,7 @@ A new bracelet that has a new spell which makes the target attacks the nearest l
 
 Please add them with translations, and generate the textures with the art guideline of Minecraft.
 
+Please re-generate the textures with the art guideline of Minecraft.
 
 ## Upgradable
 - Update all (bracelet, ring) textures with only duplicated colored ones.
