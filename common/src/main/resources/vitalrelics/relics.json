@@ -243,7 +243,7 @@
       "tooltip": "Break a log to fell connected logs with your held tool. Sneak to disable; leaves decay naturally.",
       "texture": "timberheart_ring.png",
       "curio_slot": "ring",
-      "rarity": "rare",
+      "rarity": "uncommon",
       "passive_skills": {
         "tree_feller": 1.0
       }
