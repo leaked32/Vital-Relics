@@ -320,11 +320,5 @@
   "relic.vitalrelics.spell.borebolt": "Borebolt",
   "item.vitalrelics.discord_bracelet": "Discord Bracelet",
   "tooltip.vitalrelics.discord_bracelet": "Compels the pointed creature to strike its nearest living neighbor immediately, even an ally or you.",
-  "relic.vitalrelics.spell.compel_attack": "Compel Attack",
-  "item.vitalrelics.prospector_ring": "Prospector's Ring",
-  "tooltip.vitalrelics.prospector_ring": "Temporarily grants Fortune III to the held item.",
-  "relic.vitalrelics.passive_skill.fortune": "Fortune",
-  "item.vitalrelics.reaper_ring": "Reaper's Ring",
-  "tooltip.vitalrelics.reaper_ring": "Temporarily grants Looting III to the held item.",
-  "relic.vitalrelics.passive_skill.looting": "Looting"
+  "relic.vitalrelics.spell.compel_attack": "Compel Attack"
 }

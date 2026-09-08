@@ -48,6 +48,4 @@ public interface MyRuntimeUtils {
 	boolean resetRepairCost(MyLivingEntity entity, int experienceCost);
 	boolean disenchantToOffhandBook(MyLivingEntity entity, int experienceCost);
 
-	void clearHeldEnchantments(UUID uuid);
-	void clearHeldEnchantments();
 }

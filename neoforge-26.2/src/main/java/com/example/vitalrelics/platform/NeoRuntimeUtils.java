@@ -43,7 +43,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.List;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
@@ -59,10 +58,6 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 			player.sendSystemMessage(message);
 	}
 	public static final NeoRuntimeUtils INSTANCE = new NeoRuntimeUtils();
-	private final java.util.Map<UUID, HeldEnchantments> heldEnchantments = new HashMap<>();
-
-	private record HeldEnchantments(ItemStack stack, Holder<Enchantment> fortune, Holder<Enchantment> looting,
-			int originalFortune, int originalLooting, int grantedFortune, int grantedLooting) { }
 
 	private NeoRuntimeUtils() {}
 
@@ -1053,27 +1048,4 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 		return true;
 	}
 
-	@Override public void clearHeldEnchantments(final UUID uuid) {
-		final HeldEnchantments held = heldEnchantments.remove(uuid);
-		if (held != null) restoreHeldEnchantments(held);
-	}
-
-	@Override public void clearHeldEnchantments() {
-		for (final HeldEnchantments held : heldEnchantments.values()) restoreHeldEnchantments(held);
-		heldEnchantments.clear();
-	}
-
-	private static void restoreHeldEnchantments(final HeldEnchantments held) {
-		final ItemEnchantments current = held.stack().getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
-		final ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(current);
-		restoreEnchantment(mutable, current, held.fortune(), held.originalFortune(), held.grantedFortune());
-		restoreEnchantment(mutable, current, held.looting(), held.originalLooting(), held.grantedLooting());
-		held.stack().set(DataComponents.ENCHANTMENTS, mutable.toImmutable());
-	}
-
-	private static void restoreEnchantment(final ItemEnchantments.Mutable mutable, final ItemEnchantments current,
-			final Holder<Enchantment> enchantment, final int original, final int granted) {
-		if (granted <= original || current.getLevel(enchantment) != granted) return;
-		mutable.set(enchantment, original);
-	}
 }

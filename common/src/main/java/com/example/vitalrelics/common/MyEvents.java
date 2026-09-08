@@ -386,12 +386,10 @@ public final class MyEvents {
 	 */
 
 	public static void onPlayerLoggedOut(final UUID uuid) {
-		MyRuntime.getRuntimeUtils().clearHeldEnchantments(uuid);
 		Scheduler.INSTANCE().clearEntity(uuid);
 	}
 
 	public static void onServerStopping() {
-		MyRuntime.getRuntimeUtils().clearHeldEnchantments();
 		Scheduler.INSTANCE().clear();
 	}
 }

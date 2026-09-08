@@ -320,11 +320,5 @@
   "relic.vitalrelics.spell.borebolt": "穿岩矢",
   "item.vitalrelics.discord_bracelet": "不和の腕輪",
   "tooltip.vitalrelics.discord_bracelet": "狙った生物に、最も近い別の生物を即座に攻撃させる。味方や使用者も対象になる。",
-  "relic.vitalrelics.spell.compel_attack": "強制攻撃",
-  "item.vitalrelics.prospector_ring": "探鉱者の指輪",
-  "tooltip.vitalrelics.prospector_ring": "手に持ったアイテムに幸運 III を一時的に与える。",
-  "relic.vitalrelics.passive_skill.fortune": "幸運",
-  "item.vitalrelics.reaper_ring": "収穫者の指輪",
-  "tooltip.vitalrelics.reaper_ring": "手に持ったアイテムにドロップ増加 III を一時的に与える。",
-  "relic.vitalrelics.passive_skill.looting": "ドロップ増加"
+  "relic.vitalrelics.spell.compel_attack": "強制攻撃"
 }

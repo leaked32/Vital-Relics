@@ -13,7 +13,9 @@ import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -113,7 +115,7 @@ public final class RelicMining {
             BlockPos pos = hit.getBlockPos();
             if (!level.hasChunkAt(pos)) { arrow.discard(); return true; }
             double hardness = level.getBlockState(pos).getDestroySpeed(level, pos);
-            if (!durability.canBreak(hardness) || !destroy(owner, pos)) { arrow.discard(); return true; }
+            if (!durability.canBreak(hardness) || !destroyBorebolt(owner, pos)) { arrow.discard(); return true; }
             durability.spend(hardness);
             // Recheck the remaining segment: canceling one impact must not tunnel through a second wall.
             Vec3 from = hit.getLocation().add(direction.scale(0.00001));
@@ -128,5 +130,22 @@ public final class RelicMining {
     public static void clear() {
         ARROWS.keySet().forEach(AbstractArrow::discard);
         ARROWS.clear(); EXPANDING.clear();
+    }
+
+    private static boolean destroyBorebolt(ServerPlayer player, BlockPos pos) {
+        ServerLevel level = (ServerLevel) player.level();
+        if (!level.hasChunkAt(pos) || !level.mayInteract(player, pos)) return false;
+        BlockState state = level.getBlockState(pos);
+        if (state.isAir() || state.getDestroySpeed(level, pos) < 0) return false;
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        state.getBlock().playerWillDestroy(level, pos, state, player);
+        if (!level.removeBlock(pos, false)) return false;
+        state.getBlock().destroy(level, pos, state);
+        // Borebolt has no held tool. Use an unenchanted Netherite Pickaxe only as
+        // the vanilla loot context; never modify the player's item or enchantments.
+        ItemStack tool = new ItemStack(Items.NETHERITE_PICKAXE);
+        if (!state.requiresCorrectToolForDrops() || tool.isCorrectToolForDrops(state))
+            state.getBlock().playerDestroy(level, player, pos, state, blockEntity, tool);
+        return true;
     }
 }
