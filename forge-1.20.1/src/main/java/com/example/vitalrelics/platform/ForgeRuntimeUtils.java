@@ -900,9 +900,9 @@ public final class ForgeRuntimeUtils implements MyRuntimeUtils {
 		for (final ServerLevel level : server.getAllLevels()) {
 			final Entity entity = level.getEntity(uuid);
 
-			if (entity instanceof LivingEntity livingEntity &&
-					!livingEntity.isRemoved() &&
-					!livingEntity.isDeadOrDying())
+			if (entity != null && !entity.isRemoved() &&
+					(!(entity instanceof LivingEntity livingEntity) ||
+							!livingEntity.isDeadOrDying()))
 				return true;
 		}
 

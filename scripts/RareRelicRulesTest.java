@@ -86,10 +86,12 @@ public class RareRelicRulesTest {
         MyLivingEntity[] pointed = {null};
         MyLivingEntity[] strike = new MyLivingEntity[2];
         double[] parameters = new double[2];
+        Set<UUID> validEntities = new HashSet<>();
         MyRuntime.initialize((MyRuntimeUtils) Proxy.newProxyInstance(RareRelicRulesTest.class.getClassLoader(),new Class[]{MyRuntimeUtils.class},(self,method,arguments)-> {
             if (method.getName().equals("pointedLivingEntity")) return pointed[0];
             if (method.getName().equals("forceAttack")) { strike[0]=(MyLivingEntity)arguments[0];strike[1]=(MyLivingEntity)arguments[1];return true; }
             if (method.getName().equals("launchBorebolt")) { for(int i=0;i<2;i++) parameters[i]=(double)arguments[i+1];return true; }
+            if (method.getName().equals("isEntityValid")) return validEntities.contains(arguments[0]);
             return defaultValue(method.getReturnType());
         }));
         Relic frost = new Relic();frost.passive_skills.put(Relic.PASSIVE_SKILL_SLOWING_AURA,10.0);
@@ -109,6 +111,7 @@ public class RareRelicRulesTest {
         check(strike[0]==pointed[0] && strike[1]==ally,"Choose the nearest living entity without an allegiance filter");
         boolean[] arrowState = new boolean[2];
         UUID arrowId = UUID.randomUUID();
+        validEntities.add(arrowId);
         MyAbstractArrow projectile = (MyAbstractArrow) Proxy.newProxyInstance(
                 RareRelicRulesTest.class.getClassLoader(),new Class[]{MyAbstractArrow.class},
                 (self,method,arguments)->switch(method.getName()) {
@@ -119,13 +122,13 @@ public class RareRelicRulesTest {
                     default -> defaultValue(method.getReturnType());
                 });
         Relic emblem = new Relic();
-        emblem.passive_skills.put(Relic.PASSIVE_SKILL_GRAVITYLESS_ARROWS,1.0);
+        emblem.passive_skills.put(Relic.PASSIVE_SKILL_GRAVITYLESS_ARROWS,10.0);
         MyEvents.onArrowShot(projectile,caster,List.of(emblem),100);
         check(arrowState[0] && !arrowState[1],"A positive passive level must disable arrow gravity immediately");
-        for(int tick=101;tick<120;tick++) Scheduler.INSTANCE().serverTick(tick);
-        check(!arrowState[1],"A level-one gravityless arrow must survive its first 19 ticks");
-        Scheduler.INSTANCE().serverTick(120);
-        check(arrowState[1],"A level-one gravityless arrow must disappear after 20 ticks");
+        for(int tick=101;tick<300;tick++) Scheduler.INSTANCE().serverTick(tick);
+        check(!arrowState[1],"A level-ten gravityless arrow must survive its first 199 ticks");
+        Scheduler.INSTANCE().serverTick(300);
+        check(arrowState[1],"A level-ten gravityless arrow must disappear after 200 ticks");
         System.out.println("PASS: durability, mining, aura, spells, forced attack and gravityless arrow lifetime");
     }
 }
