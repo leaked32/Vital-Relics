@@ -71,7 +71,7 @@ public final class RelicMining {
         return player.gameMode.destroyBlock(pos) && level.getBlockState(pos) != state;
     }
 
-    public static boolean launch(LivingEntity owner, double speed, double durability, double loss) {
+    public static boolean launch(LivingEntity owner, double speed, double durability) {
         if (!(owner instanceof ServerPlayer) || !(owner.level() instanceof ServerLevel level)) return false;
         Arrow arrow = new Arrow(EntityTypes.ARROW, level) {
             @Override
@@ -84,7 +84,7 @@ public final class RelicMining {
         Vec3 look = owner.getLookAngle();
         arrow.shoot(look.x, look.y, look.z, (float) speed, 0);
         arrow.pickup = AbstractArrow.Pickup.DISALLOWED;
-        ARROWS.put(arrow, new ArrowDurability(durability, loss));
+        ARROWS.put(arrow, new ArrowDurability(durability));
         // Owner is assigned before joining: normal empowered-arrow hooks run exactly once.
         if (!level.addFreshEntity(arrow)) { ARROWS.remove(arrow); return false; }
         return true;
@@ -96,7 +96,7 @@ public final class RelicMining {
             var entry = iterator.next();
             AbstractArrow arrow = entry.getKey();
             if (arrow.isRemoved() || !(arrow.getOwner() instanceof LivingEntity owner) || !owner.isAlive() || owner.isRemoved()
-                    || owner.level() != arrow.level() || !entry.getValue().tick()) {
+                    || owner.level() != arrow.level()) {
                 arrow.discard(); iterator.remove();
             }
         }

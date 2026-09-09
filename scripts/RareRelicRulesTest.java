@@ -46,17 +46,15 @@ public class RareRelicRulesTest {
     }
     @SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception {
-        ArrowDurability arrow = new ArrowDurability(4, 0.5);
+        ArrowDurability arrow = new ArrowDurability(4);
         check(!arrow.canBreak(4), "Equal hardness must stop the arrow");
         check(!arrow.canBreak(-1), "Unbreakable blocks must stop the arrow");
         check(!arrow.canBreak(Double.NaN), "Invalid hardness must be rejected");
         check(arrow.canBreak(3), "Lower hardness should be breakable");
         arrow.spend(3);
-        check(arrow.tick() && !arrow.tick(), "Tick decay must expire exactly at zero");
-        check(!arrow.canBreak(0), "An expired arrow cannot break even zero-hardness blocks");
-        check(new ArrowDurability(1,0).tick(), "Zero configured decay must work");
+        check(arrow.canBreak(0), "Durability must not decay over time");
         for (double invalid : new double[]{0,-1,Double.NaN,Double.POSITIVE_INFINITY}) {
-            try { new ArrowDurability(invalid,1); throw new AssertionError("Accepted invalid durability"); }
+            try { new ArrowDurability(invalid); throw new AssertionError("Accepted invalid durability"); }
             catch (IllegalArgumentException expected) {}
         }
         MiningSkills.Pos origin = new MiningSkills.Pos(0,0,0);
@@ -87,11 +85,11 @@ public class RareRelicRulesTest {
         var caster = entity(0,List.of(enemy,outside,ally),Set.of(enemy,outside),new ArrayList<>());
         MyLivingEntity[] pointed = {null};
         MyLivingEntity[] strike = new MyLivingEntity[2];
-        double[] parameters = new double[3];
+        double[] parameters = new double[2];
         MyRuntime.initialize((MyRuntimeUtils) Proxy.newProxyInstance(RareRelicRulesTest.class.getClassLoader(),new Class[]{MyRuntimeUtils.class},(self,method,arguments)-> {
             if (method.getName().equals("pointedLivingEntity")) return pointed[0];
             if (method.getName().equals("forceAttack")) { strike[0]=(MyLivingEntity)arguments[0];strike[1]=(MyLivingEntity)arguments[1];return true; }
-            if (method.getName().equals("launchBorebolt")) { for(int i=0;i<3;i++) parameters[i]=(double)arguments[i+1];return true; }
+            if (method.getName().equals("launchBorebolt")) { for(int i=0;i<2;i++) parameters[i]=(double)arguments[i+1];return true; }
             return defaultValue(method.getReturnType());
         }));
         Relic frost = new Relic();frost.passive_skills.put(Relic.PASSIVE_SKILL_SLOWING_AURA,10.0);
@@ -101,14 +99,14 @@ public class RareRelicRulesTest {
         check(applied.equals(List.of("slowness:60:2")),"Only hostile targets inside the sphere receive Slowness III for 60 ticks");
         var handlersField = MySpellSystem.class.getDeclaredField("handlers");handlersField.setAccessible(true);
         var handlers = (Map<String,MySpellSystem.Handler>)handlersField.get(MySpellSystem.INSTANCE);
-        Relic.Spells.Info info = new Relic.Spells.Info();info.parameters.put("speed",3.0);info.parameters.put("durability",19.0);info.parameters.put("durability_loss_per_tick",0.75);
+        Relic.Spells.Info info = new Relic.Spells.Info();info.parameters.put("speed",3.0);info.parameters.put("durability",19.0);
         check(handlers.get("borebolt").activate(caster,info),"Valid borebolt spell should dispatch");
-        check(Arrays.equals(parameters,new double[]{3,19,0.75}),"All three arrow configuration values must reach the adapter");
+        check(Arrays.equals(parameters,new double[]{3,19}),"Both arrow configuration values must reach the adapter");
         info.parameters.put("speed",Double.NaN);
         check(!handlers.get("borebolt").activate(caster,info),"Reject invalid speed before spawning");
         pointed[0] = entity(2,List.of(enemy,caster,ally),Set.of(),new ArrayList<>());
         check(handlers.get("compel_attack").activate(caster,new Relic.Spells.Info()),"Forced attack must dispatch immediately");
         check(strike[0]==pointed[0] && strike[1]==ally,"Choose the nearest living entity without an allegiance filter");
-        System.out.println("PASS: durability, mining, aura cadence/radius/amplifier, spell parameters and immediate nearest-target attack");
+        System.out.println("PASS: block-only durability, mining, aura cadence/radius/amplifier, spell parameters and immediate nearest-target attack");
     }
 }

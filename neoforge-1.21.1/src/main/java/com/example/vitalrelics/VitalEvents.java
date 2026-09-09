@@ -325,10 +325,15 @@ public final class VitalEvents {
 		if (!(arrow.getOwner() instanceof LivingEntity owner))
 			return;
 
+		final MinecraftServer server = owner.level().getServer();
+		if (server == null)
+			return;
+
 		MyEvents.onArrowShot(
 				new NeoAbstractArrow(arrow),
 				new NeoLivingEntity(owner),
-				gatherRelics(owner));
+				gatherRelics(owner),
+				server.getTickCount());
 	}
 
 	@SubscribeEvent

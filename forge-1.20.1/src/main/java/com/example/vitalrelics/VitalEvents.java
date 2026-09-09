@@ -342,10 +342,15 @@ public final class VitalEvents {
 		if (!(arrow.getOwner() instanceof LivingEntity owner))
 			return;
 
+		final MinecraftServer server = owner.level().getServer();
+		if (server == null)
+			return;
+
 		MyEvents.onArrowShot(
 				new ForgeAbstractArrow(arrow),
 				new ForgeLivingEntity(owner),
-				gatherRelics(owner));
+				gatherRelics(owner),
+				server.getTickCount());
 	}
 
 	@SubscribeEvent

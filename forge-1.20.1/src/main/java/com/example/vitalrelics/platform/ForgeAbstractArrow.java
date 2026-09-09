@@ -50,6 +50,16 @@ public final class ForgeAbstractArrow extends ForgeEntity implements MyAbstractA
 	}
 
 	@Override
+	public void setNoGravity(final boolean noGravity) {
+		arrow.setNoGravity(noGravity);
+	}
+
+	@Override
+	public void discard() {
+		arrow.discard();
+	}
+
+	@Override
 	public void setOwner(final MyLivingEntity owner) {
 		if (!(owner instanceof ForgeLivingEntity forgeOwner))
 			throw new IllegalArgumentException("Expected ForgeLivingEntity");

@@ -339,18 +339,32 @@ public final class MyEvents {
 	}
 
 	public static void onArrowShot(
-			final MyAbstractArrow arrow, final MyLivingEntity owner, final List<Relic> relics) {
+			final MyAbstractArrow arrow, final MyLivingEntity owner,
+			final List<Relic> relics, final int currentTick) {
 
-		final double level = Loader.levelOfSuchPassiveSkill(
+		final double empoweredLevel = Loader.levelOfSuchPassiveSkill(
 				relics, Relic.PASSIVE_SKILL_EMPOWERED_ARROW);
 
-		if (level <= 0.0)
+		if (empoweredLevel > 0.0) {
+			arrow.setVelocity(
+					arrow.velocityX() * empoweredLevel,
+					arrow.velocityY() * empoweredLevel,
+					arrow.velocityZ() * empoweredLevel);
+			arrow.setBaseDamage(arrow.baseDamage() * empoweredLevel);
+		}
+
+		final double gravitylessLevel = Loader.levelOfSuchPassiveSkill(
+				relics, Relic.PASSIVE_SKILL_GRAVITYLESS_ARROWS);
+		if (!Double.isFinite(gravitylessLevel) || gravitylessLevel <= 0.0)
 			return;
 
-		arrow.setVelocity(
-				arrow.velocityX() * level, arrow.velocityY() * level, arrow.velocityZ() * level);
-
-		arrow.setBaseDamage(arrow.baseDamage() * level);
+		arrow.setNoGravity(true);
+		final int lifetimeTicks = (int) Math.min(
+				Integer.MAX_VALUE, Math.max(1.0, Math.ceil(gravitylessLevel * 20.0)));
+		Scheduler.INSTANCE().addDelayedTask(
+				arrow.uuid(),
+				new Scheduler.DelayTask(lifetimeTicks, lifetimeTicks, arrow::discard),
+				currentTick);
 	}
 
 	public static boolean onArrowImpact(

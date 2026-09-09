@@ -5,19 +5,11 @@ package com.example.vitalrelics.common;
  */
 public final class ArrowDurability {
 	private double remaining;
-	private final double lossPerTick;
 
-	public ArrowDurability(double durability, double lossPerTick) {
-		if (!Double.isFinite(durability) || durability <= 0 || !Double.isFinite(
-				lossPerTick) || lossPerTick < 0)
+	public ArrowDurability(double durability) {
+		if (!Double.isFinite(durability) || durability <= 0)
 			throw new IllegalArgumentException("Invalid arrow durability");
 		this.remaining = durability;
-		this.lossPerTick = lossPerTick;
-	}
-
-	public boolean tick() {
-		remaining = Math.max(0, remaining - lossPerTick);
-		return remaining > 0;
 	}
 
 	public boolean canBreak(double hardness) {

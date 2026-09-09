@@ -55,8 +55,8 @@ public final class NeoRuntimeUtils implements MyRuntimeUtils {
 
 
     @Override
-    public boolean launchBorebolt(MyLivingEntity caster, double speed, double durability, double lossPerTick) {
-        return RelicMining.launch(nativeEntity(caster), speed, durability, lossPerTick);
+    public boolean launchBorebolt(MyLivingEntity caster, double speed, double durability) {
+        return RelicMining.launch(nativeEntity(caster), speed, durability);
     }
 
     @Override

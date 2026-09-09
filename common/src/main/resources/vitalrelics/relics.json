@@ -262,7 +262,7 @@
     {
       "id": "borebolt_bracelet",
       "display_name": "Borebolt Bracelet",
-      "tooltip": "Fires a block-boring arrow: 40 durability, 0.25 durability lost per tick, speed 2 blocks per tick.",
+      "tooltip": "Fires a block-boring arrow with 40 durability and a speed of 2 blocks per tick.",
       "texture": "borebolt_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
@@ -270,7 +270,6 @@
         "borebolt": {
           "speed": 2,
           "durability": 40,
-          "durability_loss_per_tick": 0.25,
           "recovery": 0.2
         }
       }
@@ -852,11 +851,12 @@
     {
       "id": "archers_emblem",
       "display_name": "Archer's Emblem",
-      "tooltip": "Empowers arrows with greater force.",
+      "tooltip": "Empowers arrows, frees them from gravity, and makes them disappear after 10 seconds.",
       "texture": "icy_feathered_arrow.png",
       "rarity": "epic",
       "passive_skills": {
-        "empowered_arrows": 1.5
+        "empowered_arrows": 1.5,
+        "gravityless_arrows": 10
       }
     },
     {

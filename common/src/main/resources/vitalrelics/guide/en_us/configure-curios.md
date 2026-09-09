@@ -77,6 +77,8 @@ Available Passive skills:
 - `flight`: Any level > 0 grants flight; flight speed = vanilla flight speed × level,
      does not change the speed if the level is 1.0
 - `empowered_arrows`: Multiplies arrow charge, velocity, and base damage by level
+- `gravityless_arrows`: Makes every arrow fired by the bearer ignore gravity and
+     disappear after `level` seconds, including arrows fired by relic spells
 - `lifesteal`: Heals the bearer for damage dealt × level
 - `thorns`: Reflects received damage × level; reflection is limited by a cooldown
 - `fire_resistance`: Extinguish fire.
@@ -208,8 +210,8 @@ Available Spells
 - `open_ender_chest`: Opens the caster's Ender Chest.
 - `return_to_bed`: Teleports the caster to a safe standing position beside their
      respawn bed. The spell fails if the bed is missing or obstructed.
-- `borebolt`: Fires a non-recoverable arrow that spends durability over time and
-     when boring through blocks. Its block drops use an unenchanted Netherite Pickaxe.
+- `borebolt`: Fires a non-recoverable arrow that spends durability when boring
+     through blocks. Its block drops use an unenchanted Netherite Pickaxe.
 - `compel_attack`: Forces the pointed living entity to strike its nearest eligible
      living neighbor immediately. The compelled creature and caster are excluded.
 
@@ -243,9 +245,9 @@ cooldown_seconds = 1 / recovery
   Generated breaks do not recursively start another expansion. The Quarry Ring uses
   level 2.
 - `borebolt`: Fires an arrow along the caster's sight line. `speed` defaults to
-  2 blocks per tick and is capped at 10; `durability` defaults to 40;
-  `durability_loss_per_tick` defaults to 0.25 and may be 0; `recovery` defaults
-  to 0.2. The arrow can break a block only while its remaining durability is strictly
+  2 blocks per tick and is capped at 10; `durability` defaults to 40; `recovery`
+  defaults to 0.2. Durability does not decrease with time. The arrow can break a
+  block only while its remaining durability is strictly
   greater than that block's hardness, then spends durability equal to the hardness.
   Insufficient durability, an unbreakable block, or a denied interaction destroys
   the arrow. Drops are calculated as if mined with a fresh, unenchanted Netherite

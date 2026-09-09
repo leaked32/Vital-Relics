@@ -43,6 +43,7 @@ public class Relic {
 	public static final String PASSIVE_SKILL_METAL_MENDING = "metal_mending";
 	public static final String PASSIVE_SKILL_FLIGHT = "flight";
 	public static final String PASSIVE_SKILL_EMPOWERED_ARROW = "empowered_arrows";
+	public static final String PASSIVE_SKILL_GRAVITYLESS_ARROWS = "gravityless_arrows";
 	public static final String PASSIVE_SKILL_LIFESTEAL = "lifesteal";
 	public static final String PASSIVE_SKILL_THORNS = "thorns";
 	public static final String PASSIVE_SKILL_ARROW_DEFLECTION = "arrow_deflection";

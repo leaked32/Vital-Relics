@@ -9,6 +9,8 @@ public interface MyAbstractArrow extends MyEntity {
 
 	double baseDamage();
 	void setBaseDamage(double damage);
+	void setNoGravity(boolean noGravity);
+	void discard();
 
 	void setOwner(MyLivingEntity owner);
 

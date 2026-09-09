@@ -50,6 +50,16 @@ public final class NeoAbstractArrow extends NeoForgeEntity implements MyAbstract
 	}
 
 	@Override
+	public void setNoGravity(final boolean noGravity) {
+		arrow.setNoGravity(noGravity);
+	}
+
+	@Override
+	public void discard() {
+		arrow.discard();
+	}
+
+	@Override
 	public void setOwner(final MyLivingEntity owner) {
 		if (!(owner instanceof NeoLivingEntity neoOwner))
 			throw new IllegalArgumentException("Expected NeoLivingEntity");

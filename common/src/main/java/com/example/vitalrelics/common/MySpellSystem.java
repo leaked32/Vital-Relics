@@ -28,12 +28,12 @@ public final class MySpellSystem {
 		register(Relic.SPELL_BOREBOLT, (caster, spell) -> {
 			double speed = RelicSpells.numberParameter(spell, "speed", 2.0);
 			double durability = RelicSpells.numberParameter(spell, "durability", 40.0);
-			double loss = RelicSpells.numberParameter(spell, "durability_loss_per_tick", 0.25);
-			if (!Double.isFinite(speed) || speed <= 0 || speed > 10 || !Double.isFinite(durability)
-					|| durability <= 0 || !Double.isFinite(loss) || loss < 0) return false;
+			if (!Double.isFinite(speed) || speed <= 0 || speed > 10
+					|| !Double.isFinite(durability) || durability <= 0)
+				return false;
 
 			caster.playSound(MySound.EVOKER_CAST);
-			return runtime.launchBorebolt(caster, speed, durability, loss);
+			return runtime.launchBorebolt(caster, speed, durability);
 		});
 
 		register(Relic.SPELL_COMPEL_ATTACK, (caster, spell) -> {
