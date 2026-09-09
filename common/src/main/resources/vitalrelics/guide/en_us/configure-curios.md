@@ -211,9 +211,10 @@ Available Spells
 - `return_to_bed`: Teleports the caster to a safe standing position beside their
      respawn bed. The spell fails if the bed is missing or obstructed.
 - `borebolt`: Fires a non-recoverable arrow that spends durability when boring
-     through blocks. Its block drops use an unenchanted Netherite Pickaxe.
-- `compel_attack`: Forces the pointed living entity to strike its nearest eligible
-     living neighbor immediately. The compelled creature and caster are excluded.
+     through blocks and replaces crossed fluid blocks with air. Its block drops use
+     an unenchanted Netherite Pickaxe.
+- `compel_attack`: Forces the nearest living creature to strike the pointed living
+     creature immediately. The pointed creature cannot attack itself.
 
 Recovery / Cooldown
 ```text
@@ -252,12 +253,15 @@ cooldown_seconds = 1 / recovery
   Insufficient durability, an unbreakable block, or a denied interaction destroys
   the arrow. Drops are calculated as if mined with a fresh, unenchanted Netherite
   Pickaxe; the caster's held item and enchantments are never modified. Borebolt arrows
+  replace crossed liquid blocks with air without consuming durability; waterlogged
+  solid blocks are preserved. A denied fluid interaction destroys the arrow. Arrows
   cannot be picked up, do not survive unloads or restarts, and retain normal arrow-hit
   passive effects.
 - `compel_attack`: `range` defaults to 24 and selects the pointed living creature;
   `search_range` defaults to 32 and finds the nearest living creature other than
-  the compelled creature and caster; `recovery` defaults to 0.1. Both ranges are
-  capped at 256. The compelled creature immediately performs one attributed melee
-  strike without waiting for AI goals, allegiance checks, or normal reach. Creatures
+  the pointed creature; `recovery` defaults to 0.1. Both ranges are capped at 256.
+  The nearest creature immediately performs one attributed melee strike against the
+  pointed creature. The caster may be selected as the attacker. The attack occurs
+  without waiting for AI goals, allegiance checks, or normal reach. Creatures
   without an attack-damage attribute deal 1 damage; all others deal at least 1.
   Normal damage protections and events still apply, and AI goals are not rewritten.

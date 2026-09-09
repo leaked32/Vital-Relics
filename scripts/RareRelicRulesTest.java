@@ -108,7 +108,7 @@ public class RareRelicRulesTest {
         check(!handlers.get("borebolt").activate(caster,info),"Reject invalid speed before spawning");
         pointed[0] = entity(2,List.of(enemy,caster,ally),Set.of(),new ArrayList<>());
         check(handlers.get("compel_attack").activate(caster,new Relic.Spells.Info()),"Forced attack must dispatch immediately");
-        check(strike[0]==pointed[0] && strike[1]==ally,"Choose the nearest living entity without an allegiance filter");
+        check(strike[0]==ally && strike[1]==pointed[0],"The nearest living entity must attack the pointed victim");
         boolean[] arrowState = new boolean[2];
         UUID arrowId = UUID.randomUUID();
         validEntities.add(arrowId);

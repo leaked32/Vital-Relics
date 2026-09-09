@@ -262,7 +262,7 @@
     {
       "id": "borebolt_bracelet",
       "display_name": "Borebolt Bracelet",
-      "tooltip": "Fires a block-boring arrow with 40 durability and a speed of 2 blocks per tick.",
+      "tooltip": "Fires a block-boring arrow that replaces fluids with air.",
       "texture": "borebolt_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",
@@ -277,7 +277,7 @@
     {
       "id": "discord_bracelet",
       "display_name": "Discord Bracelet",
-      "tooltip": "Compels the pointed creature to strike its nearest living neighbor immediately, even an ally or you.",
+      "tooltip": "Compels the nearest living creature to strike the pointed target immediately, even an ally or you.",
       "texture": "discord_bracelet.png",
       "curio_slot": "bracelet",
       "rarity": "rare",

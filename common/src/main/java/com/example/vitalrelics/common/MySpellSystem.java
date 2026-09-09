@@ -43,30 +43,30 @@ public final class MySpellSystem {
 					|| !Double.isFinite(searchRange) || searchRange <= 0)
 				return false;
 
-			MyLivingEntity attacker = runtime.pointedLivingEntity(caster, Math.min(range, 256));
-			if (attacker == null || attacker.isDeadOrDying())
+			MyLivingEntity victim = runtime.pointedLivingEntity(caster, Math.min(range, 256));
+			if (victim == null || victim.isDeadOrDying())
 				return false;
 
-			MyLivingEntity nearest = null;
+			MyLivingEntity nearestAttacker = null;
 			double best = Math.pow(Math.min(searchRange, 256), 2);
 
-			for (MyLivingEntity candidate : attacker.livingEntitiesInRange(Math.min(searchRange, 256))) {
-				if (candidate.is(attacker) || candidate.is(caster) || candidate.isDeadOrDying())
+			for (MyLivingEntity candidate : victim.livingEntitiesInRange(Math.min(searchRange, 256))) {
+				if (candidate.is(victim) || candidate.isDeadOrDying())
 					continue;
 
-				double dx = candidate.x() - attacker.x();
-				double dy = candidate.y() - attacker.y();
-				double dz = candidate.z() - attacker.z();
+				double dx = candidate.x() - victim.x();
+				double dy = candidate.y() - victim.y();
+				double dz = candidate.z() - victim.z();
 				double distance = dx * dx + dy * dy + dz * dz;
 
 				if (distance <= best) {
 					best = distance;
-					nearest = candidate;
+					nearestAttacker = candidate;
 				}
 			}
 
 			caster.playSound(MySound.EVOKER_CAST);
-			return nearest != null && runtime.forceAttack(attacker, nearest);
+			return nearestAttacker != null && runtime.forceAttack(nearestAttacker, victim);
 		});
 		/*
 		BLOCK hit

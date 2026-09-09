@@ -317,9 +317,9 @@
   "tooltip.vitalrelics.quarry_ring": "手持ちの道具で2ブロック以内を採掘する。幸運やシルクタッチを引き継ぐ。スニークで無効化。",
   "relic.vitalrelics.passive_skill.area_mining": "範囲採掘",
   "item.vitalrelics.borebolt_bracelet": "穿岩の腕輪",
-  "tooltip.vitalrelics.borebolt_bracelet": "耐久値40、速度2ブロック毎ティックの穿岩矢を放つ。",
+  "tooltip.vitalrelics.borebolt_bracelet": "液体を空気に置き換える穿岩矢を放つ。",
   "relic.vitalrelics.spell.borebolt": "穿岩矢",
   "item.vitalrelics.discord_bracelet": "不和の腕輪",
-  "tooltip.vitalrelics.discord_bracelet": "狙った生物に、最も近い別の生物を即座に攻撃させる。味方や使用者も対象になる。",
+  "tooltip.vitalrelics.discord_bracelet": "最も近い別の生物に、狙った対象を即座に攻撃させる。味方や使用者も攻撃者になり得る。",
   "relic.vitalrelics.spell.compel_attack": "強制攻撃"
 }

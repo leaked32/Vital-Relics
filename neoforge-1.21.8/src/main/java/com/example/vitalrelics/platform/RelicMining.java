@@ -15,6 +15,8 @@ import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -75,6 +77,13 @@ public final class RelicMining {
     public static boolean launch(LivingEntity owner, double speed, double durability) {
         if (!(owner instanceof ServerPlayer) || !(owner.level() instanceof ServerLevel level)) return false;
         Arrow arrow = new Arrow(EntityType.ARROW, level) {
+			@Override
+			public void tick() {
+				Vec3 from = position();
+				super.tick();
+				RelicMining.clearFluids(this, from, position());
+			}
+
             @Override
             protected void onHitBlock(BlockHitResult hit) {
                 if (!RelicMining.blockImpact(this, hit)) super.onHitBlock(hit);
@@ -91,6 +100,25 @@ public final class RelicMining {
         if (!level.addFreshEntity(arrow)) { ARROWS.remove(arrow); return false; }
         return true;
     }
+
+	private static void clearFluids(AbstractArrow arrow, Vec3 from, Vec3 to) {
+		if (!(arrow.getOwner() instanceof ServerPlayer owner) || !(arrow.level() instanceof ServerLevel level)) return;
+		Vec3 movement = to.subtract(from);
+		if (movement.lengthSqr() <= 1.0E-12) return;
+		Vec3 direction = movement.normalize(), cursor = from;
+		for (int count = 0; count < 128; count++) {
+			BlockHitResult hit = level.clip(new ClipContext(cursor, to, ClipContext.Block.OUTLINE, ClipContext.Fluid.ANY, arrow));
+			if (hit.getType() != HitResult.Type.BLOCK) return;
+			BlockPos pos = hit.getBlockPos();
+			BlockState state = level.getBlockState(pos);
+			if (!(state.getBlock() instanceof LiquidBlock)) return;
+			if (!level.mayInteract(owner, pos)) { arrow.discard(); return; }
+			level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+			cursor = hit.getLocation().add(direction.scale(1.0E-5));
+			if (to.subtract(cursor).dot(direction) <= 0.0) return;
+		}
+		arrow.discard();
+	}
 
     public static boolean rejectOrphan(AbstractArrow arrow) {
         // Spell arrows are transient. Do not let chunk reload/server restart turn one into a permanent vanilla arrow.

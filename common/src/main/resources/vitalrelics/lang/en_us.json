@@ -317,9 +317,9 @@
   "tooltip.vitalrelics.quarry_ring": "Mines nearby blocks within 2 blocks using your held tool, including Fortune and Silk Touch. Sneak to disable.",
   "relic.vitalrelics.passive_skill.area_mining": "Area Mining",
   "item.vitalrelics.borebolt_bracelet": "Borebolt Bracelet",
-  "tooltip.vitalrelics.borebolt_bracelet": "Fires a block-boring arrow with 40 durability at 2 blocks per tick.",
+  "tooltip.vitalrelics.borebolt_bracelet": "Fires a block-boring arrow that replaces fluids with air.",
   "relic.vitalrelics.spell.borebolt": "Borebolt",
   "item.vitalrelics.discord_bracelet": "Discord Bracelet",
-  "tooltip.vitalrelics.discord_bracelet": "Compels the pointed creature to strike its nearest living neighbor immediately, even an ally or you.",
+  "tooltip.vitalrelics.discord_bracelet": "Compels the nearest living creature to strike the pointed target immediately, even an ally or you.",
   "relic.vitalrelics.spell.compel_attack": "Compel Attack"
 }

@@ -317,9 +317,9 @@
   "tooltip.vitalrelics.quarry_ring": "用手中工具挖掘2格內的方塊，保留幸運、絲綢之觸等效果。潛行可停用。",
   "relic.vitalrelics.passive_skill.area_mining": "範圍採掘",
   "item.vitalrelics.borebolt_bracelet": "穿岩手鐲",
-  "tooltip.vitalrelics.borebolt_bracelet": "發射穿岩箭：耐久40，速度為每刻2格。",
+  "tooltip.vitalrelics.borebolt_bracelet": "發射可將流體替換為空氣的穿岩箭。",
   "relic.vitalrelics.spell.borebolt": "穿岩箭",
   "item.vitalrelics.discord_bracelet": "紛爭手鐲",
-  "tooltip.vitalrelics.discord_bracelet": "令指向的生物立即攻擊離它最近的其他生物，即使對方是盟友或你。",
+  "tooltip.vitalrelics.discord_bracelet": "令最近的其他生物立即攻擊指向的目標；攻擊者也可能是盟友或你。",
   "relic.vitalrelics.spell.compel_attack": "強制攻擊"
 }
