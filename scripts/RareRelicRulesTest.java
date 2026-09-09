@@ -107,6 +107,25 @@ public class RareRelicRulesTest {
         pointed[0] = entity(2,List.of(enemy,caster,ally),Set.of(),new ArrayList<>());
         check(handlers.get("compel_attack").activate(caster,new Relic.Spells.Info()),"Forced attack must dispatch immediately");
         check(strike[0]==pointed[0] && strike[1]==ally,"Choose the nearest living entity without an allegiance filter");
-        System.out.println("PASS: block-only durability, mining, aura cadence/radius/amplifier, spell parameters and immediate nearest-target attack");
+        boolean[] arrowState = new boolean[2];
+        UUID arrowId = UUID.randomUUID();
+        MyAbstractArrow projectile = (MyAbstractArrow) Proxy.newProxyInstance(
+                RareRelicRulesTest.class.getClassLoader(),new Class[]{MyAbstractArrow.class},
+                (self,method,arguments)->switch(method.getName()) {
+                    case "uuid" -> arrowId;
+                    case "velocityX", "velocityY", "velocityZ", "baseDamage" -> 1.0;
+                    case "setNoGravity" -> { arrowState[0]=(boolean)arguments[0];yield null; }
+                    case "discard" -> { arrowState[1]=true;yield null; }
+                    default -> defaultValue(method.getReturnType());
+                });
+        Relic emblem = new Relic();
+        emblem.passive_skills.put(Relic.PASSIVE_SKILL_GRAVITYLESS_ARROWS,1.0);
+        MyEvents.onArrowShot(projectile,caster,List.of(emblem),100);
+        check(arrowState[0] && !arrowState[1],"A positive passive level must disable arrow gravity immediately");
+        for(int tick=101;tick<120;tick++) Scheduler.INSTANCE().serverTick(tick);
+        check(!arrowState[1],"A level-one gravityless arrow must survive its first 19 ticks");
+        Scheduler.INSTANCE().serverTick(120);
+        check(arrowState[1],"A level-one gravityless arrow must disappear after 20 ticks");
+        System.out.println("PASS: durability, mining, aura, spells, forced attack and gravityless arrow lifetime");
     }
 }
