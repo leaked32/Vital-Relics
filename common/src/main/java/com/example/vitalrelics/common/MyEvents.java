@@ -355,16 +355,17 @@ public final class MyEvents {
 
 		final double gravitylessLevel = Loader.levelOfSuchPassiveSkill(
 				relics, Relic.PASSIVE_SKILL_GRAVITYLESS_ARROWS);
-		if (!Double.isFinite(gravitylessLevel) || gravitylessLevel <= 0.0)
-			return;
+		if (Double.isFinite(gravitylessLevel) && gravitylessLevel <= 0.0) {
 
-		arrow.setNoGravity(true);
-		final int lifetimeTicks = (int) Math.min(
-				Integer.MAX_VALUE, Math.max(1.0, Math.ceil(gravitylessLevel * 20.0)));
-		Scheduler.INSTANCE().addDelayedTask(
-				arrow.uuid(),
-				new Scheduler.DelayTask(lifetimeTicks, lifetimeTicks, arrow::discard),
-				currentTick);
+			arrow.setNoGravity(true);
+			final int lifetimeTicks = (int) Math.min(
+					Integer.MAX_VALUE, Math.max(1.0, Math.ceil(gravitylessLevel * 20.0)));
+			Scheduler.INSTANCE().addDelayedTask(
+					arrow.uuid(),
+					new Scheduler.DelayTask(lifetimeTicks, lifetimeTicks, arrow::discard),
+					currentTick
+			);
+		}
 	}
 
 	public static boolean onArrowImpact(
