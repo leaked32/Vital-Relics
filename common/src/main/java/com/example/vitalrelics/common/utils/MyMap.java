@@ -27,7 +27,11 @@ public class MyMap<TValue> {
 
 	private final Map<UUID, Detail> map = new HashMap<>();
 	private final ReentrantLock lock = new ReentrantLock();
-	private final int max_ticks;
+	private int max_ticks;
+
+	public void setLeastCleanUp(int ticks) {
+		max_ticks = Math.max(ticks + 2, max_ticks);
+	}
 
 	public final ReentrantLock get_lock() {
 		return lock;

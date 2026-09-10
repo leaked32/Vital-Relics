@@ -126,6 +126,25 @@ public final class MyEvents {
 				}
 			}
 
+
+			// Passive Skill: Suffocation Zone
+			final double suffocationZoneLevel = Loader.levelOfSuchPassiveSkill(
+					relics, Relic.PASSIVE_SKILL_SUFFOCATION_ZONE);
+
+			if (suffocationZoneLevel > 0.0) {
+				final List<MyLivingEntity> all_nearby = myLivingEntity.livingEntitiesInRange(suffocationZoneLevel);
+
+				for (final var nearby : all_nearby) {
+					MyLivingEntity itsTarget = nearby.getTarget();
+					if (itsTarget == null)
+						continue;
+					if (itsTarget.is(myLivingEntity)) {
+						nearby.resetTarget();
+						// MyRuntime.getRuntimeUtils().log("Tick clearing mob targets");
+					}
+				}
+			}
+
 		}
 
 		// Scheduled to update on each second
@@ -394,6 +413,36 @@ public final class MyEvents {
 
 		arrow.retarget(victim, deflectionLevel, deflectionLevel, 0.0);
 		return true;
+	}
+
+	/**
+	 * @param self who is changing target.
+	 * @param target new target.
+	 * @return Whether to cancel it.
+	 */
+	public static boolean onChangeTarget(
+			final MyLivingEntity self, final MyLivingEntity target) {
+
+		if (target == null || self == null) {
+			// Don't care
+			return false;
+		}
+
+		// Passive Skill: Suffocation Zone
+		final List<Relic> targetRelics = MyRuntime.getRuntimeUtils().gatherRelics(target);
+		final double suffocationZoneLevel = Loader.levelOfSuchPassiveSkill(
+				targetRelics, Relic.PASSIVE_SKILL_SUFFOCATION_ZONE);
+
+		if (suffocationZoneLevel > 0.0) {
+			if (MyUtils.distanceBetween(self, target) <= suffocationZoneLevel) {
+				// Prevent the event.
+				self.resetTarget();
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/*

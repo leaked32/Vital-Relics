@@ -82,4 +82,22 @@ public class MyUtils {
 		victim.setHealth(victim.health() - amount);
 		victim.setHurtMark(source);
 	}
+
+	public static double distanceBetween(MyEntity entity0, MyEntity entity1) {
+		if (entity0 == null || entity1 == null) {
+			throw new RuntimeException("null input for distanceBetween");
+		}
+
+		if ((!entity0.isLoaded()) && (!entity1.isLoaded())) {
+			throw new RuntimeException("entities were not loaded");
+
+		}
+
+		return Math.sqrt(
+				Math.pow(entity0.x() - entity1.x(), 2.0) +
+						Math.pow(entity0.y() - entity1.y(), 2.0) +
+						Math.pow(entity0.z() - entity1.z(), 2.0)
+		);
+	}
+
 }

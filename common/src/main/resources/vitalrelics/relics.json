@@ -825,7 +825,8 @@
       "texture": "cursed_crimson_rune_v2.png",
       "rarity": "epic",
       "passive_skills": {
-        "reality_severance": 4.5
+        "reality_severance": 4.5,
+        "suffocation_zone": 6.5
       },
       "available_spells": {
         "curse": {

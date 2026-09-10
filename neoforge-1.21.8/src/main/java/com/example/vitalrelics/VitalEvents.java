@@ -2,6 +2,7 @@ package com.example.vitalrelics;
 
 import com.example.vitalrelics.common.*;
 import com.example.vitalrelics.platform.RelicMining;
+import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
 import com.example.vitalrelics.common.platform.MyDamageSource;
@@ -419,5 +420,17 @@ public final class VitalEvents {
         RelicMining.clear();
 
 		MyEvents.onServerStopping();
+	}
+
+
+	@SubscribeEvent
+	public static void onChangeTarget(LivingChangeTargetEvent event) {
+		if (event.getEntity() instanceof LivingEntity self &&
+				event.getNewAboutToBeSetTarget() instanceof LivingEntity target) {
+			if (MyEvents.onChangeTarget(new NeoLivingEntity(self), new NeoLivingEntity(target))) {
+				event.setCanceled(true);
+				// event.setNewAboutToBeSetTarget(null);
+			}
+		}
 	}
 }

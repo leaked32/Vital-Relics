@@ -47,12 +47,17 @@ public final class MySpellSystem {
 			if (victim == null || victim.isDeadOrDying())
 				return false;
 
+			// Clear the entity's current target before compelling a new attack.
+			victim.resetTarget();
+
 			MyLivingEntity nearestAttacker = null;
 			double best = Math.pow(Math.min(searchRange, 256), 2);
 
 			for (MyLivingEntity candidate : victim.livingEntitiesInRange(Math.min(searchRange, 256))) {
-				if (candidate.is(victim) || candidate.isDeadOrDying())
+				if (candidate.is(victim) || candidate.is(caster)  || candidate.isDeadOrDying()) {
+					// Do not point to the caster.
 					continue;
+				}
 
 				double dx = candidate.x() - victim.x();
 				double dy = candidate.y() - victim.y();
@@ -65,8 +70,16 @@ public final class MySpellSystem {
 				}
 			}
 
-			caster.playSound(MySound.EVOKER_CAST);
-			return nearestAttacker != null && runtime.forceAttack(nearestAttacker, victim);
+			if (nearestAttacker  != null) {
+				caster.playSound(MySound.EVOKER_CAST);
+				MyDamageSource newSource = nearestAttacker.extraDamageSource();
+				victim.hurt(newSource, 1.F);
+
+				// return nearestAttacker != null && runtime.forceAttack(nearestAttacker, victim);
+				return true;
+			} else {
+				return false;
+			}
 		});
 		/*
 		BLOCK hit

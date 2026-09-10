@@ -19,6 +19,7 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -28,15 +29,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public final class ForgeLivingEntity implements MyLivingEntity {
-	final LivingEntity entity;
+public final class ForgeLivingEntity extends ForgeEntity implements MyLivingEntity {
+	final LivingEntity livingEntity;
 
-	public ForgeLivingEntity(final LivingEntity entity) {
-		this.entity = entity;
+	public ForgeLivingEntity(final LivingEntity livingEntity) {
+		super(livingEntity);
+		this.livingEntity = livingEntity;
 	}
 
 	public LivingEntity nativeEntity() {
-		return entity;
+		return livingEntity;
 	}
 
 	@Override
@@ -45,23 +47,23 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 			final double y,
 			final double z) {
 
-		if (!(entity.level() instanceof ServerLevel level))
+		if (!(livingEntity.level() instanceof ServerLevel level))
 			return;
 
-		if (entity instanceof ServerPlayer player) {
+		if (livingEntity instanceof ServerPlayer player) {
 			player.teleportTo(
 					level,
 					x, y, z,
 					player.getYRot(), player.getXRot()
 			);
 		} else {
-			entity.teleportTo(x, y, z);
+			livingEntity.teleportTo(x, y, z);
 		}
 	}
 
 	@Override
 	public void playSound(final MySound sound) {
-		if (!(entity.level() instanceof ServerLevel level))
+		if (!(livingEntity.level() instanceof ServerLevel level))
 			return;
 
 		final SoundEvent nativeSound;
@@ -119,7 +121,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 
 		level.playSound(
 				null,
-				entity.getX(), entity.getY(), entity.getZ(),
+				livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(),
 				nativeSound,
 				SoundSource.PLAYERS,
 				volume,
@@ -129,7 +131,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 
 	@Override
 	public MyDamageSource extraDamageSource() {
-		return new ForgeDamageSource(_extraDamageSource(entity));
+		return new ForgeDamageSource(_extraDamageSource(livingEntity));
 	}
 
 	@Override
@@ -140,7 +142,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 		if (!(source instanceof ForgeDamageSource forgeSource))
 			throw new IllegalArgumentException("Expected ForgeDamageSource");
 
-		return entity.hurt(forgeSource.nativeSource(), amount);
+		return livingEntity.hurt(forgeSource.nativeSource(), amount);
 	}
 
 	@Override
@@ -148,35 +150,35 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 		if (!(source instanceof ForgeLivingEntity forgeSource))
 			throw new IllegalArgumentException("Expected ForgeLivingEntity source");
 
-		return entity.hurt(entity.damageSources().thorns(forgeSource.entity), amount);
+		return livingEntity.hurt(livingEntity.damageSources().thorns(forgeSource.livingEntity), amount);
 	}
 
 	@Override
 	public void resetInvulnerable() {
-		if (entity.isInvulnerable()) {
-			entity.setInvulnerable(false);
+		if (livingEntity.isInvulnerable()) {
+			livingEntity.setInvulnerable(false);
 		}
 		resetInvulnerableTime();
 	}
 
 	@Override
 	public void resetInvulnerableTime() {
-		entity.invulnerableTime = 0;
+		livingEntity.invulnerableTime = 0;
 	}
 
 	@Override
 	public int invulnerableTime() {
-		return entity.invulnerableTime;
+		return livingEntity.invulnerableTime;
 	}
 
 	@Override
 	public void setInvulnerableTime(final int ticks) {
-		entity.invulnerableTime = ticks;
+		livingEntity.invulnerableTime = ticks;
 	}
 
 	@Override
 	public void setHealth(final float health) {
-		entity.setHealth(health);
+		livingEntity.setHealth(health);
 	}
 
 	@Override
@@ -186,76 +188,76 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 
 		final DamageSource damageSource = forgeSource.nativeSource();
 
-		if (entity.getHealth() <= 0.0F) {
-			entity.die(damageSource);
+		if (livingEntity.getHealth() <= 0.0F) {
+			livingEntity.die(damageSource);
 			return;
 		}
 
-		if (!entity.isAlive()) {
+		if (!livingEntity.isAlive()) {
 			return;
 		}
 
-		entity.hurtDuration = 10;
-		entity.hurtTime = 10;
-		entity.hurtMarked = true;
-		entity.gameEvent(GameEvent.ENTITY_DAMAGE);
-		entity.playSound(SoundEvents.PLAYER_HURT, 1.0F, entity.getVoicePitch());
+		livingEntity.hurtDuration = 10;
+		livingEntity.hurtTime = 10;
+		livingEntity.hurtMarked = true;
+		livingEntity.gameEvent(GameEvent.ENTITY_DAMAGE);
+		livingEntity.playSound(SoundEvents.PLAYER_HURT, 1.0F, livingEntity.getVoicePitch());
 	}
 
 	@Override
 	public float health() {
-		return entity.getHealth();
+		return livingEntity.getHealth();
 	}
 
 	@Override
 	public float maxHealth() {
-		return entity.getMaxHealth();
+		return livingEntity.getMaxHealth();
 	}
 
 	@Override
 	public float attackDamage() {
-		return (float) entity.getAttributeValue(Attributes.ATTACK_DAMAGE);
+		return (float) livingEntity.getAttributeValue(Attributes.ATTACK_DAMAGE);
 	}
 
 	@Override
 	public void heal(final float amount) {
-		entity.heal(amount);
+		livingEntity.heal(amount);
 	}
 
 	@Override
 	public void feed(final int nutrition, final float saturation) {
-		if (entity instanceof Player player)
+		if (livingEntity instanceof Player player)
 			player.getFoodData().eat(nutrition, saturation);
 	}
 
 	@Override
 	public void mendEquipment(final int level) {
-		Utils.metalMending(entity, level);
+		Utils.metalMending(livingEntity, level);
 	}
 
 	@Override
 	public double x() {
-		return entity.getX();
+		return livingEntity.getX();
 	}
 
 	@Override
 	public double y() {
-		return entity.getY();
+		return livingEntity.getY();
 	}
 
 	@Override
 	public double z() {
-		return entity.getZ();
+		return livingEntity.getZ();
 	}
 
 	@Override
 	public double horizontalLookX() {
-		return entity.getLookAngle().x;
+		return livingEntity.getLookAngle().x;
 	}
 
 	@Override
 	public double horizontalLookZ() {
-		return entity.getLookAngle().z;
+		return livingEntity.getLookAngle().z;
 	}
 
 	@Override
@@ -264,7 +266,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 			final double y,
 			final double z) {
 
-		entity.setDeltaMovement(x, y, z);
+		livingEntity.setDeltaMovement(x, y, z);
 	}
 
 	@Override
@@ -273,33 +275,33 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 			final double y,
 			final double z) {
 
-		entity.push(x, y, z);
+		livingEntity.push(x, y, z);
 	}
 
 	@Override
 	public void markMovementChanged() {
-		entity.hurtMarked = true;
+		livingEntity.hurtMarked = true;
 	}
 
 	@Override
 	public boolean isDeadOrDying() {
-		return entity.isDeadOrDying();
+		return livingEntity.isDeadOrDying();
 	}
 
 	@Override
 	public boolean isLoaded() {
-		return entity.level().isLoaded(entity.blockPosition());
+		return livingEntity.level().isLoaded(livingEntity.blockPosition());
 	}
 
 	@Override
 	public boolean isClientSide() {
-		return entity.level().isClientSide();
+		return livingEntity.level().isClientSide();
 	}
 
 
 	@Override
 	public boolean isServerPlayer() {
-		if (entity instanceof ServerPlayer) {
+		if (livingEntity instanceof ServerPlayer) {
 			return true;
 		}
 		return false;
@@ -309,7 +311,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 	@Override
 	public boolean is(final MyLivingEntity other) {
 		return other instanceof ForgeLivingEntity forge &&
-				entity.is(forge.entity);
+				livingEntity.is(forge.livingEntity);
 	}
 
 	@Override
@@ -317,7 +319,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 		if (!(other instanceof ForgeLivingEntity forge))
 			return false;
 
-		return Utils.isAllied(entity, forge.entity);
+		return Utils.isAllied(livingEntity, forge.livingEntity);
 	}
 
 	@Override
@@ -325,19 +327,19 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 		if (!(other instanceof ForgeLivingEntity forge))
 			return false;
 
-		return Utils.isHostile(entity, forge.entity);
+		return Utils.isHostile(livingEntity, forge.livingEntity);
 	}
 
 	@Override
 	public List<MyLivingEntity> livingEntitiesInRange(final double radius) {
 		final var box =
-				entity.getBoundingBox().inflate(radius, radius, radius);
+				livingEntity.getBoundingBox().inflate(radius, radius, radius);
 
-		return entity.level()
+		return livingEntity.level()
 				.getEntitiesOfClass(
 						LivingEntity.class,
 						box,
-						target -> target != entity && target.isAlive()
+						target -> target != livingEntity && target.isAlive()
 				)
 				.stream()
 				.map(ForgeLivingEntity::new)
@@ -346,32 +348,54 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 	}
 
 	@Override
+	public void resetTarget() {
+		if (livingEntity instanceof Mob mob) {
+			Utils.clearTarget(mob);
+		}
+	}
+
+
+	@Override
+	public MyLivingEntity getTarget() {
+		if (livingEntity instanceof Mob mob) {
+			if (mob.getTarget() != null) {
+				return new ForgeLivingEntity(mob.getTarget());
+			}
+			else {
+				return null;
+			}
+		}
+		return null;
+	}
+
+
+	@Override
 	public UUID uuid() {
-		return entity.getUUID();
+		return livingEntity.getUUID();
 	}
 
 	@Override
 	public String typeId() {
 		final ResourceLocation id =
-				ForgeRegistries.ENTITY_TYPES.getKey(entity.getType());
+				ForgeRegistries.ENTITY_TYPES.getKey(livingEntity.getType());
 
 		return id == null ? "" : id.toString();
 	}
 
 	@Override
 	public int serverTick() {
-		final var server = entity.getServer();
+		final var server = livingEntity.getServer();
 		return server == null ? -1 : server.getTickCount();
 	}
 
 	@Override
 	public double width() {
-		return entity.getBbWidth();
+		return livingEntity.getBbWidth();
 	}
 
 	@Override
 	public List<MyEffectInstance> activeEffects() {
-		return entity.getActiveEffects()
+		return livingEntity.getActiveEffects()
 				.stream()
 				.map(instance -> {
 					final MobEffect effect = instance.getEffect();
@@ -406,7 +430,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 				);
 
 		if (effect != null)
-			entity.removeEffect(effect);
+			livingEntity.removeEffect(effect);
 	}
 
 	@Override
@@ -425,7 +449,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 		if (effect == null)
 			return;
 
-		entity.addEffect(
+		livingEntity.addEffect(
 				new MobEffectInstance(
 						effect,
 						duration,
@@ -439,7 +463,7 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 
 	private DamageSource _extraDamageSource(final LivingEntity attacker) {
 		final HolderLookup.RegistryLookup<DamageType> damageTypeLookup =
-				entity.level()
+				livingEntity.level()
 						.registryAccess()
 						.lookupOrThrow(Registries.DAMAGE_TYPE);
 
@@ -470,18 +494,18 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 
 	@Override
 	public double height() {
-		return entity.getBbHeight();
+		return livingEntity.getBbHeight();
 	}
 
 	@Override
 	public void moveTo(final double x, final double y, final double z) {
-		entity.setPos(x, y, z);
+		livingEntity.setPos(x, y, z);
 	}
 
 
 	@Override
 	public List<MyEntity> entitiesInRange(final double radius) {
-		return entity.level().getEntities(entity, entity.getBoundingBox().inflate(radius)).stream()
+		return livingEntity.level().getEntities(livingEntity, livingEntity.getBoundingBox().inflate(radius)).stream()
 				.map(ForgeEntity::new)
 				.map(MyEntity.class::cast)
 				.toList();
@@ -489,16 +513,16 @@ public final class ForgeLivingEntity implements MyLivingEntity {
 
 	@Override
 	public boolean isOnFire() {
-		return entity.isOnFire();
+		return livingEntity.isOnFire();
 	}
 
 	@Override
 	public void clearFire() {
-		entity.clearFire();
+		livingEntity.clearFire();
 	}
 
 	@Override
 	public void igniteForSeconds(final int seconds) {
-		entity.setSecondsOnFire(seconds);
+		livingEntity.setSecondsOnFire(seconds);
 	}
 }

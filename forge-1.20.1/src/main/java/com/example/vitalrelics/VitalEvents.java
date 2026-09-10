@@ -435,4 +435,16 @@ public final class VitalEvents {
 
 		MyEvents.onServerStopping();
 	}
+
+	@SubscribeEvent
+	public static void onChangeTarget(LivingChangeTargetEvent event) {
+		LivingEntity self = event.getEntity();
+		LivingEntity target = event.getNewTarget();
+		if (self != null && target != null) {
+			if (MyEvents.onChangeTarget(new ForgeLivingEntity(self), new ForgeLivingEntity(target))) {
+				event.setCanceled(true);
+				// event.setNewAboutToBeSetTarget(null);
+			}
+		}
+	}
 }

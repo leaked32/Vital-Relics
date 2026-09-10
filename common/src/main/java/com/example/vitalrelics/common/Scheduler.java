@@ -273,7 +273,7 @@ public class Scheduler {
 	 */
 
 	public void addDelayedTask(UUID uuid, DelayTask task, int current_tick_count) {
-		final int DELAYED_TASK_LIST_MAX = 12;
+		final int DELAYED_TASK_LIST_MAX = 24;
 
 		try {
 			DELAYED_TASK_LIST.get_lock().lock();
@@ -287,6 +287,7 @@ public class Scheduler {
 			}
 
 			DELAYED_TASK_LIST.get(uuid).add(task);
+			DELAYED_TASK_LIST.setLeastCleanUp(task.task_delay_ticks);
 			DELAYED_TASK_LIST.set_last_tick(uuid, current_tick_count);
 		} finally {
 			DELAYED_TASK_LIST.get_lock().unlock();

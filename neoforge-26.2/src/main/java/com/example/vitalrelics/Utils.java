@@ -7,9 +7,10 @@ import com.example.vitalrelics.common.relics.Translations;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
@@ -246,6 +247,41 @@ public class Utils {
 		return Component.translatable(
 				effect.get().value().getDescriptionId()
 		).getString();
+	}
+
+
+	public static void clearTarget(Mob mob) {
+		// 1. Classic field
+		mob.setTarget(null);
+
+		// 2. Brain memories (critical for modern mobs)
+		Brain<?> brain = mob.getBrain();
+		if (brain != null) {
+			brain.eraseMemory(MemoryModuleType.ATTACK_TARGET);
+			brain.eraseMemory(MemoryModuleType.ATTACK_COOLING_DOWN);
+			// optional extras that often keep aggression:
+			brain.eraseMemory(MemoryModuleType.ANGRY_AT);
+			brain.eraseMemory(MemoryModuleType.UNIVERSAL_ANGER);
+		}
+
+		// 3. Revenge / last-hurt
+		mob.setLastHurtByMob(null);
+		// for some neutral mobs also:
+		if (mob instanceof NeutralMob neutral) {
+			neutral.stopBeingAngry();
+		}
+
+		if (mob instanceof Warden warden) {
+			// Rough “calm the whole Warden” approach
+			while (warden.getEntityAngryAt().isPresent()) {
+				warden.getEntityAngryAt().ifPresent(warden::clearAnger);
+			}
+			// MyRuntime.getRuntimeUtils().log("Cleared warden targets");
+		}
+		// 4. Stop current path so it doesn’t keep walking
+		mob.setAggressive(false);
+		mob.getNavigation().stop();
+		// MyRuntime.getRuntimeUtils().log("Cleared mob targets");
 	}
 
 	/*

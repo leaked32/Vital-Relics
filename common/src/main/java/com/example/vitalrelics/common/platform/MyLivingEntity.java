@@ -17,6 +17,7 @@ public interface MyLivingEntity extends MyEntity {
 	int invulnerableTime();
 	void setInvulnerableTime(int ticks);
 
+	void resetTarget();
 	void setHealth(float health);
 	void setHurtMark(MyDamageSource source);
 	float health();
@@ -48,6 +49,8 @@ public interface MyLivingEntity extends MyEntity {
 	int serverTick();
 
 	double width();
+
+	MyLivingEntity getTarget();
 
 	enum MyEffectCategory {
 		POSITIVE,

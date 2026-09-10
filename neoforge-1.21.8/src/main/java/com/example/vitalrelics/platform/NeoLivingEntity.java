@@ -19,6 +19,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Relative;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -150,6 +151,26 @@ public final class NeoLivingEntity extends NeoForgeEntity implements MyLivingEnt
 	@Override
 	public void setInvulnerableTime(final int ticks) {
 		livingEntity.invulnerableTime = ticks;
+	}
+
+	@Override
+	public void resetTarget() {
+		if (livingEntity instanceof Mob mob) {
+			Utils.clearTarget(mob);
+		}
+	}
+
+	@Override
+	public MyLivingEntity getTarget() {
+		if (livingEntity instanceof Mob mob) {
+			if (mob.getTarget() != null) {
+				return new NeoLivingEntity(mob.getTarget());
+			}
+			else {
+				return null;
+			}
+		}
+		return null;
 	}
 
 	@Override
