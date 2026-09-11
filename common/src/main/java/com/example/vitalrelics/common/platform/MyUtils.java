@@ -83,21 +83,45 @@ public class MyUtils {
 		victim.setHurtMark(source);
 	}
 
-	public static double distanceBetween(MyEntity entity0, MyEntity entity1) {
+	public static double distanceBetween(
+			final MyEntity entity0, final MyEntity entity1) {
 		if (entity0 == null || entity1 == null) {
-			throw new RuntimeException("null input for distanceBetween");
+			throw new IllegalArgumentException("null input for distanceBetween");
 		}
 
-		if ((!entity0.isLoaded()) && (!entity1.isLoaded())) {
-			throw new RuntimeException("entities were not loaded");
-
+		if (!entity0.isLoaded() || !entity1.isLoaded()) {
+			throw new IllegalStateException("entities were not loaded");
 		}
 
-		return Math.sqrt(
-				Math.pow(entity0.x() - entity1.x(), 2.0) +
-						Math.pow(entity0.y() - entity1.y(), 2.0) +
-						Math.pow(entity0.z() - entity1.z(), 2.0)
-		);
+		double dx = entity0.x() - entity1.x();
+		double dy = entity0.y() - entity1.y();
+		double dz = entity0.z() - entity1.z();
+
+		return Math.sqrt(dx * dx + dy * dy + dz * dz);
 	}
 
+	public static boolean blockedBySuffocationZone(
+			final MyLivingEntity self, final MyLivingEntity target) {
+
+		// Passive Skill: Suffocation Zone
+		final List<Relic> targetRelics = MyRuntime.getRuntimeUtils().gatherRelics(target);
+		final double suffocationZoneLevel = Loader.levelOfSuchPassiveSkill(
+				targetRelics, Relic.PASSIVE_SKILL_SUFFOCATION_ZONE);
+
+		if (suffocationZoneLevel > 0.0) {
+			final double distance = MyUtils.distanceBetween(self, target);
+			if (distance <= suffocationZoneLevel) {
+				// Prevent the event.
+				// self.resetTarget();
+				MyRuntime.getRuntimeUtils().log("blockedBySuffocationZone: Prevent selecting " +
+						"target");
+				return true;
+			}
+			MyRuntime.getRuntimeUtils().log(String.format("blockedBySuffocationZone: Too " +
+					"faraway {} {}", suffocationZoneLevel, distance));
+		}
+
+		MyRuntime.getRuntimeUtils().log("blockedBySuffocationZone: No Such passive skill");
+		return false;
+	}
 }

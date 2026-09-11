@@ -315,7 +315,7 @@ public class Utils {
 				warden.getEntityAngryAt().ifPresent(warden::clearAnger);
 			}
 
-			MyRuntime.getRuntimeUtils().log("Cleared warden targets");
+			// MyRuntime.getRuntimeUtils().log("Cleared warden targets");
 		}
 		// 4. Stop current path so it doesn’t keep walking
 		mob.setAggressive(false);

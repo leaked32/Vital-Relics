@@ -423,25 +423,22 @@ public final class MyEvents {
 	public static boolean onChangeTarget(
 			final MyLivingEntity self, final MyLivingEntity target) {
 
+
+		MyRuntime.getRuntimeUtils().log("onChangeTarget: Begin");
+
 		if (target == null || self == null) {
 			// Don't care
 			return false;
 		}
 
 		// Passive Skill: Suffocation Zone
-		final List<Relic> targetRelics = MyRuntime.getRuntimeUtils().gatherRelics(target);
-		final double suffocationZoneLevel = Loader.levelOfSuchPassiveSkill(
-				targetRelics, Relic.PASSIVE_SKILL_SUFFOCATION_ZONE);
-
-		if (suffocationZoneLevel > 0.0) {
-			if (MyUtils.distanceBetween(self, target) <= suffocationZoneLevel) {
-				// Prevent the event.
-				self.resetTarget();
-
-				return true;
-			}
+		if (MyUtils.blockedBySuffocationZone(self, target)) {
+			MyRuntime.getRuntimeUtils().log("onChangeTarget: true");
+			self.resetTarget();
+			return true;
 		}
 
+		MyRuntime.getRuntimeUtils().log("onChangeTarget: false");
 		return false;
 	}
 
