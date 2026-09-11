@@ -113,15 +113,16 @@ public class MyUtils {
 			if (distance <= suffocationZoneLevel) {
 				// Prevent the event.
 				// self.resetTarget();
-				MyRuntime.getRuntimeUtils().log("blockedBySuffocationZone: Prevent selecting " +
-						"target");
+				// MyRuntime.getRuntimeUtils().log("blockedBySuffocationZone: Prevent selecting " +
+				// 		"target");
 				return true;
 			}
-			MyRuntime.getRuntimeUtils().log(String.format("blockedBySuffocationZone: Too " +
-					"faraway {} {}", suffocationZoneLevel, distance));
+			// MyRuntime.getRuntimeUtils().log(String.format("blockedBySuffocationZone: Too " +
+			// 		"faraway {} {}", suffocationZoneLevel, distance));
+			return false;
 		}
 
-		MyRuntime.getRuntimeUtils().log("blockedBySuffocationZone: No Such passive skill");
+		// MyRuntime.getRuntimeUtils().log("blockedBySuffocationZone: No Such passive skill");
 		return false;
 	}
 }

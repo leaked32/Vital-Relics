@@ -424,7 +424,7 @@ public final class MyEvents {
 			final MyLivingEntity self, final MyLivingEntity target) {
 
 
-		MyRuntime.getRuntimeUtils().log("onChangeTarget: Begin");
+		// MyRuntime.getRuntimeUtils().log("onChangeTarget: Begin");
 
 		if (target == null || self == null) {
 			// Don't care
@@ -433,12 +433,12 @@ public final class MyEvents {
 
 		// Passive Skill: Suffocation Zone
 		if (MyUtils.blockedBySuffocationZone(self, target)) {
-			MyRuntime.getRuntimeUtils().log("onChangeTarget: true");
+			// MyRuntime.getRuntimeUtils().log("onChangeTarget: true");
 			self.resetTarget();
 			return true;
 		}
 
-		MyRuntime.getRuntimeUtils().log("onChangeTarget: false");
+		// MyRuntime.getRuntimeUtils().log("onChangeTarget: false");
 		return false;
 	}
 
