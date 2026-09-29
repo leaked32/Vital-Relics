@@ -5,28 +5,37 @@ import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.relics.Loader;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MyUtils {
 
+
+	public static void requireLoaded(final MyEntity entity) {
+		Objects.requireNonNull(entity, "entity is null");
+
+		if (!entity.isLoaded()) {
+			throw new IllegalStateException("entity were not loaded");
+		}
+	}
+
+
 	public static void removeImmuneEffects(
-			final MyLivingEntity entity,
-			final List<Relic> relics,
-			final MyLivingEntity.MyEffectCategory category) {
+			final MyLivingEntity entity, final List<Relic> relics,
+			final MyLivingEntity.MyEffectCategory category
+	) {
+
+		requireLoaded(entity);
+		Objects.requireNonNull(relics, "relics");
+		Objects.requireNonNull(category, "category");
 
 		for (final MyLivingEntity.MyEffectInstance effect : entity.activeEffects()) {
-			if (category != MyLivingEntity.MyEffectCategory.ALL &&
-					effect.category() != category) {
+			if (category != MyLivingEntity.MyEffectCategory.ALL && effect.category() != category) {
 				continue;
 			}
 
-			final boolean negative =
-					effect.category() == MyLivingEntity.MyEffectCategory.NEGATIVE;
+			final boolean negative = effect.category() == MyLivingEntity.MyEffectCategory.NEGATIVE;
 
-			if (Loader.isImmuneToEffect(
-					relics,
-					effect.id(),
-					negative
-			)) {
+			if (Loader.isImmuneToEffect(relics, effect.id(), negative)) {
 				entity.removeEffect(effect.id());
 			}
 		}
@@ -34,13 +43,16 @@ public class MyUtils {
 
 	public static boolean cleanseEffects(
 			final MyLivingEntity entity,
-			final MyLivingEntity.MyEffectCategory category) {
+			final MyLivingEntity.MyEffectCategory category
+	) {
+
+		requireLoaded(entity);
+		Objects.requireNonNull(category, "category");
 
 		boolean removed = false;
 
 		for (final MyLivingEntity.MyEffectInstance effect : entity.activeEffects()) {
-			if (category != MyLivingEntity.MyEffectCategory.ALL &&
-					effect.category() != category) {
+			if (category != MyLivingEntity.MyEffectCategory.ALL && effect.category() != category) {
 				continue;
 			}
 
@@ -51,21 +63,16 @@ public class MyUtils {
 		return removed;
 	}
 
-	public static void applyRelicEffects(
-			final MyLivingEntity entity, final List<Relic> relics) {
+	public static void applyRelicEffects(final MyLivingEntity entity, final List<Relic> relics) {
+
+		Objects.requireNonNull(entity, "entity");
+		Objects.requireNonNull(relics, "relics");
 
 		for (final Relic relic : relics) {
 			for (final var entry : relic.granted_effects.entrySet()) {
-				final int amplifier =
-						Math.max(0, entry.getValue() - 1);
+				final int amplifier = Math.max(0, entry.getValue() - 1);
 
-				entity.addEffect(
-						entry.getKey(),
-						240,
-						amplifier,
-						true,
-						false
-				);
+				entity.addEffect(entry.getKey(), 240, amplifier, true, false);
 			}
 		}
 	}
@@ -74,20 +81,21 @@ public class MyUtils {
 	public static void trueHurt(
 			final MyLivingEntity attacker, final MyLivingEntity victim, final float amount) {
 
+		Objects.requireNonNull(attacker, "attacker");
+		Objects.requireNonNull(victim, "victim");
+
 		victim.resetInvulnerable();
 
-		final MyDamageSource source =
-				MyRuntime.getRuntimeUtils().extraDamageSource(attacker);
+		final MyDamageSource source = MyRuntime.getRuntimeUtils().extraDamageSource(attacker);
 
 		victim.setHealth(victim.health() - amount);
 		victim.setHurtMark(source);
 	}
 
-	public static double distanceBetween(
-			final MyEntity entity0, final MyEntity entity1) {
-		if (entity0 == null || entity1 == null) {
-			throw new IllegalArgumentException("null input for distanceBetween");
-		}
+	public static double distanceBetween(final MyEntity entity0, final MyEntity entity1) {
+
+		Objects.requireNonNull(entity0, "entity0");
+		Objects.requireNonNull(entity1, "entity1");
 
 		if (!entity0.isLoaded() || !entity1.isLoaded()) {
 			throw new IllegalStateException("entities were not loaded");
@@ -103,6 +111,9 @@ public class MyUtils {
 	public static boolean blockedBySuffocationZone(
 			final MyLivingEntity self, final MyLivingEntity target) {
 
+		requireLoaded(self);
+		requireLoaded(target);
+
 		// Passive Skill: Suffocation Zone
 		final List<Relic> targetRelics = MyRuntime.getRuntimeUtils().gatherRelics(target);
 		final double suffocationZoneLevel = Loader.levelOfSuchPassiveSkill(
@@ -111,18 +122,10 @@ public class MyUtils {
 		if (suffocationZoneLevel > 0.0) {
 			final double distance = MyUtils.distanceBetween(self, target);
 			if (distance <= suffocationZoneLevel) {
-				// Prevent the event.
-				// self.resetTarget();
-				// MyRuntime.getRuntimeUtils().log("blockedBySuffocationZone: Prevent selecting " +
-				// 		"target");
 				return true;
 			}
-			// MyRuntime.getRuntimeUtils().log(String.format("blockedBySuffocationZone: Too " +
-			// 		"faraway {} {}", suffocationZoneLevel, distance));
 			return false;
 		}
-
-		// MyRuntime.getRuntimeUtils().log("blockedBySuffocationZone: No Such passive skill");
 		return false;
 	}
 }

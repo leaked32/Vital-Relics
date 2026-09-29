@@ -13,6 +13,8 @@ public final class MyEvents {
 			final MyLivingEntity player, final int amount,
 			final int experienceNeededForNextLevel
 	) {
+		MyUtils.requireLoaded(player);
+
 		if (amount <= 0 || experienceNeededForNextLevel <= 0)
 			return amount;
 
@@ -32,6 +34,9 @@ public final class MyEvents {
 
 	public static void onLivingEntityTick(
 			MyLivingEntity myLivingEntity, final int currentTick, List<Relic> relics) {
+
+		MyUtils.requireLoaded(myLivingEntity);
+
 		spawnEnemyRelicParticles(myLivingEntity, relics, currentTick);
 
 		final Map<String, Relic.Ticks.Info> ticks = Loader.computeTicks(relics, currentTick);
@@ -176,6 +181,9 @@ public final class MyEvents {
 
 	public static void spawnEnemyRelicParticles(
 			final MyLivingEntity entity, final List<Relic> relics, final int currentTick) {
+
+		MyUtils.requireLoaded(entity);
+
 		final MyRuntimeUtils runtime = MyRuntime.getRuntimeUtils();
 		if (!runtime.hasEnemyRelics(entity) || relics.isEmpty() || currentTick % 2 != 0)
 			return;
@@ -339,6 +347,8 @@ public final class MyEvents {
 	public static void accumulateLingeringWound(
 			final MyLivingEntity target, final float amount, final double level, final int currentTick) {
 
+		MyUtils.requireLoaded(target);
+
 		if (level <= 0.0)
 			return;
 
@@ -348,6 +358,9 @@ public final class MyEvents {
 
 	public static void applyLingeringWound(
 			final MyLivingEntity attacker, final MyLivingEntity target) {
+
+		MyUtils.requireLoaded(attacker);
+		MyUtils.requireLoaded(target);
 
 		final float accumulatedDamage = Scheduler.INSTANCE().healingPrevention(target.uuid());
 		final float allowedHealth = target.maxHealth() - accumulatedDamage;
@@ -360,6 +373,9 @@ public final class MyEvents {
 	public static void onArrowShot(
 			final MyAbstractArrow arrow, final MyLivingEntity owner,
 			final List<Relic> relics, final int currentTick) {
+
+		MyUtils.requireLoaded(arrow);
+		// MyUtils.requireLoaded(owner);
 
 		final double empoweredLevel = Loader.levelOfSuchPassiveSkill(
 				relics, Relic.PASSIVE_SKILL_EMPOWERED_ARROW);
@@ -391,6 +407,8 @@ public final class MyEvents {
 			final MyAbstractArrow arrow, final MyLivingEntity victim,
 			final List<Relic> relics, final int currentTick
 	) {
+		MyUtils.requireLoaded(arrow);
+		MyUtils.requireLoaded(victim);
 
 		final double retargetLevel = Loader.levelOfSuchPassiveSkill(
 				relics, Relic.PASSIVE_SKILL_RETARGET_ARROW);
@@ -423,22 +441,14 @@ public final class MyEvents {
 	public static boolean onChangeTarget(
 			final MyLivingEntity self, final MyLivingEntity target) {
 
-
-		// MyRuntime.getRuntimeUtils().log("onChangeTarget: Begin");
-
-		if (target == null || self == null) {
-			// Don't care
-			return false;
-		}
+		MyUtils.requireLoaded(self);
+		MyUtils.requireLoaded(target);
 
 		// Passive Skill: Suffocation Zone
 		if (MyUtils.blockedBySuffocationZone(self, target)) {
-			// MyRuntime.getRuntimeUtils().log("onChangeTarget: true");
 			self.resetTarget();
 			return true;
 		}
-
-		// MyRuntime.getRuntimeUtils().log("onChangeTarget: false");
 		return false;
 	}
 

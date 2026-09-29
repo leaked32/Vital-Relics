@@ -4,10 +4,7 @@ import com.example.vitalrelics.common.platform.*;
 import com.example.vitalrelics.common.relics.Relic;
 import com.example.vitalrelics.common.utils.MyVec3;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class MySpellSystem {
 	@FunctionalInterface
@@ -413,6 +410,9 @@ public final class MySpellSystem {
 	}
 
 	public void syncSpellHud(final MyLivingEntity caster) {
+		Objects.requireNonNull(caster, "caster");
+		MyUtils.requireLoaded(caster);
+
 		final int tick = caster.serverTick();
 		if (tick < 0)
 			return;
@@ -433,6 +433,12 @@ public final class MySpellSystem {
 	}
 
 	public void activate(final MyLivingEntity caster, String abilityId) {
+
+		Objects.requireNonNull(caster, "caster");
+		Objects.requireNonNull(abilityId, "abilityId");
+
+		MyUtils.requireLoaded(caster);
+
 		if (caster.isClientSide() || !abilityId.matches("[a-z0-9_./-]{1,64}"))
 			return;
 		final int tick = caster.serverTick();
